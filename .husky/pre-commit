@@ -1,0 +1,15 @@
+# Get staged .sql files from functions directory
+staged_files=$(git diff --cached --name-only --diff-filter=ACM | grep "^supabase/functions/.*\.sql$" || true)
+
+if [ -n "$staged_files" ]; then
+  while IFS= read -r file; do
+    # Extract function name from file path
+    function_name=$(basename "$file" .sql)
+    
+    # Create new migration with function content
+    cat "$file" | supabase migration new "update_${function_name}_function"
+    
+    # Stage the newly created migration
+    git add supabase/migrations/*
+  done <<< "$staged_files"
+fi
