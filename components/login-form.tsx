@@ -23,6 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { useSearchParams } from "next/navigation";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -33,6 +34,8 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -41,6 +44,15 @@ export function LoginForm({
       password: "",
     },
   });
+
+  // 2. Define a submit handler.
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // reset dirty status
+    form.reset(values);
+    // Do something with the form values.
+    // ✅ This will be type-safe and validated.
+    signInAction(values);
+  }
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -53,10 +65,7 @@ export function LoginForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(signInAction)}
-              className="space-y-8"
-            >
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid gap-6">
                 <div className="flex flex-col gap-4">
                   <Button variant="outline" className="w-full">
@@ -69,6 +78,11 @@ export function LoginForm({
                   </span>
                 </div>
                 <div className="grid gap-6">
+                  {error && !form.formState.isDirty && (
+                    <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
+                      {error}
+                    </div>
+                  )}
                   <FormField
                     control={form.control}
                     name="email"
