@@ -1,29 +1,20 @@
 "use server";
 
-import { encodedRedirect } from "@/utils/utils";
 import { createClient } from "@/utils/supabase/server";
+import { encodedRedirect } from "@/utils/utils";
+import { SignInWithPasswordCredentials, SignUpWithPasswordCredentials } from "@supabase/supabase-js";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-export const signUpAction = async (formData: FormData) => {
-  const email = formData.get("email")?.toString();
-  const password = formData.get("password")?.toString();
+export const signUpAction = async (credentials: SignUpWithPasswordCredentials) => {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
-  if (!email || !password) {
-    return encodedRedirect(
-      "error",
-      "/sign-up",
-      "Email and password are required"
-    );
-  }
-
   const { error } = await supabase.auth.signUp({
-    email,
-    password,
+    ...credentials,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
+      data: undefined,
     },
   });
 
@@ -39,13 +30,10 @@ export const signUpAction = async (formData: FormData) => {
   }
 };
 
-export const signInAction = async (formData: {
-  email: string;
-  password: string;
-}) => {
+export const signInAction = async (credentials: SignInWithPasswordCredentials) => {
   const supabase = await createClient();
 
-  const { error } = await supabase.auth.signInWithPassword(formData);
+  const { error } = await supabase.auth.signInWithPassword(credentials);
 
   if (error) {
     return encodedRedirect("error", "/login", error.message);
