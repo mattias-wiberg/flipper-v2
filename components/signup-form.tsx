@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { signUpAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,10 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInAction } from "@/app/actions";
 import {
   Form,
   FormControl,
@@ -23,14 +25,15 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 const formSchema = z.object({
   nickname: z.string().optional(),
   email: z.string().email(),
-  password: z.string(),
+  password: z.string().min(6, "Password must be at least 6 characters"),
   confirmPassword: z.string(),
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "Passwords don't match",
+  path: ["confirmPassword"],
 });
 
 export function SignupForm({
@@ -52,11 +55,11 @@ export function SignupForm({
 
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
-    // reset dirty status
+    // Reset form dirty status
     form.reset(values);
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    signInAction(values);
+    signUpAction(values);
   }
 
   return (
@@ -165,7 +168,7 @@ export function SignupForm({
                 <div className="text-center text-sm">
                   Already have an account?{" "}
                   <Link href="/login" className="underline underline-offset-4">
-                    Login
+                    Log in
                   </Link>
                 </div>
               </div>
