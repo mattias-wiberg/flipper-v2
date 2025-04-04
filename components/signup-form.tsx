@@ -167,7 +167,7 @@ export function SignupForm({
                 </div>
                 <div className="text-center text-sm">
                   Already have an account?{" "}
-                  <Link href="/login" className="underline underline-offset-4">
+                  <Link href="/log-in" className="underline underline-offset-4">
                     Log in
                   </Link>
                 </div>

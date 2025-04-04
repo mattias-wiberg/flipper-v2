@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@/lib/utils";
+import { signInAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,10 +10,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
+import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signInAction } from "@/app/actions";
 import {
   Form,
   FormControl,
@@ -23,8 +25,6 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { useSearchParams } from "next/navigation";
-import Link from "next/link";
 
 const formSchema = z.object({
   email: z.string().email(),
@@ -133,7 +133,7 @@ export function LoginForm({
                 </div>
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
-                  <Link href="/signup" className="underline underline-offset-4">
+                  <Link href="/sign-up" className="underline underline-offset-4">
                     Sign up
                   </Link>
                 </div>

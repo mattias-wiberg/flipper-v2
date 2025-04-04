@@ -182,7 +182,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton asChild tooltip="Login">
-                <Link href="/login">
+                <Link href="/log-in">
                   <LogIn />
                   <span>Log in / Sign up</span>
                 </Link>
