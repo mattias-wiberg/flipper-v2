@@ -36,7 +36,7 @@ export const signInAction = async (credentials: SignInWithPasswordCredentials) =
   const { error } = await supabase.auth.signInWithPassword(credentials);
 
   if (error) {
-    return encodedRedirect("error", "/login", error.message);
+    return encodedRedirect("error", "/log-in", error.message);
   }
 
   return redirect("/protected");
