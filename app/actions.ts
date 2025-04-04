@@ -42,11 +42,10 @@ export const signInAction = async (credentials: SignInWithPasswordCredentials) =
   return redirect("/protected");
 };
 
-export const forgotPasswordAction = async (formData: FormData) => {
-  const email = formData.get("email")?.toString();
+export const forgotPasswordAction = async (data: { email: string }) => {
+  const email = data.email;
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
-  const callbackUrl = formData.get("callbackUrl")?.toString();
 
   if (!email) {
     return encodedRedirect("error", "/forgot-password", "Email is required");
@@ -63,10 +62,6 @@ export const forgotPasswordAction = async (formData: FormData) => {
       "/forgot-password",
       "Could not reset password"
     );
-  }
-
-  if (callbackUrl) {
-    return redirect(callbackUrl);
   }
 
   return encodedRedirect(
