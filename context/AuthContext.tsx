@@ -1,14 +1,15 @@
 "use client"; // This context provider will be a Client Component
 
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  ReactNode,
-} from "react";
 import { createClient } from "@/utils/supabase/client"; // Adjust path
 import type { SupabaseClient, User } from "@supabase/supabase-js";
+import { useRouter } from "next/navigation";
+import {
+  createContext,
+  ReactNode,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
 type AuthContextType = {
   supabase: SupabaseClient;
@@ -23,11 +24,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const supabase = createClient();
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const router = useRouter();
 
   useEffect(() => {
+    // Set up the auth state change listener
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       setUser(session?.user ?? null);
       setLoading(false);
     });
@@ -49,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     await supabase.auth.signOut();
+    router.push("/log-in");
     setUser(null); // Immediately update state
   };
 
