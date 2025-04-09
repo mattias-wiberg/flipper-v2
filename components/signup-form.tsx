@@ -44,6 +44,8 @@ export function SignupForm({
 }: React.ComponentPropsWithoutRef<"div">) {
   const searchParams = useSearchParams();
   const error = searchParams.get("error");
+  const success = searchParams.get("success");
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -91,6 +93,11 @@ export function SignupForm({
                   {error && !form.formState.isDirty && (
                     <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
                       {error}
+                    </div>
+                  )}
+                  {success && !form.formState.isDirty && (
+                    <div className="p-3 bg-green-600/15 border border-green-600 text-green-600 font-medium text-sm rounded-md">
+                      {success}
                     </div>
                   )}
                   <FormField
