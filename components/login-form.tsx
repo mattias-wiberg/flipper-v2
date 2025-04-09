@@ -92,6 +92,7 @@ export function LoginForm({
                         <FormLabel>Email</FormLabel>
                         <FormControl>
                           <Input
+                            autoFocus
                             placeholder="m@example.com"
                             type="email"
                             required
@@ -133,7 +134,10 @@ export function LoginForm({
                 </div>
                 <div className="text-center text-sm">
                   Don&apos;t have an account?{" "}
-                  <Link href="/sign-up" className="underline underline-offset-4">
+                  <Link
+                    href="/sign-up"
+                    className="underline underline-offset-4"
+                  >
                     Sign up
                   </Link>
                 </div>
