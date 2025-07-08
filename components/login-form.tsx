@@ -1,6 +1,5 @@
 "use client";
 
-import { signInAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -10,10 +9,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -35,8 +36,6 @@ export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  const searchParams = useSearchParams();
-  const error = searchParams.get("error");
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -46,13 +45,33 @@ export function LoginForm({
     },
   });
 
+  // Import the useAuth hook
+  const { supabase } = useAuth();
+  const router = useRouter();
+  const [error, setError] = useState<string | null>(null);
+
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    setError(null);
     // reset dirty status
     form.reset(values);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    signInAction(values);
+
+    try {
+      // Sign in directly with Supabase client
+      const { error } = await supabase.auth.signInWithPassword(values);
+
+      if (error) {
+        console.error("Login error:", error.message);
+        setError(error.message);
+        // Handle error (you could set a form error state here)
+        return;
+      }
+
+      // Redirect to protected page on success
+      router.push("/protected");
+    } catch (err) {
+      console.error("Login error:", err);
+    }
   }
 
   return (
@@ -93,6 +112,7 @@ export function LoginForm({
                         <FormControl>
                           <Input
                             autoFocus
+                            autoComplete="email"
                             placeholder="m@example.com"
                             type="email"
                             required
