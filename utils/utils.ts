@@ -10,7 +10,30 @@ import { redirect } from "next/navigation";
 export function encodedRedirect(
   type: "error" | "success",
   path: string,
-  message: string,
+  message: string
 ) {
   return redirect(`${path}?${type}=${encodeURIComponent(message)}`);
+}
+
+/**
+ * Groups an array of objects by a specified key.
+ * @param {T[]} array - The array to group.
+ * @param {(item: T) => string} key - The key function to determine the group for each item.
+ * @returns {Record<string, T[]>} - An object where each key is a group and the value is an array of items in that group.
+ */
+export function groupBy<T>(
+  array: T[],
+  key: (item: T) => string
+): Record<string, T[]> {
+  return array.reduce(
+    (result, item) => {
+      const groupKey = key(item);
+      if (!result[groupKey]) {
+        result[groupKey] = [];
+      }
+      result[groupKey].push(item);
+      return result;
+    },
+    {} as Record<string, T[]>
+  );
 }
