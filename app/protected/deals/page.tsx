@@ -1,3 +1,5 @@
+import { ItemCategory } from "@/lib/items";
+import { findItemCategory } from "@/utils/items";
 import { createClient } from "@/utils/supabase/server";
 import { groupBy } from "@/utils/utils";
 
@@ -35,47 +37,31 @@ function expectedQualityUpgradeCost(
   return expectedCostVectors[toQuality - 2][fromQuality - 1] * itemValue;
 }
 
-function enchantmentUpgradeAmount(
-  itemCategory:
-    | "2H-weapon"
-    | "1H-weapon"
-    | "armor"
-    | "bag"
-    | "helmet"
-    | "boot"
-    | "cape"
-    | "offhand"
-): number {
+function enchantmentUpgradeAmount(itemCategory: ItemCategory): number {
   if (itemCategory === "2H-weapon") {
     return 384;
   } else if (itemCategory === "1H-weapon") {
     return 288;
-  } else if (itemCategory === "armor" || itemCategory === "bag") {
+  } else if (itemCategory === "armors" || itemCategory === "bags") {
     return 192;
   } else if (
-    itemCategory === "helmet" ||
-    itemCategory === "boot" ||
-    itemCategory === "cape" ||
-    itemCategory === "offhand"
+    itemCategory === "head" ||
+    itemCategory === "shoes" ||
+    itemCategory === "capes" ||
+    itemCategory === "offhands"
   ) {
     return 92;
   } else {
-    throw new Error("Unknown item category for enchantment upgrade amount.");
+    throw new Error(
+      `Unknown item category for enchantment upgrade amount: ${itemCategory}`
+    );
   }
 }
 
 function expectedEnchantmentUpgradeCost(
   fromEnchantment: number,
   toEnchantment: number,
-  itemCategory:
-    | "2H-weapon"
-    | "1H-weapon"
-    | "armor"
-    | "bag"
-    | "helmet"
-    | "boot"
-    | "cape"
-    | "offhand"
+  itemCategory: ItemCategory
 ): number {
   if (toEnchantment <= fromEnchantment) {
     return 0.0;
@@ -221,7 +207,7 @@ export default async function Deals({
           enchantmentUpgradeCost = expectedEnchantmentUpgradeCost(
             sellOrder.enchantment_level,
             buyOrder.enchantment_level,
-            "cape" // TODO: Replace with actual item category
+            findItemCategory(buyOrder.item_group_type_id)
           );
           const enchantmentUpgradeProfit = profit - enchantmentUpgradeCost;
           if (enchantmentUpgradeProfit > minProfit) {
