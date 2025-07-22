@@ -1,0 +1,6158 @@
+{
+  "T3_2H_SHAPESHIFTER_SET1": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Prowling Staff"
+  },
+  "T4_2H_SHAPESHIFTER_SET1": {
+    "category": "2H-weapon",
+    "name": "Adept's Prowling Staff"
+  },
+  "T5_2H_SHAPESHIFTER_SET1": {
+    "category": "2H-weapon",
+    "name": "Expert's Prowling Staff"
+  },
+  "T6_2H_SHAPESHIFTER_SET1": {
+    "category": "2H-weapon",
+    "name": "Master's Prowling Staff"
+  },
+  "T7_2H_SHAPESHIFTER_SET1": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Prowling Staff"
+  },
+  "T8_2H_SHAPESHIFTER_SET1": {
+    "category": "2H-weapon",
+    "name": "Elder's Prowling Staff"
+  },
+  "T4_2H_SHAPESHIFTER_SET2": {
+    "category": "2H-weapon",
+    "name": "Adept's Rootbound Staff"
+  },
+  "T5_2H_SHAPESHIFTER_SET2": {
+    "category": "2H-weapon",
+    "name": "Expert's Rootbound Staff"
+  },
+  "T6_2H_SHAPESHIFTER_SET2": {
+    "category": "2H-weapon",
+    "name": "Master's Rootbound Staff"
+  },
+  "T7_2H_SHAPESHIFTER_SET2": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Rootbound Staff"
+  },
+  "T8_2H_SHAPESHIFTER_SET2": {
+    "category": "2H-weapon",
+    "name": "Elder's Rootbound Staff"
+  },
+  "T4_2H_SHAPESHIFTER_SET3": {
+    "category": "2H-weapon",
+    "name": "Adept's Primal Staff"
+  },
+  "T5_2H_SHAPESHIFTER_SET3": {
+    "category": "2H-weapon",
+    "name": "Expert's Primal Staff"
+  },
+  "T6_2H_SHAPESHIFTER_SET3": {
+    "category": "2H-weapon",
+    "name": "Master's Primal Staff"
+  },
+  "T7_2H_SHAPESHIFTER_SET3": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Primal Staff"
+  },
+  "T8_2H_SHAPESHIFTER_SET3": {
+    "category": "2H-weapon",
+    "name": "Elder's Primal Staff"
+  },
+  "T4_2H_SHAPESHIFTER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Bloodmoon Staff"
+  },
+  "T5_2H_SHAPESHIFTER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Bloodmoon Staff"
+  },
+  "T6_2H_SHAPESHIFTER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Bloodmoon Staff"
+  },
+  "T7_2H_SHAPESHIFTER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bloodmoon Staff"
+  },
+  "T8_2H_SHAPESHIFTER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Bloodmoon Staff"
+  },
+  "T4_2H_SHAPESHIFTER_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Hellspawn Staff"
+  },
+  "T5_2H_SHAPESHIFTER_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Hellspawn Staff"
+  },
+  "T6_2H_SHAPESHIFTER_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Hellspawn Staff"
+  },
+  "T7_2H_SHAPESHIFTER_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Hellspawn Staff"
+  },
+  "T8_2H_SHAPESHIFTER_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Hellspawn Staff"
+  },
+  "T4_2H_SHAPESHIFTER_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Earthrune Staff"
+  },
+  "T5_2H_SHAPESHIFTER_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Earthrune Staff"
+  },
+  "T6_2H_SHAPESHIFTER_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Earthrune Staff"
+  },
+  "T7_2H_SHAPESHIFTER_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Earthrune Staff"
+  },
+  "T8_2H_SHAPESHIFTER_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Earthrune Staff"
+  },
+  "T4_2H_SHAPESHIFTER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Lightcaller"
+  },
+  "T5_2H_SHAPESHIFTER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Lightcaller"
+  },
+  "T6_2H_SHAPESHIFTER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Lightcaller"
+  },
+  "T7_2H_SHAPESHIFTER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Lightcaller"
+  },
+  "T8_2H_SHAPESHIFTER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Lightcaller"
+  },
+  "T4_2H_SHAPESHIFTER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Stillgaze Staff"
+  },
+  "T5_2H_SHAPESHIFTER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Stillgaze Staff"
+  },
+  "T6_2H_SHAPESHIFTER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Stillgaze Staff"
+  },
+  "T7_2H_SHAPESHIFTER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Stillgaze Staff"
+  },
+  "T8_2H_SHAPESHIFTER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Stillgaze Staff"
+  },
+  "T2_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Novice's Bow"
+  },
+  "T3_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Bow"
+  },
+  "T4_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Adept's Bow"
+  },
+  "T5_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Expert's Bow"
+  },
+  "T6_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Master's Bow"
+  },
+  "T7_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bow"
+  },
+  "T8_2H_BOW": {
+    "category": "2H-weapon",
+    "name": "Elder's Bow"
+  },
+  "T4_2H_WARBOW": {
+    "category": "2H-weapon",
+    "name": "Adept's Warbow"
+  },
+  "T5_2H_WARBOW": {
+    "category": "2H-weapon",
+    "name": "Expert's Warbow"
+  },
+  "T6_2H_WARBOW": {
+    "category": "2H-weapon",
+    "name": "Master's Warbow"
+  },
+  "T7_2H_WARBOW": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Warbow"
+  },
+  "T8_2H_WARBOW": {
+    "category": "2H-weapon",
+    "name": "Elder's Warbow"
+  },
+  "T4_2H_LONGBOW": {
+    "category": "2H-weapon",
+    "name": "Adept's Longbow"
+  },
+  "T5_2H_LONGBOW": {
+    "category": "2H-weapon",
+    "name": "Expert's Longbow"
+  },
+  "T6_2H_LONGBOW": {
+    "category": "2H-weapon",
+    "name": "Master's Longbow"
+  },
+  "T7_2H_LONGBOW": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Longbow"
+  },
+  "T8_2H_LONGBOW": {
+    "category": "2H-weapon",
+    "name": "Elder's Longbow"
+  },
+  "T4_2H_LONGBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Whispering Bow"
+  },
+  "T5_2H_LONGBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Whispering Bow"
+  },
+  "T6_2H_LONGBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Whispering Bow"
+  },
+  "T7_2H_LONGBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Whispering Bow"
+  },
+  "T8_2H_LONGBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Whispering Bow"
+  },
+  "T4_2H_BOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Wailing Bow"
+  },
+  "T5_2H_BOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Wailing Bow"
+  },
+  "T6_2H_BOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Wailing Bow"
+  },
+  "T7_2H_BOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Wailing Bow"
+  },
+  "T8_2H_BOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Wailing Bow"
+  },
+  "T4_2H_BOW_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Bow of Badon"
+  },
+  "T5_2H_BOW_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Bow of Badon"
+  },
+  "T6_2H_BOW_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Bow of Badon"
+  },
+  "T7_2H_BOW_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bow of Badon"
+  },
+  "T8_2H_BOW_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Bow of Badon"
+  },
+  "T4_2H_BOW_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Mistpiercer"
+  },
+  "T5_2H_BOW_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Mistpiercer"
+  },
+  "T6_2H_BOW_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Mistpiercer"
+  },
+  "T7_2H_BOW_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Mistpiercer"
+  },
+  "T8_2H_BOW_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Mistpiercer"
+  },
+  "T4_2H_BOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Skystrider Bow"
+  },
+  "T5_2H_BOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Skystrider Bow"
+  },
+  "T6_2H_BOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Skystrider Bow"
+  },
+  "T7_2H_BOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Skystrider Bow"
+  },
+  "T8_2H_BOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Skystrider Bow"
+  },
+  "T3_2H_CROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Crossbow"
+  },
+  "T4_2H_CROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Adept's Crossbow"
+  },
+  "T5_2H_CROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Expert's Crossbow"
+  },
+  "T6_2H_CROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Master's Crossbow"
+  },
+  "T7_2H_CROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Crossbow"
+  },
+  "T8_2H_CROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Elder's Crossbow"
+  },
+  "T4_2H_CROSSBOWLARGE": {
+    "category": "2H-weapon",
+    "name": "Adept's Heavy Crossbow"
+  },
+  "T5_2H_CROSSBOWLARGE": {
+    "category": "2H-weapon",
+    "name": "Expert's Heavy Crossbow"
+  },
+  "T6_2H_CROSSBOWLARGE": {
+    "category": "2H-weapon",
+    "name": "Master's Heavy Crossbow"
+  },
+  "T7_2H_CROSSBOWLARGE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Heavy Crossbow"
+  },
+  "T8_2H_CROSSBOWLARGE": {
+    "category": "2H-weapon",
+    "name": "Elder's Heavy Crossbow"
+  },
+  "T4_MAIN_1HCROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Adept's Light Crossbow"
+  },
+  "T5_MAIN_1HCROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Expert's Light Crossbow"
+  },
+  "T6_MAIN_1HCROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Master's Light Crossbow"
+  },
+  "T7_MAIN_1HCROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Light Crossbow"
+  },
+  "T8_MAIN_1HCROSSBOW": {
+    "category": "2H-weapon",
+    "name": "Elder's Light Crossbow"
+  },
+  "T4_2H_REPEATINGCROSSBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Weeping Repeater"
+  },
+  "T5_2H_REPEATINGCROSSBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Weeping Repeater"
+  },
+  "T6_2H_REPEATINGCROSSBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Weeping Repeater"
+  },
+  "T7_2H_REPEATINGCROSSBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Weeping Repeater"
+  },
+  "T8_2H_REPEATINGCROSSBOW_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Weeping Repeater"
+  },
+  "T4_2H_DUALCROSSBOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Boltcasters"
+  },
+  "T5_2H_DUALCROSSBOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Boltcasters"
+  },
+  "T6_2H_DUALCROSSBOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Boltcasters"
+  },
+  "T7_2H_DUALCROSSBOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Boltcasters"
+  },
+  "T8_2H_DUALCROSSBOW_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Boltcasters"
+  },
+  "T4_2H_CROSSBOWLARGE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Siegebow"
+  },
+  "T5_2H_CROSSBOWLARGE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Siegebow"
+  },
+  "T6_2H_CROSSBOWLARGE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Siegebow"
+  },
+  "T7_2H_CROSSBOWLARGE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Siegebow"
+  },
+  "T8_2H_CROSSBOWLARGE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Siegebow"
+  },
+  "T4_2H_CROSSBOW_CANNON_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Energy Shaper"
+  },
+  "T5_2H_CROSSBOW_CANNON_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Energy Shaper"
+  },
+  "T6_2H_CROSSBOW_CANNON_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Energy Shaper"
+  },
+  "T7_2H_CROSSBOW_CANNON_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Energy Shaper"
+  },
+  "T8_2H_CROSSBOW_CANNON_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Energy Shaper"
+  },
+  "T4_2H_DUALCROSSBOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Arclight Blasters"
+  },
+  "T5_2H_DUALCROSSBOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Arclight Blasters"
+  },
+  "T6_2H_DUALCROSSBOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Arclight Blasters"
+  },
+  "T7_2H_DUALCROSSBOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Arclight Blasters"
+  },
+  "T8_2H_DUALCROSSBOW_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Arclight Blasters"
+  },
+  "T3_MAIN_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Cursed Staff"
+  },
+  "T4_MAIN_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Cursed Staff"
+  },
+  "T5_MAIN_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Cursed Staff"
+  },
+  "T6_MAIN_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Cursed Staff"
+  },
+  "T7_MAIN_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Cursed Staff"
+  },
+  "T8_MAIN_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Cursed Staff"
+  },
+  "T4_2H_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Cursed Staff"
+  },
+  "T5_2H_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Cursed Staff"
+  },
+  "T6_2H_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Great Cursed Staff"
+  },
+  "T7_2H_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Cursed Staff"
+  },
+  "T8_2H_CURSEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Great Cursed Staff"
+  },
+  "T4_2H_DEMONICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Demonic Staff"
+  },
+  "T5_2H_DEMONICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Demonic Staff"
+  },
+  "T6_2H_DEMONICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Demonic Staff"
+  },
+  "T7_2H_DEMONICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Demonic Staff"
+  },
+  "T8_2H_DEMONICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Demonic Staff"
+  },
+  "T4_MAIN_CURSEDSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Lifecurse Staff"
+  },
+  "T5_MAIN_CURSEDSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Lifecurse Staff"
+  },
+  "T6_MAIN_CURSEDSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Lifecurse Staff"
+  },
+  "T7_MAIN_CURSEDSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Lifecurse Staff"
+  },
+  "T8_MAIN_CURSEDSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Lifecurse Staff"
+  },
+  "T4_2H_SKULLORB_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Cursed Skull"
+  },
+  "T5_2H_SKULLORB_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Cursed Skull"
+  },
+  "T6_2H_SKULLORB_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Cursed Skull"
+  },
+  "T7_2H_SKULLORB_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Cursed Skull"
+  },
+  "T8_2H_SKULLORB_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Cursed Skull"
+  },
+  "T4_2H_CURSEDSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Damnation Staff"
+  },
+  "T5_2H_CURSEDSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Damnation Staff"
+  },
+  "T6_2H_CURSEDSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Damnation Staff"
+  },
+  "T7_2H_CURSEDSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Damnation Staff"
+  },
+  "T8_2H_CURSEDSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Damnation Staff"
+  },
+  "T4_MAIN_CURSEDSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Shadowcaller"
+  },
+  "T5_MAIN_CURSEDSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Shadowcaller"
+  },
+  "T6_MAIN_CURSEDSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Shadowcaller"
+  },
+  "T7_MAIN_CURSEDSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Shadowcaller"
+  },
+  "T8_MAIN_CURSEDSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Shadowcaller"
+  },
+  "T4_MAIN_CURSEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Rotcaller Staff"
+  },
+  "T5_MAIN_CURSEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Rotcaller Staff"
+  },
+  "T6_MAIN_CURSEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Rotcaller Staff"
+  },
+  "T7_MAIN_CURSEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Rotcaller Staff"
+  },
+  "T8_MAIN_CURSEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Rotcaller Staff"
+  },
+  "T2_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Novice's Fire Staff"
+  },
+  "T3_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Fire Staff"
+  },
+  "T4_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Fire Staff"
+  },
+  "T5_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Fire Staff"
+  },
+  "T6_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Fire Staff"
+  },
+  "T7_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Fire Staff"
+  },
+  "T8_MAIN_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Fire Staff"
+  },
+  "T4_2H_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Fire Staff"
+  },
+  "T5_2H_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Fire Staff"
+  },
+  "T6_2H_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Great Fire Staff"
+  },
+  "T7_2H_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Fire Staff"
+  },
+  "T8_2H_FIRESTAFF": {
+    "category": "2H-weapon",
+    "name": "Vendetta's Wrath"
+  },
+  "T4_2H_INFERNOSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Infernal Staff"
+  },
+  "T5_2H_INFERNOSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Infernal Staff"
+  },
+  "T6_2H_INFERNOSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Infernal Staff"
+  },
+  "T7_2H_INFERNOSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Infernal Staff"
+  },
+  "T8_2H_INFERNOSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Infernal Staff"
+  },
+  "T4_MAIN_FIRESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Wildfire Staff"
+  },
+  "T5_MAIN_FIRESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Wildfire Staff"
+  },
+  "T6_MAIN_FIRESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Wildfire Staff"
+  },
+  "T7_MAIN_FIRESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Wildfire Staff"
+  },
+  "T8_MAIN_FIRESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Wildfire Staff"
+  },
+  "T4_2H_FIRESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Brimstone Staff"
+  },
+  "T5_2H_FIRESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Brimstone Staff"
+  },
+  "T6_2H_FIRESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Brimstone Staff"
+  },
+  "T7_2H_FIRESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Brimstone Staff"
+  },
+  "T8_2H_FIRESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Brimstone Staff"
+  },
+  "T4_2H_INFERNOSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Blazing Staff"
+  },
+  "T5_2H_INFERNOSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Blazing Staff"
+  },
+  "T6_2H_INFERNOSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Blazing Staff"
+  },
+  "T7_2H_INFERNOSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Blazing Staff"
+  },
+  "T8_2H_INFERNOSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Blazing Staff"
+  },
+  "T4_2H_FIRE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Dawnsong"
+  },
+  "T5_2H_FIRE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Dawnsong"
+  },
+  "T6_2H_FIRE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Dawnsong"
+  },
+  "T7_2H_FIRE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Dawnsong"
+  },
+  "T8_2H_FIRE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Dawnsong"
+  },
+  "T4_MAIN_FIRESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Flamewalker Staff"
+  },
+  "T5_MAIN_FIRESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Flamewalker Staff"
+  },
+  "T6_MAIN_FIRESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Flamewalker Staff"
+  },
+  "T7_MAIN_FIRESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Flamewalker Staff"
+  },
+  "T8_MAIN_FIRESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Flamewalker Staff"
+  },
+  "T3_MAIN_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Frost Staff"
+  },
+  "T4_MAIN_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Frost Staff"
+  },
+  "T5_MAIN_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Frost Staff"
+  },
+  "T6_MAIN_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Frost Staff"
+  },
+  "T7_MAIN_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Frost Staff"
+  },
+  "T8_MAIN_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Frost Staff"
+  },
+  "T4_2H_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Frost Staff"
+  },
+  "T5_2H_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Frost Staff"
+  },
+  "T6_2H_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Great Frost Staff"
+  },
+  "T7_2H_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Frost Staff"
+  },
+  "T8_2H_FROSTSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Great Frost Staff"
+  },
+  "T4_2H_GLACIALSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Glacial Staff"
+  },
+  "T5_2H_GLACIALSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Glacial Staff"
+  },
+  "T6_2H_GLACIALSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Glacial Staff"
+  },
+  "T7_2H_GLACIALSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Glacial Staff"
+  },
+  "T8_2H_GLACIALSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Glacial Staff"
+  },
+  "T4_MAIN_FROSTSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Hoarfrost Staff"
+  },
+  "T5_MAIN_FROSTSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Hoarfrost Staff"
+  },
+  "T6_MAIN_FROSTSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Hoarfrost Staff"
+  },
+  "T7_MAIN_FROSTSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Hoarfrost Staff"
+  },
+  "T8_MAIN_FROSTSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Hoarfrost Staff"
+  },
+  "T4_2H_ICEGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Icicle Staff"
+  },
+  "T5_2H_ICEGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Icicle Staff"
+  },
+  "T6_2H_ICEGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Icicle Staff"
+  },
+  "T7_2H_ICEGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Icicle Staff"
+  },
+  "T8_2H_ICEGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Icicle Staff"
+  },
+  "T4_2H_ICECRYSTAL_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Permafrost Prism"
+  },
+  "T5_2H_ICECRYSTAL_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Permafrost Prism"
+  },
+  "T6_2H_ICECRYSTAL_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Permafrost Prism"
+  },
+  "T7_2H_ICECRYSTAL_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Permafrost Prism"
+  },
+  "T8_2H_ICECRYSTAL_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Permafrost Prism"
+  },
+  "T4_MAIN_FROSTSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Chillhowl"
+  },
+  "T5_MAIN_FROSTSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Chillhowl"
+  },
+  "T6_MAIN_FROSTSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Chillhowl"
+  },
+  "T7_MAIN_FROSTSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Chillhowl"
+  },
+  "T8_MAIN_FROSTSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Chillhowl"
+  },
+  "T4_2H_FROSTSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Arctic Staff"
+  },
+  "T5_2H_FROSTSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Arctic Staff"
+  },
+  "T6_2H_FROSTSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Arctic Staff"
+  },
+  "T7_2H_FROSTSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Arctic Staff"
+  },
+  "T8_2H_FROSTSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Arctic Staff"
+  },
+  "T3_MAIN_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Arcane Staff"
+  },
+  "T4_MAIN_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Arcane Staff"
+  },
+  "T5_MAIN_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Arcane Staff"
+  },
+  "T6_MAIN_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Arcane Staff"
+  },
+  "T7_MAIN_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Arcane Staff"
+  },
+  "T8_MAIN_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Arcane Staff"
+  },
+  "T4_2H_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Arcane Staff"
+  },
+  "T5_2H_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Arcane Staff"
+  },
+  "T6_2H_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Great Arcane Staff"
+  },
+  "T7_2H_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Arcane Staff"
+  },
+  "T8_2H_ARCANESTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Great Arcane Staff"
+  },
+  "T4_2H_ENIGMATICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Enigmatic Staff"
+  },
+  "T5_2H_ENIGMATICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Enigmatic Staff"
+  },
+  "T6_2H_ENIGMATICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Enigmatic Staff"
+  },
+  "T7_2H_ENIGMATICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Enigmatic Staff"
+  },
+  "T8_2H_ENIGMATICSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Enigmatic Staff"
+  },
+  "T4_MAIN_ARCANESTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Witchwork Staff"
+  },
+  "T5_MAIN_ARCANESTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Witchwork Staff"
+  },
+  "T6_MAIN_ARCANESTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Witchwork Staff"
+  },
+  "T7_MAIN_ARCANESTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Witchwork Staff"
+  },
+  "T8_MAIN_ARCANESTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Witchwork Staff"
+  },
+  "T4_2H_ARCANESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Occult Staff"
+  },
+  "T5_2H_ARCANESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Occult Staff"
+  },
+  "T6_2H_ARCANESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Occult Staff"
+  },
+  "T7_2H_ARCANESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Occult Staff"
+  },
+  "T8_2H_ARCANESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Occult Staff"
+  },
+  "T4_2H_ENIGMATICORB_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Malevolent Locus"
+  },
+  "T5_2H_ENIGMATICORB_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Malevolent Locus"
+  },
+  "T6_2H_ENIGMATICORB_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Malevolent Locus"
+  },
+  "T7_2H_ENIGMATICORB_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Malevolent Locus"
+  },
+  "T8_2H_ENIGMATICORB_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Malevolent Locus"
+  },
+  "T4_2H_ARCANE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Evensong"
+  },
+  "T5_2H_ARCANE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Evensong"
+  },
+  "T6_2H_ARCANE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Evensong"
+  },
+  "T7_2H_ARCANE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Evensong"
+  },
+  "T8_2H_ARCANE_RINGPAIR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Evensong"
+  },
+  "T4_2H_ARCANESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Astral Staff"
+  },
+  "T5_2H_ARCANESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Astral Staff"
+  },
+  "T6_2H_ARCANESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Astral Staff"
+  },
+  "T7_2H_ARCANESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Astral Staff"
+  },
+  "T8_2H_ARCANESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Astral Staff"
+  },
+  "T3_MAIN_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Holy Staff"
+  },
+  "T4_MAIN_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Holy Staff"
+  },
+  "T5_MAIN_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Holy Staff"
+  },
+  "T6_MAIN_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Holy Staff"
+  },
+  "T7_MAIN_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Holy Staff"
+  },
+  "T8_MAIN_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Holy Staff"
+  },
+  "T4_2H_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Holy Staff"
+  },
+  "T5_2H_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Holy Staff"
+  },
+  "T6_2H_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Great Holy Staff"
+  },
+  "T7_2H_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Holy Staff"
+  },
+  "T8_2H_HOLYSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Great Holy Staff"
+  },
+  "T4_2H_DIVINESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Divine Staff"
+  },
+  "T5_2H_DIVINESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Divine Staff"
+  },
+  "T6_2H_DIVINESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Divine Staff"
+  },
+  "T7_2H_DIVINESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Divine Staff"
+  },
+  "T8_2H_DIVINESTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Divine Staff"
+  },
+  "T4_MAIN_HOLYSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Lifetouch Staff"
+  },
+  "T5_MAIN_HOLYSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Lifetouch Staff"
+  },
+  "T6_MAIN_HOLYSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Lifetouch Staff"
+  },
+  "T7_MAIN_HOLYSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Lifetouch Staff"
+  },
+  "T8_MAIN_HOLYSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Lifetouch Staff"
+  },
+  "T4_2H_HOLYSTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Fallen Staff"
+  },
+  "T5_2H_HOLYSTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Fallen Staff"
+  },
+  "T6_2H_HOLYSTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Fallen Staff"
+  },
+  "T7_2H_HOLYSTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Fallen Staff"
+  },
+  "T8_2H_HOLYSTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Fallen Staff"
+  },
+  "T4_2H_HOLYSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Redemption Staff"
+  },
+  "T5_2H_HOLYSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Redemption Staff"
+  },
+  "T6_2H_HOLYSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Redemption Staff"
+  },
+  "T7_2H_HOLYSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Redemption Staff"
+  },
+  "T8_2H_HOLYSTAFF_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Redemption Staff"
+  },
+  "T4_MAIN_HOLYSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Hallowfall"
+  },
+  "T5_MAIN_HOLYSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Hallowfall"
+  },
+  "T6_MAIN_HOLYSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Hallowfall"
+  },
+  "T7_MAIN_HOLYSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Hallowfall"
+  },
+  "T8_MAIN_HOLYSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Hallowfall"
+  },
+  "T4_2H_HOLYSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Exalted Staff"
+  },
+  "T5_2H_HOLYSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Exalted Staff"
+  },
+  "T6_2H_HOLYSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Exalted Staff"
+  },
+  "T7_2H_HOLYSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Exalted Staff"
+  },
+  "T8_2H_HOLYSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Exalted Staff"
+  },
+  "T3_MAIN_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Nature Staff"
+  },
+  "T4_MAIN_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Nature Staff"
+  },
+  "T5_MAIN_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Nature Staff"
+  },
+  "T6_MAIN_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Nature Staff"
+  },
+  "T7_MAIN_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Nature Staff"
+  },
+  "T8_MAIN_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Nature Staff"
+  },
+  "T4_2H_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Nature Staff"
+  },
+  "T5_2H_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Nature Staff"
+  },
+  "T6_2H_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Great Nature Staff"
+  },
+  "T7_2H_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Nature Staff"
+  },
+  "T8_2H_NATURESTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Great Nature Staff"
+  },
+  "T4_2H_WILDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Wild Staff"
+  },
+  "T5_2H_WILDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Wild Staff"
+  },
+  "T6_2H_WILDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Wild Staff"
+  },
+  "T7_2H_WILDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Wild Staff"
+  },
+  "T8_2H_WILDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Wild Staff"
+  },
+  "T4_MAIN_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Druidic Staff"
+  },
+  "T5_MAIN_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Druidic Staff"
+  },
+  "T6_MAIN_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Druidic Staff"
+  },
+  "T7_MAIN_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Druidic Staff"
+  },
+  "T8_MAIN_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Druidic Staff"
+  },
+  "T4_2H_NATURESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Blight Staff"
+  },
+  "T5_2H_NATURESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Blight Staff"
+  },
+  "T6_2H_NATURESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Blight Staff"
+  },
+  "T7_2H_NATURESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Blight Staff"
+  },
+  "T8_2H_NATURESTAFF_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Blight Staff"
+  },
+  "T4_2H_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Rampant Staff"
+  },
+  "T5_2H_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Rampant Staff"
+  },
+  "T6_2H_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Rampant Staff"
+  },
+  "T7_2H_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Rampant Staff"
+  },
+  "T8_2H_NATURESTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Rampant Staff"
+  },
+  "T4_MAIN_NATURESTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Ironroot Staff"
+  },
+  "T5_MAIN_NATURESTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Ironroot Staff"
+  },
+  "T6_MAIN_NATURESTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Ironroot Staff"
+  },
+  "T7_MAIN_NATURESTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Ironroot Staff"
+  },
+  "T8_MAIN_NATURESTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Ironroot Staff"
+  },
+  "T4_MAIN_NATURESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Forgebark Staff"
+  },
+  "T5_MAIN_NATURESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Forgebark Staff"
+  },
+  "T6_MAIN_NATURESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Forgebark Staff"
+  },
+  "T7_MAIN_NATURESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Forgebark Staff"
+  },
+  "T8_MAIN_NATURESTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Forgebark Staff"
+  },
+  "T3_MAIN_DAGGER": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Dagger"
+  },
+  "T4_MAIN_DAGGER": {
+    "category": "2H-weapon",
+    "name": "Adept's Dagger"
+  },
+  "T5_MAIN_DAGGER": {
+    "category": "2H-weapon",
+    "name": "Expert's Dagger"
+  },
+  "T6_MAIN_DAGGER": {
+    "category": "2H-weapon",
+    "name": "Master's Dagger"
+  },
+  "T7_MAIN_DAGGER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Dagger"
+  },
+  "T8_MAIN_DAGGER": {
+    "category": "2H-weapon",
+    "name": "Elder's Dagger"
+  },
+  "T4_2H_DAGGERPAIR": {
+    "category": "2H-weapon",
+    "name": "Adept's Dagger Pair"
+  },
+  "T5_2H_DAGGERPAIR": {
+    "category": "2H-weapon",
+    "name": "Expert's Dagger Pair"
+  },
+  "T6_2H_DAGGERPAIR": {
+    "category": "2H-weapon",
+    "name": "Master's Dagger Pair"
+  },
+  "T7_2H_DAGGERPAIR": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Dagger Pair"
+  },
+  "T8_2H_DAGGERPAIR": {
+    "category": "2H-weapon",
+    "name": "Elder's Dagger Pair"
+  },
+  "T4_2H_CLAWPAIR": {
+    "category": "2H-weapon",
+    "name": "Adept's Claws"
+  },
+  "T5_2H_CLAWPAIR": {
+    "category": "2H-weapon",
+    "name": "Expert's Claws"
+  },
+  "T6_2H_CLAWPAIR": {
+    "category": "2H-weapon",
+    "name": "Master's Claws"
+  },
+  "T7_2H_CLAWPAIR": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Claws"
+  },
+  "T8_2H_CLAWPAIR": {
+    "category": "2H-weapon",
+    "name": "Elder's Claws"
+  },
+  "T4_MAIN_RAPIER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Bloodletter"
+  },
+  "T5_MAIN_RAPIER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Bloodletter"
+  },
+  "T6_MAIN_RAPIER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Bloodletter"
+  },
+  "T7_MAIN_RAPIER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bloodletter"
+  },
+  "T8_MAIN_RAPIER_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Bloodletter"
+  },
+  "T4_MAIN_DAGGER_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Demonfang"
+  },
+  "T5_MAIN_DAGGER_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Demonfang"
+  },
+  "T6_MAIN_DAGGER_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Demonfang"
+  },
+  "T7_MAIN_DAGGER_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Demonfang"
+  },
+  "T8_MAIN_DAGGER_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Demonfang"
+  },
+  "T4_2H_IRONGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Black Hands"
+  },
+  "T5_2H_IRONGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Black Hands"
+  },
+  "T6_2H_IRONGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Black Hands"
+  },
+  "T7_2H_IRONGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Black Hands"
+  },
+  "T8_2H_IRONGAUNTLETS_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Black Hands"
+  },
+  "T4_2H_DUALSICKLE_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Deathgivers"
+  },
+  "T5_2H_DUALSICKLE_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Deathgivers"
+  },
+  "T6_2H_DUALSICKLE_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Deathgivers"
+  },
+  "T7_2H_DUALSICKLE_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Deathgivers"
+  },
+  "T8_2H_DUALSICKLE_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Deathgivers"
+  },
+  "T4_2H_DAGGER_KATAR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Bridled Fury"
+  },
+  "T5_2H_DAGGER_KATAR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Bridled Fury"
+  },
+  "T6_2H_DAGGER_KATAR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Bridled Fury"
+  },
+  "T7_2H_DAGGER_KATAR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bridled Fury"
+  },
+  "T8_2H_DAGGER_KATAR_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Bridled Fury"
+  },
+  "T4_2H_DAGGERPAIR_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Twin Slayers"
+  },
+  "T5_2H_DAGGERPAIR_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Twin Slayers"
+  },
+  "T6_2H_DAGGERPAIR_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Twin Slayers"
+  },
+  "T7_2H_DAGGERPAIR_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Twin Slayers"
+  },
+  "T8_2H_DAGGERPAIR_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Twin Slayers"
+  },
+  "T3_MAIN_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Spear"
+  },
+  "T4_MAIN_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Adept's Spear"
+  },
+  "T5_MAIN_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Expert's Spear"
+  },
+  "T6_MAIN_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Master's Spear"
+  },
+  "T7_MAIN_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Spear"
+  },
+  "T8_MAIN_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Elder's Spear"
+  },
+  "T4_2H_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Adept's Pike"
+  },
+  "T5_2H_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Expert's Pike"
+  },
+  "T6_2H_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Master's Pike"
+  },
+  "T7_2H_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Pike"
+  },
+  "T8_2H_SPEAR": {
+    "category": "2H-weapon",
+    "name": "Elder's Pike"
+  },
+  "T4_2H_GLAIVE": {
+    "category": "2H-weapon",
+    "name": "Adept's Glaive"
+  },
+  "T5_2H_GLAIVE": {
+    "category": "2H-weapon",
+    "name": "Expert's Glaive"
+  },
+  "T6_2H_GLAIVE": {
+    "category": "2H-weapon",
+    "name": "Master's Glaive"
+  },
+  "T7_2H_GLAIVE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Glaive"
+  },
+  "T8_2H_GLAIVE": {
+    "category": "2H-weapon",
+    "name": "Elder's Glaive"
+  },
+  "T4_MAIN_SPEAR_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Heron Spear"
+  },
+  "T5_MAIN_SPEAR_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Heron Spear"
+  },
+  "T6_MAIN_SPEAR_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Heron Spear"
+  },
+  "T7_MAIN_SPEAR_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Heron Spear"
+  },
+  "T8_MAIN_SPEAR_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Heron Spear"
+  },
+  "T4_2H_HARPOON_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Spirithunter"
+  },
+  "T5_2H_HARPOON_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Spirithunter"
+  },
+  "T6_2H_HARPOON_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Spirithunter"
+  },
+  "T7_2H_HARPOON_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Spirithunter"
+  },
+  "T8_2H_HARPOON_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Spirithunter"
+  },
+  "T4_2H_TRIDENT_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Trinity Spear"
+  },
+  "T5_2H_TRIDENT_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Trinity Spear"
+  },
+  "T6_2H_TRIDENT_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Trinity Spear"
+  },
+  "T7_2H_TRIDENT_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Trinity Spear"
+  },
+  "T8_2H_TRIDENT_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Trinity Spear"
+  },
+  "T4_MAIN_SPEAR_LANCE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Daybreaker"
+  },
+  "T5_MAIN_SPEAR_LANCE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Daybreaker"
+  },
+  "T6_MAIN_SPEAR_LANCE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Daybreaker"
+  },
+  "T7_MAIN_SPEAR_LANCE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Daybreaker"
+  },
+  "T8_MAIN_SPEAR_LANCE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Daybreaker"
+  },
+  "T4_2H_GLAIVE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Rift Glaive"
+  },
+  "T5_2H_GLAIVE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Rift Glaive"
+  },
+  "T6_2H_GLAIVE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Rift Glaive"
+  },
+  "T7_2H_GLAIVE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Rift Glaive"
+  },
+  "T8_2H_GLAIVE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Rift Glaive"
+  },
+  "T3_MAIN_AXE": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Battleaxe"
+  },
+  "T4_MAIN_AXE": {
+    "category": "2H-weapon",
+    "name": "Adept's Battleaxe"
+  },
+  "T5_MAIN_AXE": {
+    "category": "2H-weapon",
+    "name": "Expert's Battleaxe"
+  },
+  "T6_MAIN_AXE": {
+    "category": "2H-weapon",
+    "name": "Master's Battleaxe"
+  },
+  "T7_MAIN_AXE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Battleaxe"
+  },
+  "T8_MAIN_AXE": {
+    "category": "2H-weapon",
+    "name": "Elder's Battleaxe"
+  },
+  "T4_2H_AXE": {
+    "category": "2H-weapon",
+    "name": "Adept's Greataxe"
+  },
+  "T5_2H_AXE": {
+    "category": "2H-weapon",
+    "name": "Expert's Greataxe"
+  },
+  "T6_2H_AXE": {
+    "category": "2H-weapon",
+    "name": "Master's Greataxe"
+  },
+  "T7_2H_AXE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Greataxe"
+  },
+  "T8_2H_AXE": {
+    "category": "2H-weapon",
+    "name": "The Hand of Khor"
+  },
+  "T4_2H_HALBERD": {
+    "category": "2H-weapon",
+    "name": "Adept's Halberd"
+  },
+  "T5_2H_HALBERD": {
+    "category": "2H-weapon",
+    "name": "Expert's Halberd"
+  },
+  "T6_2H_HALBERD": {
+    "category": "2H-weapon",
+    "name": "Master's Halberd"
+  },
+  "T7_2H_HALBERD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Halberd"
+  },
+  "T8_2H_HALBERD": {
+    "category": "2H-weapon",
+    "name": "Elder's Halberd"
+  },
+  "T4_2H_HALBERD_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Carrioncaller"
+  },
+  "T5_2H_HALBERD_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Carrioncaller"
+  },
+  "T6_2H_HALBERD_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Carrioncaller"
+  },
+  "T7_2H_HALBERD_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Carrioncaller"
+  },
+  "T8_2H_HALBERD_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Carrioncaller"
+  },
+  "T4_2H_SCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Infernal Scythe"
+  },
+  "T5_2H_SCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Infernal Scythe"
+  },
+  "T6_2H_SCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Infernal Scythe"
+  },
+  "T7_2H_SCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Infernal Scythe"
+  },
+  "T8_2H_SCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Infernal Scythe"
+  },
+  "T4_2H_DUALAXE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Bear Paws"
+  },
+  "T5_2H_DUALAXE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Bear Paws"
+  },
+  "T6_2H_DUALAXE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Bear Paws"
+  },
+  "T7_2H_DUALAXE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bear Paws"
+  },
+  "T8_2H_DUALAXE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Bear Paws"
+  },
+  "T4_2H_AXE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Realmbreaker"
+  },
+  "T5_2H_AXE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Realmbreaker"
+  },
+  "T6_2H_AXE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Realmbreaker"
+  },
+  "T7_2H_AXE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Realmbreaker"
+  },
+  "T8_2H_AXE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Realmbreaker"
+  },
+  "T4_2H_SCYTHE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Crystal Reaper"
+  },
+  "T5_2H_SCYTHE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Crystal Reaper"
+  },
+  "T6_2H_SCYTHE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Crystal Reaper"
+  },
+  "T7_2H_SCYTHE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Crystal Reaper"
+  },
+  "T8_2H_SCYTHE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Crystal Reaper"
+  },
+  "T1_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Beginner's Broadsword"
+  },
+  "T2_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Novice's Broadsword"
+  },
+  "T3_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Broadsword"
+  },
+  "T4_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Adept's Broadsword"
+  },
+  "T5_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Expert's Broadsword"
+  },
+  "T6_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Master's Broadsword"
+  },
+  "T7_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Broadsword"
+  },
+  "T8_MAIN_SWORD": {
+    "category": "2H-weapon",
+    "name": "Elder's Broadsword"
+  },
+  "T4_2H_CLAYMORE": {
+    "category": "2H-weapon",
+    "name": "Adept's Claymore"
+  },
+  "T5_2H_CLAYMORE": {
+    "category": "2H-weapon",
+    "name": "Expert's Claymore"
+  },
+  "T6_2H_CLAYMORE": {
+    "category": "2H-weapon",
+    "name": "Master's Claymore"
+  },
+  "T7_2H_CLAYMORE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Claymore"
+  },
+  "T8_2H_CLAYMORE": {
+    "category": "2H-weapon",
+    "name": "Elder's Claymore"
+  },
+  "T4_2H_DUALSWORD": {
+    "category": "2H-weapon",
+    "name": "Adept's Dual Swords"
+  },
+  "T5_2H_DUALSWORD": {
+    "category": "2H-weapon",
+    "name": "Expert's Dual Swords"
+  },
+  "T6_2H_DUALSWORD": {
+    "category": "2H-weapon",
+    "name": "Master's Dual Swords"
+  },
+  "T7_2H_DUALSWORD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Dual Swords"
+  },
+  "T8_2H_DUALSWORD": {
+    "category": "2H-weapon",
+    "name": "Elder's Dual Swords"
+  },
+  "T4_MAIN_SCIMITAR_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Clarent Blade"
+  },
+  "T5_MAIN_SCIMITAR_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Clarent Blade"
+  },
+  "T6_MAIN_SCIMITAR_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Clarent Blade"
+  },
+  "T7_MAIN_SCIMITAR_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Clarent Blade"
+  },
+  "T8_MAIN_SCIMITAR_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Clarent Blade"
+  },
+  "T4_2H_CLEAVER_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Carving Sword"
+  },
+  "T5_2H_CLEAVER_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Carving Sword"
+  },
+  "T6_2H_CLEAVER_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Carving Sword"
+  },
+  "T7_2H_CLEAVER_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Carving Sword"
+  },
+  "T8_2H_CLEAVER_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Carving Sword"
+  },
+  "T4_2H_DUALSCIMITAR_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Galatine Pair"
+  },
+  "T5_2H_DUALSCIMITAR_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Galatine Pair"
+  },
+  "T6_2H_DUALSCIMITAR_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Galatine Pair"
+  },
+  "T7_2H_DUALSCIMITAR_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Galatine Pair"
+  },
+  "T8_2H_DUALSCIMITAR_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Galatine Pair"
+  },
+  "T4_2H_CLAYMORE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Kingmaker"
+  },
+  "T5_2H_CLAYMORE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Kingmaker"
+  },
+  "T6_2H_CLAYMORE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Kingmaker"
+  },
+  "T7_2H_CLAYMORE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Kingmaker"
+  },
+  "T8_2H_CLAYMORE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Kingmaker"
+  },
+  "T4_MAIN_SWORD_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Infinity Blade"
+  },
+  "T5_MAIN_SWORD_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Infinity Blade"
+  },
+  "T6_MAIN_SWORD_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Infinity Blade"
+  },
+  "T7_MAIN_SWORD_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Infinity Blade"
+  },
+  "T8_MAIN_SWORD_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Infinity Blade"
+  },
+  "T3_2H_QUARTERSTAFF": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Quarterstaff"
+  },
+  "T4_2H_QUARTERSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Quarterstaff"
+  },
+  "T5_2H_QUARTERSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Quarterstaff"
+  },
+  "T6_2H_QUARTERSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Quarterstaff"
+  },
+  "T7_2H_QUARTERSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Quarterstaff"
+  },
+  "T8_2H_QUARTERSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Quarterstaff"
+  },
+  "T4_2H_IRONCLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Iron-clad Staff"
+  },
+  "T5_2H_IRONCLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Iron-clad Staff"
+  },
+  "T6_2H_IRONCLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Iron-clad Staff"
+  },
+  "T7_2H_IRONCLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Iron-clad Staff"
+  },
+  "T8_2H_IRONCLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Iron-clad Staff"
+  },
+  "T4_2H_DOUBLEBLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Adept's Double Bladed Staff"
+  },
+  "T5_2H_DOUBLEBLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Expert's Double Bladed Staff"
+  },
+  "T6_2H_DOUBLEBLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Master's Double Bladed Staff"
+  },
+  "T7_2H_DOUBLEBLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Double Bladed Staff"
+  },
+  "T8_2H_DOUBLEBLADEDSTAFF": {
+    "category": "2H-weapon",
+    "name": "Elder's Double Bladed Staff"
+  },
+  "T4_2H_COMBATSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Black Monk Stave"
+  },
+  "T5_2H_COMBATSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Black Monk Stave"
+  },
+  "T6_2H_COMBATSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Black Monk Stave"
+  },
+  "T7_2H_COMBATSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Black Monk Stave"
+  },
+  "T8_2H_COMBATSTAFF_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Black Monk Stave"
+  },
+  "T4_2H_TWINSCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Soulscythe"
+  },
+  "T5_2H_TWINSCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Soulscythe"
+  },
+  "T6_2H_TWINSCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Soulscythe"
+  },
+  "T7_2H_TWINSCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Soulscythe"
+  },
+  "T8_2H_TWINSCYTHE_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Soulscythe"
+  },
+  "T4_2H_ROCKSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Staff of Balance"
+  },
+  "T5_2H_ROCKSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Staff of Balance"
+  },
+  "T6_2H_ROCKSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Staff of Balance"
+  },
+  "T7_2H_ROCKSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Staff of Balance"
+  },
+  "T8_2H_ROCKSTAFF_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Staff of Balance"
+  },
+  "T4_2H_QUARTERSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Grailseeker"
+  },
+  "T5_2H_QUARTERSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Grailseeker"
+  },
+  "T6_2H_QUARTERSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Grailseeker"
+  },
+  "T7_2H_QUARTERSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Grailseeker"
+  },
+  "T8_2H_QUARTERSTAFF_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Grailseeker"
+  },
+  "T4_2H_DOUBLEBLADEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Phantom Twinblade"
+  },
+  "T5_2H_DOUBLEBLADEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Phantom Twinblade"
+  },
+  "T6_2H_DOUBLEBLADEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Phantom Twinblade"
+  },
+  "T7_2H_DOUBLEBLADEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Phantom Twinblade"
+  },
+  "T8_2H_DOUBLEBLADEDSTAFF_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Phantom Twinblade"
+  },
+  "T3_MAIN_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Hammer"
+  },
+  "T4_MAIN_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Adept's Hammer"
+  },
+  "T5_MAIN_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Expert's Hammer"
+  },
+  "T6_MAIN_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Master's Hammer"
+  },
+  "T7_MAIN_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Hammer"
+  },
+  "T8_MAIN_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Elder's Hammer"
+  },
+  "T4_2H_POLEHAMMER": {
+    "category": "2H-weapon",
+    "name": "Adept's Polehammer"
+  },
+  "T5_2H_POLEHAMMER": {
+    "category": "2H-weapon",
+    "name": "Expert's Polehammer"
+  },
+  "T6_2H_POLEHAMMER": {
+    "category": "2H-weapon",
+    "name": "Master's Polehammer"
+  },
+  "T7_2H_POLEHAMMER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Polehammer"
+  },
+  "T8_2H_POLEHAMMER": {
+    "category": "2H-weapon",
+    "name": "Elder's Polehammer"
+  },
+  "T4_2H_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Adept's Great Hammer"
+  },
+  "T5_2H_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Expert's Great Hammer"
+  },
+  "T6_2H_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Master's Great Hammer"
+  },
+  "T7_2H_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Great Hammer"
+  },
+  "T8_2H_HAMMER": {
+    "category": "2H-weapon",
+    "name": "Elder's Great Hammer"
+  },
+  "T4_2H_HAMMER_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Adept's Tombhammer"
+  },
+  "T5_2H_HAMMER_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Expert's Tombhammer"
+  },
+  "T6_2H_HAMMER_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Master's Tombhammer"
+  },
+  "T7_2H_HAMMER_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Tombhammer"
+  },
+  "T8_2H_HAMMER_UNDEAD": {
+    "category": "2H-weapon",
+    "name": "Elder's Tombhammer"
+  },
+  "T4_2H_DUALHAMMER_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Forge Hammers"
+  },
+  "T5_2H_DUALHAMMER_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Forge Hammers"
+  },
+  "T6_2H_DUALHAMMER_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Forge Hammers"
+  },
+  "T7_2H_DUALHAMMER_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Forge Hammers"
+  },
+  "T8_2H_DUALHAMMER_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Forge Hammers"
+  },
+  "T4_2H_RAM_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Grovekeeper"
+  },
+  "T5_2H_RAM_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Grovekeeper"
+  },
+  "T6_2H_RAM_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Grovekeeper"
+  },
+  "T7_2H_RAM_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Grovekeeper"
+  },
+  "T8_2H_RAM_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Grovekeeper"
+  },
+  "T4_2H_HAMMER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Hand of Justice"
+  },
+  "T5_2H_HAMMER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Hand of Justice"
+  },
+  "T6_2H_HAMMER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Hand of Justice"
+  },
+  "T7_2H_HAMMER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Hand of Justice"
+  },
+  "T8_2H_HAMMER_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Hand of Justice"
+  },
+  "T4_2H_HAMMER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Truebolt Hammer"
+  },
+  "T5_2H_HAMMER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Truebolt Hammer"
+  },
+  "T6_2H_HAMMER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Truebolt Hammer"
+  },
+  "T7_2H_HAMMER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Truebolt Hammer"
+  },
+  "T8_2H_HAMMER_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Truebolt Hammer"
+  },
+  "T3_MAIN_MACE": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Mace"
+  },
+  "T4_MAIN_MACE": {
+    "category": "2H-weapon",
+    "name": "Adept's Mace"
+  },
+  "T5_MAIN_MACE": {
+    "category": "2H-weapon",
+    "name": "Expert's Mace"
+  },
+  "T6_MAIN_MACE": {
+    "category": "2H-weapon",
+    "name": "Master's Mace"
+  },
+  "T7_MAIN_MACE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Mace"
+  },
+  "T8_MAIN_MACE": {
+    "category": "2H-weapon",
+    "name": "Elder's Mace"
+  },
+  "T4_2H_MACE": {
+    "category": "2H-weapon",
+    "name": "Adept's Heavy Mace"
+  },
+  "T5_2H_MACE": {
+    "category": "2H-weapon",
+    "name": "Expert's Heavy Mace"
+  },
+  "T6_2H_MACE": {
+    "category": "2H-weapon",
+    "name": "Master's Heavy Mace"
+  },
+  "T7_2H_MACE": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Heavy Mace"
+  },
+  "T8_2H_MACE": {
+    "category": "2H-weapon",
+    "name": "Elder's Heavy Mace"
+  },
+  "T4_2H_FLAIL": {
+    "category": "2H-weapon",
+    "name": "Adept's Morning Star"
+  },
+  "T5_2H_FLAIL": {
+    "category": "2H-weapon",
+    "name": "Expert's Morning Star"
+  },
+  "T6_2H_FLAIL": {
+    "category": "2H-weapon",
+    "name": "Master's Morning Star"
+  },
+  "T7_2H_FLAIL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Morning Star"
+  },
+  "T8_2H_FLAIL": {
+    "category": "2H-weapon",
+    "name": "Elder's Morning Star"
+  },
+  "T4_MAIN_ROCKMACE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Bedrock Mace"
+  },
+  "T5_MAIN_ROCKMACE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Bedrock Mace"
+  },
+  "T6_MAIN_ROCKMACE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Bedrock Mace"
+  },
+  "T7_MAIN_ROCKMACE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Bedrock Mace"
+  },
+  "T8_MAIN_ROCKMACE_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Bedrock Mace"
+  },
+  "T4_MAIN_MACE_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Incubus Mace"
+  },
+  "T5_MAIN_MACE_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Incubus Mace"
+  },
+  "T6_MAIN_MACE_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Incubus Mace"
+  },
+  "T7_MAIN_MACE_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Incubus Mace"
+  },
+  "T8_MAIN_MACE_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Incubus Mace"
+  },
+  "T4_2H_MACE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Camlann Mace"
+  },
+  "T5_2H_MACE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Camlann Mace"
+  },
+  "T6_2H_MACE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Camlann Mace"
+  },
+  "T7_2H_MACE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Camlann Mace"
+  },
+  "T8_2H_MACE_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Camlann Mace"
+  },
+  "T4_2H_DUALMACE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Oathkeepers"
+  },
+  "T5_2H_DUALMACE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Oathkeepers"
+  },
+  "T6_2H_DUALMACE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Oathkeepers"
+  },
+  "T7_2H_DUALMACE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Oathkeepers"
+  },
+  "T8_2H_DUALMACE_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Oathkeepers"
+  },
+  "T4_MAIN_MACE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Dreadstorm Monarch"
+  },
+  "T5_MAIN_MACE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Dreadstorm Monarch"
+  },
+  "T6_MAIN_MACE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Dreadstorm Monarch"
+  },
+  "T7_MAIN_MACE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Dreadstorm Monarch"
+  },
+  "T8_MAIN_MACE_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Dreadstorm Monarch"
+  },
+  "T3_2H_KNUCKLES_SET1": {
+    "category": "2H-weapon",
+    "name": "Journeyman's Brawler Gloves"
+  },
+  "T4_2H_KNUCKLES_SET1": {
+    "category": "2H-weapon",
+    "name": "Adept's Brawler Gloves"
+  },
+  "T5_2H_KNUCKLES_SET1": {
+    "category": "2H-weapon",
+    "name": "Expert's Brawler Gloves"
+  },
+  "T6_2H_KNUCKLES_SET1": {
+    "category": "2H-weapon",
+    "name": "Master's Brawler Gloves"
+  },
+  "T7_2H_KNUCKLES_SET1": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Brawler Gloves"
+  },
+  "T8_2H_KNUCKLES_SET1": {
+    "category": "2H-weapon",
+    "name": "Elder's Brawler Gloves"
+  },
+  "T4_2H_KNUCKLES_SET2": {
+    "category": "2H-weapon",
+    "name": "Adept's Battle Bracers"
+  },
+  "T5_2H_KNUCKLES_SET2": {
+    "category": "2H-weapon",
+    "name": "Expert's Battle Bracers"
+  },
+  "T6_2H_KNUCKLES_SET2": {
+    "category": "2H-weapon",
+    "name": "Master's Battle Bracers"
+  },
+  "T7_2H_KNUCKLES_SET2": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Battle Bracers"
+  },
+  "T8_2H_KNUCKLES_SET2": {
+    "category": "2H-weapon",
+    "name": "Elder's Battle Bracers"
+  },
+  "T4_2H_KNUCKLES_SET3": {
+    "category": "2H-weapon",
+    "name": "Adept's Spiked Gauntlets"
+  },
+  "T5_2H_KNUCKLES_SET3": {
+    "category": "2H-weapon",
+    "name": "Expert's Spiked Gauntlets"
+  },
+  "T6_2H_KNUCKLES_SET3": {
+    "category": "2H-weapon",
+    "name": "Master's Spiked Gauntlets"
+  },
+  "T7_2H_KNUCKLES_SET3": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Spiked Gauntlets"
+  },
+  "T8_2H_KNUCKLES_SET3": {
+    "category": "2H-weapon",
+    "name": "Elder's Spiked Gauntlets"
+  },
+  "T4_2H_KNUCKLES_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Adept's Ursine Maulers"
+  },
+  "T5_2H_KNUCKLES_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Expert's Ursine Maulers"
+  },
+  "T6_2H_KNUCKLES_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Master's Ursine Maulers"
+  },
+  "T7_2H_KNUCKLES_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Ursine Maulers"
+  },
+  "T8_2H_KNUCKLES_KEEPER": {
+    "category": "2H-weapon",
+    "name": "Elder's Ursine Maulers"
+  },
+  "T4_2H_KNUCKLES_HELL": {
+    "category": "2H-weapon",
+    "name": "Adept's Hellfire Hands"
+  },
+  "T5_2H_KNUCKLES_HELL": {
+    "category": "2H-weapon",
+    "name": "Expert's Hellfire Hands"
+  },
+  "T6_2H_KNUCKLES_HELL": {
+    "category": "2H-weapon",
+    "name": "Master's Hellfire Hands"
+  },
+  "T7_2H_KNUCKLES_HELL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Hellfire Hands"
+  },
+  "T8_2H_KNUCKLES_HELL": {
+    "category": "2H-weapon",
+    "name": "Elder's Hellfire Hands"
+  },
+  "T4_2H_KNUCKLES_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Adept's Ravenstrike Cestus"
+  },
+  "T5_2H_KNUCKLES_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Expert's Ravenstrike Cestus"
+  },
+  "T6_2H_KNUCKLES_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Master's Ravenstrike Cestus"
+  },
+  "T7_2H_KNUCKLES_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Ravenstrike Cestus"
+  },
+  "T8_2H_KNUCKLES_MORGANA": {
+    "category": "2H-weapon",
+    "name": "Elder's Ravenstrike Cestus"
+  },
+  "T4_2H_KNUCKLES_AVALON": {
+    "category": "2H-weapon",
+    "name": "Adept's Fists of Avalon"
+  },
+  "T5_2H_KNUCKLES_AVALON": {
+    "category": "2H-weapon",
+    "name": "Expert's Fists of Avalon"
+  },
+  "T6_2H_KNUCKLES_AVALON": {
+    "category": "2H-weapon",
+    "name": "Master's Fists of Avalon"
+  },
+  "T7_2H_KNUCKLES_AVALON": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Fists of Avalon"
+  },
+  "T8_2H_KNUCKLES_AVALON": {
+    "category": "2H-weapon",
+    "name": "Elder's Fists of Avalon"
+  },
+  "T4_2H_KNUCKLES_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Adept's Forcepulse Bracers"
+  },
+  "T5_2H_KNUCKLES_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Expert's Forcepulse Bracers"
+  },
+  "T6_2H_KNUCKLES_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Master's Forcepulse Bracers"
+  },
+  "T7_2H_KNUCKLES_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Grandmaster's Forcepulse Bracers"
+  },
+  "T8_2H_KNUCKLES_CRYSTAL": {
+    "category": "2H-weapon",
+    "name": "Elder's Forcepulse Bracers"
+  },
+  "T1_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Beginner's Shield"
+  },
+  "T2_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Novice's Shield"
+  },
+  "T3_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Journeyman's Shield"
+  },
+  "T4_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Adept's Shield"
+  },
+  "T5_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Expert's Shield"
+  },
+  "T6_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Master's Shield"
+  },
+  "T7_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Grandmaster's Shield"
+  },
+  "T8_OFF_SHIELD": {
+    "category": "offhands",
+    "name": "Elder's Shield"
+  },
+  "T4_OFF_TOWERSHIELD_UNDEAD": {
+    "category": "offhands",
+    "name": "Adept's Sarcophagus"
+  },
+  "T5_OFF_TOWERSHIELD_UNDEAD": {
+    "category": "offhands",
+    "name": "Expert's Sarcophagus"
+  },
+  "T6_OFF_TOWERSHIELD_UNDEAD": {
+    "category": "offhands",
+    "name": "Master's Sarcophagus"
+  },
+  "T7_OFF_TOWERSHIELD_UNDEAD": {
+    "category": "offhands",
+    "name": "Grandmaster's Sarcophagus"
+  },
+  "T8_OFF_TOWERSHIELD_UNDEAD": {
+    "category": "offhands",
+    "name": "Elder's Sarcophagus"
+  },
+  "T4_OFF_SHIELD_HELL": {
+    "category": "offhands",
+    "name": "Adept's Caitiff Shield"
+  },
+  "T5_OFF_SHIELD_HELL": {
+    "category": "offhands",
+    "name": "Expert's Caitiff Shield"
+  },
+  "T6_OFF_SHIELD_HELL": {
+    "category": "offhands",
+    "name": "Master's Caitiff Shield"
+  },
+  "T7_OFF_SHIELD_HELL": {
+    "category": "offhands",
+    "name": "Grandmaster's Caitiff Shield"
+  },
+  "T8_OFF_SHIELD_HELL": {
+    "category": "offhands",
+    "name": "Elder's Caitiff Shield"
+  },
+  "T4_OFF_SPIKEDSHIELD_MORGANA": {
+    "category": "offhands",
+    "name": "Adept's Facebreaker"
+  },
+  "T5_OFF_SPIKEDSHIELD_MORGANA": {
+    "category": "offhands",
+    "name": "Expert's Facebreaker"
+  },
+  "T6_OFF_SPIKEDSHIELD_MORGANA": {
+    "category": "offhands",
+    "name": "Master's Facebreaker"
+  },
+  "T7_OFF_SPIKEDSHIELD_MORGANA": {
+    "category": "offhands",
+    "name": "Grandmaster's Facebreaker"
+  },
+  "T8_OFF_SPIKEDSHIELD_MORGANA": {
+    "category": "offhands",
+    "name": "Elder's Facebreaker"
+  },
+  "T4_OFF_SHIELD_AVALON": {
+    "category": "offhands",
+    "name": "Adept's Astral Aegis"
+  },
+  "T5_OFF_SHIELD_AVALON": {
+    "category": "offhands",
+    "name": "Expert's Astral Aegis"
+  },
+  "T6_OFF_SHIELD_AVALON": {
+    "category": "offhands",
+    "name": "Master's Astral Aegis"
+  },
+  "T7_OFF_SHIELD_AVALON": {
+    "category": "offhands",
+    "name": "Grandmaster's Astral Aegis"
+  },
+  "T8_OFF_SHIELD_AVALON": {
+    "category": "offhands",
+    "name": "Elder's Astral Aegis"
+  },
+  "T8_OFF_SHIELD_CRYSTAL_PROTOTYPE": {
+    "category": "offhands",
+    "name": "Crystal Shield"
+  },
+  "T2_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Novice's Tome of Spells"
+  },
+  "T3_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Journeyman's Tome of Spells"
+  },
+  "T4_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Adept's Tome of Spells"
+  },
+  "T5_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Expert's Tome of Spells"
+  },
+  "T6_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Master's Tome of Spells"
+  },
+  "T7_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Grandmaster's Tome of Spells"
+  },
+  "T8_OFF_BOOK": {
+    "category": "offhands",
+    "name": "Rosalia's Diary"
+  },
+  "T4_OFF_ORB_MORGANA": {
+    "category": "offhands",
+    "name": "Adept's Eye of Secrets"
+  },
+  "T5_OFF_ORB_MORGANA": {
+    "category": "offhands",
+    "name": "Expert's Eye of Secrets"
+  },
+  "T6_OFF_ORB_MORGANA": {
+    "category": "offhands",
+    "name": "Master's Eye of Secrets"
+  },
+  "T7_OFF_ORB_MORGANA": {
+    "category": "offhands",
+    "name": "Grandmaster's Eye of Secrets"
+  },
+  "T8_OFF_ORB_MORGANA": {
+    "category": "offhands",
+    "name": "Elder's Eye of Secrets"
+  },
+  "T4_OFF_DEMONSKULL_HELL": {
+    "category": "offhands",
+    "name": "Adept's Muisak"
+  },
+  "T5_OFF_DEMONSKULL_HELL": {
+    "category": "offhands",
+    "name": "Expert's Muisak"
+  },
+  "T6_OFF_DEMONSKULL_HELL": {
+    "category": "offhands",
+    "name": "Master's Muisak"
+  },
+  "T7_OFF_DEMONSKULL_HELL": {
+    "category": "offhands",
+    "name": "Grandmaster's Muisak"
+  },
+  "T8_OFF_DEMONSKULL_HELL": {
+    "category": "offhands",
+    "name": "Elder's Muisak"
+  },
+  "T4_OFF_TOTEM_KEEPER": {
+    "category": "offhands",
+    "name": "Adept's Taproot"
+  },
+  "T5_OFF_TOTEM_KEEPER": {
+    "category": "offhands",
+    "name": "Expert's Taproot"
+  },
+  "T6_OFF_TOTEM_KEEPER": {
+    "category": "offhands",
+    "name": "Master's Taproot"
+  },
+  "T7_OFF_TOTEM_KEEPER": {
+    "category": "offhands",
+    "name": "Grandmaster's Taproot"
+  },
+  "T8_OFF_TOTEM_KEEPER": {
+    "category": "offhands",
+    "name": "Elder's Taproot"
+  },
+  "T4_OFF_CENSER_AVALON": {
+    "category": "offhands",
+    "name": "Adept's Celestial Censer"
+  },
+  "T5_OFF_CENSER_AVALON": {
+    "category": "offhands",
+    "name": "Expert's Celestial Censer"
+  },
+  "T6_OFF_CENSER_AVALON": {
+    "category": "offhands",
+    "name": "Master's Celestial Censer"
+  },
+  "T7_OFF_CENSER_AVALON": {
+    "category": "offhands",
+    "name": "Grandmaster's Celestial Censer"
+  },
+  "T8_OFF_CENSER_AVALON": {
+    "category": "offhands",
+    "name": "Elder's Celestial Censer"
+  },
+  "T8_OFF_ORB_CRYSTAL_PROTOTYPE": {
+    "category": "offhands",
+    "name": "Crystal Book"
+  },
+  "T3_OFF_TORCH": {
+    "category": "offhands",
+    "name": "Journeyman's Torch"
+  },
+  "T4_OFF_TORCH": {
+    "category": "offhands",
+    "name": "Adept's Torch"
+  },
+  "T5_OFF_TORCH": {
+    "category": "offhands",
+    "name": "Expert's Torch"
+  },
+  "T6_OFF_TORCH": {
+    "category": "offhands",
+    "name": "Master's Torch"
+  },
+  "T7_OFF_TORCH": {
+    "category": "offhands",
+    "name": "Grandmaster's Torch"
+  },
+  "T8_OFF_TORCH": {
+    "category": "offhands",
+    "name": "Elder's Torch"
+  },
+  "T4_OFF_HORN_KEEPER": {
+    "category": "offhands",
+    "name": "Adept's Mistcaller"
+  },
+  "T5_OFF_HORN_KEEPER": {
+    "category": "offhands",
+    "name": "Expert's Mistcaller"
+  },
+  "T6_OFF_HORN_KEEPER": {
+    "category": "offhands",
+    "name": "Master's Mistcaller"
+  },
+  "T7_OFF_HORN_KEEPER": {
+    "category": "offhands",
+    "name": "Grandmaster's Mistcaller"
+  },
+  "T8_OFF_HORN_KEEPER": {
+    "category": "offhands",
+    "name": "Elder's Mistcaller"
+  },
+  "T4_OFF_TALISMAN_AVALON": {
+    "category": "offhands",
+    "name": "Adept's Sacred Scepter"
+  },
+  "T5_OFF_TALISMAN_AVALON": {
+    "category": "offhands",
+    "name": "Expert's Sacred Scepter"
+  },
+  "T6_OFF_TALISMAN_AVALON": {
+    "category": "offhands",
+    "name": "Master's Sacred Scepter"
+  },
+  "T7_OFF_TALISMAN_AVALON": {
+    "category": "offhands",
+    "name": "Grandmaster's Sacred Scepter"
+  },
+  "T8_OFF_TALISMAN_AVALON": {
+    "category": "offhands",
+    "name": "Elder's Sacred Scepter"
+  },
+  "T4_OFF_LAMP_UNDEAD": {
+    "category": "offhands",
+    "name": "Adept's Cryptcandle"
+  },
+  "T5_OFF_LAMP_UNDEAD": {
+    "category": "offhands",
+    "name": "Expert's Cryptcandle"
+  },
+  "T6_OFF_LAMP_UNDEAD": {
+    "category": "offhands",
+    "name": "Master's Cryptcandle"
+  },
+  "T7_OFF_LAMP_UNDEAD": {
+    "category": "offhands",
+    "name": "Grandmaster's Cryptcandle"
+  },
+  "T8_OFF_LAMP_UNDEAD": {
+    "category": "offhands",
+    "name": "Elder's Cryptcandle"
+  },
+  "T4_OFF_JESTERCANE_HELL": {
+    "category": "offhands",
+    "name": "Adept's Leering Cane"
+  },
+  "T5_OFF_JESTERCANE_HELL": {
+    "category": "offhands",
+    "name": "Expert's Leering Cane"
+  },
+  "T6_OFF_JESTERCANE_HELL": {
+    "category": "offhands",
+    "name": "Master's Leering Cane"
+  },
+  "T7_OFF_JESTERCANE_HELL": {
+    "category": "offhands",
+    "name": "Grandmaster's Leering Cane"
+  },
+  "T8_OFF_JESTERCANE_HELL": {
+    "category": "offhands",
+    "name": "Elder's Leering Cane"
+  },
+  "T8_OFF_TORCH_CRYSTAL_PROTOTYPE": {
+    "category": "offhands",
+    "name": "Crystal Torch"
+  },
+  "T2_CAPE": {
+    "category": "capes",
+    "name": "Novice's Cape"
+  },
+  "T3_CAPE": {
+    "category": "capes",
+    "name": "Journeyman's Cape"
+  },
+  "T4_CAPE": {
+    "category": "capes",
+    "name": "Adept's Cape"
+  },
+  "T5_CAPE": {
+    "category": "capes",
+    "name": "Expert's Cape"
+  },
+  "T6_CAPE": {
+    "category": "capes",
+    "name": "Master's Cape"
+  },
+  "T7_CAPE": {
+    "category": "capes",
+    "name": "Grandmaster's Cape"
+  },
+  "T8_CAPE": {
+    "category": "capes",
+    "name": "Elder's Cape"
+  },
+  "T4_CAPEITEM_FW_BRIDGEWATCH": {
+    "category": "capes",
+    "name": "Adept's Bridgewatch Cape"
+  },
+  "T5_CAPEITEM_FW_BRIDGEWATCH": {
+    "category": "capes",
+    "name": "Expert's Bridgewatch Cape"
+  },
+  "T6_CAPEITEM_FW_BRIDGEWATCH": {
+    "category": "capes",
+    "name": "Master's Bridgewatch Cape"
+  },
+  "T7_CAPEITEM_FW_BRIDGEWATCH": {
+    "category": "capes",
+    "name": "Grandmaster's Bridgewatch Cape"
+  },
+  "T8_CAPEITEM_FW_BRIDGEWATCH": {
+    "category": "capes",
+    "name": "Elder's Bridgewatch Cape"
+  },
+  "T4_CAPEITEM_FW_FORTSTERLING": {
+    "category": "capes",
+    "name": "Adept's Fort Sterling Cape"
+  },
+  "T5_CAPEITEM_FW_FORTSTERLING": {
+    "category": "capes",
+    "name": "Expert's Fort Sterling Cape"
+  },
+  "T6_CAPEITEM_FW_FORTSTERLING": {
+    "category": "capes",
+    "name": "Master's Fort Sterling Cape"
+  },
+  "T7_CAPEITEM_FW_FORTSTERLING": {
+    "category": "capes",
+    "name": "Grandmaster's Fort Sterling Cape"
+  },
+  "T8_CAPEITEM_FW_FORTSTERLING": {
+    "category": "capes",
+    "name": "Elder's Fort Sterling Cape"
+  },
+  "T4_CAPEITEM_FW_LYMHURST": {
+    "category": "capes",
+    "name": "Adept's Lymhurst Cape"
+  },
+  "T5_CAPEITEM_FW_LYMHURST": {
+    "category": "capes",
+    "name": "Expert's Lymhurst Cape"
+  },
+  "T6_CAPEITEM_FW_LYMHURST": {
+    "category": "capes",
+    "name": "Master's Lymhurst Cape"
+  },
+  "T7_CAPEITEM_FW_LYMHURST": {
+    "category": "capes",
+    "name": "Grandmaster's Lymhurst Cape"
+  },
+  "T8_CAPEITEM_FW_LYMHURST": {
+    "category": "capes",
+    "name": "Elder's Lymhurst Cape"
+  },
+  "T4_CAPEITEM_FW_MARTLOCK": {
+    "category": "capes",
+    "name": "Adept's Martlock Cape"
+  },
+  "T5_CAPEITEM_FW_MARTLOCK": {
+    "category": "capes",
+    "name": "Expert's Martlock Cape"
+  },
+  "T6_CAPEITEM_FW_MARTLOCK": {
+    "category": "capes",
+    "name": "Master's Martlock Cape"
+  },
+  "T7_CAPEITEM_FW_MARTLOCK": {
+    "category": "capes",
+    "name": "Grandmaster's Martlock Cape"
+  },
+  "T8_CAPEITEM_FW_MARTLOCK": {
+    "category": "capes",
+    "name": "Elder's Martlock Cape"
+  },
+  "T4_CAPEITEM_FW_THETFORD": {
+    "category": "capes",
+    "name": "Adept's Thetford Cape"
+  },
+  "T5_CAPEITEM_FW_THETFORD": {
+    "category": "capes",
+    "name": "Expert's Thetford Cape"
+  },
+  "T6_CAPEITEM_FW_THETFORD": {
+    "category": "capes",
+    "name": "Master's Thetford Cape"
+  },
+  "T7_CAPEITEM_FW_THETFORD": {
+    "category": "capes",
+    "name": "Grandmaster's Thetford Cape"
+  },
+  "T8_CAPEITEM_FW_THETFORD": {
+    "category": "capes",
+    "name": "Elder's Thetford Cape"
+  },
+  "T4_CAPEITEM_FW_CAERLEON": {
+    "category": "capes",
+    "name": "Adept's Caerleon Cape"
+  },
+  "T5_CAPEITEM_FW_CAERLEON": {
+    "category": "capes",
+    "name": "Expert's Caerleon Cape"
+  },
+  "T6_CAPEITEM_FW_CAERLEON": {
+    "category": "capes",
+    "name": "Master's Caerleon Cape"
+  },
+  "T7_CAPEITEM_FW_CAERLEON": {
+    "category": "capes",
+    "name": "Grandmaster's Caerleon Cape"
+  },
+  "T8_CAPEITEM_FW_CAERLEON": {
+    "category": "capes",
+    "name": "Elder's Caerleon Cape"
+  },
+  "T4_CAPEITEM_FW_BRECILIEN": {
+    "category": "capes",
+    "name": "Adept's Brecilien Cape"
+  },
+  "T5_CAPEITEM_FW_BRECILIEN": {
+    "category": "capes",
+    "name": "Expert's Brecilien Cape"
+  },
+  "T6_CAPEITEM_FW_BRECILIEN": {
+    "category": "capes",
+    "name": "Master's Brecilien Cape"
+  },
+  "T7_CAPEITEM_FW_BRECILIEN": {
+    "category": "capes",
+    "name": "Grandmaster's Brecilien Cape"
+  },
+  "T8_CAPEITEM_FW_BRECILIEN": {
+    "category": "capes",
+    "name": "Elder's Brecilien Cape"
+  },
+  "T4_CAPEITEM_AVALON": {
+    "category": "capes",
+    "name": "Adept's Avalonian Cape"
+  },
+  "T5_CAPEITEM_AVALON": {
+    "category": "capes",
+    "name": "Expert's Avalonian Cape"
+  },
+  "T6_CAPEITEM_AVALON": {
+    "category": "capes",
+    "name": "Master's Avalonian Cape"
+  },
+  "T7_CAPEITEM_AVALON": {
+    "category": "capes",
+    "name": "Grandmaster's Avalonian Cape"
+  },
+  "T8_CAPEITEM_AVALON": {
+    "category": "capes",
+    "name": "Elder's Avalonian Cape"
+  },
+  "T4_CAPEITEM_SMUGGLER": {
+    "category": "capes",
+    "name": "Adept's Smuggler Cape"
+  },
+  "T5_CAPEITEM_SMUGGLER": {
+    "category": "capes",
+    "name": "Expert's Smuggler Cape"
+  },
+  "T6_CAPEITEM_SMUGGLER": {
+    "category": "capes",
+    "name": "Master's Smuggler Cape"
+  },
+  "T7_CAPEITEM_SMUGGLER": {
+    "category": "capes",
+    "name": "Grandmaster's Smuggler Cape"
+  },
+  "T8_CAPEITEM_SMUGGLER": {
+    "category": "capes",
+    "name": "Elder's Smuggler Cape"
+  },
+  "T4_CAPEITEM_HERETIC": {
+    "category": "capes",
+    "name": "Adept's Heretic Cape"
+  },
+  "T5_CAPEITEM_HERETIC": {
+    "category": "capes",
+    "name": "Expert's Heretic Cape"
+  },
+  "T6_CAPEITEM_HERETIC": {
+    "category": "capes",
+    "name": "Master's Heretic Cape"
+  },
+  "T7_CAPEITEM_HERETIC": {
+    "category": "capes",
+    "name": "Grandmaster's Heretic Cape"
+  },
+  "T8_CAPEITEM_HERETIC": {
+    "category": "capes",
+    "name": "Elder's Heretic Cape"
+  },
+  "T4_CAPEITEM_UNDEAD": {
+    "category": "capes",
+    "name": "Adept's Undead Cape"
+  },
+  "T5_CAPEITEM_UNDEAD": {
+    "category": "capes",
+    "name": "Expert's Undead Cape"
+  },
+  "T6_CAPEITEM_UNDEAD": {
+    "category": "capes",
+    "name": "Master's Undead Cape"
+  },
+  "T7_CAPEITEM_UNDEAD": {
+    "category": "capes",
+    "name": "Grandmaster's Undead Cape"
+  },
+  "T8_CAPEITEM_UNDEAD": {
+    "category": "capes",
+    "name": "Elder's Undead Cape"
+  },
+  "T4_CAPEITEM_KEEPER": {
+    "category": "capes",
+    "name": "Adept's Keeper Cape"
+  },
+  "T5_CAPEITEM_KEEPER": {
+    "category": "capes",
+    "name": "Expert's Keeper Cape"
+  },
+  "T6_CAPEITEM_KEEPER": {
+    "category": "capes",
+    "name": "Master's Keeper Cape"
+  },
+  "T7_CAPEITEM_KEEPER": {
+    "category": "capes",
+    "name": "Grandmaster's Keeper Cape"
+  },
+  "T8_CAPEITEM_KEEPER": {
+    "category": "capes",
+    "name": "Elder's Keeper Cape"
+  },
+  "T4_CAPEITEM_MORGANA": {
+    "category": "capes",
+    "name": "Adept's Morgana Cape"
+  },
+  "T5_CAPEITEM_MORGANA": {
+    "category": "capes",
+    "name": "Expert's Morgana Cape"
+  },
+  "T6_CAPEITEM_MORGANA": {
+    "category": "capes",
+    "name": "Master's Morgana Cape"
+  },
+  "T7_CAPEITEM_MORGANA": {
+    "category": "capes",
+    "name": "Grandmaster's Morgana Cape"
+  },
+  "T8_CAPEITEM_MORGANA": {
+    "category": "capes",
+    "name": "Elder's Morgana Cape"
+  },
+  "T4_CAPEITEM_DEMON": {
+    "category": "capes",
+    "name": "Adept's Demon Cape"
+  },
+  "T5_CAPEITEM_DEMON": {
+    "category": "capes",
+    "name": "Expert's Demon Cape"
+  },
+  "T6_CAPEITEM_DEMON": {
+    "category": "capes",
+    "name": "Master's Demon Cape"
+  },
+  "T7_CAPEITEM_DEMON": {
+    "category": "capes",
+    "name": "Grandmaster's Demon Cape"
+  },
+  "T8_CAPEITEM_DEMON": {
+    "category": "capes",
+    "name": "Elder's Demon Cape"
+  },
+  "T2_BAG": {
+    "category": "bags",
+    "name": "Novice's Bag"
+  },
+  "T3_BAG": {
+    "category": "bags",
+    "name": "Journeyman's Bag"
+  },
+  "T4_BAG": {
+    "category": "bags",
+    "name": "Adept's Bag"
+  },
+  "T5_BAG": {
+    "category": "bags",
+    "name": "Expert's Bag"
+  },
+  "T6_BAG": {
+    "category": "bags",
+    "name": "Master's Bag"
+  },
+  "T7_BAG": {
+    "category": "bags",
+    "name": "Grandmaster's Bag"
+  },
+  "T8_BAG": {
+    "category": "bags",
+    "name": "Elder's Bag"
+  },
+  "T4_BAG_INSIGHT": {
+    "category": "bags",
+    "name": "Adept's Satchel of Insight"
+  },
+  "T5_BAG_INSIGHT": {
+    "category": "bags",
+    "name": "Expert's Satchel of Insight"
+  },
+  "T6_BAG_INSIGHT": {
+    "category": "bags",
+    "name": "Master's Satchel of Insight"
+  },
+  "T7_BAG_INSIGHT": {
+    "category": "bags",
+    "name": "Grandmaster's Satchel of Insight"
+  },
+  "T8_BAG_INSIGHT": {
+    "category": "bags",
+    "name": "Elder's Satchel of Insight"
+  },
+  "UNIQUE_SHOES_RUBBERBANDING": {
+    "category": "shoes",
+    "name": "Rubberband Boots"
+  },
+  "UNIQUE_HEAD_VANITY_FOUNDER_ASIA_CRYSTAL": {
+    "category": "head",
+    "name": "Sea Captain's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_FOUNDER_ASIA_CRYSTAL": {
+    "category": "armors",
+    "name": "Sea Captain's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_FOUNDER_ASIA_CRYSTAL": {
+    "category": "shoes",
+    "name": "Sea Captain's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_FOUNDER_ASIA_GOLD": {
+    "category": "head",
+    "name": "Seafarer's Bandana"
+  },
+  "UNIQUE_ARMOR_VANITY_FOUNDER_ASIA_GOLD": {
+    "category": "armors",
+    "name": "Seafarer's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_FOUNDER_ASIA_GOLD": {
+    "category": "shoes",
+    "name": "Seafarer's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_WARRIOR_KING": {
+    "category": "head",
+    "name": "Paragon's Crown"
+  },
+  "UNIQUE_ARMOR_VANITY_WARRIOR_KING": {
+    "category": "armors",
+    "name": "Paragon's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_WARRIOR_KING": {
+    "category": "shoes",
+    "name": "Paragon's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_WARRIOR_KNIGHT": {
+    "category": "head",
+    "name": "Champion's Visage"
+  },
+  "UNIQUE_ARMOR_VANITY_WARRIOR_KNIGHT": {
+    "category": "armors",
+    "name": "Champion's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_WARRIOR_KNIGHT": {
+    "category": "shoes",
+    "name": "Champion's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_DARK_SORCERER": {
+    "category": "head",
+    "name": "Harbinger's Crown"
+  },
+  "UNIQUE_ARMOR_VANITY_DARK_SORCERER": {
+    "category": "armors",
+    "name": "Harbinger's Robes"
+  },
+  "UNIQUE_SHOES_VANITY_DARK_SORCERER": {
+    "category": "shoes",
+    "name": "Harbinger's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_DARK_NOVICE": {
+    "category": "head",
+    "name": "Warlock's Circlet"
+  },
+  "UNIQUE_ARMOR_VANITY_DARK_NOVICE": {
+    "category": "armors",
+    "name": "Warlock's Robes"
+  },
+  "UNIQUE_SHOES_VANITY_DARK_NOVICE": {
+    "category": "shoes",
+    "name": "Warlock's Boots"
+  },
+  "UNIQUE_INTERNAL_HEAD_GAMEMASTER": {
+    "category": "head",
+    "name": "Game Master's Hat"
+  },
+  "UNIQUE_INTERNAL_ARMOR_GAMEMASTER": {
+    "category": "armors",
+    "name": "Game Master's Doublet"
+  },
+  "UNIQUE_INTERNAL_SHOES_GAMEMASTER": {
+    "category": "shoes",
+    "name": "Game Master's Boots"
+  },
+  "UNIQUE_INTERNAL_OFF_SCROLL_GAMEMASTER": {
+    "category": "offhands",
+    "name": "Scroll of the Law"
+  },
+  "T2_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Novice's Soldier Helmet"
+  },
+  "T3_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Journeyman's Soldier Helmet"
+  },
+  "T4_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Adept's Soldier Helmet"
+  },
+  "T5_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Expert's Soldier Helmet"
+  },
+  "T6_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Master's Soldier Helmet"
+  },
+  "T7_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Grandmaster's Soldier Helmet"
+  },
+  "T8_HEAD_PLATE_SET1": {
+    "category": "head",
+    "name": "Elder's Soldier Helmet"
+  },
+  "T2_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Novice's Soldier Armor"
+  },
+  "T3_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Journeyman's Soldier Armor"
+  },
+  "T4_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Adept's Soldier Armor"
+  },
+  "T5_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Expert's Soldier Armor"
+  },
+  "T6_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Master's Soldier Armor"
+  },
+  "T7_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Grandmaster's Soldier Armor"
+  },
+  "T8_ARMOR_PLATE_SET1": {
+    "category": "armors",
+    "name": "Elder's Soldier Armor"
+  },
+  "T2_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Novice's Soldier Boots"
+  },
+  "T3_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Journeyman's Soldier Boots"
+  },
+  "T4_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Adept's Soldier Boots"
+  },
+  "T5_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Expert's Soldier Boots"
+  },
+  "T6_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Master's Soldier Boots"
+  },
+  "T7_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Grandmaster's Soldier Boots"
+  },
+  "T8_SHOES_PLATE_SET1": {
+    "category": "shoes",
+    "name": "Elder's Soldier Boots"
+  },
+  "T4_HEAD_PLATE_SET2": {
+    "category": "head",
+    "name": "Adept's Knight Helmet"
+  },
+  "T5_HEAD_PLATE_SET2": {
+    "category": "head",
+    "name": "Expert's Knight Helmet"
+  },
+  "T6_HEAD_PLATE_SET2": {
+    "category": "head",
+    "name": "Master's Knight Helmet"
+  },
+  "T7_HEAD_PLATE_SET2": {
+    "category": "head",
+    "name": "Grandmaster's Knight Helmet"
+  },
+  "T8_HEAD_PLATE_SET2": {
+    "category": "head",
+    "name": "Elder's Knight Helmet"
+  },
+  "T4_ARMOR_PLATE_SET2": {
+    "category": "armors",
+    "name": "Adept's Knight Armor"
+  },
+  "T5_ARMOR_PLATE_SET2": {
+    "category": "armors",
+    "name": "Expert's Knight Armor"
+  },
+  "T6_ARMOR_PLATE_SET2": {
+    "category": "armors",
+    "name": "Master's Knight Armor"
+  },
+  "T7_ARMOR_PLATE_SET2": {
+    "category": "armors",
+    "name": "Grandmaster's Knight Armor"
+  },
+  "T8_ARMOR_PLATE_SET2": {
+    "category": "armors",
+    "name": "Elder's Knight Armor"
+  },
+  "T4_SHOES_PLATE_SET2": {
+    "category": "shoes",
+    "name": "Adept's Knight Boots"
+  },
+  "T5_SHOES_PLATE_SET2": {
+    "category": "shoes",
+    "name": "Expert's Knight Boots"
+  },
+  "T6_SHOES_PLATE_SET2": {
+    "category": "shoes",
+    "name": "Master's Knight Boots"
+  },
+  "T7_SHOES_PLATE_SET2": {
+    "category": "shoes",
+    "name": "Grandmaster's Knight Boots"
+  },
+  "T8_SHOES_PLATE_SET2": {
+    "category": "shoes",
+    "name": "Elder's Knight Boots"
+  },
+  "T4_HEAD_PLATE_SET3": {
+    "category": "head",
+    "name": "Adept's Guardian Helmet"
+  },
+  "T5_HEAD_PLATE_SET3": {
+    "category": "head",
+    "name": "Expert's Guardian Helmet"
+  },
+  "T6_HEAD_PLATE_SET3": {
+    "category": "head",
+    "name": "Master's Guardian Helmet"
+  },
+  "T7_HEAD_PLATE_SET3": {
+    "category": "head",
+    "name": "Grandmaster's Guardian Helmet"
+  },
+  "T8_HEAD_PLATE_SET3": {
+    "category": "head",
+    "name": "Elder's Guardian Helmet"
+  },
+  "T4_ARMOR_PLATE_SET3": {
+    "category": "armors",
+    "name": "Adept's Guardian Armor"
+  },
+  "T5_ARMOR_PLATE_SET3": {
+    "category": "armors",
+    "name": "Expert's Guardian Armor"
+  },
+  "T6_ARMOR_PLATE_SET3": {
+    "category": "armors",
+    "name": "Master's Guardian Armor"
+  },
+  "T7_ARMOR_PLATE_SET3": {
+    "category": "armors",
+    "name": "Grandmaster's Guardian Armor"
+  },
+  "T8_ARMOR_PLATE_SET3": {
+    "category": "armors",
+    "name": "Elder's Guardian Armor"
+  },
+  "T4_SHOES_PLATE_SET3": {
+    "category": "shoes",
+    "name": "Adept's Guardian Boots"
+  },
+  "T5_SHOES_PLATE_SET3": {
+    "category": "shoes",
+    "name": "Expert's Guardian Boots"
+  },
+  "T6_SHOES_PLATE_SET3": {
+    "category": "shoes",
+    "name": "Master's Guardian Boots"
+  },
+  "T7_SHOES_PLATE_SET3": {
+    "category": "shoes",
+    "name": "Grandmaster's Guardian Boots"
+  },
+  "T8_SHOES_PLATE_SET3": {
+    "category": "shoes",
+    "name": "Elder's Guardian Boots"
+  },
+  "T4_HEAD_PLATE_UNDEAD": {
+    "category": "head",
+    "name": "Adept's Graveguard Helmet"
+  },
+  "T5_HEAD_PLATE_UNDEAD": {
+    "category": "head",
+    "name": "Expert's Graveguard Helmet"
+  },
+  "T6_HEAD_PLATE_UNDEAD": {
+    "category": "head",
+    "name": "Master's Graveguard Helmet"
+  },
+  "T7_HEAD_PLATE_UNDEAD": {
+    "category": "head",
+    "name": "Grandmaster's Graveguard Helmet"
+  },
+  "T8_HEAD_PLATE_UNDEAD": {
+    "category": "head",
+    "name": "Elder's Graveguard Helmet"
+  },
+  "T4_ARMOR_PLATE_UNDEAD": {
+    "category": "armors",
+    "name": "Adept's Graveguard Armor"
+  },
+  "T5_ARMOR_PLATE_UNDEAD": {
+    "category": "armors",
+    "name": "Expert's Graveguard Armor"
+  },
+  "T6_ARMOR_PLATE_UNDEAD": {
+    "category": "armors",
+    "name": "Master's Graveguard Armor"
+  },
+  "T7_ARMOR_PLATE_UNDEAD": {
+    "category": "armors",
+    "name": "Grandmaster's Graveguard Armor"
+  },
+  "T8_ARMOR_PLATE_UNDEAD": {
+    "category": "armors",
+    "name": "Elder's Graveguard Armor"
+  },
+  "T4_SHOES_PLATE_UNDEAD": {
+    "category": "shoes",
+    "name": "Adept's Graveguard Boots"
+  },
+  "T5_SHOES_PLATE_UNDEAD": {
+    "category": "shoes",
+    "name": "Expert's Graveguard Boots"
+  },
+  "T6_SHOES_PLATE_UNDEAD": {
+    "category": "shoes",
+    "name": "Master's Graveguard Boots"
+  },
+  "T7_SHOES_PLATE_UNDEAD": {
+    "category": "shoes",
+    "name": "Grandmaster's Graveguard Boots"
+  },
+  "T8_SHOES_PLATE_UNDEAD": {
+    "category": "shoes",
+    "name": "Elder's Graveguard Boots"
+  },
+  "T4_HEAD_PLATE_HELL": {
+    "category": "head",
+    "name": "Adept's Demon Helmet"
+  },
+  "T5_HEAD_PLATE_HELL": {
+    "category": "head",
+    "name": "Expert's Demon Helmet"
+  },
+  "T6_HEAD_PLATE_HELL": {
+    "category": "head",
+    "name": "Master's Demon Helmet"
+  },
+  "T7_HEAD_PLATE_HELL": {
+    "category": "head",
+    "name": "Grandmaster's Demon Helmet"
+  },
+  "T8_HEAD_PLATE_HELL": {
+    "category": "head",
+    "name": "Elder's Demon Helmet"
+  },
+  "T4_ARMOR_PLATE_HELL": {
+    "category": "armors",
+    "name": "Adept's Demon Armor"
+  },
+  "T5_ARMOR_PLATE_HELL": {
+    "category": "armors",
+    "name": "Expert's Demon Armor"
+  },
+  "T6_ARMOR_PLATE_HELL": {
+    "category": "armors",
+    "name": "Master's Demon Armor"
+  },
+  "T7_ARMOR_PLATE_HELL": {
+    "category": "armors",
+    "name": "Grandmaster's Demon Armor"
+  },
+  "T8_ARMOR_PLATE_HELL": {
+    "category": "armors",
+    "name": "Elder's Demon Armor"
+  },
+  "T4_SHOES_PLATE_HELL": {
+    "category": "shoes",
+    "name": "Adept's Demon Boots"
+  },
+  "T5_SHOES_PLATE_HELL": {
+    "category": "shoes",
+    "name": "Expert's Demon Boots"
+  },
+  "T6_SHOES_PLATE_HELL": {
+    "category": "shoes",
+    "name": "Master's Demon Boots"
+  },
+  "T7_SHOES_PLATE_HELL": {
+    "category": "shoes",
+    "name": "Grandmaster's Demon Boots"
+  },
+  "T8_SHOES_PLATE_HELL": {
+    "category": "shoes",
+    "name": "Elder's Demon Boots"
+  },
+  "T4_HEAD_PLATE_KEEPER": {
+    "category": "head",
+    "name": "Adept's Judicator Helmet"
+  },
+  "T5_HEAD_PLATE_KEEPER": {
+    "category": "head",
+    "name": "Expert's Judicator Helmet"
+  },
+  "T6_HEAD_PLATE_KEEPER": {
+    "category": "head",
+    "name": "Master's Judicator Helmet"
+  },
+  "T7_HEAD_PLATE_KEEPER": {
+    "category": "head",
+    "name": "Grandmaster's Judicator Helmet"
+  },
+  "T8_HEAD_PLATE_KEEPER": {
+    "category": "head",
+    "name": "Elder's Judicator Helmet"
+  },
+  "T4_ARMOR_PLATE_KEEPER": {
+    "category": "armors",
+    "name": "Adept's Judicator Armor"
+  },
+  "T5_ARMOR_PLATE_KEEPER": {
+    "category": "armors",
+    "name": "Expert's Judicator Armor"
+  },
+  "T6_ARMOR_PLATE_KEEPER": {
+    "category": "armors",
+    "name": "Master's Judicator Armor"
+  },
+  "T7_ARMOR_PLATE_KEEPER": {
+    "category": "armors",
+    "name": "Grandmaster's Judicator Armor"
+  },
+  "T8_ARMOR_PLATE_KEEPER": {
+    "category": "armors",
+    "name": "Elder's Judicator Armor"
+  },
+  "T4_SHOES_PLATE_KEEPER": {
+    "category": "shoes",
+    "name": "Adept's Judicator Boots"
+  },
+  "T5_SHOES_PLATE_KEEPER": {
+    "category": "shoes",
+    "name": "Expert's Judicator Boots"
+  },
+  "T6_SHOES_PLATE_KEEPER": {
+    "category": "shoes",
+    "name": "Master's Judicator Boots"
+  },
+  "T7_SHOES_PLATE_KEEPER": {
+    "category": "shoes",
+    "name": "Grandmaster's Judicator Boots"
+  },
+  "T8_SHOES_PLATE_KEEPER": {
+    "category": "shoes",
+    "name": "Elder's Judicator Boots"
+  },
+  "T4_HEAD_PLATE_FEY": {
+    "category": "head",
+    "name": "Adept's Duskweaver Helmet"
+  },
+  "T5_HEAD_PLATE_FEY": {
+    "category": "head",
+    "name": "Expert's Duskweaver Helmet"
+  },
+  "T6_HEAD_PLATE_FEY": {
+    "category": "head",
+    "name": "Master's Duskweaver Helmet"
+  },
+  "T7_HEAD_PLATE_FEY": {
+    "category": "head",
+    "name": "Grandmaster's Duskweaver Helmet"
+  },
+  "T8_HEAD_PLATE_FEY": {
+    "category": "head",
+    "name": "Elder's Duskweaver Helmet"
+  },
+  "T4_ARMOR_PLATE_FEY": {
+    "category": "armors",
+    "name": "Adept's Duskweaver Armor"
+  },
+  "T5_ARMOR_PLATE_FEY": {
+    "category": "armors",
+    "name": "Expert's Duskweaver Armor"
+  },
+  "T6_ARMOR_PLATE_FEY": {
+    "category": "armors",
+    "name": "Master's Duskweaver Armor"
+  },
+  "T7_ARMOR_PLATE_FEY": {
+    "category": "armors",
+    "name": "Grandmaster's Duskweaver Armor"
+  },
+  "T8_ARMOR_PLATE_FEY": {
+    "category": "armors",
+    "name": "Elder's Duskweaver Armor"
+  },
+  "T4_SHOES_PLATE_FEY": {
+    "category": "shoes",
+    "name": "Adept's Duskweaver Boots"
+  },
+  "T5_SHOES_PLATE_FEY": {
+    "category": "shoes",
+    "name": "Expert's Duskweaver Boots"
+  },
+  "T6_SHOES_PLATE_FEY": {
+    "category": "shoes",
+    "name": "Master's Duskweaver Boots"
+  },
+  "T7_SHOES_PLATE_FEY": {
+    "category": "shoes",
+    "name": "Grandmaster's Duskweaver Boots"
+  },
+  "T8_SHOES_PLATE_FEY": {
+    "category": "shoes",
+    "name": "Elder's Duskweaver Boots"
+  },
+  "T4_HEAD_PLATE_AVALON": {
+    "category": "head",
+    "name": "Adept's Helmet of Valor"
+  },
+  "T5_HEAD_PLATE_AVALON": {
+    "category": "head",
+    "name": "Expert's Helmet of Valor"
+  },
+  "T6_HEAD_PLATE_AVALON": {
+    "category": "head",
+    "name": "Master's Helmet of Valor"
+  },
+  "T7_HEAD_PLATE_AVALON": {
+    "category": "head",
+    "name": "Grandmaster's Helmet of Valor"
+  },
+  "T8_HEAD_PLATE_AVALON": {
+    "category": "head",
+    "name": "Elder's Helmet of Valor"
+  },
+  "T4_ARMOR_PLATE_AVALON": {
+    "category": "armors",
+    "name": "Adept's Armor of Valor"
+  },
+  "T5_ARMOR_PLATE_AVALON": {
+    "category": "armors",
+    "name": "Expert's Armor of Valor"
+  },
+  "T6_ARMOR_PLATE_AVALON": {
+    "category": "armors",
+    "name": "Master's Armor of Valor"
+  },
+  "T7_ARMOR_PLATE_AVALON": {
+    "category": "armors",
+    "name": "Grandmaster's Armor of Valor"
+  },
+  "T8_ARMOR_PLATE_AVALON": {
+    "category": "armors",
+    "name": "Elder's Armor of Valor"
+  },
+  "T4_SHOES_PLATE_AVALON": {
+    "category": "shoes",
+    "name": "Adept's Boots of Valor"
+  },
+  "T5_SHOES_PLATE_AVALON": {
+    "category": "shoes",
+    "name": "Expert's Boots of Valor"
+  },
+  "T6_SHOES_PLATE_AVALON": {
+    "category": "shoes",
+    "name": "Master's Boots of Valor"
+  },
+  "T7_SHOES_PLATE_AVALON": {
+    "category": "shoes",
+    "name": "Grandmaster's Boots of Valor"
+  },
+  "T8_SHOES_PLATE_AVALON": {
+    "category": "shoes",
+    "name": "Elder's Boots of Valor"
+  },
+  "T1_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Beginner's Mercenary Hood"
+  },
+  "T2_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Novice's Mercenary Hood"
+  },
+  "T3_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Journeyman's Mercenary Hood"
+  },
+  "T4_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Adept's Mercenary Hood"
+  },
+  "T5_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Expert's Mercenary Hood"
+  },
+  "T6_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Master's Mercenary Hood"
+  },
+  "T7_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Grandmaster's Mercenary Hood"
+  },
+  "T8_HEAD_LEATHER_SET1": {
+    "category": "head",
+    "name": "Elder's Mercenary Hood"
+  },
+  "T1_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Beginner's Mercenary Jacket"
+  },
+  "T2_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Novice's Mercenary Jacket"
+  },
+  "T3_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Journeyman's Mercenary Jacket"
+  },
+  "T4_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Adept's Mercenary Jacket"
+  },
+  "T5_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Expert's Mercenary Jacket"
+  },
+  "T6_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Master's Mercenary Jacket"
+  },
+  "T7_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Grandmaster's Mercenary Jacket"
+  },
+  "T8_ARMOR_LEATHER_SET1": {
+    "category": "armors",
+    "name": "Elder's Mercenary Jacket"
+  },
+  "T1_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Beginner's Mercenary Shoes"
+  },
+  "T2_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Novice's Mercenary Shoes"
+  },
+  "T3_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Journeyman's Mercenary Shoes"
+  },
+  "T4_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Adept's Mercenary Shoes"
+  },
+  "T5_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Expert's Mercenary Shoes"
+  },
+  "T6_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Master's Mercenary Shoes"
+  },
+  "T7_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Grandmaster's Mercenary Shoes"
+  },
+  "T8_SHOES_LEATHER_SET1": {
+    "category": "shoes",
+    "name": "Elder's Mercenary Shoes"
+  },
+  "T4_HEAD_LEATHER_SET2": {
+    "category": "head",
+    "name": "Adept's Hunter Hood"
+  },
+  "T5_HEAD_LEATHER_SET2": {
+    "category": "head",
+    "name": "Expert's Hunter Hood"
+  },
+  "T6_HEAD_LEATHER_SET2": {
+    "category": "head",
+    "name": "Master's Hunter Hood"
+  },
+  "T7_HEAD_LEATHER_SET2": {
+    "category": "head",
+    "name": "Grandmaster's Hunter Hood"
+  },
+  "T8_HEAD_LEATHER_SET2": {
+    "category": "head",
+    "name": "Elder's Hunter Hood"
+  },
+  "T4_ARMOR_LEATHER_SET2": {
+    "category": "armors",
+    "name": "Adept's Hunter Jacket"
+  },
+  "T5_ARMOR_LEATHER_SET2": {
+    "category": "armors",
+    "name": "Expert's Hunter Jacket"
+  },
+  "T6_ARMOR_LEATHER_SET2": {
+    "category": "armors",
+    "name": "Master's Hunter Jacket"
+  },
+  "T7_ARMOR_LEATHER_SET2": {
+    "category": "armors",
+    "name": "Grandmaster's Hunter Jacket"
+  },
+  "T8_ARMOR_LEATHER_SET2": {
+    "category": "armors",
+    "name": "Elder's Hunter Jacket"
+  },
+  "T4_SHOES_LEATHER_SET2": {
+    "category": "shoes",
+    "name": "Adept's Hunter Shoes"
+  },
+  "T5_SHOES_LEATHER_SET2": {
+    "category": "shoes",
+    "name": "Expert's Hunter Shoes"
+  },
+  "T6_SHOES_LEATHER_SET2": {
+    "category": "shoes",
+    "name": "Master's Hunter Shoes"
+  },
+  "T7_SHOES_LEATHER_SET2": {
+    "category": "shoes",
+    "name": "Grandmaster's Hunter Shoes"
+  },
+  "T8_SHOES_LEATHER_SET2": {
+    "category": "shoes",
+    "name": "Elder's Hunter Shoes"
+  },
+  "T4_HEAD_LEATHER_SET3": {
+    "category": "head",
+    "name": "Adept's Assassin Hood"
+  },
+  "T5_HEAD_LEATHER_SET3": {
+    "category": "head",
+    "name": "Expert's Assassin Hood"
+  },
+  "T6_HEAD_LEATHER_SET3": {
+    "category": "head",
+    "name": "Master's Assassin Hood"
+  },
+  "T7_HEAD_LEATHER_SET3": {
+    "category": "head",
+    "name": "Grandmaster's Assassin Hood"
+  },
+  "T8_HEAD_LEATHER_SET3": {
+    "category": "head",
+    "name": "Elder's Assassin Hood"
+  },
+  "T4_ARMOR_LEATHER_SET3": {
+    "category": "armors",
+    "name": "Adept's Assassin Jacket"
+  },
+  "T5_ARMOR_LEATHER_SET3": {
+    "category": "armors",
+    "name": "Expert's Assassin Jacket"
+  },
+  "T6_ARMOR_LEATHER_SET3": {
+    "category": "armors",
+    "name": "Master's Assassin Jacket"
+  },
+  "T7_ARMOR_LEATHER_SET3": {
+    "category": "armors",
+    "name": "Grandmaster's Assassin Jacket"
+  },
+  "T8_ARMOR_LEATHER_SET3": {
+    "category": "armors",
+    "name": "Elder's Assassin Jacket"
+  },
+  "T4_SHOES_LEATHER_SET3": {
+    "category": "shoes",
+    "name": "Adept's Assassin Shoes"
+  },
+  "T5_SHOES_LEATHER_SET3": {
+    "category": "shoes",
+    "name": "Expert's Assassin Shoes"
+  },
+  "T6_SHOES_LEATHER_SET3": {
+    "category": "shoes",
+    "name": "Master's Assassin Shoes"
+  },
+  "T7_SHOES_LEATHER_SET3": {
+    "category": "shoes",
+    "name": "Grandmaster's Assassin Shoes"
+  },
+  "T8_SHOES_LEATHER_SET3": {
+    "category": "shoes",
+    "name": "Elder's Assassin Shoes"
+  },
+  "T4_HEAD_LEATHER_MORGANA": {
+    "category": "head",
+    "name": "Adept's Stalker Hood"
+  },
+  "T5_HEAD_LEATHER_MORGANA": {
+    "category": "head",
+    "name": "Expert's Stalker Hood"
+  },
+  "T6_HEAD_LEATHER_MORGANA": {
+    "category": "head",
+    "name": "Master's Stalker Hood"
+  },
+  "T7_HEAD_LEATHER_MORGANA": {
+    "category": "head",
+    "name": "Grandmaster's Stalker Hood"
+  },
+  "T8_HEAD_LEATHER_MORGANA": {
+    "category": "head",
+    "name": "Elder's Stalker Hood"
+  },
+  "T4_ARMOR_LEATHER_MORGANA": {
+    "category": "armors",
+    "name": "Adept's Stalker Jacket"
+  },
+  "T5_ARMOR_LEATHER_MORGANA": {
+    "category": "armors",
+    "name": "Expert's Stalker Jacket"
+  },
+  "T6_ARMOR_LEATHER_MORGANA": {
+    "category": "armors",
+    "name": "Master's Stalker Jacket"
+  },
+  "T7_ARMOR_LEATHER_MORGANA": {
+    "category": "armors",
+    "name": "Grandmaster's Stalker Jacket"
+  },
+  "T8_ARMOR_LEATHER_MORGANA": {
+    "category": "armors",
+    "name": "Elder's Stalker Jacket"
+  },
+  "T4_SHOES_LEATHER_MORGANA": {
+    "category": "shoes",
+    "name": "Adept's Stalker Shoes"
+  },
+  "T5_SHOES_LEATHER_MORGANA": {
+    "category": "shoes",
+    "name": "Expert's Stalker Shoes"
+  },
+  "T6_SHOES_LEATHER_MORGANA": {
+    "category": "shoes",
+    "name": "Master's Stalker Shoes"
+  },
+  "T7_SHOES_LEATHER_MORGANA": {
+    "category": "shoes",
+    "name": "Grandmaster's Stalker Shoes"
+  },
+  "T8_SHOES_LEATHER_MORGANA": {
+    "category": "shoes",
+    "name": "Elder's Stalker Shoes"
+  },
+  "T4_HEAD_LEATHER_HELL": {
+    "category": "head",
+    "name": "Adept's Hellion Hood"
+  },
+  "T5_HEAD_LEATHER_HELL": {
+    "category": "head",
+    "name": "Expert's Hellion Hood"
+  },
+  "T6_HEAD_LEATHER_HELL": {
+    "category": "head",
+    "name": "Master's Hellion Hood"
+  },
+  "T7_HEAD_LEATHER_HELL": {
+    "category": "head",
+    "name": "Grandmaster's Hellion Hood"
+  },
+  "T8_HEAD_LEATHER_HELL": {
+    "category": "head",
+    "name": "Elder's Hellion Hood"
+  },
+  "T4_ARMOR_LEATHER_HELL": {
+    "category": "armors",
+    "name": "Adept's Hellion Jacket"
+  },
+  "T5_ARMOR_LEATHER_HELL": {
+    "category": "armors",
+    "name": "Expert's Hellion Jacket"
+  },
+  "T6_ARMOR_LEATHER_HELL": {
+    "category": "armors",
+    "name": "Master's Hellion Jacket"
+  },
+  "T7_ARMOR_LEATHER_HELL": {
+    "category": "armors",
+    "name": "Grandmaster's Hellion Jacket"
+  },
+  "T8_ARMOR_LEATHER_HELL": {
+    "category": "armors",
+    "name": "Elder's Hellion Jacket"
+  },
+  "T4_SHOES_LEATHER_HELL": {
+    "category": "shoes",
+    "name": "Adept's Hellion Shoes"
+  },
+  "T5_SHOES_LEATHER_HELL": {
+    "category": "shoes",
+    "name": "Expert's Hellion Shoes"
+  },
+  "T6_SHOES_LEATHER_HELL": {
+    "category": "shoes",
+    "name": "Master's Hellion Shoes"
+  },
+  "T7_SHOES_LEATHER_HELL": {
+    "category": "shoes",
+    "name": "Grandmaster's Hellion Shoes"
+  },
+  "T8_SHOES_LEATHER_HELL": {
+    "category": "shoes",
+    "name": "Elder's Hellion Shoes"
+  },
+  "T4_HEAD_LEATHER_UNDEAD": {
+    "category": "head",
+    "name": "Adept's Specter Hood"
+  },
+  "T5_HEAD_LEATHER_UNDEAD": {
+    "category": "head",
+    "name": "Expert's Specter Hood"
+  },
+  "T6_HEAD_LEATHER_UNDEAD": {
+    "category": "head",
+    "name": "Master's Specter Hood"
+  },
+  "T7_HEAD_LEATHER_UNDEAD": {
+    "category": "head",
+    "name": "Grandmaster's Specter Hood"
+  },
+  "T8_HEAD_LEATHER_UNDEAD": {
+    "category": "head",
+    "name": "Elder's Specter Hood"
+  },
+  "T4_ARMOR_LEATHER_UNDEAD": {
+    "category": "armors",
+    "name": "Adept's Specter Jacket"
+  },
+  "T5_ARMOR_LEATHER_UNDEAD": {
+    "category": "armors",
+    "name": "Expert's Specter Jacket"
+  },
+  "T6_ARMOR_LEATHER_UNDEAD": {
+    "category": "armors",
+    "name": "Master's Specter Jacket"
+  },
+  "T7_ARMOR_LEATHER_UNDEAD": {
+    "category": "armors",
+    "name": "Grandmaster's Specter Jacket"
+  },
+  "T8_ARMOR_LEATHER_UNDEAD": {
+    "category": "armors",
+    "name": "Elder's Specter Jacket"
+  },
+  "T4_SHOES_LEATHER_UNDEAD": {
+    "category": "shoes",
+    "name": "Adept's Specter Shoes"
+  },
+  "T5_SHOES_LEATHER_UNDEAD": {
+    "category": "shoes",
+    "name": "Expert's Specter Shoes"
+  },
+  "T6_SHOES_LEATHER_UNDEAD": {
+    "category": "shoes",
+    "name": "Master's Specter Shoes"
+  },
+  "T7_SHOES_LEATHER_UNDEAD": {
+    "category": "shoes",
+    "name": "Grandmaster's Specter Shoes"
+  },
+  "T8_SHOES_LEATHER_UNDEAD": {
+    "category": "shoes",
+    "name": "Elder's Specter Shoes"
+  },
+  "T4_HEAD_LEATHER_FEY": {
+    "category": "head",
+    "name": "Adept's Mistwalker Hood"
+  },
+  "T5_HEAD_LEATHER_FEY": {
+    "category": "head",
+    "name": "Expert's Mistwalker Hood"
+  },
+  "T6_HEAD_LEATHER_FEY": {
+    "category": "head",
+    "name": "Master's Mistwalker Hood"
+  },
+  "T7_HEAD_LEATHER_FEY": {
+    "category": "head",
+    "name": "Grandmaster's Mistwalker Hood"
+  },
+  "T8_HEAD_LEATHER_FEY": {
+    "category": "head",
+    "name": "Elder's Mistwalker Hood"
+  },
+  "T4_ARMOR_LEATHER_FEY": {
+    "category": "armors",
+    "name": "Adept's Mistwalker Jacket"
+  },
+  "T5_ARMOR_LEATHER_FEY": {
+    "category": "armors",
+    "name": "Expert's Mistwalker Jacket"
+  },
+  "T6_ARMOR_LEATHER_FEY": {
+    "category": "armors",
+    "name": "Master's Mistwalker Jacket"
+  },
+  "T7_ARMOR_LEATHER_FEY": {
+    "category": "armors",
+    "name": "Grandmaster's Mistwalker Jacket"
+  },
+  "T8_ARMOR_LEATHER_FEY": {
+    "category": "armors",
+    "name": "Elder's Mistwalker Jacket"
+  },
+  "T4_SHOES_LEATHER_FEY": {
+    "category": "shoes",
+    "name": "Adept's Mistwalker Shoes"
+  },
+  "T5_SHOES_LEATHER_FEY": {
+    "category": "shoes",
+    "name": "Expert's Mistwalker Shoes"
+  },
+  "T6_SHOES_LEATHER_FEY": {
+    "category": "shoes",
+    "name": "Master's Mistwalker Shoes"
+  },
+  "T7_SHOES_LEATHER_FEY": {
+    "category": "shoes",
+    "name": "Grandmaster's Mistwalker Shoes"
+  },
+  "T8_SHOES_LEATHER_FEY": {
+    "category": "shoes",
+    "name": "Elder's Mistwalker Shoes"
+  },
+  "T4_HEAD_LEATHER_AVALON": {
+    "category": "head",
+    "name": "Adept's Hood of Tenacity"
+  },
+  "T5_HEAD_LEATHER_AVALON": {
+    "category": "head",
+    "name": "Expert's Hood of Tenacity"
+  },
+  "T6_HEAD_LEATHER_AVALON": {
+    "category": "head",
+    "name": "Master's Hood of Tenacity"
+  },
+  "T7_HEAD_LEATHER_AVALON": {
+    "category": "head",
+    "name": "Grandmaster's Hood of Tenacity"
+  },
+  "T8_HEAD_LEATHER_AVALON": {
+    "category": "head",
+    "name": "Elder's Hood of Tenacity"
+  },
+  "T4_ARMOR_LEATHER_AVALON": {
+    "category": "armors",
+    "name": "Adept's Jacket of Tenacity"
+  },
+  "T5_ARMOR_LEATHER_AVALON": {
+    "category": "armors",
+    "name": "Expert's Jacket of Tenacity"
+  },
+  "T6_ARMOR_LEATHER_AVALON": {
+    "category": "armors",
+    "name": "Master's Jacket of Tenacity"
+  },
+  "T7_ARMOR_LEATHER_AVALON": {
+    "category": "armors",
+    "name": "Grandmaster's Jacket of Tenacity"
+  },
+  "T8_ARMOR_LEATHER_AVALON": {
+    "category": "armors",
+    "name": "Elder's Jacket of Tenacity"
+  },
+  "T4_SHOES_LEATHER_AVALON": {
+    "category": "shoes",
+    "name": "Adept's Shoes of Tenacity"
+  },
+  "T5_SHOES_LEATHER_AVALON": {
+    "category": "shoes",
+    "name": "Expert's Shoes of Tenacity"
+  },
+  "T6_SHOES_LEATHER_AVALON": {
+    "category": "shoes",
+    "name": "Master's Shoes of Tenacity"
+  },
+  "T7_SHOES_LEATHER_AVALON": {
+    "category": "shoes",
+    "name": "Grandmaster's Shoes of Tenacity"
+  },
+  "T8_SHOES_LEATHER_AVALON": {
+    "category": "shoes",
+    "name": "Elder's Shoes of Tenacity"
+  },
+  "T2_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Novice's Scholar Cowl"
+  },
+  "T3_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Journeyman's Scholar Cowl"
+  },
+  "T4_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Adept's Scholar Cowl"
+  },
+  "T5_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Expert's Scholar Cowl"
+  },
+  "T6_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Master's Scholar Cowl"
+  },
+  "T7_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Grandmaster's Scholar Cowl"
+  },
+  "T8_HEAD_CLOTH_SET1": {
+    "category": "head",
+    "name": "Elder's Scholar Cowl"
+  },
+  "T2_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Novice's Scholar Robe"
+  },
+  "T3_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Journeyman's Scholar Robe"
+  },
+  "T4_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Adept's Scholar Robe"
+  },
+  "T5_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Expert's Scholar Robe"
+  },
+  "T6_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Master's Scholar Robe"
+  },
+  "T7_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Grandmaster's Scholar Robe"
+  },
+  "T8_ARMOR_CLOTH_SET1": {
+    "category": "armors",
+    "name": "Elder's Scholar Robe"
+  },
+  "T2_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Novice's Scholar Sandals"
+  },
+  "T3_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Journeyman's Scholar Sandals"
+  },
+  "T4_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Adept's Scholar Sandals"
+  },
+  "T5_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Expert's Scholar Sandals"
+  },
+  "T6_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Master's Scholar Sandals"
+  },
+  "T7_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Grandmaster's Scholar Sandals"
+  },
+  "T8_SHOES_CLOTH_SET1": {
+    "category": "shoes",
+    "name": "Elder's Scholar Sandals"
+  },
+  "T4_HEAD_CLOTH_SET2": {
+    "category": "head",
+    "name": "Adept's Cleric Cowl"
+  },
+  "T5_HEAD_CLOTH_SET2": {
+    "category": "head",
+    "name": "Expert's Cleric Cowl"
+  },
+  "T6_HEAD_CLOTH_SET2": {
+    "category": "head",
+    "name": "Master's Cleric Cowl"
+  },
+  "T7_HEAD_CLOTH_SET2": {
+    "category": "head",
+    "name": "Grandmaster's Cleric Cowl"
+  },
+  "T8_HEAD_CLOTH_SET2": {
+    "category": "head",
+    "name": "Elder's Cleric Cowl"
+  },
+  "T4_ARMOR_CLOTH_SET2": {
+    "category": "armors",
+    "name": "Adept's Cleric Robe"
+  },
+  "T5_ARMOR_CLOTH_SET2": {
+    "category": "armors",
+    "name": "Expert's Cleric Robe"
+  },
+  "T6_ARMOR_CLOTH_SET2": {
+    "category": "armors",
+    "name": "Master's Cleric Robe"
+  },
+  "T7_ARMOR_CLOTH_SET2": {
+    "category": "armors",
+    "name": "Grandmaster's Cleric Robe"
+  },
+  "T8_ARMOR_CLOTH_SET2": {
+    "category": "armors",
+    "name": "Elder's Cleric Robe"
+  },
+  "T4_SHOES_CLOTH_SET2": {
+    "category": "shoes",
+    "name": "Adept's Cleric Sandals"
+  },
+  "T5_SHOES_CLOTH_SET2": {
+    "category": "shoes",
+    "name": "Expert's Cleric Sandals"
+  },
+  "T6_SHOES_CLOTH_SET2": {
+    "category": "shoes",
+    "name": "Master's Cleric Sandals"
+  },
+  "T7_SHOES_CLOTH_SET2": {
+    "category": "shoes",
+    "name": "Grandmaster's Cleric Sandals"
+  },
+  "T8_SHOES_CLOTH_SET2": {
+    "category": "shoes",
+    "name": "Elder's Cleric Sandals"
+  },
+  "T4_HEAD_CLOTH_SET3": {
+    "category": "head",
+    "name": "Adept's Mage Cowl"
+  },
+  "T5_HEAD_CLOTH_SET3": {
+    "category": "head",
+    "name": "Expert's Mage Cowl"
+  },
+  "T6_HEAD_CLOTH_SET3": {
+    "category": "head",
+    "name": "Master's Mage Cowl"
+  },
+  "T7_HEAD_CLOTH_SET3": {
+    "category": "head",
+    "name": "Grandmaster's Mage Cowl"
+  },
+  "T8_HEAD_CLOTH_SET3": {
+    "category": "head",
+    "name": "Elder's Mage Cowl"
+  },
+  "T4_ARMOR_CLOTH_SET3": {
+    "category": "armors",
+    "name": "Adept's Mage Robe"
+  },
+  "T5_ARMOR_CLOTH_SET3": {
+    "category": "armors",
+    "name": "Expert's Mage Robe"
+  },
+  "T6_ARMOR_CLOTH_SET3": {
+    "category": "armors",
+    "name": "Master's Mage Robe"
+  },
+  "T7_ARMOR_CLOTH_SET3": {
+    "category": "armors",
+    "name": "Grandmaster's Mage Robe"
+  },
+  "T8_ARMOR_CLOTH_SET3": {
+    "category": "armors",
+    "name": "Elder's Mage Robe"
+  },
+  "T4_SHOES_CLOTH_SET3": {
+    "category": "shoes",
+    "name": "Adept's Mage Sandals"
+  },
+  "T5_SHOES_CLOTH_SET3": {
+    "category": "shoes",
+    "name": "Expert's Mage Sandals"
+  },
+  "T6_SHOES_CLOTH_SET3": {
+    "category": "shoes",
+    "name": "Master's Mage Sandals"
+  },
+  "T7_SHOES_CLOTH_SET3": {
+    "category": "shoes",
+    "name": "Grandmaster's Mage Sandals"
+  },
+  "T8_SHOES_CLOTH_SET3": {
+    "category": "shoes",
+    "name": "Elder's Mage Sandals"
+  },
+  "T4_HEAD_CLOTH_KEEPER": {
+    "category": "head",
+    "name": "Adept's Druid Cowl"
+  },
+  "T5_HEAD_CLOTH_KEEPER": {
+    "category": "head",
+    "name": "Expert's Druid Cowl"
+  },
+  "T6_HEAD_CLOTH_KEEPER": {
+    "category": "head",
+    "name": "Master's Druid Cowl"
+  },
+  "T7_HEAD_CLOTH_KEEPER": {
+    "category": "head",
+    "name": "Grandmaster's Druid Cowl"
+  },
+  "T8_HEAD_CLOTH_KEEPER": {
+    "category": "head",
+    "name": "Elder's Druid Cowl"
+  },
+  "T4_ARMOR_CLOTH_KEEPER": {
+    "category": "armors",
+    "name": "Adept's Druid Robe"
+  },
+  "T5_ARMOR_CLOTH_KEEPER": {
+    "category": "armors",
+    "name": "Expert's Druid Robe"
+  },
+  "T6_ARMOR_CLOTH_KEEPER": {
+    "category": "armors",
+    "name": "Master's Druid Robe"
+  },
+  "T7_ARMOR_CLOTH_KEEPER": {
+    "category": "armors",
+    "name": "Grandmaster's Druid Robe"
+  },
+  "T8_ARMOR_CLOTH_KEEPER": {
+    "category": "armors",
+    "name": "Elder's Druid Robe"
+  },
+  "T4_SHOES_CLOTH_KEEPER": {
+    "category": "shoes",
+    "name": "Adept's Druid Sandals"
+  },
+  "T5_SHOES_CLOTH_KEEPER": {
+    "category": "shoes",
+    "name": "Expert's Druid Sandals"
+  },
+  "T6_SHOES_CLOTH_KEEPER": {
+    "category": "shoes",
+    "name": "Master's Druid Sandals"
+  },
+  "T7_SHOES_CLOTH_KEEPER": {
+    "category": "shoes",
+    "name": "Grandmaster's Druid Sandals"
+  },
+  "T8_SHOES_CLOTH_KEEPER": {
+    "category": "shoes",
+    "name": "Elder's Druid Sandals"
+  },
+  "T4_HEAD_CLOTH_HELL": {
+    "category": "head",
+    "name": "Adept's Fiend Cowl"
+  },
+  "T5_HEAD_CLOTH_HELL": {
+    "category": "head",
+    "name": "Expert's Fiend Cowl"
+  },
+  "T6_HEAD_CLOTH_HELL": {
+    "category": "head",
+    "name": "Master's Fiend Cowl"
+  },
+  "T7_HEAD_CLOTH_HELL": {
+    "category": "head",
+    "name": "Grandmaster's Fiend Cowl"
+  },
+  "T8_HEAD_CLOTH_HELL": {
+    "category": "head",
+    "name": "Elder's Fiend Cowl"
+  },
+  "T4_ARMOR_CLOTH_HELL": {
+    "category": "armors",
+    "name": "Adept's Fiend Robe"
+  },
+  "T5_ARMOR_CLOTH_HELL": {
+    "category": "armors",
+    "name": "Expert's Fiend Robe"
+  },
+  "T6_ARMOR_CLOTH_HELL": {
+    "category": "armors",
+    "name": "Master's Fiend Robe"
+  },
+  "T7_ARMOR_CLOTH_HELL": {
+    "category": "armors",
+    "name": "Grandmaster's Fiend Robe"
+  },
+  "T8_ARMOR_CLOTH_HELL": {
+    "category": "armors",
+    "name": "Elder's Fiend Robe"
+  },
+  "T4_SHOES_CLOTH_HELL": {
+    "category": "shoes",
+    "name": "Adept's Fiend Sandals"
+  },
+  "T5_SHOES_CLOTH_HELL": {
+    "category": "shoes",
+    "name": "Expert's Fiend Sandals"
+  },
+  "T6_SHOES_CLOTH_HELL": {
+    "category": "shoes",
+    "name": "Master's Fiend Sandals"
+  },
+  "T7_SHOES_CLOTH_HELL": {
+    "category": "shoes",
+    "name": "Grandmaster's Fiend Sandals"
+  },
+  "T8_SHOES_CLOTH_HELL": {
+    "category": "shoes",
+    "name": "Elder's Fiend Sandals"
+  },
+  "T4_HEAD_CLOTH_MORGANA": {
+    "category": "head",
+    "name": "Adept's Cultist Cowl"
+  },
+  "T5_HEAD_CLOTH_MORGANA": {
+    "category": "head",
+    "name": "Expert's Cultist Cowl"
+  },
+  "T6_HEAD_CLOTH_MORGANA": {
+    "category": "head",
+    "name": "Master's Cultist Cowl"
+  },
+  "T7_HEAD_CLOTH_MORGANA": {
+    "category": "head",
+    "name": "Grandmaster's Cultist Cowl"
+  },
+  "T8_HEAD_CLOTH_MORGANA": {
+    "category": "head",
+    "name": "Elder's Cultist Cowl"
+  },
+  "T4_ARMOR_CLOTH_MORGANA": {
+    "category": "armors",
+    "name": "Adept's Cultist Robe"
+  },
+  "T5_ARMOR_CLOTH_MORGANA": {
+    "category": "armors",
+    "name": "Expert's Cultist Robe"
+  },
+  "T6_ARMOR_CLOTH_MORGANA": {
+    "category": "armors",
+    "name": "Master's Cultist Robe"
+  },
+  "T7_ARMOR_CLOTH_MORGANA": {
+    "category": "armors",
+    "name": "Grandmaster's Cultist Robe"
+  },
+  "T8_ARMOR_CLOTH_MORGANA": {
+    "category": "armors",
+    "name": "Elder's Cultist Robe"
+  },
+  "T4_SHOES_CLOTH_MORGANA": {
+    "category": "shoes",
+    "name": "Adept's Cultist Sandals"
+  },
+  "T5_SHOES_CLOTH_MORGANA": {
+    "category": "shoes",
+    "name": "Expert's Cultist Sandals"
+  },
+  "T6_SHOES_CLOTH_MORGANA": {
+    "category": "shoes",
+    "name": "Master's Cultist Sandals"
+  },
+  "T7_SHOES_CLOTH_MORGANA": {
+    "category": "shoes",
+    "name": "Grandmaster's Cultist Sandals"
+  },
+  "T8_SHOES_CLOTH_MORGANA": {
+    "category": "shoes",
+    "name": "Elder's Cultist Sandals"
+  },
+  "T4_HEAD_CLOTH_FEY": {
+    "category": "head",
+    "name": "Adept's Feyscale Hat"
+  },
+  "T5_HEAD_CLOTH_FEY": {
+    "category": "head",
+    "name": "Expert's Feyscale Hat"
+  },
+  "T6_HEAD_CLOTH_FEY": {
+    "category": "head",
+    "name": "Master's Feyscale Hat"
+  },
+  "T7_HEAD_CLOTH_FEY": {
+    "category": "head",
+    "name": "Grandmaster's Feyscale Hat"
+  },
+  "T8_HEAD_CLOTH_FEY": {
+    "category": "head",
+    "name": "Elder's Feyscale Hat"
+  },
+  "T4_ARMOR_CLOTH_FEY": {
+    "category": "armors",
+    "name": "Adept's Feyscale Robe"
+  },
+  "T5_ARMOR_CLOTH_FEY": {
+    "category": "armors",
+    "name": "Expert's Feyscale Robe"
+  },
+  "T6_ARMOR_CLOTH_FEY": {
+    "category": "armors",
+    "name": "Master's Feyscale Robe"
+  },
+  "T7_ARMOR_CLOTH_FEY": {
+    "category": "armors",
+    "name": "Grandmaster's Feyscale Robe"
+  },
+  "T8_ARMOR_CLOTH_FEY": {
+    "category": "armors",
+    "name": "Elder's Feyscale Robe"
+  },
+  "T4_SHOES_CLOTH_FEY": {
+    "category": "shoes",
+    "name": "Adept's Feyscale Sandals"
+  },
+  "T5_SHOES_CLOTH_FEY": {
+    "category": "shoes",
+    "name": "Expert's Feyscale Sandals"
+  },
+  "T6_SHOES_CLOTH_FEY": {
+    "category": "shoes",
+    "name": "Master's Feyscale Sandals"
+  },
+  "T7_SHOES_CLOTH_FEY": {
+    "category": "shoes",
+    "name": "Grandmaster's Feyscale Sandals"
+  },
+  "T8_SHOES_CLOTH_FEY": {
+    "category": "shoes",
+    "name": "Elder's Feyscale Sandals"
+  },
+  "T4_HEAD_CLOTH_AVALON": {
+    "category": "head",
+    "name": "Adept's Cowl of Purity"
+  },
+  "T5_HEAD_CLOTH_AVALON": {
+    "category": "head",
+    "name": "Expert's Cowl of Purity"
+  },
+  "T6_HEAD_CLOTH_AVALON": {
+    "category": "head",
+    "name": "Master's Cowl of Purity"
+  },
+  "T7_HEAD_CLOTH_AVALON": {
+    "category": "head",
+    "name": "Grandmaster's Cowl of Purity"
+  },
+  "T8_HEAD_CLOTH_AVALON": {
+    "category": "head",
+    "name": "Elder's Cowl of Purity"
+  },
+  "T4_ARMOR_CLOTH_AVALON": {
+    "category": "armors",
+    "name": "Adept's Robe of Purity"
+  },
+  "T5_ARMOR_CLOTH_AVALON": {
+    "category": "armors",
+    "name": "Expert's Robe of Purity"
+  },
+  "T6_ARMOR_CLOTH_AVALON": {
+    "category": "armors",
+    "name": "Master's Robe of Purity"
+  },
+  "T7_ARMOR_CLOTH_AVALON": {
+    "category": "armors",
+    "name": "Grandmaster's Robe of Purity"
+  },
+  "T8_ARMOR_CLOTH_AVALON": {
+    "category": "armors",
+    "name": "Elder's Robe of Purity"
+  },
+  "T4_SHOES_CLOTH_AVALON": {
+    "category": "shoes",
+    "name": "Adept's Sandals of Purity"
+  },
+  "T5_SHOES_CLOTH_AVALON": {
+    "category": "shoes",
+    "name": "Expert's Sandals of Purity"
+  },
+  "T6_SHOES_CLOTH_AVALON": {
+    "category": "shoes",
+    "name": "Master's Sandals of Purity"
+  },
+  "T7_SHOES_CLOTH_AVALON": {
+    "category": "shoes",
+    "name": "Grandmaster's Sandals of Purity"
+  },
+  "T8_SHOES_CLOTH_AVALON": {
+    "category": "shoes",
+    "name": "Elder's Sandals of Purity"
+  },
+  "T4_HEAD_CLOTH_ROYAL": {
+    "category": "head",
+    "name": "Adept's Royal Cowl"
+  },
+  "T5_HEAD_CLOTH_ROYAL": {
+    "category": "head",
+    "name": "Expert's Royal Cowl"
+  },
+  "T6_HEAD_CLOTH_ROYAL": {
+    "category": "head",
+    "name": "Master's Royal Cowl"
+  },
+  "T7_HEAD_CLOTH_ROYAL": {
+    "category": "head",
+    "name": "Grandmaster's Royal Cowl"
+  },
+  "T8_HEAD_CLOTH_ROYAL": {
+    "category": "head",
+    "name": "Elder's Royal Cowl"
+  },
+  "T4_ARMOR_CLOTH_ROYAL": {
+    "category": "armors",
+    "name": "Adept's Royal Robe"
+  },
+  "T5_ARMOR_CLOTH_ROYAL": {
+    "category": "armors",
+    "name": "Expert's Royal Robe"
+  },
+  "T6_ARMOR_CLOTH_ROYAL": {
+    "category": "armors",
+    "name": "Master's Royal Robe"
+  },
+  "T7_ARMOR_CLOTH_ROYAL": {
+    "category": "armors",
+    "name": "Grandmaster's Royal Robe"
+  },
+  "T8_ARMOR_CLOTH_ROYAL": {
+    "category": "armors",
+    "name": "Elder's Royal Robe"
+  },
+  "T4_SHOES_CLOTH_ROYAL": {
+    "category": "shoes",
+    "name": "Adept's Royal Sandals"
+  },
+  "T5_SHOES_CLOTH_ROYAL": {
+    "category": "shoes",
+    "name": "Expert's Royal Sandals"
+  },
+  "T6_SHOES_CLOTH_ROYAL": {
+    "category": "shoes",
+    "name": "Master's Royal Sandals"
+  },
+  "T7_SHOES_CLOTH_ROYAL": {
+    "category": "shoes",
+    "name": "Grandmaster's Royal Sandals"
+  },
+  "T8_SHOES_CLOTH_ROYAL": {
+    "category": "shoes",
+    "name": "Elder's Royal Sandals"
+  },
+  "T4_HEAD_LEATHER_ROYAL": {
+    "category": "head",
+    "name": "Adept's Royal Hood"
+  },
+  "T5_HEAD_LEATHER_ROYAL": {
+    "category": "head",
+    "name": "Expert's Royal Hood"
+  },
+  "T6_HEAD_LEATHER_ROYAL": {
+    "category": "head",
+    "name": "Master's Royal Hood"
+  },
+  "T7_HEAD_LEATHER_ROYAL": {
+    "category": "head",
+    "name": "Grandmaster's Royal Hood"
+  },
+  "T8_HEAD_LEATHER_ROYAL": {
+    "category": "head",
+    "name": "Elder's Royal Hood"
+  },
+  "T4_ARMOR_LEATHER_ROYAL": {
+    "category": "armors",
+    "name": "Adept's Royal Jacket"
+  },
+  "T5_ARMOR_LEATHER_ROYAL": {
+    "category": "armors",
+    "name": "Expert's Royal Jacket"
+  },
+  "T6_ARMOR_LEATHER_ROYAL": {
+    "category": "armors",
+    "name": "Master's Royal Jacket"
+  },
+  "T7_ARMOR_LEATHER_ROYAL": {
+    "category": "armors",
+    "name": "Grandmaster's Royal Jacket"
+  },
+  "T8_ARMOR_LEATHER_ROYAL": {
+    "category": "armors",
+    "name": "Elder's Royal Jacket"
+  },
+  "T4_SHOES_LEATHER_ROYAL": {
+    "category": "shoes",
+    "name": "Adept's Royal Shoes"
+  },
+  "T5_SHOES_LEATHER_ROYAL": {
+    "category": "shoes",
+    "name": "Expert's Royal Shoes"
+  },
+  "T6_SHOES_LEATHER_ROYAL": {
+    "category": "shoes",
+    "name": "Master's Royal Shoes"
+  },
+  "T7_SHOES_LEATHER_ROYAL": {
+    "category": "shoes",
+    "name": "Grandmaster's Royal Shoes"
+  },
+  "T8_SHOES_LEATHER_ROYAL": {
+    "category": "shoes",
+    "name": "Elder's Royal Shoes"
+  },
+  "T4_HEAD_PLATE_ROYAL": {
+    "category": "head",
+    "name": "Adept's Royal Helmet"
+  },
+  "T5_HEAD_PLATE_ROYAL": {
+    "category": "head",
+    "name": "Expert's Royal Helmet"
+  },
+  "T6_HEAD_PLATE_ROYAL": {
+    "category": "head",
+    "name": "Master's Royal Helmet"
+  },
+  "T7_HEAD_PLATE_ROYAL": {
+    "category": "head",
+    "name": "Grandmaster's Royal Helmet"
+  },
+  "T8_HEAD_PLATE_ROYAL": {
+    "category": "head",
+    "name": "Elder's Royal Helmet"
+  },
+  "T4_ARMOR_PLATE_ROYAL": {
+    "category": "armors",
+    "name": "Adept's Royal Armor"
+  },
+  "T5_ARMOR_PLATE_ROYAL": {
+    "category": "armors",
+    "name": "Expert's Royal Armor"
+  },
+  "T6_ARMOR_PLATE_ROYAL": {
+    "category": "armors",
+    "name": "Master's Royal Armor"
+  },
+  "T7_ARMOR_PLATE_ROYAL": {
+    "category": "armors",
+    "name": "Grandmaster's Royal Armor"
+  },
+  "T8_ARMOR_PLATE_ROYAL": {
+    "category": "armors",
+    "name": "Elder's Royal Armor"
+  },
+  "T4_SHOES_PLATE_ROYAL": {
+    "category": "shoes",
+    "name": "Adept's Royal Boots"
+  },
+  "T5_SHOES_PLATE_ROYAL": {
+    "category": "shoes",
+    "name": "Expert's Royal Boots"
+  },
+  "T6_SHOES_PLATE_ROYAL": {
+    "category": "shoes",
+    "name": "Master's Royal Boots"
+  },
+  "T7_SHOES_PLATE_ROYAL": {
+    "category": "shoes",
+    "name": "Grandmaster's Royal Boots"
+  },
+  "T8_SHOES_PLATE_ROYAL": {
+    "category": "shoes",
+    "name": "Elder's Royal Boots"
+  },
+  "UNIQUE_HEAD_VANITY_NO_HELMET": {
+    "category": "head",
+    "name": "Hide Helmet"
+  },
+  "UNIQUE_HEAD_VANITY_NO_CAPE": {
+    "category": "head",
+    "name": "Hide Cape"
+  },
+  "UNIQUE_HEAD_VANITY_NO_MAIN_HAND": {
+    "category": "head",
+    "name": "Hide Main Hand"
+  },
+  "UNIQUE_HEAD_VANITY_NO_OFF_HAND": {
+    "category": "head",
+    "name": "Hide Off-Hand"
+  },
+  "UNIQUE_HEAD_VANITY_JESTER": {
+    "category": "head",
+    "name": "Jester Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_JESTER": {
+    "category": "armors",
+    "name": "Jester Costume"
+  },
+  "UNIQUE_SHOES_VANITY_JESTER": {
+    "category": "shoes",
+    "name": "Jester Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_DRESS_RED": {
+    "category": "head",
+    "name": "Red Tulip Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_DRESS_RED": {
+    "category": "armors",
+    "name": "Red Tulip Dress"
+  },
+  "UNIQUE_SHOES_VANITY_DRESS_RED": {
+    "category": "shoes",
+    "name": "Red Tulip Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_DRESS_BLACK": {
+    "category": "head",
+    "name": "Noblewoman's Jewelry"
+  },
+  "UNIQUE_ARMOR_VANITY_DRESS_BLACK": {
+    "category": "armors",
+    "name": "Noblewoman's Dress"
+  },
+  "UNIQUE_SHOES_VANITY_DRESS_BLACK": {
+    "category": "shoes",
+    "name": "Noblewoman's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_DRESS_BLUE": {
+    "category": "head",
+    "name": "Blue Princess Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_DRESS_BLUE": {
+    "category": "armors",
+    "name": "Blue Princess Dress"
+  },
+  "UNIQUE_SHOES_VANITY_DRESS_BLUE": {
+    "category": "shoes",
+    "name": "Blue Princess Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_RICH_NOBLE": {
+    "category": "head",
+    "name": "Rich Noble's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_RICH_NOBLE": {
+    "category": "armors",
+    "name": "Rich Noble's Doublet"
+  },
+  "UNIQUE_SHOES_VANITY_RICH_NOBLE": {
+    "category": "shoes",
+    "name": "Rich Noble's Footwear"
+  },
+  "UNIQUE_HEAD_VANITY_SANTACLAUS": {
+    "category": "head",
+    "name": "Yule Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_SANTACLAUS": {
+    "category": "armors",
+    "name": "Yule Coat"
+  },
+  "UNIQUE_SHOES_VANITY_SANTACLAUS": {
+    "category": "shoes",
+    "name": "Yule Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_WEDDING_DRESS": {
+    "category": "head",
+    "name": "Bridal Veil"
+  },
+  "UNIQUE_ARMOR_VANITY_WEDDING_DRESS": {
+    "category": "armors",
+    "name": "Bridal Dress"
+  },
+  "UNIQUE_SHOES_VANITY_WEDDING_DRESS": {
+    "category": "shoes",
+    "name": "Bridal Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_WEDDING_TUXEDO": {
+    "category": "head",
+    "name": "Groom's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_WEDDING_TUXEDO": {
+    "category": "armors",
+    "name": "Groom's Suit"
+  },
+  "UNIQUE_SHOES_VANITY_WEDDING_TUXEDO": {
+    "category": "shoes",
+    "name": "Groom's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_BARD": {
+    "category": "head",
+    "name": "Bard's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_BARD": {
+    "category": "armors",
+    "name": "Bard's Suit"
+  },
+  "UNIQUE_SHOES_VANITY_BARD": {
+    "category": "shoes",
+    "name": "Bard's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_PRIEST": {
+    "category": "head",
+    "name": "Monk's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_PRIEST": {
+    "category": "armors",
+    "name": "Monk's Robe"
+  },
+  "UNIQUE_SHOES_VANITY_PRIEST": {
+    "category": "shoes",
+    "name": "Monk's Sandals"
+  },
+  "UNIQUE_HEAD_VANITY_INNKEEPER": {
+    "category": "head",
+    "name": "Innkeeper's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_INNKEEPER": {
+    "category": "armors",
+    "name": "Innkeeper's Shirt"
+  },
+  "UNIQUE_SHOES_VANITY_INNKEEPER": {
+    "category": "shoes",
+    "name": "Innkeeper's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_PIRATE": {
+    "category": "head",
+    "name": "Navigator's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_PIRATE": {
+    "category": "armors",
+    "name": "Navigator's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_PIRATE": {
+    "category": "shoes",
+    "name": "Navigator's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_ARENA_SET_01": {
+    "category": "head",
+    "name": "Arena Veteran's Circlet"
+  },
+  "UNIQUE_ARMOR_VANITY_ARENA_SET_01": {
+    "category": "armors",
+    "name": "Arena Veteran's Cloak"
+  },
+  "UNIQUE_SHOES_VANITY_ARENA_SET_01": {
+    "category": "shoes",
+    "name": "Arena Veteran's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_ARENA_EYEPATCH": {
+    "category": "head",
+    "name": "Arena Veteran's Eyepatch"
+  },
+  "UNIQUE_HEAD_VANITY_GLADIATOR_ARENA": {
+    "category": "head",
+    "name": "Arena Gladiator Helm"
+  },
+  "UNIQUE_ARMOR_VANITY_GLADIATOR_ARENA": {
+    "category": "armors",
+    "name": "Arena Gladiator Armor"
+  },
+  "UNIQUE_SHOES_VANITY_GLADIATOR_ARENA": {
+    "category": "shoes",
+    "name": "Arena Gladiator Boots"
+  },
+  "UNIQUE_HEAD_VANITY_GLADIATOR_CRYSTAL": {
+    "category": "head",
+    "name": "Crystal Gladiator Helm"
+  },
+  "UNIQUE_ARMOR_VANITY_GLADIATOR_CRYSTAL": {
+    "category": "armors",
+    "name": "Crystal Gladiator Armor"
+  },
+  "UNIQUE_SHOES_VANITY_GLADIATOR_CRYSTAL": {
+    "category": "shoes",
+    "name": "Crystal Gladiator Boots"
+  },
+  "UNIQUE_HEAD_TELLAFRIEND_BATRIDER": {
+    "category": "head",
+    "name": "Master of Bats Helmet"
+  },
+  "UNIQUE_HEAD_VANITY_EASTER_WHITE": {
+    "category": "head",
+    "name": "Snow Bunny Stalker Hat"
+  },
+  "UNIQUE_HEAD_VANITY_EASTER_BROWN": {
+    "category": "head",
+    "name": "Bunny Stalker Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_EASTER": {
+    "category": "armors",
+    "name": "Bunny Stalker Overalls"
+  },
+  "UNIQUE_SHOES_VANITY_EASTER": {
+    "category": "shoes",
+    "name": "Bunny Stalker Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_PLAGUEDOC": {
+    "category": "head",
+    "name": "Hygienic Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_PLAGUEDOC": {
+    "category": "armors",
+    "name": "Hygienic Coat"
+  },
+  "UNIQUE_SHOES_VANITY_PLAGUEDOC": {
+    "category": "shoes",
+    "name": "Hygienic Boots"
+  },
+  "UNIQUE_HEAD_VANITY_SKELETON": {
+    "category": "head",
+    "name": "Laughing Skull"
+  },
+  "UNIQUE_ARMOR_VANITY_SKELETON": {
+    "category": "armors",
+    "name": "Ribcage"
+  },
+  "UNIQUE_SHOES_VANITY_SKELETON": {
+    "category": "shoes",
+    "name": "Legbones"
+  },
+  "UNIQUE_HEAD_VANITY_PUMPKIN_01": {
+    "category": "head",
+    "name": "Grinning Pumpkin Head"
+  },
+  "UNIQUE_HEAD_VANITY_PUMPKIN_02": {
+    "category": "head",
+    "name": "Sad Pumpkin Head"
+  },
+  "UNIQUE_HEAD_VANITY_PUMPKIN_03": {
+    "category": "head",
+    "name": "Angry Pumpkin Head"
+  },
+  "UNIQUE_HEAD_XMAS": {
+    "category": "head",
+    "name": "Uncle Frost's Hat"
+  },
+  "UNIQUE_HEAD_FOUNDER_LEGENDARY": {
+    "category": "head",
+    "name": "Legendary Explorer's Hat"
+  },
+  "UNIQUE_ARMOR_FOUNDER_LEGENDARY": {
+    "category": "armors",
+    "name": "Legendary Explorer's Armor"
+  },
+  "UNIQUE_SHOES_FOUNDER_LEGENDARY": {
+    "category": "shoes",
+    "name": "Legendary Explorer's Boots"
+  },
+  "UNIQUE_HEAD_FOUNDER_ELITE": {
+    "category": "head",
+    "name": "Explorer's Hat"
+  },
+  "UNIQUE_ARMOR_FOUNDER_ELITE": {
+    "category": "armors",
+    "name": "Explorer's Armor"
+  },
+  "UNIQUE_SHOES_FOUNDER_ELITE": {
+    "category": "shoes",
+    "name": "Explorer's Boots"
+  },
+  "UNIQUE_HEAD_STARTERPACK_LEGENDARY": {
+    "category": "head",
+    "name": "Legendary Adventurer's Hat"
+  },
+  "UNIQUE_ARMOR_STARTERPACK_LEGENDARY": {
+    "category": "armors",
+    "name": "Legendary Adventurer's Armor"
+  },
+  "UNIQUE_SHOES_STARTERPACK_LEGENDARY": {
+    "category": "shoes",
+    "name": "Legendary Adventurer's Boots"
+  },
+  "UNIQUE_HEAD_STARTERPACK_ELITE": {
+    "category": "head",
+    "name": "Adventurer's Helmet"
+  },
+  "UNIQUE_ARMOR_STARTERPACK_ELITE": {
+    "category": "armors",
+    "name": "Adventurer's Jacket"
+  },
+  "UNIQUE_SHOES_STARTERPACK_ELITE": {
+    "category": "shoes",
+    "name": "Adventurer's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_SKELETON_UNDEAD": {
+    "category": "head",
+    "name": "Undead Skull"
+  },
+  "UNIQUE_ARMOR_VANITY_SKELETON_UNDEAD": {
+    "category": "armors",
+    "name": "Undead Ribcage"
+  },
+  "UNIQUE_SHOES_VANITY_SKELETON_UNDEAD": {
+    "category": "shoes",
+    "name": "Undead Legs"
+  },
+  "UNIQUE_HEAD_VANITY_ROGUE": {
+    "category": "head",
+    "name": "Rogue Adventurer's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_ROGUE": {
+    "category": "armors",
+    "name": "Rogue Adventurer's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_ROGUE": {
+    "category": "shoes",
+    "name": "Rogue Adventurer's Boots"
+  },
+  "UNIQUE_ARMOR_VANITY_ROGUE_GUILD_COLORED": {
+    "category": "armors",
+    "name": "Rogue Adventurer's Guild Armor"
+  },
+  "UNIQUE_HEAD_VANITY_KNIGHT": {
+    "category": "head",
+    "name": "Knight Adventurer's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_KNIGHT": {
+    "category": "armors",
+    "name": "Knight Adventurer's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_KNIGHT": {
+    "category": "shoes",
+    "name": "Knight Adventurer's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_KNIGHT_GUILD_COLORED": {
+    "category": "head",
+    "name": "Knight Adventurer's Guild Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_KNIGHT_GUILD_COLORED": {
+    "category": "armors",
+    "name": "Knight Adventurer's Guild Armor"
+  },
+  "UNIQUE_HEAD_VANITY_MAGE": {
+    "category": "head",
+    "name": "Mage Adventurer's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_MAGE": {
+    "category": "armors",
+    "name": "Mage Adventurer's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_MAGE": {
+    "category": "shoes",
+    "name": "Mage Adventurer's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_MAGE_GUILD_COLORED": {
+    "category": "head",
+    "name": "Mage Adventurer's Guild Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_MAGE_GUILD_COLORED": {
+    "category": "armors",
+    "name": "Mage Adventurer's Guild Armor"
+  },
+  "UNIQUE_HEAD_VANITY_BARBARIAN": {
+    "category": "head",
+    "name": "Barbarian's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_BARBARIAN": {
+    "category": "armors",
+    "name": "Barbarian's Harness"
+  },
+  "UNIQUE_SHOES_VANITY_BARBARIAN": {
+    "category": "shoes",
+    "name": "Barbarian's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_SOULKEEPER": {
+    "category": "head",
+    "name": "Keeper of Souls Cowl"
+  },
+  "UNIQUE_ARMOR_VANITY_SOULKEEPER": {
+    "category": "armors",
+    "name": "Keeper of Souls Armor"
+  },
+  "UNIQUE_SHOES_VANITY_SOULKEEPER": {
+    "category": "shoes",
+    "name": "Keeper of Souls Boots"
+  },
+  "UNIQUE_HEAD_VANITY_PALADIN": {
+    "category": "head",
+    "name": "Paladin's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_PALADIN": {
+    "category": "armors",
+    "name": "Paladin's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_PALADIN": {
+    "category": "shoes",
+    "name": "Paladin's Boots"
+  },
+  "UNIQUE_ARMOR_VANITY_PALADIN_GUILD_COLORED": {
+    "category": "armors",
+    "name": "Paladin's Guild Armor"
+  },
+  "UNIQUE_HEAD_VANITY_PALADIN_ANNIVERSARY": {
+    "category": "head",
+    "name": "Anniversary Paladin's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_PALADIN_ANNIVERSARY": {
+    "category": "armors",
+    "name": "Anniversary Paladin's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_PALADIN_ANNIVERSARY": {
+    "category": "shoes",
+    "name": "Anniversary Paladin's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_DEMONHUNTER": {
+    "category": "head",
+    "name": "Demon Hunter's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_DEMONHUNTER": {
+    "category": "armors",
+    "name": "Demon Hunter's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_DEMONHUNTER": {
+    "category": "shoes",
+    "name": "Demon Hunter's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_DRUID": {
+    "category": "head",
+    "name": "Druid's Horns"
+  },
+  "UNIQUE_ARMOR_VANITY_DRUID": {
+    "category": "armors",
+    "name": "Druid's Vestments"
+  },
+  "UNIQUE_SHOES_VANITY_DRUID": {
+    "category": "shoes",
+    "name": "Druid's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_DEMONICWARRIOR": {
+    "category": "head",
+    "name": "Demonic Warrior's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_DEMONICWARRIOR": {
+    "category": "armors",
+    "name": "Demonic Warrior's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_DEMONICWARRIOR": {
+    "category": "shoes",
+    "name": "Demonic Warrior's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_MONK": {
+    "category": "head",
+    "name": "Master of Fists Tattoo"
+  },
+  "UNIQUE_HEAD_VANITY_MONK_HAT": {
+    "category": "head",
+    "name": "Master of Fists Hat"
+  },
+  "UNIQUE_HEAD_VANITY_MONK_MASK": {
+    "category": "head",
+    "name": "Master of Fists Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_MONK": {
+    "category": "armors",
+    "name": "Master of Fists Robes"
+  },
+  "UNIQUE_SHOES_VANITY_MONK": {
+    "category": "shoes",
+    "name": "Master of Fists Sandals"
+  },
+  "UNIQUE_HEAD_VANITY_MONK_MASK_GUILD_COLORED": {
+    "category": "head",
+    "name": "Master of Fists Guild Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_MONK_GUILD_COLORED": {
+    "category": "armors",
+    "name": "Master of Fists Guild Robes"
+  },
+  "UNIQUE_HEAD_VANITY_MARAUDER": {
+    "category": "head",
+    "name": "Reaver's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_MARAUDER": {
+    "category": "armors",
+    "name": "Reaver's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_MARAUDER": {
+    "category": "shoes",
+    "name": "Reaver's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_FIREMAGE": {
+    "category": "head",
+    "name": "Pyromancer's Aspect"
+  },
+  "UNIQUE_ARMOR_VANITY_FIREMAGE": {
+    "category": "armors",
+    "name": "Pyromancer's Robe"
+  },
+  "UNIQUE_SHOES_VANITY_FIREMAGE": {
+    "category": "shoes",
+    "name": "Pyromancer's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_FROSTMAGE": {
+    "category": "head",
+    "name": "Cryomancer's Aspect"
+  },
+  "UNIQUE_ARMOR_VANITY_FROSTMAGE": {
+    "category": "armors",
+    "name": "Cryomancer's Robe"
+  },
+  "UNIQUE_SHOES_VANITY_FROSTMAGE": {
+    "category": "shoes",
+    "name": "Cryomancer's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_PRIEST_HOLY": {
+    "category": "head",
+    "name": "Priest's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_PRIEST_HOLY": {
+    "category": "armors",
+    "name": "Priest's Robe"
+  },
+  "UNIQUE_SHOES_VANITY_PRIEST_HOLY": {
+    "category": "shoes",
+    "name": "Priest's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_RANGER_HOOD": {
+    "category": "head",
+    "name": "Ranger's Hood"
+  },
+  "UNIQUE_HEAD_VANITY_RANGER_MASK": {
+    "category": "head",
+    "name": "Ranger's Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_RANGER": {
+    "category": "armors",
+    "name": "Ranger's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_RANGER": {
+    "category": "shoes",
+    "name": "Ranger's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_BATTLEMAGE": {
+    "category": "head",
+    "name": "Arcanist's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_BATTLEMAGE": {
+    "category": "armors",
+    "name": "Arcanist's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_BATTLEMAGE": {
+    "category": "shoes",
+    "name": "Arcanist's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_ZEALOT": {
+    "category": "head",
+    "name": "Zealot's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_ZEALOT": {
+    "category": "armors",
+    "name": "Zealot's Harness"
+  },
+  "UNIQUE_SHOES_VANITY_ZEALOT": {
+    "category": "shoes",
+    "name": "Zealot's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_TITAN": {
+    "category": "head",
+    "name": "Titan's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_TITAN": {
+    "category": "armors",
+    "name": "Titan's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_TITAN": {
+    "category": "shoes",
+    "name": "Titan's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_ASSASSIN": {
+    "category": "head",
+    "name": "Assassin's Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_ASSASSIN": {
+    "category": "armors",
+    "name": "Assassin's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_ASSASSIN": {
+    "category": "shoes",
+    "name": "Assassin's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_TRACKER": {
+    "category": "head",
+    "name": "Tracker's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_TRACKER": {
+    "category": "armors",
+    "name": "Tracker's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_TRACKER": {
+    "category": "shoes",
+    "name": "Tracker's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_ALCHEMIST": {
+    "category": "head",
+    "name": "Alchemist's Glasses"
+  },
+  "UNIQUE_ARMOR_VANITY_ALCHEMIST": {
+    "category": "armors",
+    "name": "Alchemist's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_ALCHEMIST": {
+    "category": "shoes",
+    "name": "Alchemist's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_FROSTKNIGHT": {
+    "category": "head",
+    "name": "Frost Knight's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_FROSTKNIGHT": {
+    "category": "armors",
+    "name": "Frost Knight's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_FROSTKNIGHT": {
+    "category": "shoes",
+    "name": "Frost Knight's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_DUELIST": {
+    "category": "head",
+    "name": "Duelist's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_DUELIST": {
+    "category": "armors",
+    "name": "Duelist's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_DUELIST": {
+    "category": "shoes",
+    "name": "Duelist's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_CORRUPTED_PREACHER": {
+    "category": "head",
+    "name": "Corrupted Preacher's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_CORRUPTED_PREACHER": {
+    "category": "armors",
+    "name": "Corrupted Preacher's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_CORRUPTED_PREACHER": {
+    "category": "shoes",
+    "name": "Corrupted Preacher's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_BARBARIAN_ANNIVERSARY": {
+    "category": "head",
+    "name": "Anniversary Barbarian's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_BARBARIAN_ANNIVERSARY": {
+    "category": "armors",
+    "name": "Anniversary Barbarian's Harness"
+  },
+  "UNIQUE_SHOES_VANITY_BARBARIAN_ANNIVERSARY": {
+    "category": "shoes",
+    "name": "Anniversary Barbarian's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_PRIEST_HOLY_ANNIVERSARY": {
+    "category": "head",
+    "name": "Anniversary Priest's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_PRIEST_HOLY_ANNIVERSARY": {
+    "category": "armors",
+    "name": "Anniversary Priest's Robe"
+  },
+  "UNIQUE_SHOES_VANITY_PRIEST_HOLY_ANNIVERSARY": {
+    "category": "shoes",
+    "name": "Anniversary Priest's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_KICKSTART_2024_UPGRADE": {
+    "category": "head",
+    "name": "Warden's Legendary Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_KICKSTART_2024_UPGRADE": {
+    "category": "armors",
+    "name": "Warden's Legendary Armor"
+  },
+  "UNIQUE_SHOES_VANITY_KICKSTART_2024_UPGRADE": {
+    "category": "shoes",
+    "name": "Warden's Legendary Boots"
+  },
+  "UNIQUE_HEAD_VANITY_KICKSTART_2024": {
+    "category": "head",
+    "name": "Warden's Helmet"
+  },
+  "UNIQUE_ARMOR_VANITY_KICKSTART_2024": {
+    "category": "armors",
+    "name": "Warden's Armor"
+  },
+  "UNIQUE_SHOES_VANITY_KICKSTART_2024": {
+    "category": "shoes",
+    "name": "Warden's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_SMUGGLER": {
+    "category": "head",
+    "name": "Smuggler's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_SMUGGLER": {
+    "category": "armors",
+    "name": "Smuggler's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_SMUGGLER": {
+    "category": "shoes",
+    "name": "Smuggler's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_DRESS_GREEN": {
+    "category": "head",
+    "name": "Green Princess Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_DRESS_GREEN": {
+    "category": "armors",
+    "name": "Green Princess Dress"
+  },
+  "UNIQUE_SHOES_VANITY_DRESS_GREEN": {
+    "category": "shoes",
+    "name": "Green Princess Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_ENTERTAINER": {
+    "category": "head",
+    "name": "Entertainer's Mask"
+  },
+  "UNIQUE_ARMOR_VANITY_ENTERTAINER": {
+    "category": "armors",
+    "name": "Entertainer's Costume"
+  },
+  "UNIQUE_SHOES_VANITY_ENTERTAINER": {
+    "category": "shoes",
+    "name": "Entertainer's Shoes"
+  },
+  "UNIQUE_HEAD_VANITY_NIGHTGOWN": {
+    "category": "head",
+    "name": "Sleeping Cap"
+  },
+  "UNIQUE_HEAD_VANITY_PIRATE_GREEN": {
+    "category": "head",
+    "name": "Green Navigator's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_PIRATE_GREEN": {
+    "category": "armors",
+    "name": "Green Navigator's Coat"
+  },
+  "UNIQUE_SHOES_VANITY_PIRATE_GREEN": {
+    "category": "shoes",
+    "name": "Green Navigator's Boots"
+  },
+  "UNIQUE_HEAD_VANITY_PRIEST_RED": {
+    "category": "head",
+    "name": "Exiled Monk's Hood"
+  },
+  "UNIQUE_ARMOR_VANITY_PRIEST_RED": {
+    "category": "armors",
+    "name": "Exiled Monk's Robe"
+  },
+  "UNIQUE_SHOES_VANITY_PRIEST_RED": {
+    "category": "shoes",
+    "name": "Exiled Monk's Sandals"
+  },
+  "UNIQUE_HEAD_VANITY_RICH_NOBLE_PURPLE": {
+    "category": "head",
+    "name": "Purple Rich Noble's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_RICH_NOBLE_PURPLE": {
+    "category": "armors",
+    "name": "Purple Rich Noble's Doublet"
+  },
+  "UNIQUE_SHOES_VANITY_RICH_NOBLE_PURPLE": {
+    "category": "shoes",
+    "name": "Purple Rich Noble's Footwear"
+  },
+  "UNIQUE_HEAD_VANITY_NIGHTGOWN_BLACK": {
+    "category": "head",
+    "name": "Black Sleeping Cap"
+  },
+  "UNIQUE_HEAD_VANITY_NIGHTGOWN_BELL": {
+    "category": "head",
+    "name": "Sleeping Cap with Bell"
+  },
+  "UNIQUE_HEAD_VANITY_BARD_BLUE": {
+    "category": "head",
+    "name": "Blue Bard's Hat"
+  },
+  "UNIQUE_ARMOR_VANITY_BARD_BLUE": {
+    "category": "armors",
+    "name": "Blue Bard's Suit"
+  },
+  "UNIQUE_SHOES_VANITY_BARD_BLUE": {
+    "category": "shoes",
+    "name": "Blue Bard's Shoes"
+  },
+  "UNIQUE_VANITY_HEAD_TUTORIAL_COMPLETED_AJ": {
+    "category": "head",
+    "name": "Academic Biretta"
+  },
+  "UNIQUE_ARMOR_VANITY_WEALTHY_NOBLE_AJ": {
+    "category": "armors",
+    "name": "Decadent Robe"
+  },
+  "UNIQUE_ARMOR_VANITY_VERY_WEALTHY_NOBLE_AJ": {
+    "category": "armors",
+    "name": "Exorbitant Robe"
+  },
+  "UNIQUE_HEAD_VANITY_FARMER_AJ": {
+    "category": "head",
+    "name": "Lovely Straw Hat"
+  },
+  "UNIQUE_HEAD_VANITY_FARMER_COZY_AJ": {
+    "category": "head",
+    "name": "Delightful Straw Hat"
+  },
+  "UNIQUE_HEAD_VANITY_SHADOW_HELMET_ORANGE_AJ": {
+    "category": "head",
+    "name": "Sinister Helmet"
+  },
+  "UNIQUE_HEAD_VANITY_SHADOW_HELMET_RED_AJ": {
+    "category": "head",
+    "name": "Malevolent Helmet"
+  },
+  "UNIQUE_HEAD_VANITY_DESTINY_STONES_AJ": {
+    "category": "head",
+    "name": "Destiny's Circlet"
+  },
+  "UNIQUE_HEAD_VANITY_DESTINY_STONES_ADVANCED_AJ": {
+    "category": "head",
+    "name": "Fullfilled Destiny's Circlet"
+  }
+}
