@@ -8,7 +8,8 @@
     "db:start": "supabase db start",
     "db:migrate": "supabase db diff | supabase migration new",
     "db:generate:types:local": "supabase gen types typescript --local > database.types.ts",
-    "mock:order:ingest": "node --experimental-fetch ./mocker/sendOrders.js"
+    "mock:order:ingest": "node --experimental-fetch ./mocker/sendOrders.js",
+    "debug:items-formatter": "node --inspect-brk utils/itemsFormatter.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^4.1.2",
