@@ -1,5 +1,5 @@
 import { ItemCategory } from "@/lib/items";
-import { findItemCategory } from "@/utils/items";
+import { findItemCategory, getItemName, getItemValue } from "@/utils/items";
 import { createClient } from "@/utils/supabase/server";
 import { groupBy } from "@/utils/utils";
 
@@ -13,7 +13,7 @@ import { groupBy } from "@/utils/utils";
 function expectedQualityUpgradeCost(
   fromQuality: number,
   toQuality: number,
-  itemValue: number = 1
+  itemValue: number
 ): number {
   if (fromQuality < 1 || fromQuality > 5 || toQuality < 1 || toQuality > 5) {
     throw new Error("Quality levels must be between 1 and 5.");
@@ -186,7 +186,7 @@ export default async function Deals({
           qualityUpgradeCost = expectedQualityUpgradeCost(
             sellOrder.quality_level,
             buyOrder.quality_level,
-            1 // TODO: Replace with actual item value
+            getItemValue(buyOrder.item_group_type_id)
           );
           const qualityUpgradeProfit = profit - qualityUpgradeCost;
           if (qualityUpgradeProfit > minProfit) {
