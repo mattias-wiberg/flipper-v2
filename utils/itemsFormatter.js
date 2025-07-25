@@ -19,21 +19,52 @@ const fullItemsJsonPath = p.resolve(__dirname, "items.json");
 const fullItemsRaw = f.readFileSync(fullItemsJsonPath, "utf-8");
 const fullItems = JSON.parse(fullItemsRaw);
 
+const simpleItemsMap = fullItems.items.simpleitem.reduce((acc, item) => {
+  if (item["@uniquename"]) {
+    acc[item["@uniquename"]] = {
+      ...item,
+    };
+  }
+  return acc;
+}, {});
 const formattedItems = {};
 const unhandledSubcategories = new Set();
 const unhandledCategories = new Set();
 const unhandledWeapons = new Set();
-for (const equipment of [
-  ...fullItems.items.transformationweapon,
-  ...fullItems.items.weapon,
-  ...fullItems.items.equipmentitem,
-]) {
-  if (!equipment["@uniquename"]) {
-    console.warn("Equipment without @uniquename:", equipment);
+
+function getItemValue(item) {
+  if (!item.craftingrequirements) {
+    return null;
   }
-  if (!equipment["@shopcategory"]) {
-    console.warn("Equipment without @shopcategory:", equipment["@uniquename"]);
+
+  const craftresources = Array.isArray(item.craftingrequirements)
+    ? item.craftingrequirements[0].craftresource
+    : item.craftingrequirements.craftresource;
+  if (!craftresources) {
+    return null;
   }
+
+  let itemValue = 0;
+  for (const resource of Array.isArray(craftresources)
+    ? craftresources
+    : [craftresources]) {
+    if (resource["@uniquename"] && simpleItemsMap[resource["@uniquename"]]) {
+      const simpleItem = simpleItemsMap[resource["@uniquename"]];
+      if (simpleItem["@itemvalue"]) {
+        itemValue +=
+          parseInt(simpleItem["@itemvalue"], 10) *
+          parseInt(resource["@count"], 10);
+      }
+    } else {
+      console.warn(
+        `Resource ${resource["@uniquename"]} not found in simpleItemsMap`
+      );
+    }
+  }
+  return itemValue;
+}
+
+function getItemCategory(equipment) {
   let category;
   switch (equipment["@shopcategory"]) {
     case "weapons":
@@ -47,7 +78,6 @@ for (const equipment of [
       break;
     case "armors":
       category = categories.armors;
-      break;
       break;
     case "shoes":
       category = categories.shoes;
@@ -79,7 +109,23 @@ for (const equipment of [
       unhandledCategories.add(equipment["@shopcategory"]);
       break;
   }
-  if (category) {
+  return category;
+}
+
+for (const equipment of [
+  ...fullItems.items.transformationweapon,
+  ...fullItems.items.weapon,
+  ...fullItems.items.equipmentitem,
+]) {
+  if (!equipment["@uniquename"]) {
+    console.warn("Equipment without @uniquename:", equipment);
+  }
+  if (!equipment["@shopcategory"]) {
+    console.warn("Equipment without @shopcategory:", equipment["@uniquename"]);
+  }
+  const category = getItemCategory(equipment);
+  const itemValue = getItemValue(equipment);
+  if (category && itemValue !== null) {
     if (formattedItems[equipment["@uniquename"]]) {
       console.warn(
         `Duplicate item found: ${equipment["@uniquename"]}, overwriting category`
@@ -87,13 +133,14 @@ for (const equipment of [
     }
     formattedItems[equipment["@uniquename"]] = {
       ...formattedItems[equipment["@uniquename"]],
+      itemValue,
       category,
     };
   }
 }
 
 for (const itemNameLine of itemNames) {
-  const match = itemNameLine.match(/^\d+:\s+(\w+)\s+:\s+(.+)$/);
+  const match = itemNameLine.match(/^\s*\d+:\s+([A-Z0-9_]+)\s*:\s+(.+?)\s*$/);
   if (match) {
     const id = match[1];
     const name = match[2];
