@@ -204,6 +204,446 @@
     "category": "2H-weapon",
     "name": "Elder's Stillgaze Staff"
   },
+  "T1_2H_TOOL_PICK": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Beginner's Pickaxe"
+  },
+  "T2_2H_TOOL_PICK": {
+    "itemValue": 32,
+    "category": "2H-weapon",
+    "name": "Novice's Pickaxe"
+  },
+  "T3_2H_TOOL_PICK": {
+    "itemValue": 64,
+    "category": "2H-weapon",
+    "name": "Journeyman's Pickaxe"
+  },
+  "T4_2H_TOOL_PICK": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Adept's Pickaxe"
+  },
+  "T5_2H_TOOL_PICK": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Expert's Pickaxe"
+  },
+  "T6_2H_TOOL_PICK": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Master's Pickaxe"
+  },
+  "T7_2H_TOOL_PICK": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Pickaxe"
+  },
+  "T8_2H_TOOL_PICK": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Elder's Pickaxe"
+  },
+  "T4_2H_TOOL_PICK_AVALON": {
+    "itemValue": 1408,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Pickaxe"
+  },
+  "T5_2H_TOOL_PICK_AVALON": {
+    "itemValue": 6016,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Pickaxe"
+  },
+  "T6_2H_TOOL_PICK_AVALON": {
+    "itemValue": 10752,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Pickaxe"
+  },
+  "T7_2H_TOOL_PICK_AVALON": {
+    "itemValue": 15744,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Pickaxe"
+  },
+  "T8_2H_TOOL_PICK_AVALON": {
+    "itemValue": 21248,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Pickaxe"
+  },
+  "T1_2H_TOOL_HAMMER": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Beginner's Stone Hammer"
+  },
+  "T2_2H_TOOL_HAMMER": {
+    "itemValue": 32,
+    "category": "2H-weapon",
+    "name": "Novice's Stone Hammer"
+  },
+  "T3_2H_TOOL_HAMMER": {
+    "itemValue": 64,
+    "category": "2H-weapon",
+    "name": "Journeyman's Stone Hammer"
+  },
+  "T4_2H_TOOL_HAMMER": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Adept's Stone Hammer"
+  },
+  "T5_2H_TOOL_HAMMER": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Expert's Stone Hammer"
+  },
+  "T6_2H_TOOL_HAMMER": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Master's Stone Hammer"
+  },
+  "T7_2H_TOOL_HAMMER": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Stone Hammer"
+  },
+  "T8_2H_TOOL_HAMMER": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Elder's Stone Hammer"
+  },
+  "T4_2H_TOOL_HAMMER_AVALON": {
+    "itemValue": 1408,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Stone Hammer"
+  },
+  "T5_2H_TOOL_HAMMER_AVALON": {
+    "itemValue": 6016,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Stone Hammer"
+  },
+  "T6_2H_TOOL_HAMMER_AVALON": {
+    "itemValue": 10752,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Stone Hammer"
+  },
+  "T7_2H_TOOL_HAMMER_AVALON": {
+    "itemValue": 15744,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Stone Hammer"
+  },
+  "T8_2H_TOOL_HAMMER_AVALON": {
+    "itemValue": 21248,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Stone Hammer"
+  },
+  "T1_2H_TOOL_AXE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Beginner's Axe"
+  },
+  "T2_2H_TOOL_AXE": {
+    "itemValue": 32,
+    "category": "2H-weapon",
+    "name": "Novice's Axe"
+  },
+  "T3_2H_TOOL_AXE": {
+    "itemValue": 64,
+    "category": "2H-weapon",
+    "name": "Journeyman's Axe"
+  },
+  "T4_2H_TOOL_AXE": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Adept's Axe"
+  },
+  "T5_2H_TOOL_AXE": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Expert's Axe"
+  },
+  "T6_2H_TOOL_AXE": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Master's Axe"
+  },
+  "T7_2H_TOOL_AXE": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Axe"
+  },
+  "T8_2H_TOOL_AXE": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Elder's Axe"
+  },
+  "T4_2H_TOOL_AXE_AVALON": {
+    "itemValue": 1408,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Axe"
+  },
+  "T5_2H_TOOL_AXE_AVALON": {
+    "itemValue": 6016,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Axe"
+  },
+  "T6_2H_TOOL_AXE_AVALON": {
+    "itemValue": 10752,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Axe"
+  },
+  "T7_2H_TOOL_AXE_AVALON": {
+    "itemValue": 15744,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Axe"
+  },
+  "T8_2H_TOOL_AXE_AVALON": {
+    "itemValue": 21248,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Axe"
+  },
+  "T1_2H_TOOL_SICKLE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Beginner's Sickle"
+  },
+  "T2_2H_TOOL_SICKLE": {
+    "itemValue": 32,
+    "category": "2H-weapon",
+    "name": "Novice's Sickle"
+  },
+  "T3_2H_TOOL_SICKLE": {
+    "itemValue": 64,
+    "category": "2H-weapon",
+    "name": "Journeyman's Sickle"
+  },
+  "T4_2H_TOOL_SICKLE": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Adept's Sickle"
+  },
+  "T5_2H_TOOL_SICKLE": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Expert's Sickle"
+  },
+  "T6_2H_TOOL_SICKLE": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Master's Sickle"
+  },
+  "T7_2H_TOOL_SICKLE": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Sickle"
+  },
+  "T8_2H_TOOL_SICKLE": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Elder's Sickle"
+  },
+  "T4_2H_TOOL_SICKLE_AVALON": {
+    "itemValue": 1408,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Sickle"
+  },
+  "T5_2H_TOOL_SICKLE_AVALON": {
+    "itemValue": 6016,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Sickle"
+  },
+  "T6_2H_TOOL_SICKLE_AVALON": {
+    "itemValue": 10752,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Sickle"
+  },
+  "T7_2H_TOOL_SICKLE_AVALON": {
+    "itemValue": 15744,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Sickle"
+  },
+  "T8_2H_TOOL_SICKLE_AVALON": {
+    "itemValue": 21248,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Sickle"
+  },
+  "T1_2H_TOOL_KNIFE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Beginner's Skinning Knife"
+  },
+  "T2_2H_TOOL_KNIFE": {
+    "itemValue": 32,
+    "category": "2H-weapon",
+    "name": "Novice's Skinning Knife"
+  },
+  "T3_2H_TOOL_KNIFE": {
+    "itemValue": 64,
+    "category": "2H-weapon",
+    "name": "Journeyman's Skinning Knife"
+  },
+  "T4_2H_TOOL_KNIFE": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Adept's Skinning Knife"
+  },
+  "T5_2H_TOOL_KNIFE": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Expert's Skinning Knife"
+  },
+  "T6_2H_TOOL_KNIFE": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Master's Skinning Knife"
+  },
+  "T7_2H_TOOL_KNIFE": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Skinning Knife"
+  },
+  "T8_2H_TOOL_KNIFE": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Elder's Skinning Knife"
+  },
+  "T4_2H_TOOL_KNIFE_AVALON": {
+    "itemValue": 1408,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Skinning Knife"
+  },
+  "T5_2H_TOOL_KNIFE_AVALON": {
+    "itemValue": 6016,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Skinning Knife"
+  },
+  "T6_2H_TOOL_KNIFE_AVALON": {
+    "itemValue": 10752,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Skinning Knife"
+  },
+  "T7_2H_TOOL_KNIFE_AVALON": {
+    "itemValue": 15744,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Skinning Knife"
+  },
+  "T8_2H_TOOL_KNIFE_AVALON": {
+    "itemValue": 21248,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Skinning Knife"
+  },
+  "T2_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 96,
+    "category": "2H-weapon",
+    "name": "Novice's Siege Hammer"
+  },
+  "T3_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Journeyman's Siege Hammer"
+  },
+  "T4_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Adept's Siege Hammer"
+  },
+  "T5_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Expert's Siege Hammer"
+  },
+  "T6_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Master's Siege Hammer"
+  },
+  "T7_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Siege Hammer"
+  },
+  "T8_2H_TOOL_SIEGEHAMMER": {
+    "itemValue": 4096,
+    "category": "2H-weapon",
+    "name": "Elder's Siege Hammer"
+  },
+  "T4_2H_TOOL_SIEGEHAMMER_AVALON": {
+    "itemValue": 1536,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Siege Hammer"
+  },
+  "T5_2H_TOOL_SIEGEHAMMER_AVALON": {
+    "itemValue": 6272,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Siege Hammer"
+  },
+  "T6_2H_TOOL_SIEGEHAMMER_AVALON": {
+    "itemValue": 11264,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Siege Hammer"
+  },
+  "T7_2H_TOOL_SIEGEHAMMER_AVALON": {
+    "itemValue": 16768,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Siege Hammer"
+  },
+  "T8_2H_TOOL_SIEGEHAMMER_AVALON": {
+    "itemValue": 23296,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Siege Hammer"
+  },
+  "T3_2H_TOOL_FISHINGROD": {
+    "itemValue": 64,
+    "category": "2H-weapon",
+    "name": "Journeyman's Fishing Rod"
+  },
+  "T4_2H_TOOL_FISHINGROD": {
+    "itemValue": 128,
+    "category": "2H-weapon",
+    "name": "Adept's Fishing Rod"
+  },
+  "T5_2H_TOOL_FISHINGROD": {
+    "itemValue": 256,
+    "category": "2H-weapon",
+    "name": "Expert's Fishing Rod"
+  },
+  "T6_2H_TOOL_FISHINGROD": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Master's Fishing Rod"
+  },
+  "T7_2H_TOOL_FISHINGROD": {
+    "itemValue": 1024,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Fishing Rod"
+  },
+  "T8_2H_TOOL_FISHINGROD": {
+    "itemValue": 2048,
+    "category": "2H-weapon",
+    "name": "Elder's Fishing Rod"
+  },
+  "T4_2H_TOOL_FISHINGROD_AVALON": {
+    "itemValue": 1408,
+    "category": "2H-weapon",
+    "name": "Adept's Avalonian Fishing Rod"
+  },
+  "T5_2H_TOOL_FISHINGROD_AVALON": {
+    "itemValue": 6016,
+    "category": "2H-weapon",
+    "name": "Expert's Avalonian Fishing Rod"
+  },
+  "T6_2H_TOOL_FISHINGROD_AVALON": {
+    "itemValue": 10752,
+    "category": "2H-weapon",
+    "name": "Master's Avalonian Fishing Rod"
+  },
+  "T7_2H_TOOL_FISHINGROD_AVALON": {
+    "itemValue": 15744,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Avalonian Fishing Rod"
+  },
+  "T8_2H_TOOL_FISHINGROD_AVALON": {
+    "itemValue": 21248,
+    "category": "2H-weapon",
+    "name": "Elder's Avalonian Fishing Rod"
+  },
   "T2_2H_BOW": {
     "itemValue": 128,
     "category": "2H-weapon",
@@ -3529,6 +3969,11 @@
     "category": "2H-weapon",
     "name": "Elder's Forcepulse Bracers"
   },
+  "UNIQUE_VANITY_2H_PORTALGUN_TELLAFRIEND": {
+    "itemValue": 512,
+    "category": "2H-weapon",
+    "name": "Recruiter's Portal Cannon"
+  },
   "T1_OFF_SHIELD": {
     "itemValue": 0,
     "category": "offhands",
@@ -3985,352 +4430,352 @@
     "name": "Elder's Cape"
   },
   "T4_CAPEITEM_FW_BRIDGEWATCH": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Bridgewatch Cape"
   },
   "T5_CAPEITEM_FW_BRIDGEWATCH": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Bridgewatch Cape"
   },
   "T6_CAPEITEM_FW_BRIDGEWATCH": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Bridgewatch Cape"
   },
   "T7_CAPEITEM_FW_BRIDGEWATCH": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Bridgewatch Cape"
   },
   "T8_CAPEITEM_FW_BRIDGEWATCH": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Bridgewatch Cape"
   },
   "T4_CAPEITEM_FW_FORTSTERLING": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Fort Sterling Cape"
   },
   "T5_CAPEITEM_FW_FORTSTERLING": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Fort Sterling Cape"
   },
   "T6_CAPEITEM_FW_FORTSTERLING": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Fort Sterling Cape"
   },
   "T7_CAPEITEM_FW_FORTSTERLING": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Fort Sterling Cape"
   },
   "T8_CAPEITEM_FW_FORTSTERLING": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Fort Sterling Cape"
   },
   "T4_CAPEITEM_FW_LYMHURST": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Lymhurst Cape"
   },
   "T5_CAPEITEM_FW_LYMHURST": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Lymhurst Cape"
   },
   "T6_CAPEITEM_FW_LYMHURST": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Lymhurst Cape"
   },
   "T7_CAPEITEM_FW_LYMHURST": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Lymhurst Cape"
   },
   "T8_CAPEITEM_FW_LYMHURST": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Lymhurst Cape"
   },
   "T4_CAPEITEM_FW_MARTLOCK": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Martlock Cape"
   },
   "T5_CAPEITEM_FW_MARTLOCK": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Martlock Cape"
   },
   "T6_CAPEITEM_FW_MARTLOCK": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Martlock Cape"
   },
   "T7_CAPEITEM_FW_MARTLOCK": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Martlock Cape"
   },
   "T8_CAPEITEM_FW_MARTLOCK": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Martlock Cape"
   },
   "T4_CAPEITEM_FW_THETFORD": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Thetford Cape"
   },
   "T5_CAPEITEM_FW_THETFORD": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Thetford Cape"
   },
   "T6_CAPEITEM_FW_THETFORD": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Thetford Cape"
   },
   "T7_CAPEITEM_FW_THETFORD": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Thetford Cape"
   },
   "T8_CAPEITEM_FW_THETFORD": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Thetford Cape"
   },
   "T4_CAPEITEM_FW_CAERLEON": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Caerleon Cape"
   },
   "T5_CAPEITEM_FW_CAERLEON": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Caerleon Cape"
   },
   "T6_CAPEITEM_FW_CAERLEON": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Caerleon Cape"
   },
   "T7_CAPEITEM_FW_CAERLEON": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Caerleon Cape"
   },
   "T8_CAPEITEM_FW_CAERLEON": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Caerleon Cape"
   },
   "T4_CAPEITEM_FW_BRECILIEN": {
-    "itemValue": 96,
+    "itemValue": 224,
     "category": "capes",
     "name": "Adept's Brecilien Cape"
   },
   "T5_CAPEITEM_FW_BRECILIEN": {
-    "itemValue": 128,
+    "itemValue": 384,
     "category": "capes",
     "name": "Expert's Brecilien Cape"
   },
   "T6_CAPEITEM_FW_BRECILIEN": {
-    "itemValue": 320,
+    "itemValue": 832,
     "category": "capes",
     "name": "Master's Brecilien Cape"
   },
   "T7_CAPEITEM_FW_BRECILIEN": {
-    "itemValue": 576,
+    "itemValue": 1600,
     "category": "capes",
     "name": "Grandmaster's Brecilien Cape"
   },
   "T8_CAPEITEM_FW_BRECILIEN": {
-    "itemValue": 1152,
+    "itemValue": 3200,
     "category": "capes",
     "name": "Elder's Brecilien Cape"
   },
   "T4_CAPEITEM_AVALON": {
-    "itemValue": 992,
+    "itemValue": 1120,
     "category": "capes",
     "name": "Adept's Avalonian Cape"
   },
   "T5_CAPEITEM_AVALON": {
-    "itemValue": 1024,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Expert's Avalonian Cape"
   },
   "T6_CAPEITEM_AVALON": {
-    "itemValue": 3008,
+    "itemValue": 3520,
     "category": "capes",
     "name": "Master's Avalonian Cape"
   },
   "T7_CAPEITEM_AVALON": {
-    "itemValue": 5056,
+    "itemValue": 6080,
     "category": "capes",
     "name": "Grandmaster's Avalonian Cape"
   },
   "T8_CAPEITEM_AVALON": {
-    "itemValue": 10112,
+    "itemValue": 12160,
     "category": "capes",
     "name": "Elder's Avalonian Cape"
   },
   "T4_CAPEITEM_SMUGGLER": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Smuggler Cape"
   },
   "T5_CAPEITEM_SMUGGLER": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Smuggler Cape"
   },
   "T6_CAPEITEM_SMUGGLER": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Smuggler Cape"
   },
   "T7_CAPEITEM_SMUGGLER": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Smuggler Cape"
   },
   "T8_CAPEITEM_SMUGGLER": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Smuggler Cape"
   },
   "T4_CAPEITEM_HERETIC": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Heretic Cape"
   },
   "T5_CAPEITEM_HERETIC": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Heretic Cape"
   },
   "T6_CAPEITEM_HERETIC": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Heretic Cape"
   },
   "T7_CAPEITEM_HERETIC": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Heretic Cape"
   },
   "T8_CAPEITEM_HERETIC": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Heretic Cape"
   },
   "T4_CAPEITEM_UNDEAD": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Undead Cape"
   },
   "T5_CAPEITEM_UNDEAD": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Undead Cape"
   },
   "T6_CAPEITEM_UNDEAD": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Undead Cape"
   },
   "T7_CAPEITEM_UNDEAD": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Undead Cape"
   },
   "T8_CAPEITEM_UNDEAD": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Undead Cape"
   },
   "T4_CAPEITEM_KEEPER": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Keeper Cape"
   },
   "T5_CAPEITEM_KEEPER": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Keeper Cape"
   },
   "T6_CAPEITEM_KEEPER": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Keeper Cape"
   },
   "T7_CAPEITEM_KEEPER": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Keeper Cape"
   },
   "T8_CAPEITEM_KEEPER": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Keeper Cape"
   },
   "T4_CAPEITEM_MORGANA": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Morgana Cape"
   },
   "T5_CAPEITEM_MORGANA": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Morgana Cape"
   },
   "T6_CAPEITEM_MORGANA": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Morgana Cape"
   },
   "T7_CAPEITEM_MORGANA": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Morgana Cape"
   },
   "T8_CAPEITEM_MORGANA": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Morgana Cape"
   },
   "T4_CAPEITEM_DEMON": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "capes",
     "name": "Adept's Demon Cape"
   },
   "T5_CAPEITEM_DEMON": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "capes",
     "name": "Expert's Demon Cape"
   },
   "T6_CAPEITEM_DEMON": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "capes",
     "name": "Master's Demon Cape"
   },
   "T7_CAPEITEM_DEMON": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "capes",
     "name": "Grandmaster's Demon Cape"
   },
   "T8_CAPEITEM_DEMON": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "capes",
     "name": "Elder's Demon Cape"
   },
@@ -6325,229 +6770,829 @@
     "name": "Elder's Sandals of Purity"
   },
   "T4_HEAD_CLOTH_ROYAL": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "head",
     "name": "Adept's Royal Cowl"
   },
   "T5_HEAD_CLOTH_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "head",
     "name": "Expert's Royal Cowl"
   },
   "T6_HEAD_CLOTH_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "head",
     "name": "Master's Royal Cowl"
   },
   "T7_HEAD_CLOTH_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "head",
     "name": "Grandmaster's Royal Cowl"
   },
   "T8_HEAD_CLOTH_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "head",
     "name": "Elder's Royal Cowl"
   },
   "T4_ARMOR_CLOTH_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "armors",
     "name": "Adept's Royal Robe"
   },
   "T5_ARMOR_CLOTH_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "armors",
     "name": "Expert's Royal Robe"
   },
   "T6_ARMOR_CLOTH_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "armors",
     "name": "Master's Royal Robe"
   },
   "T7_ARMOR_CLOTH_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "armors",
     "name": "Grandmaster's Royal Robe"
   },
   "T8_ARMOR_CLOTH_ROYAL": {
-    "itemValue": 1024,
+    "itemValue": 5120,
     "category": "armors",
     "name": "Elder's Royal Robe"
   },
   "T4_SHOES_CLOTH_ROYAL": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "shoes",
     "name": "Adept's Royal Sandals"
   },
   "T5_SHOES_CLOTH_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "shoes",
     "name": "Expert's Royal Sandals"
   },
   "T6_SHOES_CLOTH_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "shoes",
     "name": "Master's Royal Sandals"
   },
   "T7_SHOES_CLOTH_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "shoes",
     "name": "Grandmaster's Royal Sandals"
   },
   "T8_SHOES_CLOTH_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "shoes",
     "name": "Elder's Royal Sandals"
   },
   "T4_HEAD_LEATHER_ROYAL": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "head",
     "name": "Adept's Royal Hood"
   },
   "T5_HEAD_LEATHER_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "head",
     "name": "Expert's Royal Hood"
   },
   "T6_HEAD_LEATHER_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "head",
     "name": "Master's Royal Hood"
   },
   "T7_HEAD_LEATHER_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "head",
     "name": "Grandmaster's Royal Hood"
   },
   "T8_HEAD_LEATHER_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "head",
     "name": "Elder's Royal Hood"
   },
   "T4_ARMOR_LEATHER_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "armors",
     "name": "Adept's Royal Jacket"
   },
   "T5_ARMOR_LEATHER_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "armors",
     "name": "Expert's Royal Jacket"
   },
   "T6_ARMOR_LEATHER_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "armors",
     "name": "Master's Royal Jacket"
   },
   "T7_ARMOR_LEATHER_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "armors",
     "name": "Grandmaster's Royal Jacket"
   },
   "T8_ARMOR_LEATHER_ROYAL": {
-    "itemValue": 1024,
+    "itemValue": 5120,
     "category": "armors",
     "name": "Elder's Royal Jacket"
   },
   "T4_SHOES_LEATHER_ROYAL": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "shoes",
     "name": "Adept's Royal Shoes"
   },
   "T5_SHOES_LEATHER_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "shoes",
     "name": "Expert's Royal Shoes"
   },
   "T6_SHOES_LEATHER_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "shoes",
     "name": "Master's Royal Shoes"
   },
   "T7_SHOES_LEATHER_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "shoes",
     "name": "Grandmaster's Royal Shoes"
   },
   "T8_SHOES_LEATHER_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "shoes",
     "name": "Elder's Royal Shoes"
   },
   "T4_HEAD_PLATE_ROYAL": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "head",
     "name": "Adept's Royal Helmet"
   },
   "T5_HEAD_PLATE_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "head",
     "name": "Expert's Royal Helmet"
   },
   "T6_HEAD_PLATE_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "head",
     "name": "Master's Royal Helmet"
   },
   "T7_HEAD_PLATE_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "head",
     "name": "Grandmaster's Royal Helmet"
   },
   "T8_HEAD_PLATE_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "head",
     "name": "Elder's Royal Helmet"
   },
   "T4_ARMOR_PLATE_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "armors",
     "name": "Adept's Royal Armor"
   },
   "T5_ARMOR_PLATE_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "armors",
     "name": "Expert's Royal Armor"
   },
   "T6_ARMOR_PLATE_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "armors",
     "name": "Master's Royal Armor"
   },
   "T7_ARMOR_PLATE_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "armors",
     "name": "Grandmaster's Royal Armor"
   },
   "T8_ARMOR_PLATE_ROYAL": {
-    "itemValue": 1024,
+    "itemValue": 5120,
     "category": "armors",
     "name": "Elder's Royal Armor"
   },
   "T4_SHOES_PLATE_ROYAL": {
-    "itemValue": 32,
+    "itemValue": 160,
     "category": "shoes",
     "name": "Adept's Royal Boots"
   },
   "T5_SHOES_PLATE_ROYAL": {
-    "itemValue": 64,
+    "itemValue": 320,
     "category": "shoes",
     "name": "Expert's Royal Boots"
   },
   "T6_SHOES_PLATE_ROYAL": {
-    "itemValue": 128,
+    "itemValue": 640,
     "category": "shoes",
     "name": "Master's Royal Boots"
   },
   "T7_SHOES_PLATE_ROYAL": {
-    "itemValue": 256,
+    "itemValue": 1280,
     "category": "shoes",
     "name": "Grandmaster's Royal Boots"
   },
   "T8_SHOES_PLATE_ROYAL": {
-    "itemValue": 512,
+    "itemValue": 2560,
     "category": "shoes",
     "name": "Elder's Royal Boots"
+  },
+  "T4_HEAD_GATHERER_FIBER": {
+    "itemValue": 128,
+    "category": "head",
+    "name": "Adept's Harvester Cap"
+  },
+  "T5_HEAD_GATHERER_FIBER": {
+    "itemValue": 256,
+    "category": "head",
+    "name": "Expert's Harvester Cap"
+  },
+  "T6_HEAD_GATHERER_FIBER": {
+    "itemValue": 512,
+    "category": "head",
+    "name": "Master's Harvester Cap"
+  },
+  "T7_HEAD_GATHERER_FIBER": {
+    "itemValue": 1024,
+    "category": "head",
+    "name": "Grandmaster's Harvester Cap"
+  },
+  "T8_HEAD_GATHERER_FIBER": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Elder's Harvester Cap"
+  },
+  "T4_ARMOR_GATHERER_FIBER": {
+    "itemValue": 256,
+    "category": "armors",
+    "name": "Adept's Harvester Garb"
+  },
+  "T5_ARMOR_GATHERER_FIBER": {
+    "itemValue": 512,
+    "category": "armors",
+    "name": "Expert's Harvester Garb"
+  },
+  "T6_ARMOR_GATHERER_FIBER": {
+    "itemValue": 1024,
+    "category": "armors",
+    "name": "Master's Harvester Garb"
+  },
+  "T7_ARMOR_GATHERER_FIBER": {
+    "itemValue": 2048,
+    "category": "armors",
+    "name": "Grandmaster's Harvester Garb"
+  },
+  "T8_ARMOR_GATHERER_FIBER": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Elder's Harvester Garb"
+  },
+  "T4_SHOES_GATHERER_FIBER": {
+    "itemValue": 128,
+    "category": "shoes",
+    "name": "Adept's Harvester Workboots"
+  },
+  "T5_SHOES_GATHERER_FIBER": {
+    "itemValue": 256,
+    "category": "shoes",
+    "name": "Expert's Harvester Workboots"
+  },
+  "T6_SHOES_GATHERER_FIBER": {
+    "itemValue": 512,
+    "category": "shoes",
+    "name": "Master's Harvester Workboots"
+  },
+  "T7_SHOES_GATHERER_FIBER": {
+    "itemValue": 1024,
+    "category": "shoes",
+    "name": "Grandmaster's Harvester Workboots"
+  },
+  "T8_SHOES_GATHERER_FIBER": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Elder's Harvester Workboots"
+  },
+  "T4_BACKPACK_GATHERER_FIBER": {
+    "itemValue": 128,
+    "category": "capes",
+    "name": "Adept's Harvester Backpack"
+  },
+  "T5_BACKPACK_GATHERER_FIBER": {
+    "itemValue": 256,
+    "category": "capes",
+    "name": "Expert's Harvester Backpack"
+  },
+  "T6_BACKPACK_GATHERER_FIBER": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Master's Harvester Backpack"
+  },
+  "T7_BACKPACK_GATHERER_FIBER": {
+    "itemValue": 1024,
+    "category": "capes",
+    "name": "Grandmaster's Harvester Backpack"
+  },
+  "T8_BACKPACK_GATHERER_FIBER": {
+    "itemValue": 2048,
+    "category": "capes",
+    "name": "Elder's Harvester Backpack"
+  },
+  "T4_HEAD_GATHERER_HIDE": {
+    "itemValue": 128,
+    "category": "head",
+    "name": "Adept's Skinner Cap"
+  },
+  "T5_HEAD_GATHERER_HIDE": {
+    "itemValue": 256,
+    "category": "head",
+    "name": "Expert's Skinner Cap"
+  },
+  "T6_HEAD_GATHERER_HIDE": {
+    "itemValue": 512,
+    "category": "head",
+    "name": "Master's Skinner Cap"
+  },
+  "T7_HEAD_GATHERER_HIDE": {
+    "itemValue": 1024,
+    "category": "head",
+    "name": "Grandmaster's Skinner Cap"
+  },
+  "T8_HEAD_GATHERER_HIDE": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Elder's Skinner Cap"
+  },
+  "T4_ARMOR_GATHERER_HIDE": {
+    "itemValue": 256,
+    "category": "armors",
+    "name": "Adept's Skinner Garb"
+  },
+  "T5_ARMOR_GATHERER_HIDE": {
+    "itemValue": 512,
+    "category": "armors",
+    "name": "Expert's Skinner Garb"
+  },
+  "T6_ARMOR_GATHERER_HIDE": {
+    "itemValue": 1024,
+    "category": "armors",
+    "name": "Master's Skinner Garb"
+  },
+  "T7_ARMOR_GATHERER_HIDE": {
+    "itemValue": 2048,
+    "category": "armors",
+    "name": "Grandmaster's Skinner Garb"
+  },
+  "T8_ARMOR_GATHERER_HIDE": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Elder's Skinner Garb"
+  },
+  "T4_SHOES_GATHERER_HIDE": {
+    "itemValue": 128,
+    "category": "shoes",
+    "name": "Adept's Skinner Workboots"
+  },
+  "T5_SHOES_GATHERER_HIDE": {
+    "itemValue": 256,
+    "category": "shoes",
+    "name": "Expert's Skinner Workboots"
+  },
+  "T6_SHOES_GATHERER_HIDE": {
+    "itemValue": 512,
+    "category": "shoes",
+    "name": "Master's Skinner Workboots"
+  },
+  "T7_SHOES_GATHERER_HIDE": {
+    "itemValue": 1024,
+    "category": "shoes",
+    "name": "Grandmaster's Skinner Workboots"
+  },
+  "T8_SHOES_GATHERER_HIDE": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Elder's Skinner Workboots"
+  },
+  "T4_BACKPACK_GATHERER_HIDE": {
+    "itemValue": 128,
+    "category": "capes",
+    "name": "Adept's Skinner Backpack"
+  },
+  "T5_BACKPACK_GATHERER_HIDE": {
+    "itemValue": 256,
+    "category": "capes",
+    "name": "Expert's Skinner Backpack"
+  },
+  "T6_BACKPACK_GATHERER_HIDE": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Master's Skinner Backpack"
+  },
+  "T7_BACKPACK_GATHERER_HIDE": {
+    "itemValue": 1024,
+    "category": "capes",
+    "name": "Grandmaster's Skinner Backpack"
+  },
+  "T8_BACKPACK_GATHERER_HIDE": {
+    "itemValue": 2048,
+    "category": "capes",
+    "name": "Elder's Skinner Backpack"
+  },
+  "T4_HEAD_GATHERER_ORE": {
+    "itemValue": 128,
+    "category": "head",
+    "name": "Adept's Miner Cap"
+  },
+  "T5_HEAD_GATHERER_ORE": {
+    "itemValue": 256,
+    "category": "head",
+    "name": "Expert's Miner Cap"
+  },
+  "T6_HEAD_GATHERER_ORE": {
+    "itemValue": 512,
+    "category": "head",
+    "name": "Master's Miner Cap"
+  },
+  "T7_HEAD_GATHERER_ORE": {
+    "itemValue": 1024,
+    "category": "head",
+    "name": "Grandmaster's Miner Cap"
+  },
+  "T8_HEAD_GATHERER_ORE": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Elder's Miner Cap"
+  },
+  "T4_ARMOR_GATHERER_ORE": {
+    "itemValue": 256,
+    "category": "armors",
+    "name": "Adept's Miner Garb"
+  },
+  "T5_ARMOR_GATHERER_ORE": {
+    "itemValue": 512,
+    "category": "armors",
+    "name": "Expert's Miner Garb"
+  },
+  "T6_ARMOR_GATHERER_ORE": {
+    "itemValue": 1024,
+    "category": "armors",
+    "name": "Master's Miner Garb"
+  },
+  "T7_ARMOR_GATHERER_ORE": {
+    "itemValue": 2048,
+    "category": "armors",
+    "name": "Grandmaster's Miner Garb"
+  },
+  "T8_ARMOR_GATHERER_ORE": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Elder's Miner Garb"
+  },
+  "T4_SHOES_GATHERER_ORE": {
+    "itemValue": 128,
+    "category": "shoes",
+    "name": "Adept's Miner Workboots"
+  },
+  "T5_SHOES_GATHERER_ORE": {
+    "itemValue": 256,
+    "category": "shoes",
+    "name": "Expert's Miner Workboots"
+  },
+  "T6_SHOES_GATHERER_ORE": {
+    "itemValue": 512,
+    "category": "shoes",
+    "name": "Master's Miner Workboots"
+  },
+  "T7_SHOES_GATHERER_ORE": {
+    "itemValue": 1024,
+    "category": "shoes",
+    "name": "Grandmaster's Miner Workboots"
+  },
+  "T8_SHOES_GATHERER_ORE": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Elder's Miner Workboots"
+  },
+  "T4_BACKPACK_GATHERER_ORE": {
+    "itemValue": 128,
+    "category": "capes",
+    "name": "Adept's Miner Backpack"
+  },
+  "T5_BACKPACK_GATHERER_ORE": {
+    "itemValue": 256,
+    "category": "capes",
+    "name": "Expert's Miner Backpack"
+  },
+  "T6_BACKPACK_GATHERER_ORE": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Master's Miner Backpack"
+  },
+  "T7_BACKPACK_GATHERER_ORE": {
+    "itemValue": 1024,
+    "category": "capes",
+    "name": "Grandmaster's Miner Backpack"
+  },
+  "T8_BACKPACK_GATHERER_ORE": {
+    "itemValue": 2048,
+    "category": "capes",
+    "name": "Elder's Miner Backpack"
+  },
+  "T4_HEAD_GATHERER_ROCK": {
+    "itemValue": 128,
+    "category": "head",
+    "name": "Adept's Quarrier Cap"
+  },
+  "T5_HEAD_GATHERER_ROCK": {
+    "itemValue": 256,
+    "category": "head",
+    "name": "Expert's Quarrier Cap"
+  },
+  "T6_HEAD_GATHERER_ROCK": {
+    "itemValue": 512,
+    "category": "head",
+    "name": "Master's Quarrier Cap"
+  },
+  "T7_HEAD_GATHERER_ROCK": {
+    "itemValue": 1024,
+    "category": "head",
+    "name": "Grandmaster's Quarrier Cap"
+  },
+  "T8_HEAD_GATHERER_ROCK": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Elder's Quarrier Cap"
+  },
+  "T4_ARMOR_GATHERER_ROCK": {
+    "itemValue": 256,
+    "category": "armors",
+    "name": "Adept's Quarrier Garb"
+  },
+  "T5_ARMOR_GATHERER_ROCK": {
+    "itemValue": 512,
+    "category": "armors",
+    "name": "Expert's Quarrier Garb"
+  },
+  "T6_ARMOR_GATHERER_ROCK": {
+    "itemValue": 1024,
+    "category": "armors",
+    "name": "Master's Quarrier Garb"
+  },
+  "T7_ARMOR_GATHERER_ROCK": {
+    "itemValue": 2048,
+    "category": "armors",
+    "name": "Grandmaster's Quarrier Garb"
+  },
+  "T8_ARMOR_GATHERER_ROCK": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Elder's Quarrier Garb"
+  },
+  "T4_SHOES_GATHERER_ROCK": {
+    "itemValue": 128,
+    "category": "shoes",
+    "name": "Adept's Quarrier Workboots"
+  },
+  "T5_SHOES_GATHERER_ROCK": {
+    "itemValue": 256,
+    "category": "shoes",
+    "name": "Expert's Quarrier Workboots"
+  },
+  "T6_SHOES_GATHERER_ROCK": {
+    "itemValue": 512,
+    "category": "shoes",
+    "name": "Master's Quarrier Workboots"
+  },
+  "T7_SHOES_GATHERER_ROCK": {
+    "itemValue": 1024,
+    "category": "shoes",
+    "name": "Grandmaster's Quarrier Workboots"
+  },
+  "T8_SHOES_GATHERER_ROCK": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Elder's Quarrier Workboots"
+  },
+  "T4_BACKPACK_GATHERER_ROCK": {
+    "itemValue": 128,
+    "category": "capes",
+    "name": "Adept's Quarrier Backpack"
+  },
+  "T5_BACKPACK_GATHERER_ROCK": {
+    "itemValue": 256,
+    "category": "capes",
+    "name": "Expert's Quarrier Backpack"
+  },
+  "T6_BACKPACK_GATHERER_ROCK": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Master's Quarrier Backpack"
+  },
+  "T7_BACKPACK_GATHERER_ROCK": {
+    "itemValue": 1024,
+    "category": "capes",
+    "name": "Grandmaster's Quarrier Backpack"
+  },
+  "T8_BACKPACK_GATHERER_ROCK": {
+    "itemValue": 2048,
+    "category": "capes",
+    "name": "Elder's Quarrier Backpack"
+  },
+  "T4_HEAD_GATHERER_WOOD": {
+    "itemValue": 128,
+    "category": "head",
+    "name": "Adept's Lumberjack Cap"
+  },
+  "T5_HEAD_GATHERER_WOOD": {
+    "itemValue": 256,
+    "category": "head",
+    "name": "Expert's Lumberjack Cap"
+  },
+  "T6_HEAD_GATHERER_WOOD": {
+    "itemValue": 512,
+    "category": "head",
+    "name": "Master's Lumberjack Cap"
+  },
+  "T7_HEAD_GATHERER_WOOD": {
+    "itemValue": 1024,
+    "category": "head",
+    "name": "Grandmaster's Lumberjack Cap"
+  },
+  "T8_HEAD_GATHERER_WOOD": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Elder's Lumberjack Cap"
+  },
+  "T4_ARMOR_GATHERER_WOOD": {
+    "itemValue": 256,
+    "category": "armors",
+    "name": "Adept's Lumberjack Garb"
+  },
+  "T5_ARMOR_GATHERER_WOOD": {
+    "itemValue": 512,
+    "category": "armors",
+    "name": "Expert's Lumberjack Garb"
+  },
+  "T6_ARMOR_GATHERER_WOOD": {
+    "itemValue": 1024,
+    "category": "armors",
+    "name": "Master's Lumberjack Garb"
+  },
+  "T7_ARMOR_GATHERER_WOOD": {
+    "itemValue": 2048,
+    "category": "armors",
+    "name": "Grandmaster's Lumberjack Garb"
+  },
+  "T8_ARMOR_GATHERER_WOOD": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Elder's Lumberjack Garb"
+  },
+  "T4_SHOES_GATHERER_WOOD": {
+    "itemValue": 128,
+    "category": "shoes",
+    "name": "Adept's Lumberjack Workboots"
+  },
+  "T5_SHOES_GATHERER_WOOD": {
+    "itemValue": 256,
+    "category": "shoes",
+    "name": "Expert's Lumberjack Workboots"
+  },
+  "T6_SHOES_GATHERER_WOOD": {
+    "itemValue": 512,
+    "category": "shoes",
+    "name": "Master's Lumberjack Workboots"
+  },
+  "T7_SHOES_GATHERER_WOOD": {
+    "itemValue": 1024,
+    "category": "shoes",
+    "name": "Grandmaster's Lumberjack Workboots"
+  },
+  "T8_SHOES_GATHERER_WOOD": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Elder's Lumberjack Workboots"
+  },
+  "T4_BACKPACK_GATHERER_WOOD": {
+    "itemValue": 128,
+    "category": "capes",
+    "name": "Adept's Lumberjack Backpack"
+  },
+  "T5_BACKPACK_GATHERER_WOOD": {
+    "itemValue": 256,
+    "category": "capes",
+    "name": "Expert's Lumberjack Backpack"
+  },
+  "T6_BACKPACK_GATHERER_WOOD": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Master's Lumberjack Backpack"
+  },
+  "T7_BACKPACK_GATHERER_WOOD": {
+    "itemValue": 1024,
+    "category": "capes",
+    "name": "Grandmaster's Lumberjack Backpack"
+  },
+  "T8_BACKPACK_GATHERER_WOOD": {
+    "itemValue": 2048,
+    "category": "capes",
+    "name": "Elder's Lumberjack Backpack"
+  },
+  "T4_HEAD_GATHERER_FISH": {
+    "itemValue": 128,
+    "category": "head",
+    "name": "Adept's Fisherman Cap"
+  },
+  "T5_HEAD_GATHERER_FISH": {
+    "itemValue": 256,
+    "category": "head",
+    "name": "Expert's Fisherman Cap"
+  },
+  "T6_HEAD_GATHERER_FISH": {
+    "itemValue": 512,
+    "category": "head",
+    "name": "Master's Fisherman Cap"
+  },
+  "T7_HEAD_GATHERER_FISH": {
+    "itemValue": 1024,
+    "category": "head",
+    "name": "Grandmaster's Fisherman Cap"
+  },
+  "T8_HEAD_GATHERER_FISH": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Elder's Fisherman Cap"
+  },
+  "T4_ARMOR_GATHERER_FISH": {
+    "itemValue": 256,
+    "category": "armors",
+    "name": "Adept's Fisherman Garb"
+  },
+  "T5_ARMOR_GATHERER_FISH": {
+    "itemValue": 512,
+    "category": "armors",
+    "name": "Expert's Fisherman Garb"
+  },
+  "T6_ARMOR_GATHERER_FISH": {
+    "itemValue": 1024,
+    "category": "armors",
+    "name": "Master's Fisherman Garb"
+  },
+  "T7_ARMOR_GATHERER_FISH": {
+    "itemValue": 2048,
+    "category": "armors",
+    "name": "Grandmaster's Fisherman Garb"
+  },
+  "T8_ARMOR_GATHERER_FISH": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Elder's Fisherman Garb"
+  },
+  "T4_SHOES_GATHERER_FISH": {
+    "itemValue": 128,
+    "category": "shoes",
+    "name": "Adept's Fisherman Workboots"
+  },
+  "T5_SHOES_GATHERER_FISH": {
+    "itemValue": 256,
+    "category": "shoes",
+    "name": "Expert's Fisherman Workboots"
+  },
+  "T6_SHOES_GATHERER_FISH": {
+    "itemValue": 512,
+    "category": "shoes",
+    "name": "Master's Fisherman Workboots"
+  },
+  "T7_SHOES_GATHERER_FISH": {
+    "itemValue": 1024,
+    "category": "shoes",
+    "name": "Grandmaster's Fisherman Workboots"
+  },
+  "T8_SHOES_GATHERER_FISH": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Elder's Fisherman Workboots"
+  },
+  "T4_BACKPACK_GATHERER_FISH": {
+    "itemValue": 128,
+    "category": "capes",
+    "name": "Adept's Fisherman Backpack"
+  },
+  "T5_BACKPACK_GATHERER_FISH": {
+    "itemValue": 256,
+    "category": "capes",
+    "name": "Expert's Fisherman Backpack"
+  },
+  "T6_BACKPACK_GATHERER_FISH": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Master's Fisherman Backpack"
+  },
+  "T7_BACKPACK_GATHERER_FISH": {
+    "itemValue": 1024,
+    "category": "capes",
+    "name": "Grandmaster's Fisherman Backpack"
+  },
+  "T8_BACKPACK_GATHERER_FISH": {
+    "itemValue": 2048,
+    "category": "capes",
+    "name": "Elder's Fisherman Backpack"
   },
   "UNIQUE_HEAD_VANITY_JESTER": {
     "itemValue": 32,
@@ -6609,6 +7654,16 @@
     "category": "shoes",
     "name": "Yule Shoes"
   },
+  "UNIQUE_BACKPACK_VANITY_SANTACLAUS": {
+    "itemValue": 0,
+    "category": "capes",
+    "name": "Yule Backpack"
+  },
+  "UNIQUE_BACKPACK_VANITY_EASTER": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Bunny Stalker Basket"
+  },
   "UNIQUE_HEAD_VANITY_PLAGUEDOC": {
     "itemValue": 0,
     "category": "head",
@@ -6639,6 +7694,11 @@
     "category": "shoes",
     "name": "Legbones"
   },
+  "UNIQUE_CAPE_VANITY_SKELETON": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Ragged Cape"
+  },
   "UNIQUE_HEAD_VANITY_PUMPKIN_01": {
     "itemValue": 0,
     "category": "head",
@@ -6658,6 +7718,11 @@
     "itemValue": 64,
     "category": "head",
     "name": "Uncle Frost's Hat"
+  },
+  "UNIQUE_CAPE_FOUNDER_LEGENDARY": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Legendary Explorer's Cloak"
   },
   "UNIQUE_HEAD_FOUNDER_LEGENDARY": {
     "itemValue": 64,
@@ -6689,6 +7754,11 @@
     "category": "shoes",
     "name": "Explorer's Boots"
   },
+  "UNIQUE_CAPE_STARTERPACK_LEGENDARY": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Legendary Adventurer's Cloak"
+  },
   "UNIQUE_HEAD_STARTERPACK_LEGENDARY": {
     "itemValue": 64,
     "category": "head",
@@ -6718,6 +7788,101 @@
     "itemValue": 32,
     "category": "shoes",
     "name": "Adventurer's Shoes"
+  },
+  "UNIQUE_CAPE_TELLAFRIEND": {
+    "itemValue": 32,
+    "category": "capes",
+    "name": "Recruiter's Cape"
+  },
+  "UNIQUE_CAPE_TELLAFRIEND_02": {
+    "itemValue": 32,
+    "category": "capes",
+    "name": "Riuros Cape"
+  },
+  "UNIQUE_CAPE_TELLAFRIEND_BATRIDER": {
+    "itemValue": 32,
+    "category": "capes",
+    "name": "Master of Bats Cape"
+  },
+  "UNIQUE_CAPE_TELLAFRIEND_BANNER": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Recruiter's Banner"
+  },
+  "UNIQUE_CAPE_TELLAFRIEND_BANNER_02": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Ogronios Banner"
+  },
+  "UNIQUE_CAPE_TOAD_TELLAFRIEND": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Recruiter's Cape - Toad"
+  },
+  "UNIQUE_CAPE_BLOODHOUND_TELLAFRIEND": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Recruiter's Cape - Rottweiler"
+  },
+  "UNIQUE_CAPE_TIGER_TELLAFRIEND": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Recruiter's Tiger Cape"
+  },
+  "UNIQUE_CAPE_RAM_TELLAFRIEND": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Recruiter's Fur Cape"
+  },
+  "UNIQUE_CAPE_WOLF_GREY_TELLAFRIEND": {
+    "itemValue": 64,
+    "category": "capes",
+    "name": "Recruiter's Grey Wolf Cape"
+  },
+  "T6_CAPE_PLATE_UNDEAD": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Undead Platemail Cape"
+  },
+  "T6_CAPE_LEATHER_UNDEAD": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Undead Leather Cape"
+  },
+  "T6_CAPE_CLOTH_UNDEAD": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Undead Cloth Cape"
+  },
+  "T6_CAPE_PLATE_KEEPER": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Keeper Platemail Cape"
+  },
+  "T6_CAPE_LEATHER_KEEPER": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Keeper Leather Cape"
+  },
+  "T6_CAPE_CLOTH_KEEPER": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Keeper Cloth Cape"
+  },
+  "T6_CAPE_PLATE_MORGANA": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Morgana Platemail Cape"
+  },
+  "T6_CAPE_LEATHER_MORGANA": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Morgana Leather Cape"
+  },
+  "T6_CAPE_CLOTH_MORGANA": {
+    "itemValue": 512,
+    "category": "capes",
+    "name": "Decorative Morgana Cloth Cape"
   },
   "UNIQUE_HEAD_VANITY_RICH_NOBLE_PURPLE": {
     "itemValue": 0,

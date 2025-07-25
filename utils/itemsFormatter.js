@@ -19,6 +19,12 @@ const fullItemsJsonPath = p.resolve(__dirname, "items.json");
 const fullItemsRaw = f.readFileSync(fullItemsJsonPath, "utf-8");
 const fullItems = JSON.parse(fullItemsRaw);
 
+const itemNameMap = itemNames.reduce((acc, line) => {
+  const match = line.split(":").map((s) => s.trim());
+  acc[match[1]] = match[2];
+  return acc;
+}, {});
+
 const simpleItemsMap = fullItems.items.simpleitem.reduce((acc, item) => {
   if (item["@uniquename"]) {
     acc[item["@uniquename"]] = {
@@ -27,10 +33,25 @@ const simpleItemsMap = fullItems.items.simpleitem.reduce((acc, item) => {
   }
   return acc;
 }, {});
+const equimentItems = [
+  ...fullItems.items.transformationweapon,
+  ...fullItems.items.weapon,
+  ...fullItems.items.equipmentitem,
+];
+const equimentItemsMap = equimentItems.reduce((acc, item) => {
+  if (item["@uniquename"]) {
+    acc[item["@uniquename"]] = {
+      ...item,
+    };
+  }
+  return acc;
+}, {});
+
 const formattedItems = {};
-const unhandledSubcategories = new Set();
-const unhandledCategories = new Set();
+const unhandledSlotTypes = new Set();
 const unhandledWeapons = new Set();
+const unhandledCraftingResources = new Set();
+const unhandledEquiment = new Set();
 
 function getItemValue(item) {
   if (!item.craftingrequirements) {
@@ -48,17 +69,22 @@ function getItemValue(item) {
   for (const resource of Array.isArray(craftresources)
     ? craftresources
     : [craftresources]) {
-    if (resource["@uniquename"] && simpleItemsMap[resource["@uniquename"]]) {
-      const simpleItem = simpleItemsMap[resource["@uniquename"]];
-      if (simpleItem["@itemvalue"]) {
-        itemValue +=
-          parseInt(simpleItem["@itemvalue"], 10) *
-          parseInt(resource["@count"], 10);
+    if (resource["@uniquename"]) {
+      if (simpleItemsMap[resource["@uniquename"]]) {
+        const simpleItem = simpleItemsMap[resource["@uniquename"]];
+        if (simpleItem["@itemvalue"]) {
+          itemValue +=
+            parseInt(simpleItem["@itemvalue"], 10) *
+            parseInt(resource["@count"], 10);
+        }
+      } else {
+        // Crafting resource might be another equiment item
+        if (!equimentItemsMap[resource["@uniquename"]]) {
+          unhandledCraftingResources.add(resource["@uniquename"]);
+        } else {
+          itemValue += getItemValue(equimentItemsMap[resource["@uniquename"]]);
+        }
       }
-    } else {
-      console.warn(
-        `Resource ${resource["@uniquename"]} not found in simpleItemsMap`
-      );
     }
   }
   return itemValue;
@@ -66,8 +92,8 @@ function getItemValue(item) {
 
 function getItemCategory(equipment) {
   let category;
-  switch (equipment["@shopcategory"]) {
-    case "weapons":
+  switch (equipment["@slottype"]) {
+    case "mainhand":
       if (equipment["@twohanded"]) {
         category = equipment["@twohanded"]
           ? categories["2H-weapon"]
@@ -76,25 +102,17 @@ function getItemCategory(equipment) {
         unhandledWeapons.add(equipment["@uniquename"]);
       }
       break;
-    case "armors":
+    case "armor":
       category = categories.armors;
       break;
     case "shoes":
       category = categories.shoes;
       break;
-    case "accessoires":
-      switch (equipment["@shopsubcategory1"]) {
-        case "capes":
-          category = categories.capes;
-          break;
-        case "satchels":
-        case "bags":
-          category = categories.bags;
-          break;
-        default:
-          unhandledSubcategories.add(equipment["@shopsubcategory1"]);
-          break;
-      }
+    case "cape":
+      category = categories.capes;
+      break;
+    case "bag":
+      category = categories.bags;
       break;
     case "head":
       category = categories.head;
@@ -102,21 +120,17 @@ function getItemCategory(equipment) {
     case "shoes":
       category = categories.shoes;
       break;
-    case "offhands":
+    case "offhand":
       category = categories.offhands;
       break;
     default:
-      unhandledCategories.add(equipment["@shopcategory"]);
+      unhandledSlotTypes.add(equipment["@slottype"]);
       break;
   }
   return category;
 }
 
-for (const equipment of [
-  ...fullItems.items.transformationweapon,
-  ...fullItems.items.weapon,
-  ...fullItems.items.equipmentitem,
-]) {
+for (const equipment of equimentItems) {
   if (!equipment["@uniquename"]) {
     console.warn("Equipment without @uniquename:", equipment);
   }
@@ -125,7 +139,8 @@ for (const equipment of [
   }
   const category = getItemCategory(equipment);
   const itemValue = getItemValue(equipment);
-  if (category && itemValue !== null) {
+  const name = itemNameMap[equipment["@uniquename"]];
+  if (category && itemValue !== null && name) {
     if (formattedItems[equipment["@uniquename"]]) {
       console.warn(
         `Duplicate item found: ${equipment["@uniquename"]}, overwriting category`
@@ -135,21 +150,10 @@ for (const equipment of [
       ...formattedItems[equipment["@uniquename"]],
       itemValue,
       category,
+      name,
     };
-  }
-}
-
-for (const itemNameLine of itemNames) {
-  const match = itemNameLine.match(/^\s*\d+:\s+([A-Z0-9_]+)\s*:\s+(.+?)\s*$/);
-  if (match) {
-    const id = match[1];
-    const name = match[2];
-    if (formattedItems[id]) {
-      formattedItems[id] = {
-        ...formattedItems[id],
-        name,
-      };
-    }
+  } else {
+    unhandledEquiment.add(equipment["@uniquename"]);
   }
 }
 
@@ -162,21 +166,20 @@ for (const key of Object.keys(formattedItems)) {
     delete formattedItems[key];
   }
 }
-if (unhandledSubcategories.size > 0) {
-  console.warn(
-    `Unhandled subcategories: ${[...unhandledSubcategories.values()].join(", ")}`
-  );
-}
-if (unhandledCategories.size > 0) {
-  console.warn(
-    `Unhandled categories: ${[...unhandledCategories.values()].join(", ")}`
-  );
-}
-if (unhandledWeapons.size > 0) {
-  console.warn(
-    `Unhandled weapons: ${[...unhandledWeapons.values()].join(", ")}`
-  );
-}
+
+console.warn(
+  "Unhandled slot types: ,",
+  [...unhandledSlotTypes.values()].join("\n")
+);
+console.warn("Unhandled weapons:", [...unhandledWeapons.values()].join("\n"));
+console.warn(
+  "Unhandled crafting resources:",
+  [...unhandledCraftingResources.values()].join("\n")
+);
+console.warn(
+  "Unhandled equipment:",
+  [...unhandledEquiment.values()].join("\n")
+);
 const publicPath = p.join(process.cwd(), "public", "formattedItems.json");
 f.writeFileSync(publicPath, JSON.stringify(formattedItems, null, 2));
 console.log(
