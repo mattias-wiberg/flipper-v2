@@ -160,7 +160,10 @@ export default async function Deals({
         ) {
           return; // Impossible to match enchantment levels
         }
-        let profit = buyOrder.unit_price_silver - sellOrder.unit_price_silver;
+        let profit =
+          buyOrder.unit_price_silver -
+          sellOrder.unit_price_silver -
+          buyOrder.unit_price_silver * (premium ? 0.04 : 0.08); // Subtract premium fee
         if (profit < minProfit) {
           return;
         }
@@ -242,11 +245,19 @@ export default async function Deals({
   });
 
   potentialDeals.sort((a, b) => b.profit - a.profit); // Highest profit first
-  const deals = [];
+  const deals: Array<{
+    orders: (typeof potentialDeals)[number];
+    amount: number;
+    name: string;
+  }> = [];
   for (const deal of potentialDeals) {
     if (deal.buyOrder.amount > 0 && deal.sellOrder.amount > 0) {
       const amount = Math.min(deal.buyOrder.amount, deal.sellOrder.amount);
-      deals.push({ deal, amount });
+      deals.push({
+        orders: deal,
+        name: getItemName(deal.sellOrder.item_group_type_id),
+        amount,
+      });
       // Mutate the order references amounts to reflect taking the deal
       deal.buyOrder.amount -= amount;
       deal.sellOrder.amount -= amount;
@@ -259,17 +270,16 @@ export default async function Deals({
       <p>
         Tier: {tier || "All"} <br />
         Min Profit: {minProfit || "None"} <br />
-        Quality Upgrade: {qualityUpgrade ? "Enabled" : "Disabled"} <br />
-        Enchantment Upgrade: {enchantmentUpgrade ? "Enabled" : "Disabled"}{" "}
-        <br />
-        Premium: {premium ? "Enabled" : "Disabled"} <br />
+        Quality Upgrade: {qualityUpgrade ? "True" : "False"} <br />
+        Enchantment Upgrade: {enchantmentUpgrade ? "True" : "False"} <br />
+        Premium: {premium ? "True" : "False"} <br />
       </p>
-      <h3>Potential Deals</h3>
+      {/* <h3>Potential Deals</h3>
       <p>{potentialDeals.length}</p>
-      <pre>{JSON.stringify(potentialDeals.splice(0, 5), null, 2)}</pre>
+      <pre>{JSON.stringify(potentialDeals.splice(0, 5), null, 2)}</pre> */}
       <h3>Deals</h3>
       <p>{deals.length}</p>
-      <pre>{JSON.stringify(deals.splice(0, 5), null, 2)}</pre>
+      <pre>{JSON.stringify(deals, null, 2)}</pre>
     </div>
   );
 }
