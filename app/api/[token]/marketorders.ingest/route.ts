@@ -43,6 +43,7 @@ export async function POST(
 
     let ordersToInsert = [];
     for (const order of parseResult.data.Orders) {
+      // console.log("Processing order:", order);
       const silver = order.UnitPriceSilver / 10000; // Convert to silver
       // Parse the tier from the order's item type ID
       const tierMatch = order.ItemTypeId.match(/T(\d+)/);
@@ -69,7 +70,7 @@ export async function POST(
     }
     // Map incoming order fields to DB fields
     const { error } = await supabase.from("orders").upsert(ordersToInsert, {
-      ignoreDuplicates: true,
+      onConflict: "token,id",
     });
 
     if (error) {
