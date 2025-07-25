@@ -15,16 +15,16 @@ const itemSchema = z.object({
     "offhands",
   ]),
   name: z.string(),
+  itemValue: z.number().min(0),
 });
 
 const itemsSchema = z.record(itemSchema);
+type ItemType = z.infer<typeof itemSchema>;
 
 // Load and cache the JSON from public/formattedItems.json
 
-let cachedItems:
-  | Record<string, { category: ItemCategory; name: string }>
-  | undefined;
-function getItems(): Record<string, { category: ItemCategory; name: string }> {
+let cachedItems: Record<string, ItemType> | undefined;
+function getItems(): Record<string, ItemType> {
   if (!cachedItems) {
     const itemsJsonPath = path.join(
       process.cwd(),
@@ -54,4 +54,36 @@ function findItemCategory(itemTypeId: string): ItemCategory {
   }
 }
 
-export { findItemCategory };
+/**
+ * Gets the item value for a given item_type_id (@uniquename) from items.json.
+ * @param itemTypeId The unique name of the item (@uniquename)
+ * @returns The item value or throws an error if not found.
+ */
+function getItemValue(itemTypeId: string): number {
+  const items = getItems();
+  if (items[itemTypeId]) {
+    return items[itemTypeId].itemValue;
+  } else {
+    throw new Error(
+      `Item type ID ${itemTypeId} not found or missing itemValue in formattedItems.json`
+    );
+  }
+}
+
+/**
+ * Gets the item name for a given item_type_id (@uniquename) from items.json.
+ * @param itemTypeId The unique name of the item (@uniquename)
+ * @returns The item name or throws an error if not found.
+ */
+function getItemName(itemTypeId: string): string {
+  const items = getItems();
+  if (items[itemTypeId]) {
+    return items[itemTypeId].name;
+  } else {
+    throw new Error(
+      `Item type ID ${itemTypeId} not found or missing name in formattedItems.json`
+    );
+  }
+}
+
+export { findItemCategory, getItemName, getItemValue };
