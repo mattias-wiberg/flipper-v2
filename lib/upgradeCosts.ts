@@ -108,4 +108,81 @@ function expectedEnchantmentUpgradeCost(
   return cost;
 }
 
-export { expectedEnchantmentUpgradeCost, expectedQualityUpgradeCost };
+type EnchantmentUpgradeResourcePrices = [
+  EnchantmentUpgradeItem[],
+  EnchantmentUpgradeItem[],
+  EnchantmentUpgradeItem[],
+];
+
+/**
+ * Get the prices of enchantment upgrade resources (runes, souls, relics) grouped by tier.
+ * @param sellOrders The list of sell orders containing item group type IDs, tiers, unit prices, and amounts.
+ * @returns An object mapping each tier to an array of enchantment upgrade items for runes, souls, and relics.
+ */
+function getEnchantmentUpgradeResourcePrices(
+  sellOrders: {
+    item_group_type_id: string;
+    tier: number;
+    unit_price_silver: number;
+    amount: number;
+  }[]
+): {
+  4: EnchantmentUpgradeResourcePrices;
+  5: EnchantmentUpgradeResourcePrices;
+  6: EnchantmentUpgradeResourcePrices;
+  7: EnchantmentUpgradeResourcePrices;
+  8: EnchantmentUpgradeResourcePrices;
+} {
+  const enchantmentUpgradeResourcePrices: ReturnType<
+    typeof getEnchantmentUpgradeResourcePrices
+  > = {
+    4: [[], [], []],
+    5: [[], [], []],
+    6: [[], [], []],
+    7: [[], [], []],
+    8: [[], [], []],
+  };
+  sellOrders.forEach((order) => {
+    const itemEnding = order.item_group_type_id.split("_").pop();
+    if (
+      itemEnding === "RUNE" ||
+      itemEnding === "SOUL" ||
+      itemEnding === "RELIC"
+    ) {
+      const tier = order.tier.toString();
+      if (
+        tier !== "4" &&
+        tier !== "5" &&
+        tier !== "6" &&
+        tier !== "7" &&
+        tier !== "8"
+      ) {
+        throw new Error(
+          `Invalid tier: ${tier} for order ${JSON.stringify(order)}`
+        );
+      }
+      const mappedOrder: EnchantmentUpgradeItem = {
+        amount: order.amount,
+        price: order.unit_price_silver,
+      };
+      switch (itemEnding) {
+        case "RUNE":
+          enchantmentUpgradeResourcePrices[tier][0].push(mappedOrder);
+          break;
+        case "SOUL":
+          enchantmentUpgradeResourcePrices[tier][1].push(mappedOrder);
+          break;
+        case "RELIC":
+          enchantmentUpgradeResourcePrices[tier][2].push(mappedOrder);
+          break;
+      }
+    }
+  });
+  return enchantmentUpgradeResourcePrices;
+}
+
+export {
+  expectedEnchantmentUpgradeCost,
+  expectedQualityUpgradeCost,
+  getEnchantmentUpgradeResourcePrices,
+};
