@@ -1,4 +1,4 @@
-import { expectedEnchantmentUpgradeCost } from "./deals";
+import { expectedEnchantmentUpgradeCost } from "./upgradeCosts";
 
 describe("expectedEnchantmentUpgradeCost", () => {
   const basicUpgradeItems = [
