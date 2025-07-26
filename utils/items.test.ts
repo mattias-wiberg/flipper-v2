@@ -1,11 +1,11 @@
-import { findItemCategory } from "./items";
+import { getItemCategory } from "./items";
 
 describe("findItemCategory", () => {
   it("should return the correct category for UNIQUE_HIDEOUT", () => {
-    expect(findItemCategory("UNIQUE_HIDEOUT")).toBe("other");
+    expect(getItemCategory("UNIQUE_HIDEOUT")).toBe("other");
   });
 
   it("should return null for a non-existent item", () => {
-    expect(findItemCategory("NON_EXISTENT_ITEM")).toBeNull();
+    expect(getItemCategory("NON_EXISTENT_ITEM")).toBeNull();
   });
 });

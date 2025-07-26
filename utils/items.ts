@@ -22,7 +22,6 @@ const itemsSchema = z.record(itemSchema);
 type ItemType = z.infer<typeof itemSchema>;
 
 // Load and cache the JSON from public/formattedItems.json
-
 let cachedItems: Record<string, ItemType> | undefined;
 function getItems(): Record<string, ItemType> {
   if (!cachedItems) {
@@ -43,7 +42,7 @@ function getItems(): Record<string, ItemType> {
  * @param itemTypeId The unique name of the item (@uniquename)
  * @returns The item category (@shopcategory) or throws an error if not found.
  */
-function findItemCategory(itemTypeId: string): ItemCategory {
+function getItemCategory(itemTypeId: string): ItemCategory {
   const items = getItems();
   if (items[itemTypeId]) {
     return items[itemTypeId].category;
@@ -86,4 +85,4 @@ function getItemName(itemTypeId: string): string {
   }
 }
 
-export { findItemCategory, getItemName, getItemValue };
+export { getItemCategory, getItemName, getItemValue };

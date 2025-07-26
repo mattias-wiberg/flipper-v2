@@ -1,88 +1,11 @@
-import { ItemCategory } from "@/lib/items";
-import { findItemCategory, getItemName, getItemValue } from "@/utils/items";
+import {
+  EnchantmentUpgradeItem,
+  expectedEnchantmentUpgradeCost,
+  expectedQualityUpgradeCost,
+} from "@/lib/deals";
+import { getItemCategory, getItemName, getItemValue } from "@/utils/items";
 import { createClient } from "@/utils/supabase/server";
 import { groupBy } from "@/utils/utils";
-
-/**
- * Calculate the expected cost to upgrade an item from one quality level to another.
- * @param fromQuality The current quality level (1=Normal, 2=Good, 3=Outstanding, 4=Excellent, 5=Masterpiece).
- * @param toQuality The target quality level (1=Normal, 2=Good, 3=Outstanding, 4=Excellent, 5=Masterpiece).
- * @param itemValue The item value of the item being upgraded.
- * @returns The expected cost to upgrade.
- */
-function expectedQualityUpgradeCost(
-  fromQuality: number,
-  toQuality: number,
-  itemValue: number
-): number {
-  if (fromQuality < 1 || fromQuality > 5 || toQuality < 1 || toQuality > 5) {
-    throw new Error("Quality levels must be between 1 and 5.");
-  }
-
-  if (fromQuality >= toQuality) {
-    return 0.0;
-  }
-
-  const expectedCostVectors = [
-    // 1 to >=2
-    [4.4],
-    // 1 to >=3, 2 to >=3
-    [10.68571429, 7.85714286],
-    // 1 to >=4, 2 to >=4, 3 to >=4
-    [21.71714286, 19.17142857, 13.2],
-    // 1 to >=5, 2 to >=5, 3 to >=5, 4 to >=5
-    [5500.73857143, 5501.88571429, 5502.2, 5500.0],
-  ]; // See calc.py for the source of these values
-
-  return expectedCostVectors[toQuality - 2][fromQuality - 1] * itemValue;
-}
-
-function enchantmentUpgradeAmount(itemCategory: ItemCategory): number {
-  if (itemCategory === "2H-weapon") {
-    return 384;
-  } else if (itemCategory === "1H-weapon") {
-    return 288;
-  } else if (itemCategory === "armors" || itemCategory === "bags") {
-    return 192;
-  } else if (
-    itemCategory === "head" ||
-    itemCategory === "shoes" ||
-    itemCategory === "capes" ||
-    itemCategory === "offhands"
-  ) {
-    return 92;
-  } else {
-    throw new Error(
-      `Unknown item category for enchantment upgrade amount: ${itemCategory}`
-    );
-  }
-}
-
-function expectedEnchantmentUpgradeCost(
-  fromEnchantment: number,
-  toEnchantment: number,
-  itemCategory: ItemCategory
-): number {
-  if (toEnchantment <= fromEnchantment) {
-    return 0.0;
-  }
-
-  if (fromEnchantment < 0 || toEnchantment < 0) {
-    throw new Error("Enchantment levels must be positive.");
-  }
-  if (toEnchantment > 3) {
-    throw new Error("Enchantment levels can only be enchanted up to level 3.");
-  }
-
-  const N = enchantmentUpgradeAmount(itemCategory);
-  // TODO: Change costs to be fetched from database and be item tier specific
-  const costs = [15, 200, 3500]; // rune, soul, relic
-  let cost = 0;
-  for (let i = fromEnchantment; i < toEnchantment; i++) {
-    cost += costs[i] * N;
-  }
-  return cost;
-}
 
 export default async function Deals({
   searchParams,
@@ -123,7 +46,7 @@ export default async function Deals({
   let sellOrderQuery = supabase
     .from("orders")
     .select(
-      "item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount"
+      "item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount"
     )
     .eq("action_type", "offer");
   if (tier) {
@@ -138,6 +61,43 @@ export default async function Deals({
     sellOrders.data,
     (order) => order.item_group_type_id
   );
+
+  const enchantedUpgradeItems: { [tier: string]: EnchantmentUpgradeItem[][] } =
+    sellOrders.data.reduce(
+      (acc, order) => {
+        const itemEnding = order.item_group_type_id.split("_").pop();
+        if (
+          itemEnding === "RUNE" ||
+          itemEnding === "SOUL" ||
+          itemEnding === "RELIC"
+        ) {
+          const tier = order.tier.toString();
+          const mappedOrder: EnchantmentUpgradeItem = {
+            amount: order.amount,
+            price: order.unit_price_silver,
+          };
+          switch (itemEnding) {
+            case "RUNE":
+              acc[tier][0].push(mappedOrder);
+              break;
+            case "SOUL":
+              acc[tier][1].push(mappedOrder);
+              break;
+            case "RELIC":
+              acc[tier][2].push(mappedOrder);
+              break;
+          }
+        }
+        return acc;
+      },
+      {
+        4: [[], [], []],
+        5: [[], [], []],
+        6: [[], [], []],
+        7: [[], [], []],
+        8: [[], [], []],
+      } as Record<string, EnchantmentUpgradeItem[][]>
+    );
 
   const potentialDeals: Array<{
     sellOrder: (typeof sellOrders.data)[number];
@@ -207,20 +167,24 @@ export default async function Deals({
           sellOrder.enchantment_level < buyOrder.enchantment_level &&
           sellOrder.quality_level >= buyOrder.quality_level
         ) {
-          enchantmentUpgradeCost = expectedEnchantmentUpgradeCost(
+          const upgradeCost = expectedEnchantmentUpgradeCost(
             sellOrder.enchantment_level,
             buyOrder.enchantment_level,
-            findItemCategory(buyOrder.item_group_type_id)
+            getItemCategory(buyOrder.item_group_type_id),
+            enchantedUpgradeItems[sellOrder.tier.toString()]
           );
-          const enchantmentUpgradeProfit = profit - enchantmentUpgradeCost;
-          if (enchantmentUpgradeProfit > minProfit) {
-            potentialDeals.push({
-              sellOrder,
-              buyOrder,
-              profit: enchantmentUpgradeProfit,
-              qualityUpgrade: false,
-              enchantmentUpgrade,
-            });
+          if (upgradeCost) {
+            enchantmentUpgradeCost = upgradeCost;
+            const enchantmentUpgradeProfit = profit - enchantmentUpgradeCost;
+            if (enchantmentUpgradeProfit > minProfit) {
+              potentialDeals.push({
+                sellOrder,
+                buyOrder,
+                profit: enchantmentUpgradeProfit,
+                qualityUpgrade: false,
+                enchantmentUpgrade,
+              });
+            }
           }
         }
         if (
