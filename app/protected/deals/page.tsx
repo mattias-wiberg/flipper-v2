@@ -140,8 +140,8 @@ export default async function Deals({
           });
         }
 
-        let qualityUpgradeCost = 0;
-        let enchantmentUpgradeCost = 0;
+        let qualityUpgradeCost = null;
+        let enchantmentUpgradeCost = null;
         if (
           qualityUpgrade &&
           sellOrder.enchantment_level === buyOrder.enchantment_level
@@ -187,11 +187,7 @@ export default async function Deals({
             }
           }
         }
-        if (
-          enchantmentUpgrade &&
-          sellOrder.enchantment_level < buyOrder.enchantment_level &&
-          qualityUpgrade
-        ) {
+        if (qualityUpgradeCost !== null && enchantmentUpgradeCost !== null) {
           const totalUpgradeProfit =
             profit - qualityUpgradeCost - enchantmentUpgradeCost;
           if (totalUpgradeProfit > minProfit) {
@@ -199,8 +195,8 @@ export default async function Deals({
               sellOrder,
               buyOrder,
               profit: totalUpgradeProfit,
-              qualityUpgrade,
-              enchantmentUpgrade,
+              qualityUpgrade: true,
+              enchantmentUpgrade: true,
             });
           }
         }
