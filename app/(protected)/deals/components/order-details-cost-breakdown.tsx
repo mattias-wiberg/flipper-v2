@@ -44,20 +44,27 @@ export const DealCostBreakdown = ({ deal }: DealCostBreakdownProps) => {
 
   return (
     <div
-      className="p-4 min-w-[280px] flex flex-col gap-1 text-sm"
+      className="flex flex-col gap-1 text-sm"
       style={{ fontFamily: "Inter, sans-serif" }}
     >
-      <div className="font-semibold text-base mb-1">Cost Breakdown</div>
+      <div className="font-semibold text-base mb-1 whitespace-nowrap">
+        Cost Breakdown
+      </div>
       {rows.map((row) => (
-        <div key={row.label} className="flex justify-between">
-          <span className="text-xs text-muted-foreground">{row.label}</span>
-          <span className="font-mono">{formatNumber(row.value)}</span>
+        <div key={row.label} className="flex justify-between gap-6">
+          <span className="text-xs text-muted-foreground whitespace-nowrap">
+            {row.label}
+          </span>
+          <span className="font-mono whitespace-nowrap">
+            {formatNumber(row.value)}
+          </span>
         </div>
       ))}
       <div className="border-t my-1" />
-      <div className="flex justify-between font-semibold">
-        <span></span>
-        <span className="font-mono">{formatNumber(deal.profit)}</span>
+      <div className="flex justify-end font-semibold">
+        <span className="font-mono whitespace-nowrap">
+          {formatNumber(deal.profit)}
+        </span>
       </div>
     </div>
   );
