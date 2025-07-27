@@ -3,6 +3,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Checkbox } from "@/components/ui/checkbox";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { ArrowUp10, ArrowUpZA } from "lucide-react";
 import { Deal } from "../data/schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
@@ -68,6 +74,44 @@ export const columns: ColumnDef<Deal>[] = [
       <DataTableColumnHeader column={column} title="Amount" />
     ),
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("amount")}</div>,
+  },
+  {
+    id: "info",
+    header: () => (
+      <span className="flex items-center justify-center" title="Info">
+        Info
+      </span>
+    ),
+    cell: ({ row }) => {
+      const { enchantmentUpgradeRequired, qualityUpgradeRequired } =
+        row.original;
+      return (
+        <div className="flex items-center justify-center gap-2">
+          {enchantmentUpgradeRequired && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <ArrowUp10 className="text-sm text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Enchantment upgrade required</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+          {qualityUpgradeRequired && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <ArrowUpZA className="text-sm text-muted-foreground cursor-help" />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Quality upgrade required</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
+        </div>
+      );
+    },
+    enableSorting: false,
+    enableHiding: true,
   },
   {
     id: "actions",

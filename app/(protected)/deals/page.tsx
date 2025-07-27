@@ -22,8 +22,18 @@ export default async function Deals({
   const params = await searchParams;
   const { tier } = params;
   const minProfit = params.minProfit ?? 0;
-  const qualityUpgrade = params.qualityUpgrade || false;
-  const enchantmentUpgrade = params.enchantmentUpgrade || false;
+  const qualityUpgrade = params.qualityUpgrade || true;
+  const enchantmentUpgrade = params.enchantmentUpgrade || true;
+  console.log(
+    "Fetching deals with params:",
+    params,
+    "minProfit:",
+    minProfit,
+    "qualityUpgrade:",
+    qualityUpgrade,
+    "enchantmentUpgrade:",
+    enchantmentUpgrade
+  );
   const premium = params.premium || false;
 
   let buyOrderQuery = supabase
