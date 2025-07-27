@@ -15,7 +15,7 @@ export default async function TokenManager() {
   const token = data.token;
 
   return (
-    <div className="flex-1 w-full flex flex-col">
+    <div className="flex-1 w-full max-w-xl flex flex-col items-center justify-center mx-auto">
       <h1 className="text-lg font-bold mb-4">Your database token</h1>
       <span className="text-sm">
         Your token is used to upload your market data. Keep it secret! Anyone

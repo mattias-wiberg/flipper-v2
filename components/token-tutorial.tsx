@@ -1,5 +1,4 @@
 "use client";
-import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -24,12 +23,15 @@ const TutorialItem = ({
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
       <CollapsibleTrigger asChild>
-        <div className="flex items-center justify-between gap-4 cursor-pointer">
+        <div className="flex items-center justify-between gap-4 cursor-pointer select-none px-2 py-1 rounded hover:bg-muted transition">
           <h4 className="text-sm font-semibold">{title}</h4>
-          <Button variant="ghost" size="icon" className="size-8">
+          <span
+            className="size-8 flex items-center justify-center rounded hover:bg-accent transition"
+            aria-label="Toggle"
+          >
             {isOpen ? <ChevronUp /> : <ChevronDown />}
             <span className="sr-only">Toggle</span>
-          </Button>
+          </span>
         </div>
       </CollapsibleTrigger>
       <CollapsibleContent>
@@ -50,14 +52,12 @@ export const TokenTutorial = ({ token }: { token: string }) => {
         title="Windows"
         listItems={[
           <>
-            Open the command prompt (cmd) or PowerShell.
-            <br />
-            Keybinding{" "}
+            Open the command prompt (cmd) or PowerShell. Keybinding{" "}
             <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Win + x A
             </code>
           </>,
-          <>
+          <div className="flex flex-col gap-1 items-start">
             Copy and paste the following command into the terminal:
             <Tooltip>
               <TooltipTrigger>
@@ -80,21 +80,19 @@ export const TokenTutorial = ({ token }: { token: string }) => {
               Tip: You can save the above command as a batch file (.bat) for
               easy access.
             </span>
-          </>,
+          </div>,
         ]}
       />
       <TutorialItem
         title="Mac OS"
         listItems={[
           <>
-            Open the terminal.
-            <br />
-            Keybinding{" "}
+            Open the terminal. Keybinding{" "}
             <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Cmd + Space
             </code>
           </>,
-          <>
+          <div className="flex flex-col gap-1 items-start">
             Copy and paste the following command into the terminal:
             <Tooltip>
               <TooltipTrigger>
@@ -118,21 +116,19 @@ export const TokenTutorial = ({ token }: { token: string }) => {
               Tip: You can save the above command as a shell script (.sh) for
               easy access.
             </span>
-          </>,
+          </div>,
         ]}
       />
       <TutorialItem
         title="Linux"
         listItems={[
           <>
-            Open the terminal.
-            <br />
-            Keybinding{" "}
+            Open the terminal. Keybinding{" "}
             <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Ctrl + Alt + T
             </code>
           </>,
-          <>
+          <div className="flex flex-col gap-1 items-start">
             Copy and paste the following command into the terminal:
             <Tooltip>
               <TooltipTrigger>
@@ -155,7 +151,7 @@ export const TokenTutorial = ({ token }: { token: string }) => {
               Tip: You can save the above command as a shell script (.sh) for
               easy access.
             </span>
-          </>,
+          </div>,
         ]}
       />
     </div>
