@@ -76,17 +76,12 @@ export const columns: ColumnDef<Deal>[] = [
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("amount")}</div>,
   },
   {
-    id: "info",
-    header: () => (
-      <span className="flex items-center justify-center" title="Info">
-        Info
-      </span>
-    ),
+    id: "actions",
     cell: ({ row }) => {
       const { enchantmentUpgradeRequired, qualityUpgradeRequired } =
         row.original;
       return (
-        <div className="flex items-center justify-center gap-2">
+        <div className="flex items-center justify-end gap-1">
           {enchantmentUpgradeRequired && (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -107,14 +102,9 @@ export const columns: ColumnDef<Deal>[] = [
               </TooltipContent>
             </Tooltip>
           )}
+          <DataTableRowActions row={row} />
         </div>
       );
     },
-    enableSorting: false,
-    enableHiding: true,
-  },
-  {
-    id: "actions",
-    cell: ({ row }) => <DataTableRowActions row={row} />,
   },
 ];
