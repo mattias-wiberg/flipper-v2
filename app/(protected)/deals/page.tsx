@@ -82,14 +82,14 @@ export default async function Deals({
     qualityUpgradeRequired: deal.orders.qualityUpgrade,
     buyOrder: {
       itemTypeId: deal.orders.buyOrder.item_type_id,
-      enchantmentLevel: deal.orders.buyOrder.enchantment_level.toString(),
-      qualityLevel: deal.orders.buyOrder.quality_level.toString(),
+      enchantmentLevel: deal.orders.buyOrder.enchantment_level,
+      qualityLevel: deal.orders.buyOrder.quality_level,
       price: deal.orders.buyOrder.unit_price_silver,
     },
     sellOrder: {
       itemTypeId: deal.orders.sellOrder.item_type_id,
-      enchantmentLevel: deal.orders.sellOrder.enchantment_level.toString(),
-      qualityLevel: deal.orders.sellOrder.quality_level.toString(),
+      enchantmentLevel: deal.orders.sellOrder.enchantment_level,
+      qualityLevel: deal.orders.sellOrder.quality_level,
       price: deal.orders.sellOrder.unit_price_silver,
     },
   }));

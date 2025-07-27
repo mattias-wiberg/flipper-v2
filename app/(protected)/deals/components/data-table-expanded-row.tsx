@@ -9,6 +9,7 @@ import {
 import { Row } from "@tanstack/react-table";
 import Image from "next/image";
 
+import { getEnchantmentName, getQualityName } from "@/lib/items";
 import { useState } from "react";
 import { dealSchema } from "../data/schema";
 
@@ -83,8 +84,13 @@ export function DealExpandedRow<TData>({ row }: DealExpandedRowProps<TData>) {
                 />
                 {text}
               </TableCell>
-              <TableCell>{order.qualityLevel}</TableCell>
-              <TableCell>{order.enchantmentLevel}</TableCell>
+              <TableCell>
+                {getQualityName(order.qualityLevel)} ({order.qualityLevel})
+              </TableCell>
+              <TableCell>
+                {getEnchantmentName(order.enchantmentLevel)} (
+                {order.enchantmentLevel})
+              </TableCell>
               <TableCell>{order.price}</TableCell>
             </TableRow>
           ))}
