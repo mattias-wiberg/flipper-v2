@@ -48,6 +48,15 @@ export function DataTable<TData, TValue>({
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
+  // New: manage expanded rows state at the top level
+  const [expandedRows, setExpandedRows] = React.useState<
+    Record<string, boolean>
+  >({});
+
+  const handleToggleRow = (rowId: string) => {
+    setExpandedRows((prev) => ({ ...prev, [rowId]: !prev[rowId] }));
+  };
+
   const table = useReactTable({
     data,
     columns,
@@ -100,13 +109,13 @@ export function DataTable<TData, TValue>({
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => {
-                const [open, setOpen] = React.useState(false);
+              table.getRowModel().rows.flatMap((row) => {
+                const isOpen = !!expandedRows[row.id];
                 return [
                   <Collapsible
                     key={row.id + "-collapsible"}
-                    open={open}
-                    onOpenChange={setOpen}
+                    open={isOpen}
+                    onOpenChange={() => handleToggleRow(row.id)}
                     asChild
                   >
                     <TableRow data-state={row.getIsSelected() && "selected"}>
@@ -115,11 +124,11 @@ export function DataTable<TData, TValue>({
                           <button
                             type="button"
                             className="flex items-center justify-center w-8 h-8 focus:outline-none"
-                            aria-label={open ? "Collapse row" : "Expand row"}
-                            data-state={open ? "open" : "closed"}
+                            aria-label={isOpen ? "Collapse row" : "Expand row"}
+                            data-state={isOpen ? "open" : "closed"}
                           >
                             <ChevronRight
-                              className={`transition-transform ${open ? "rotate-90" : ""}`}
+                              className={`transition-transform ${isOpen ? "rotate-90" : ""}`}
                             />
                           </button>
                         </CollapsibleTrigger>
@@ -134,7 +143,7 @@ export function DataTable<TData, TValue>({
                       ))}
                     </TableRow>
                   </Collapsible>,
-                  open && (
+                  isOpen && (
                     <TableRow
                       key={row.id + "-expanded"}
                       className="bg-muted/20"
