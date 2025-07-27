@@ -77,11 +77,12 @@ function expectedEnchantmentUpgradeCost(
   toEnchantment: number,
   itemCategory: ItemCategory,
   upgradeItems: EnchantmentUpgradeItem[][]
-): number | null {
-  if (toEnchantment <= fromEnchantment) {
-    return 0.0;
-  }
-
+): { totalCost: number; shoppingList: EnchantmentUpgradeItem[][] } | null {
+  const shoppingList: [
+    EnchantmentUpgradeItem[],
+    EnchantmentUpgradeItem[],
+    EnchantmentUpgradeItem[],
+  ] = [[], [], []];
   if (fromEnchantment < 0 || toEnchantment < 0) {
     throw new Error("Enchantment levels must be positive.");
   }
@@ -90,7 +91,7 @@ function expectedEnchantmentUpgradeCost(
   }
 
   const N = enchantmentUpgradeAmount(itemCategory);
-  let cost = 0;
+  let totalCost = 0;
   for (let i = fromEnchantment; i < toEnchantment; i++) {
     for (
       let count = 0, j = 0;
@@ -100,12 +101,16 @@ function expectedEnchantmentUpgradeCost(
       if (j >= upgradeItems[i].length) {
         return null; // Not enough items to cover the upgrade
       }
-      cost +=
-        Math.min(upgradeItems[i][j].amount, N - count) *
-        upgradeItems[i][j].price;
+      const amount = Math.min(upgradeItems[i][j].amount, N - count);
+      const price = upgradeItems[i][j].price;
+      shoppingList[i].push({
+        amount,
+        price,
+      });
+      totalCost += amount * price;
     }
   }
-  return cost;
+  return { totalCost, shoppingList };
 }
 
 type EnchantmentUpgradeResourcePrices = [
@@ -113,7 +118,13 @@ type EnchantmentUpgradeResourcePrices = [
   EnchantmentUpgradeItem[],
   EnchantmentUpgradeItem[],
 ];
-
+export type EnchantmentUpgradeResourcePricesByTier = {
+  4: EnchantmentUpgradeResourcePrices;
+  5: EnchantmentUpgradeResourcePrices;
+  6: EnchantmentUpgradeResourcePrices;
+  7: EnchantmentUpgradeResourcePrices;
+  8: EnchantmentUpgradeResourcePrices;
+};
 /**
  * Get the prices of enchantment upgrade resources (runes, souls, relics) grouped by tier.
  * @param sellOrders The list of sell orders containing item group type IDs, tiers, unit prices, and amounts.
@@ -126,22 +137,15 @@ function getEnchantmentUpgradeResourcePrices(
     unit_price_silver: number;
     amount: number;
   }[]
-): {
-  4: EnchantmentUpgradeResourcePrices;
-  5: EnchantmentUpgradeResourcePrices;
-  6: EnchantmentUpgradeResourcePrices;
-  7: EnchantmentUpgradeResourcePrices;
-  8: EnchantmentUpgradeResourcePrices;
-} {
-  const enchantmentUpgradeResourcePrices: ReturnType<
-    typeof getEnchantmentUpgradeResourcePrices
-  > = {
-    4: [[], [], []],
-    5: [[], [], []],
-    6: [[], [], []],
-    7: [[], [], []],
-    8: [[], [], []],
-  };
+): EnchantmentUpgradeResourcePricesByTier {
+  const enchantmentUpgradeResourcePrices: EnchantmentUpgradeResourcePricesByTier =
+    {
+      4: [[], [], []],
+      5: [[], [], []],
+      6: [[], [], []],
+      7: [[], [], []],
+      8: [[], [], []],
+    };
   sellOrders.forEach((order) => {
     const itemEnding = order.item_group_type_id.split("_").pop();
     if (

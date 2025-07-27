@@ -13,10 +13,20 @@ export const dealSchema = z.object({
   sellOrder: orderSchema,
   profit: z.number(),
   // profitPercentage: z.number(),
-  // qualityUpgradeCost: z.number().nullable(),
-  // enchantmentUpgradeCost: z.number().nullable(),
   qualityUpgradeRequired: z.boolean(),
+  qualityUpgradeCost: z.number().optional(),
   enchantmentUpgradeRequired: z.boolean(),
+  enchantmentUpgradeCost: z.number().optional(),
+  enchantmentUpgradeShoppingList: z
+    .array(
+      z.array(
+        z.object({
+          amount: z.number(),
+          price: z.number(),
+        })
+      )
+    )
+    .optional(),
   amount: z.number(),
 });
 

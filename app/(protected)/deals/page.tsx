@@ -23,6 +23,7 @@ export default async function Deals({
   const minProfit = params.minProfit ?? 0;
   const qualityUpgrade = params.qualityUpgrade || true;
   const enchantmentUpgrade = params.enchantmentUpgrade || true;
+  const premium = params.premium || false;
   console.log(
     "Fetching deals with params:",
     params,
@@ -33,7 +34,6 @@ export default async function Deals({
     "enchantmentUpgrade:",
     enchantmentUpgrade
   );
-  const premium = params.premium || false;
 
   let buyOrderQuery = supabase
     .from("orders")
@@ -78,8 +78,11 @@ export default async function Deals({
     name: getItemName(deal.orders.buyOrder.item_group_type_id),
     tier: deal.orders.sellOrder.tier,
     profit: deal.orders.profit,
-    enchantmentUpgradeRequired: deal.orders.enchantmentUpgrade,
     qualityUpgradeRequired: deal.orders.qualityUpgrade,
+    qualityUpgradeCost: deal.orders.qualityUpgradeCost,
+    enchantmentUpgradeRequired: deal.orders.enchantmentUpgrade,
+    enchantmentUpgradeCost: deal.orders.enchantmentUpgradeCost,
+    enchantmentUpgradeShoppingList: deal.orders.enchantmentUpgradeShoppingList,
     buyOrder: {
       itemTypeId: deal.orders.buyOrder.item_type_id,
       enchantmentLevel: deal.orders.buyOrder.enchantment_level,

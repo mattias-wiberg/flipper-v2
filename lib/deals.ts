@@ -1,6 +1,7 @@
 import { getItemCategory, getItemValue } from "@/utils/items";
 import { groupBy } from "@/utils/utils";
 import {
+  EnchantmentUpgradeItem,
   expectedEnchantmentUpgradeCost,
   expectedQualityUpgradeCost,
   getEnchantmentUpgradeResourcePrices,
@@ -37,7 +38,10 @@ function getPotentialDeals(params: FindDealsInput): Array<{
   buyOrder: BuyOrder;
   profit: number;
   qualityUpgrade: boolean;
+  qualityUpgradeCost?: number;
   enchantmentUpgrade: boolean;
+  enchantmentUpgradeCost?: number;
+  enchantmentUpgradeShoppingList?: EnchantmentUpgradeItem[][];
 }> {
   const {
     sellOrders,
@@ -93,8 +97,11 @@ function getPotentialDeals(params: FindDealsInput): Array<{
           });
         }
 
-        let qualityUpgradeCost = null;
-        let enchantmentUpgradeCost = null;
+        let qualityUpgradeCost: number | undefined = undefined;
+        let enchantmentUpgradeCost: number | undefined = undefined;
+        let enchantmentUpgradeShoppingList:
+          | EnchantmentUpgradeItem[][]
+          | undefined = undefined;
         if (
           qualityUpgrade &&
           sellOrder.enchantment_level === buyOrder.enchantment_level
@@ -112,6 +119,7 @@ function getPotentialDeals(params: FindDealsInput): Array<{
               profit: qualityUpgradeProfit,
               qualityUpgrade,
               enchantmentUpgrade: false,
+              qualityUpgradeCost,
             });
           }
         }
@@ -128,14 +136,16 @@ function getPotentialDeals(params: FindDealsInput): Array<{
             tier === "7" ||
             tier === "8"
           ) {
-            const upgradeCost = expectedEnchantmentUpgradeCost(
-              sellOrder.enchantment_level,
-              buyOrder.enchantment_level,
-              getItemCategory(buyOrder.item_group_type_id),
-              enchantedUpgradeItems[tier]
-            );
+            const { totalCost: upgradeCost, shoppingList } =
+              expectedEnchantmentUpgradeCost(
+                sellOrder.enchantment_level,
+                buyOrder.enchantment_level,
+                getItemCategory(buyOrder.item_group_type_id),
+                enchantedUpgradeItems[tier]
+              ) || {};
             if (upgradeCost) {
               enchantmentUpgradeCost = upgradeCost;
+              enchantmentUpgradeShoppingList = shoppingList;
               const enchantmentUpgradeProfit = profit - enchantmentUpgradeCost;
               if (enchantmentUpgradeProfit > minProfit) {
                 potentialDeals.push({
@@ -144,12 +154,14 @@ function getPotentialDeals(params: FindDealsInput): Array<{
                   profit: enchantmentUpgradeProfit,
                   qualityUpgrade: false,
                   enchantmentUpgrade,
+                  enchantmentUpgradeCost,
+                  enchantmentUpgradeShoppingList,
                 });
               }
             }
           }
         }
-        if (qualityUpgradeCost !== null && enchantmentUpgradeCost !== null) {
+        if (qualityUpgradeCost && enchantmentUpgradeCost) {
           const totalUpgradeProfit =
             profit - qualityUpgradeCost - enchantmentUpgradeCost;
           if (totalUpgradeProfit > minProfit) {
@@ -159,6 +171,9 @@ function getPotentialDeals(params: FindDealsInput): Array<{
               profit: totalUpgradeProfit,
               qualityUpgrade: true,
               enchantmentUpgrade: true,
+              qualityUpgradeCost,
+              enchantmentUpgradeCost,
+              enchantmentUpgradeShoppingList,
             });
           }
         }
