@@ -17,8 +17,8 @@ export default async function ProtectedPage({
   }
 
   return (
-    <div className="flex min-h-screen flex-col items-center">
-      <div className="w-full max-w-2xl">{children}</div>
+    <div className="flex min-h-screen flex-col w-full items-center">
+      {children}
     </div>
   );
 }
