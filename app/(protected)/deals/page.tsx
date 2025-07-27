@@ -39,7 +39,7 @@ export default async function Deals({
   let buyOrderQuery = supabase
     .from("orders")
     .select(
-      "item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount"
+      "item_type_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount"
     )
     .eq("action_type", "request");
   if (tier) {
@@ -54,7 +54,7 @@ export default async function Deals({
   let sellOrderQuery = supabase
     .from("orders")
     .select(
-      "item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount"
+      "item_type_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount"
     )
     .eq("action_type", "offer");
   if (tier) {
@@ -82,11 +82,13 @@ export default async function Deals({
     enchantmentUpgradeRequired: deal.orders.enchantmentUpgrade,
     qualityUpgradeRequired: deal.orders.qualityUpgrade,
     buyOrder: {
+      itemTypeId: deal.orders.buyOrder.item_type_id,
       enchantmentLevel: deal.orders.buyOrder.enchantment_level.toString(),
       qualityLevel: deal.orders.buyOrder.quality_level.toString(),
       price: deal.orders.buyOrder.unit_price_silver,
     },
     sellOrder: {
+      itemTypeId: deal.orders.sellOrder.item_type_id,
       enchantmentLevel: deal.orders.sellOrder.enchantment_level.toString(),
       qualityLevel: deal.orders.sellOrder.quality_level.toString(),
       price: deal.orders.sellOrder.unit_price_silver,
@@ -101,7 +103,7 @@ export default async function Deals({
             Welcome back!
           </h2>
           <p className="text-muted-foreground">
-            Here&apos;s a list of your tasks for this month.
+            Here&apos;s a list of the found flips.
           </p>
         </div>
         <div className="flex items-center gap-2">

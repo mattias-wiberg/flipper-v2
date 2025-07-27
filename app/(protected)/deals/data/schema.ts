@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 const orderSchema = z.object({
+  itemTypeId: z.string(),
   enchantmentLevel: z.string(),
   qualityLevel: z.string(),
   price: z.number(),
