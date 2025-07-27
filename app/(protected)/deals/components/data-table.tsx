@@ -118,12 +118,15 @@ export function DataTable<TData, TValue>({
                     onOpenChange={() => handleToggleRow(row.id)}
                     asChild
                   >
-                    <TableRow data-state={row.getIsSelected() && "selected"}>
-                      <TableCell className="w-8 p-0 align-middle">
-                        <CollapsibleTrigger asChild>
+                    <CollapsibleTrigger asChild>
+                      <TableRow
+                        data-state={row.getIsSelected() && "selected"}
+                        className="cursor-pointer"
+                      >
+                        <TableCell className="w-8 p-0 align-middle">
                           <button
                             type="button"
-                            className="flex items-center justify-center w-8 h-8 focus:outline-none"
+                            className="flex items-center justify-center w-8 h-8 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
                             aria-label={isOpen ? "Collapse row" : "Expand row"}
                             data-state={isOpen ? "open" : "closed"}
                           >
@@ -131,17 +134,17 @@ export function DataTable<TData, TValue>({
                               className={`transition-transform ${isOpen ? "rotate-90" : ""}`}
                             />
                           </button>
-                        </CollapsibleTrigger>
-                      </TableCell>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell key={cell.id}>
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
                         </TableCell>
-                      ))}
-                    </TableRow>
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell key={cell.id}>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </CollapsibleTrigger>
                   </Collapsible>,
                   isOpen && (
                     <TableRow
