@@ -46,7 +46,7 @@ export const signInAction = async (
     return encodedRedirect("error", "/log-in", error.message);
   }
 
-  return redirect("/protected");
+  return redirect("/deals");
 };
 
 export const forgotPasswordAction = async (data: { email: string }) => {
