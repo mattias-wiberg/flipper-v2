@@ -1,20 +1,7 @@
-import { AppSidebar } from "@/components/app-sidebar";
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-import { Separator } from "@/components/ui/separator";
-import {
-  SidebarInset,
-  SidebarProvider,
-  SidebarTrigger,
-} from "@/components/ui/sidebar";
+import { SidebarInset } from "@/components/ui/sidebar";
 import { AuthProvider } from "@/context/AuthContext";
+import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
 import "./globals.css";
@@ -49,28 +36,8 @@ export default async function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <SidebarProvider>
-              <AppSidebar />
+            <TooltipProvider>
               <SidebarInset>
-                <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
-                  <div className="flex items-center gap-2 px-4">
-                    <SidebarTrigger className="-ml-1" />
-                    <Separator orientation="vertical" className="mr-2 h-4" />
-                    <Breadcrumb>
-                      <BreadcrumbList>
-                        <BreadcrumbItem className="hidden md:block">
-                          <BreadcrumbLink href="#">
-                            Building Your Application
-                          </BreadcrumbLink>
-                        </BreadcrumbItem>
-                        <BreadcrumbSeparator className="hidden md:block" />
-                        <BreadcrumbItem>
-                          <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                        </BreadcrumbItem>
-                      </BreadcrumbList>
-                    </Breadcrumb>
-                  </div>
-                </header>
                 <div className="flex-1 w-full flex flex-col gap-20 items-center">
                   <div className="flex flex-col gap-20 w-full max-w-7xl p-5">
                     {children}
@@ -91,7 +58,7 @@ export default async function RootLayout({
                   <ThemeSwitcher />
                 </footer>
               </SidebarInset>
-            </SidebarProvider>
+            </TooltipProvider>
           </ThemeProvider>
         </AuthProvider>
       </body>

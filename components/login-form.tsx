@@ -68,7 +68,7 @@ export function LoginForm({
       }
 
       // Redirect to protected page on success
-      router.push("/protected");
+      router.push("/deals");
     } catch (err) {
       console.error("Login error:", err);
     }
