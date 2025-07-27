@@ -22,14 +22,19 @@ const DropdownMenuSubTrigger = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.SubTrigger>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> & {
     inset?: boolean;
+    variant?: "default" | "destructive" | "primary";
   }
->(({ className, inset, children, ...props }, ref) => (
+>(({ className, inset, children, variant, ...props }, ref) => (
   <DropdownMenuPrimitive.SubTrigger
     ref={ref}
     className={cn(
       "flex cursor-default select-none items-center gap-2 rounded-sm px-2 py-1.5 text-sm outline-none focus:bg-accent data-[state=open]:bg-accent [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
       inset && "pl-8",
-      className
+      className,
+      variant === "destructive" &&
+        "text-destructive focus:bg-destructive focus:text-destructive-foreground data-[state=open]:bg-destructive data-[state=open]:text-destructive-foreground",
+      variant === "primary" &&
+        "text-primary focus:bg-primary focus:text-primary-foreground data-[disabled]:text-primary data-[disabled]:bg-primary data-[disabled]:text-primary-foreground"
     )}
     {...props}
   >
