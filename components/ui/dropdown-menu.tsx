@@ -79,7 +79,7 @@ const DropdownMenuItem = React.forwardRef<
   React.ElementRef<typeof DropdownMenuPrimitive.Item>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> & {
     inset?: boolean;
-    variant?: "default" | "destructive";
+    variant?: "default" | "destructive" | "primary";
   }
 >(({ className, inset, variant, ...props }, ref) => (
   <DropdownMenuPrimitive.Item
@@ -89,7 +89,9 @@ const DropdownMenuItem = React.forwardRef<
       inset && "pl-8",
       className,
       variant === "destructive" &&
-        "text-destructive focus:bg-destructive focus:text-destructive-foreground data-[disabled]:text-destructive data-[disabled]:bg-destructive data-[disabled]:text-destructive-foreground"
+        "text-destructive focus:bg-destructive focus:text-destructive-foreground data-[disabled]:text-destructive data-[disabled]:bg-destructive data-[disabled]:text-destructive-foreground",
+      variant === "primary" &&
+        "text-primary focus:bg-primary focus:text-primary-foreground data-[disabled]:text-primary data-[disabled]:bg-primary data-[disabled]:text-primary-foreground"
     )}
     {...props}
   />
