@@ -43,7 +43,7 @@ export function UserNav() {
         <DropdownMenuSeparator />
         <DropdownMenuItem
           variant="primary"
-          onClick={() => router.push("/deals")}
+          onClick={() => router.push("/authenticated/deals")}
         >
           Find flips!
         </DropdownMenuItem>
@@ -51,7 +51,7 @@ export function UserNav() {
         <DropdownMenuGroup>
           <DropdownMenuItem>Profile</DropdownMenuItem>
           <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/token")}>
+          <DropdownMenuItem onClick={() => router.push("/authenticated/token")}>
             Token
           </DropdownMenuItem>
         </DropdownMenuGroup>
