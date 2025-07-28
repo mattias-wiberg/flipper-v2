@@ -12,6 +12,8 @@ import {
 import { ChevronDown, ChevronUp } from "lucide-react";
 import React from "react";
 
+const website_url = "https://flipper.mattiaswiberg.com";
+
 const TutorialItem = ({
   title,
   listItems,
@@ -65,13 +67,15 @@ export const TokenTutorial = ({ token }: { token: string }) => {
                   className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      "\\Program` Files\\Albion` Data` Client\\albiondata-client.exe -i http://localhost:3000/api/" +
+                      "\\Program` Files\\Albion` Data` Client\\albiondata-client.exe -i " +
+                        website_url +
+                        "/api/" +
                         token
                     );
                   }}
                 >
                   \Program` Files\Albion` Data` Client\albiondata-client.exe -i
-                  http://localhost:3000/api/{token}
+                  {website_url}/api/{token}
                 </code>
               </TooltipTrigger>
               <TooltipContent>Click to copy</TooltipContent>
@@ -100,14 +104,16 @@ export const TokenTutorial = ({ token }: { token: string }) => {
                   className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      "/Applications/Albion\\ Data\\ Client.app/Contents/MacOS/albiondata-client -i http://localhost:3000/api/" +
+                      "/Applications/Albion\\ Data\\ Client.app/Contents/MacOS/albiondata-client -i " +
+                        website_url +
+                        "/api/" +
                         token
                     );
                   }}
                 >
                   /Applications/Albion\ Data\
                   Client.app/Contents/MacOS/albiondata-client -i
-                  http://localhost:3000/api/{token}
+                  {website_url}/api/{token}
                 </code>
               </TooltipTrigger>
               <TooltipContent>Click to copy</TooltipContent>
@@ -136,13 +142,15 @@ export const TokenTutorial = ({ token }: { token: string }) => {
                   className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm"
                   onClick={() => {
                     navigator.clipboard.writeText(
-                      "/opt/Albion\\ Data\\ Client/albiondata-client -i http://localhost:3000/api/" +
+                      "/opt/Albion\\ Data\\ Client/albiondata-client -i " +
+                        website_url +
+                        "/api/" +
                         token
                     );
                   }}
                 >
                   /opt/Albion\ Data\ Client/albiondata-client -i
-                  http://localhost:3000/api/{token}
+                  {website_url}/api/{token}
                 </code>
               </TooltipTrigger>
               <TooltipContent>Click to copy</TooltipContent>
