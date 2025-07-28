@@ -2,13 +2,7 @@
 
 import { signUpAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -71,24 +65,11 @@ export function SignupForm({
       <Card>
         <CardHeader className="text-center">
           <CardTitle className="text-xl">Welcome!</CardTitle>
-          <CardDescription>
-            Sign up with your Apple or Google account
-          </CardDescription>
         </CardHeader>
         <CardContent>
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
               <div className="grid gap-6">
-                <div className="flex flex-col gap-4">
-                  <Button variant="outline" className="w-full">
-                    Sign up with Apple
-                  </Button>
-                </div>
-                <div className="relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t after:border-border">
-                  <span className="relative z-10 bg-background px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
                 <div className="grid gap-6">
                   {error && !form.formState.isDirty && (
                     <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
