@@ -45,7 +45,12 @@ export const updateSession = async (request: NextRequest) => {
     }
 
     // If user is logged in and visits root, redirect to /authenticated/deals
-    if (request.nextUrl.pathname === "/" && !user.error) {
+    if (
+      (request.nextUrl.pathname === "/" ||
+        request.nextUrl.pathname === "/sign-up" ||
+        request.nextUrl.pathname === "/log-in") &&
+      !user.error
+    ) {
       return NextResponse.redirect(
         new URL("/authenticated/deals", request.url)
       );
