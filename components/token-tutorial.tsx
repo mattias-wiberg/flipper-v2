@@ -74,8 +74,7 @@ export const TokenTutorial = ({ token }: { token: string }) => {
                     );
                   }}
                 >
-                  \Program` Files\Albion` Data` Client\albiondata-client.exe -i
-                  {website_url}/api/{token}
+                  {`\Program Files\Albion Data Client\albiondata-client.exe -i ${website_url}/api/${token}`}
                 </code>
               </TooltipTrigger>
               <TooltipContent>Click to copy</TooltipContent>
@@ -111,9 +110,8 @@ export const TokenTutorial = ({ token }: { token: string }) => {
                     );
                   }}
                 >
-                  /Applications/Albion\ Data\
-                  Client.app/Contents/MacOS/albiondata-client -i
-                  {website_url}/api/{token}
+                  {`/Applications/Albion\ Data\ Client.app/Contents/MacOS/albiondata-client -i ${website_url}/api/${token}
+                `}
                 </code>
               </TooltipTrigger>
               <TooltipContent>Click to copy</TooltipContent>
@@ -149,8 +147,7 @@ export const TokenTutorial = ({ token }: { token: string }) => {
                     );
                   }}
                 >
-                  /opt/Albion\ Data\ Client/albiondata-client -i
-                  {website_url}/api/{token}
+                  {`/opt/Albion\ Data\ Client/albiondata-client -i ${website_url}/api/${token}`}
                 </code>
               </TooltipTrigger>
               <TooltipContent>Click to copy</TooltipContent>
