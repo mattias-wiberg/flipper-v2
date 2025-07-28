@@ -46,7 +46,7 @@ export const signInAction = async (
     return encodedRedirect("error", "/log-in", error.message);
   }
 
-  return redirect("/deals");
+  return redirect("/authenticated/deals");
 };
 
 export const forgotPasswordAction = async (data: { email: string }) => {
@@ -66,14 +66,14 @@ export const forgotPasswordAction = async (data: { email: string }) => {
     console.error(error.message);
     return encodedRedirect(
       "error",
-      "/authenticated/forgot-password",
+      "/forgot-password",
       "Could not reset password"
     );
   }
 
   return encodedRedirect(
     "success",
-    "/authenticated/forgot-password",
+    "/forgot-password",
     "Check your email for a link to reset your password."
   );
 };
