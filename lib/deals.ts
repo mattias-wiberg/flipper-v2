@@ -15,6 +15,7 @@ type SellOrder = {
   quality_level: number;
   unit_price_silver: number;
   amount: number;
+  location_id: number;
 };
 type BuyOrder = {
   item_type_id: string;
@@ -23,6 +24,7 @@ type BuyOrder = {
   quality_level: number;
   unit_price_silver: number;
   amount: number;
+  location_id: number;
 };
 type FindDealsInput = {
   sellOrders: SellOrder[];

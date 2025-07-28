@@ -75,6 +75,17 @@ export const columns: ColumnDef<Deal>[] = [
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("amount")}</div>,
   },
   {
+    accessorKey: "location",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Location" />
+    ),
+    cell: ({ row }) => {
+      const location =
+        row.original.sellOrder.location || row.original.buyOrder.location;
+      return <div className="w-[80px]">{location}</div>;
+    },
+  },
+  {
     id: "actions",
     cell: ({ row }) => {
       const { enchantmentUpgradeRequired, qualityUpgradeRequired } =

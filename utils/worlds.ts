@@ -22,7 +22,7 @@ function getWorldNames(): Record<string, string> {
  * @param id The world ID
  * @returns The world name string, or undefined if not found
  */
-export function getWorldName(id: string): string | undefined {
+export function getWorldName(id: number): string {
   const worldNames = getWorldNames();
-  return worldNames[id];
+  return worldNames[id.toString()] ?? "?";
 }

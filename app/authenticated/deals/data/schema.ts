@@ -5,6 +5,7 @@ const orderSchema = z.object({
   enchantmentLevel: z.number().min(0).max(4),
   qualityLevel: z.number().min(0).max(4),
   price: z.number(),
+  location: z.string(),
 });
 export const dealSchema = z.object({
   name: z.string(),
