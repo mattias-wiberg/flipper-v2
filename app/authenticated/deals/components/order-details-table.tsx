@@ -9,6 +9,7 @@ import {
 import Image from "next/image";
 
 import { getEnchantmentName, getQualityName } from "@/lib/items";
+import { formatNumber } from "@/lib/locale";
 import { useState } from "react";
 import { Deal } from "../data/schema";
 
@@ -83,13 +84,18 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
                 {text}
               </TableCell>
               <TableCell>
-                {getQualityName(order.qualityLevel)} ({order.qualityLevel})
+                {getQualityName(order.qualityLevel)}{" "}
+                <span className="text-muted-foreground">
+                  ({order.qualityLevel})
+                </span>
               </TableCell>
               <TableCell>
-                {getEnchantmentName(order.enchantmentLevel)} (
-                {order.enchantmentLevel})
+                {getEnchantmentName(order.enchantmentLevel)}{" "}
+                <span className="text-muted-foreground">
+                  ({order.enchantmentLevel})
+                </span>
               </TableCell>
-              <TableCell>{order.price}</TableCell>
+              <TableCell>{formatNumber(order.price)}</TableCell>
             </TableRow>
           ))}
         </TableBody>

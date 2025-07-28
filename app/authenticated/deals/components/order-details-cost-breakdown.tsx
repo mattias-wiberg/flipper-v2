@@ -1,3 +1,4 @@
+import { formatNumber } from "@/lib/locale";
 import { useSearchParams } from "next/navigation";
 import { Deal } from "../data/schema";
 
@@ -8,12 +9,6 @@ interface DealCostBreakdownProps {
 export const DealCostBreakdown = ({ deal }: DealCostBreakdownProps) => {
   const params = useSearchParams();
   const premium = params.get("premium") === "true";
-  function formatNumber(x: number) {
-    return x.toLocaleString(undefined, {
-      minimumFractionDigits: 0,
-      maximumFractionDigits: 0,
-    });
-  }
 
   const rows: { label: string; value: number }[] = [
     {
