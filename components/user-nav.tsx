@@ -62,11 +62,13 @@ export function UserNav() {
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
           <DropdownMenuItem onClick={() => router.push("/authenticated/token")}>
             Token
           </DropdownMenuItem>
+          <DropdownMenuItem onClick={() => router.push("/documentation")}>
+            Documentation
+          </DropdownMenuItem>
+          <DropdownMenuItem>Settings</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={signOut}>Log out</DropdownMenuItem>
