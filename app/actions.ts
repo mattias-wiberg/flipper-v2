@@ -10,7 +10,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
 export const signUpAction = async (
-  credentials: SignUpWithPasswordCredentials
+  credentials: SignUpWithPasswordCredentials & { nickname?: string }
 ) => {
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
@@ -19,7 +19,9 @@ export const signUpAction = async (
     ...credentials,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
-      data: undefined,
+      data: {
+        nickname: credentials.nickname,
+      },
     },
   });
 

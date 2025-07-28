@@ -12,31 +12,44 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useAuth } from "@/context/AuthContext";
+import { Link } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 export function UserNav() {
   const { user, signOut } = useAuth();
   const router = useRouter();
+  if (!user) {
+    return (
+      <Button variant="ghost" className="h-8 px-2">
+        <Link href="/login">Log in</Link>
+      </Button>
+    );
+  }
+  // Fall back to be either first two letters in capital or First letters in first 2 words if nickname contains a space
+  const fallbackNickname = user?.user_metadata.nickname
+    ? user.user_metadata.nickname
+        .split(" ")
+        .slice(0, 2)
+        .map((word: string) => word.charAt(0).toUpperCase())
+        .join("")
+    : "U";
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-9 w-9">
-            <AvatarFallback>
-              {user?.email
-                ? user.email.charAt(0)?.toUpperCase() +
-                  user.email.charAt(1)?.toUpperCase()
-                : "U"}
-            </AvatarFallback>
+            <AvatarFallback>{fallbackNickname}</AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm leading-none font-medium">{user?.email}</p>
+            <p className="text-sm leading-none font-medium">
+              {user.user_metadata.nickname || user.email || "--"}
+            </p>
             <p className="text-muted-foreground text-xs leading-none">
-              {user?.id}
+              {user.user_metadata.nickname ? user.email : user.id}
             </p>
           </div>
         </DropdownMenuLabel>
