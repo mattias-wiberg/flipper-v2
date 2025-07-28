@@ -52,7 +52,7 @@ function enchantmentUpgradeAmount(itemCategory: ItemCategory): number {
     itemCategory === "capes" ||
     itemCategory === "offhands"
   ) {
-    return 92;
+    return 96;
   } else {
     throw new Error(
       `Unknown item category for enchantment upgrade amount: ${itemCategory}`
