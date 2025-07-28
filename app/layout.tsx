@@ -2,6 +2,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { AuthProvider } from "@/context/AuthContext";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Heart } from "lucide-react";
 import { ThemeProvider } from "next-themes";
@@ -44,6 +45,7 @@ export default async function RootLayout({
                   <div className="flex flex-col gap-20 w-full max-w-7xl p-5">
                     {children}
                     <SpeedInsights />
+                    <Analytics />
                   </div>
                 </div>
 
