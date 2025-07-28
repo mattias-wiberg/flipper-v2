@@ -182,6 +182,14 @@ function getEnchantmentUpgradeResourcePrices(
       }
     }
   });
+
+  for (let i = 0; i < 3; i++) {
+    enchantmentUpgradeResourcePrices[4][i].sort((a, b) => a.price - b.price);
+    enchantmentUpgradeResourcePrices[5][i].sort((a, b) => a.price - b.price);
+    enchantmentUpgradeResourcePrices[6][i].sort((a, b) => a.price - b.price);
+    enchantmentUpgradeResourcePrices[7][i].sort((a, b) => a.price - b.price);
+    enchantmentUpgradeResourcePrices[8][i].sort((a, b) => a.price - b.price);
+  }
   return enchantmentUpgradeResourcePrices;
 }
 
