@@ -4,7 +4,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "prepare": "husky install && npm run db:start && npm run db:generate:types:local",
+    "local": "husky install && npm run db:start && npm run db:generate:types:local",
     "db:start": "supabase db start",
     "db:migrate": "supabase db diff | supabase migration new",
     "db:generate:types:local": "supabase gen types typescript --local > database.types.ts",
