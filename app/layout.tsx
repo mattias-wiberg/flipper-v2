@@ -2,6 +2,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { AuthProvider } from "@/context/AuthContext";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
+import { Heart } from "lucide-react";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
 import "./globals.css";
@@ -43,19 +44,27 @@ export default async function RootLayout({
                     {children}
                   </div>
                 </div>
+
+                {/* Footer */}
                 <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-4">
+                  <ThemeSwitcher />
                   <p>
-                    Powered by{" "}
+                    &copy; {new Date().getFullYear()} Flipper. Open source on{" "}
                     <a
-                      href="https://supabase.com/?utm_source=create-next-app&utm_medium=template&utm_term=nextjs"
-                      target="_blank"
-                      className="font-bold hover:underline"
-                      rel="noreferrer"
+                      href="https://github.com/mattias-wiberg/flipper-v2"
+                      className="underline"
                     >
-                      Supabase
+                      GitHub
+                    </a>
+                    . Made with{" "}
+                    <Heart className="inline h-4 w-4 text-red-500" /> by{" "}
+                    <a
+                      href="https://www.linkedin.com/in/mattiaswiberg/"
+                      className="underline"
+                    >
+                      Mattias Wiberg
                     </a>
                   </p>
-                  <ThemeSwitcher />
                 </footer>
               </SidebarInset>
             </TooltipProvider>
