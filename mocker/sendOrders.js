@@ -3,6 +3,7 @@ const path = require("path");
 
 const ordersPath = path.join(__dirname, "data", "orders.json");
 
+const website_url = "https://flipper.mattiaswiberg.com";
 async function main() {
   const fileContent = fs.readFileSync(ordersPath, "utf-8");
   const orderBatches = JSON.parse(fileContent);
@@ -15,7 +16,7 @@ async function main() {
   for (const [i, orderBatch] of orderBatches.entries()) {
     try {
       const response = await fetch(
-        `http://localhost:3000/api/${token}/marketorders.ingest`,
+        `${website_url}/api/${token}/marketorders.ingest`,
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
