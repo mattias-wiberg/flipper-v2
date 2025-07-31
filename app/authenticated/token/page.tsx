@@ -1,6 +1,9 @@
 import { Token } from "@/components/token";
 import { TokenTutorial } from "@/components/token-tutorial";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
+import { HelpCircle } from "lucide-react";
 export default async function TokenManager() {
   const supabase = await createClient();
 
@@ -8,9 +11,42 @@ export default async function TokenManager() {
     .from("tokens")
     .select("token")
     .single();
+
   if (error || !data) {
-    console.error("Error fetching token:", error);
-    return <div>Error fetching token</div>;
+    return (
+      <div className="flex-1 w-full max-w-md flex flex-col items-center justify-center mx-auto py-16">
+        <Card className="w-full shadow-lg border-primary/30 border-2 bg-background">
+          <CardHeader className="flex flex-col items-center">
+            <HelpCircle className="w-10 h-10 text-primary mb-2" />
+            <CardTitle className="text-primary text-xl mb-2">
+              No token found
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col items-center gap-4">
+            <p className="text-center text-muted-foreground mb-2">
+              No token was found for your account.
+              <br />
+              Please contact support on our Discord to have one generated for
+              you.
+            </p>
+            <a
+              href="https://discord.gg/2ySkAuX"
+              target="_blank"
+              rel="noopener"
+              className="w-full flex justify-center"
+            >
+              <Button
+                size="lg"
+                variant="secondary"
+                className="min-w-[180px] flex items-center justify-center font-bold"
+              >
+                Join the Discord
+              </Button>
+            </a>
+          </CardContent>
+        </Card>
+      </div>
+    );
   }
   const token = data.token;
 
