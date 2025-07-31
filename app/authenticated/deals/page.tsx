@@ -77,7 +77,7 @@ export default async function Deals({
   const tableData: Deal[] = deals.map((deal) => ({
     amount: deal.amount,
     name: getItemName(deal.orders.buyOrder.item_group_type_id),
-    tier: deal.orders.sellOrder.tier,
+    tier: deal.orders.sellOrder.tier.toString(),
     profit: deal.orders.profit,
     qualityUpgradeRequired: deal.orders.qualityUpgrade,
     qualityUpgradeCost: deal.orders.qualityUpgradeCost,

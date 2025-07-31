@@ -9,7 +9,7 @@ const orderSchema = z.object({
 });
 export const dealSchema = z.object({
   name: z.string(),
-  tier: z.number(),
+  tier: z.string(),
   buyOrder: orderSchema,
   sellOrder: orderSchema,
   profit: z.number(),
