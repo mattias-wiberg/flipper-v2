@@ -1,15 +1,16 @@
-"use client"
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
 
-import * as React from "react"
-import * as PopoverPrimitive from "@radix-ui/react-popover"
+import * as PopoverPrimitive from "@radix-ui/react-popover";
+import * as React from "react";
 
-import { cn } from "@/lib/utils"
+import { cn } from "@/lib/utils";
 
-const Popover = PopoverPrimitive.Root
+const Popover = PopoverPrimitive.Root;
 
-const PopoverTrigger = PopoverPrimitive.Trigger
+const PopoverTrigger = PopoverPrimitive.Trigger;
 
-const PopoverAnchor = PopoverPrimitive.Anchor
+const PopoverAnchor = PopoverPrimitive.Anchor;
 
 const PopoverContent = React.forwardRef<
   React.ElementRef<typeof PopoverPrimitive.Content>,
@@ -27,7 +28,36 @@ const PopoverContent = React.forwardRef<
       {...props}
     />
   </PopoverPrimitive.Portal>
-))
-PopoverContent.displayName = PopoverPrimitive.Content.displayName
+));
+PopoverContent.displayName = PopoverPrimitive.Content.displayName;
 
-export { Popover, PopoverTrigger, PopoverContent, PopoverAnchor }
+// PopoverCheckboxItem: a menu-item style checkbox for popovers
+const PopoverCheckboxItem = React.forwardRef<
+  React.ElementRef<typeof Checkbox>,
+  React.ComponentPropsWithoutRef<typeof Checkbox> & {
+    label: React.ReactNode;
+    labelClassName?: string;
+  }
+>(({ label, className, labelClassName, id, ...props }, ref) => (
+  <label
+    className={cn(
+      "relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-none transition-colors hover:bg-accent focus:bg-accent focus:text-accent-foreground",
+      className
+    )}
+    htmlFor={id}
+  >
+    <Checkbox ref={ref} id={id} {...props} />
+    <Label htmlFor={id} className={cn("cursor-pointer w-full", labelClassName)}>
+      {label}
+    </Label>
+  </label>
+));
+PopoverCheckboxItem.displayName = "PopoverCheckboxItem";
+
+export {
+  Popover,
+  PopoverAnchor,
+  PopoverCheckboxItem,
+  PopoverContent,
+  PopoverTrigger,
+};

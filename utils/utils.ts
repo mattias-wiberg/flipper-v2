@@ -37,3 +37,25 @@ export function groupBy<T>(
     {} as Record<string, T[]>
   );
 }
+
+/**
+ * Parses search parameters from a URL into a structured object along with
+ * their default values.
+ * @param {Record<string, string>} params - The search parameters to parse.
+ * @returns {Object} - An object containing parsed parameters.
+ */
+export function parseDealSearchParams(params: { [key: string]: string }): {
+  tier?: number;
+  minProfit: number;
+  qualityUpgrade: boolean;
+  enchantmentUpgrade: boolean;
+  premium: boolean;
+} {
+  return {
+    tier: parseInt(params.tier, 10) || undefined,
+    minProfit: parseInt(params.minProfit, 10) || 0,
+    qualityUpgrade: params.qualityUpgrade === "1",
+    enchantmentUpgrade: params.enchantmentUpgrade === "1",
+    premium: params.premium === "1",
+  };
+}

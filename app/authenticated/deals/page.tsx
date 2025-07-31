@@ -1,6 +1,7 @@
 import { getDeals } from "@/lib/deals";
 import { getItemName } from "@/utils/items";
 import { createClient } from "@/utils/supabase/server";
+import { parseDealSearchParams } from "@/utils/utils";
 import { getWorldName } from "@/utils/worlds";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
@@ -9,22 +10,14 @@ import { Deal } from "./data/schema";
 export default async function Deals({
   searchParams,
 }: {
-  searchParams: Promise<{
-    tier?: number;
-    minProfit?: number;
-    qualityUpgrade?: boolean;
-    enchantmentUpgrade?: boolean;
-    premium?: boolean;
-  }>;
+  searchParams: Promise<{ [key: string]: string }>;
 }) {
   const supabase = await createClient();
 
   const params = await searchParams;
-  const { tier } = params;
-  const minProfit = params.minProfit ?? 0;
-  const qualityUpgrade = params.qualityUpgrade || true;
-  const enchantmentUpgrade = params.enchantmentUpgrade || true;
-  const premium = params.premium || false;
+  const { tier, minProfit, qualityUpgrade, enchantmentUpgrade, premium } =
+    parseDealSearchParams(params);
+
   console.log(
     "Fetching deals with params:",
     params,

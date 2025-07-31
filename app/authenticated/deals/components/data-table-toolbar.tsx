@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
 import { tiers } from "../data/data";
+import { DataTableDealOptions } from "./data-table-deal-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableViewOptions } from "./data-table-view-options";
 
@@ -47,6 +48,7 @@ export function DataTableToolbar<TData>({
         )}
       </div>
       <div className="flex items-center gap-2">
+        <DataTableDealOptions />
         <DataTableViewOptions table={table} />
       </div>
     </div>
