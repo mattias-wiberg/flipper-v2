@@ -54,8 +54,8 @@ export const TokenTutorial = ({ token }: { token: string }) => {
         title="Windows"
         listItems={[
           <>
-            Open the command prompt (cmd) or PowerShell. Keybinding{" "}
-            <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            Open Windows PowerShell. Keybinding
+            <code className="ml-1 bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Win + x A
             </code>
           </>,
