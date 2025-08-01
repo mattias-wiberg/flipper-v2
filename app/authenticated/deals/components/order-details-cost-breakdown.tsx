@@ -8,7 +8,7 @@ interface DealCostBreakdownProps {
 
 export const DealCostBreakdown = ({ deal }: DealCostBreakdownProps) => {
   const params = useSearchParams();
-  const premium = params.get("premium") === "true";
+  const premium = params.get("premium") === "1";
 
   const rows: { label: string; value: number }[] = [
     {
