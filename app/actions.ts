@@ -6,6 +6,7 @@ import {
   SignInWithPasswordCredentials,
   SignUpWithPasswordCredentials,
 } from "@supabase/supabase-js";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -125,4 +126,40 @@ export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
   return redirect("/log-in");
+};
+
+export const deleteItemOrdersAction = async () => {
+  const supabase = await createClient();
+  const query = supabase
+    .from("orders")
+    .delete()
+    .not("item_type_id", "ilike", "%RUNE%")
+    .not("item_type_id", "ilike", "%SOUL%")
+    .not("item_type_id", "ilike", "%RELIC%");
+
+  const { error } = await query;
+  if (error) {
+    console.error(error.message);
+  } else {
+    revalidatePath("/authenticated/deals");
+  }
+
+  return !!error;
+};
+
+export const deleteCraftingMaterialOrdersAction = async () => {
+  const supabase = await createClient();
+  const query = supabase
+    .from("orders")
+    .delete()
+    .ilikeAnyOf("item_type_id", ["%RUNE%", "%SOUL%", "%RELIC%"]);
+
+  const { error } = await query;
+  if (error) {
+    console.error(error.message);
+  } else {
+    revalidatePath("/authenticated/deals");
+  }
+
+  return !!error;
 };
