@@ -72,6 +72,14 @@ export function DataTableRowActions<TData>({
             >
               Buy order
             </DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => {
+                deleteSpecificOrder(deal.sellOrder.id);
+                deleteSpecificOrder(deal.buyOrder.id);
+              }}
+            >
+              Both
+            </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
       </DropdownMenuContent>
