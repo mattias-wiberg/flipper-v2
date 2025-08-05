@@ -1,5 +1,6 @@
 "use server";
 
+import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { encodedRedirect } from "@/utils/utils";
 import {
@@ -16,7 +17,7 @@ export const signUpAction = async (
   const supabase = await createClient();
   const origin = (await headers()).get("origin");
 
-  const { error } = await supabase.auth.signUp({
+  const { error, data } = await supabase.auth.signUp({
     ...credentials,
     options: {
       emailRedirectTo: `${origin}/auth/callback`,
@@ -30,6 +31,10 @@ export const signUpAction = async (
     console.error(error.code + " " + error.message);
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
+    const adminClient = createAdminClient();
+    await adminClient.from("tokens").insert({
+      user_id: data.user?.id,
+    });
     return encodedRedirect(
       "success",
       "/sign-up",
