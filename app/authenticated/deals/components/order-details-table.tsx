@@ -54,8 +54,8 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
         <TableHeader>
           <TableRow>
             <TableHead></TableHead>
-            <TableHead>Quality</TableHead>
             <TableHead>Enchantment</TableHead>
+            <TableHead>Quality</TableHead>
             <TableHead>Price</TableHead>
           </TableRow>
         </TableHeader>
@@ -84,15 +84,15 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
                 {text}
               </TableCell>
               <TableCell>
-                {getQualityName(order.qualityLevel)}{" "}
-                <span className="text-muted-foreground">
-                  ({order.qualityLevel})
-                </span>
-              </TableCell>
-              <TableCell>
                 {getEnchantmentName(order.enchantmentLevel)}{" "}
                 <span className="text-muted-foreground">
                   ({order.enchantmentLevel})
+                </span>
+              </TableCell>
+              <TableCell>
+                {getQualityName(order.qualityLevel)}{" "}
+                <span className="text-muted-foreground">
+                  ({order.qualityLevel})
                 </span>
               </TableCell>
               <TableCell>{formatNumber(order.price)}</TableCell>
