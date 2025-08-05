@@ -10,6 +10,7 @@ import {
 import { ArrowUp10, ArrowUpZA } from "lucide-react";
 import { Deal } from "../data/schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
+import { DataTableRowActions } from "./data-table-row-actions";
 
 export const columns: ColumnDef<Deal>[] = [
   // TODO: add selection actions
@@ -112,7 +113,7 @@ export const columns: ColumnDef<Deal>[] = [
               </TooltipContent>
             </Tooltip>
           )}
-          {/* TODO: add actions <DataTableRowActions row={row} /> */}
+          <DataTableRowActions row={row} />
         </div>
       );
     },

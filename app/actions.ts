@@ -163,3 +163,17 @@ export const deleteCraftingMaterialOrdersAction = async () => {
 
   return !!error;
 };
+
+export const deleteSpecificOrderAction = async (orderId: number) => {
+  const supabase = await createClient();
+  const query = supabase.from("orders").delete().eq("id", orderId);
+
+  const { error } = await query;
+  if (error) {
+    console.error(error.message);
+  } else {
+    revalidatePath("/authenticated/deals");
+  }
+
+  return !!error;
+};

@@ -3,17 +3,18 @@
 import { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 
+import { deleteSpecificOrderAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { dealSchema } from "../data/schema";
 
 interface DataTableRowActionsProps<TData> {
   row: Row<TData>;
@@ -22,6 +23,12 @@ interface DataTableRowActionsProps<TData> {
 export function DataTableRowActions<TData>({
   row,
 }: DataTableRowActionsProps<TData>) {
+  const { data: deal } = dealSchema.safeParse(row.original);
+
+  if (!deal) {
+    return "?";
+  }
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -35,17 +42,21 @@ export function DataTableRowActions<TData>({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>Mark as flipped</DropdownMenuItem>
-        <DropdownMenuSeparator />
+        {/* <DropdownMenuItem>Mark as flipped</DropdownMenuItem> */}
+        {/* <DropdownMenuSeparator /> */}
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger variant="destructive">
-            Delete
-          </DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Delete</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
-            <DropdownMenuItem variant="destructive">
+            <DropdownMenuItem
+              onClick={() => deleteSpecificOrderAction(deal.sellOrder.id)}
+            >
               Sell order
             </DropdownMenuItem>
-            <DropdownMenuItem variant="destructive">Buy order</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => deleteSpecificOrderAction(deal.buyOrder.id)}
+            >
+              Buy order
+            </DropdownMenuItem>
           </DropdownMenuSubContent>
         </DropdownMenuSub>
       </DropdownMenuContent>

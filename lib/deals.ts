@@ -8,6 +8,7 @@ import {
 } from "./upgradeCosts";
 
 type SellOrder = {
+  id: number;
   item_type_id: string;
   item_group_type_id: string;
   tier: number;
@@ -18,6 +19,7 @@ type SellOrder = {
   location_id: number;
 };
 type BuyOrder = {
+  id: number;
   item_type_id: string;
   item_group_type_id: string;
   enchantment_level: number;

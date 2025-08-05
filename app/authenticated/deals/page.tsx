@@ -36,7 +36,7 @@ export default async function Deals({
   let buyOrderQuery = supabase
     .from("orders")
     .select(
-      "item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount"
+      "id, item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount"
     )
     .eq("action_type", "request");
   if (tier) {
@@ -51,7 +51,7 @@ export default async function Deals({
   let sellOrderQuery = supabase
     .from("orders")
     .select(
-      "item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount"
+      "id, item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount"
     )
     .eq("action_type", "offer");
   if (tier) {
@@ -82,6 +82,7 @@ export default async function Deals({
     enchantmentUpgradeCost: deal.orders.enchantmentUpgradeCost,
     enchantmentUpgradeShoppingList: deal.orders.enchantmentUpgradeShoppingList,
     buyOrder: {
+      id: deal.orders.buyOrder.id,
       location: getWorldName(deal.orders.buyOrder.location_id),
       itemTypeId: deal.orders.buyOrder.item_type_id,
       enchantmentLevel: deal.orders.buyOrder.enchantment_level,
@@ -89,6 +90,7 @@ export default async function Deals({
       price: deal.orders.buyOrder.unit_price_silver,
     },
     sellOrder: {
+      id: deal.orders.sellOrder.id,
       location: getWorldName(deal.orders.sellOrder.location_id),
       itemTypeId: deal.orders.sellOrder.item_type_id,
       enchantmentLevel: deal.orders.sellOrder.enchantment_level,
