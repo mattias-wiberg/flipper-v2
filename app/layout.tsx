@@ -1,5 +1,6 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { Toaster } from "@/components/ui/sonner";
 import { AuthProvider } from "@/context/AuthContext";
 import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Analytics } from "@vercel/analytics/next";
@@ -15,7 +16,8 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Albion Online Black Market Flipping Tool | Real-Time Profitable Trades & Data",
+  title:
+    "Albion Online Black Market Flipping Tool | Real-Time Profitable Trades & Data",
   description:
     "Find the most profitable Albion Online Black Market flips instantly. Real-time data, private database, and seamless integration for serious traders.",
 };
@@ -45,8 +47,6 @@ export default async function RootLayout({
                 <div className="flex-1 w-full flex flex-col gap-20 items-center">
                   <div className="flex flex-col gap-20 w-full max-w-7xl p-5">
                     {children}
-                    <SpeedInsights />
-                    <Analytics />
                   </div>
                 </div>
 
@@ -72,6 +72,9 @@ export default async function RootLayout({
                   </p>
                 </footer>
               </SidebarInset>
+              <Toaster />
+              <SpeedInsights />
+              <Analytics />
             </TooltipProvider>
           </ThemeProvider>
         </AuthProvider>
