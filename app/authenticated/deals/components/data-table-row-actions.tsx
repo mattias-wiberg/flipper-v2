@@ -1,8 +1,5 @@
 "use client";
 
-import { Row } from "@tanstack/react-table";
-import { MoreHorizontal } from "lucide-react";
-
 import { deleteSpecificOrderAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,6 +11,9 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Row } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import { toast } from "sonner";
 import { dealSchema } from "../data/schema";
 
 interface DataTableRowActionsProps<TData> {
@@ -28,6 +28,21 @@ export function DataTableRowActions<TData>({
   if (!deal) {
     return "?";
   }
+
+  const deleteSpecificOrder = async (id: number) => {
+    const error = await deleteSpecificOrderAction(id);
+    if (error) {
+      toast.error("Failed to clear item order", {
+        description: "There was an error deleting the item order.",
+        position: "top-center",
+      });
+    } else {
+      toast.success("Item order cleared successfully", {
+        description: "The item order has been deleted.",
+        position: "top-center",
+      });
+    }
+  };
 
   return (
     <DropdownMenu>
@@ -48,12 +63,12 @@ export function DataTableRowActions<TData>({
           <DropdownMenuSubTrigger>Delete</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuItem
-              onClick={() => deleteSpecificOrderAction(deal.sellOrder.id)}
+              onClick={() => deleteSpecificOrder(deal.sellOrder.id)}
             >
               Sell order
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => deleteSpecificOrderAction(deal.buyOrder.id)}
+              onClick={() => deleteSpecificOrder(deal.buyOrder.id)}
             >
               Buy order
             </DropdownMenuItem>

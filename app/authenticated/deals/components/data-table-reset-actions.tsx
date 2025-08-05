@@ -14,7 +14,7 @@ import {
 import { Rewind } from "lucide-react";
 import { toast } from "sonner";
 
-export const deleteItemOrders = async () => {
+const deleteItemOrders = async () => {
   const error = await deleteItemOrdersAction();
   if (error) {
     toast.error("Failed to clear item orders", {
@@ -29,7 +29,7 @@ export const deleteItemOrders = async () => {
   }
 };
 
-export const deleteCraftingMaterialOrders = async () => {
+const deleteCraftingMaterialOrders = async () => {
   const error = await deleteCraftingMaterialOrdersAction();
   if (error) {
     toast.error("Failed to clear crafting material orders", {
