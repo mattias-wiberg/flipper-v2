@@ -8,8 +8,14 @@ import {
 } from "@/components/ui/table";
 import Image from "next/image";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { getEnchantmentName, getQualityName } from "@/lib/items";
-import { formatNumber } from "@/lib/locale";
+import { formatNumber, formatTimeDelta } from "@/lib/locale";
+import { HelpCircle } from "lucide-react";
 import { useState } from "react";
 import { Deal } from "../data/schema";
 
@@ -57,6 +63,19 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
             <TableHead>Enchantment</TableHead>
             <TableHead>Quality</TableHead>
             <TableHead>Price</TableHead>
+            <TableHead className="flex items-center gap-2">
+              Age{" "}
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <span className="cursor-pointer">
+                    <HelpCircle size={16} />
+                  </span>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  Shows how long ago the order was added to the database.
+                </TooltipContent>
+              </Tooltip>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -96,6 +115,9 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
                 </span>
               </TableCell>
               <TableCell>{formatNumber(order.price)}</TableCell>
+              <TableCell>
+                {formatTimeDelta(Date.now() - order.createdAt.getTime())}
+              </TableCell>
             </TableRow>
           ))}
         </TableBody>

@@ -22,21 +22,10 @@ export default async function Deals({
   const { tier, minProfit, qualityUpgrade, enchantmentUpgrade, premium } =
     parseDealSearchParams(params);
 
-  console.log(
-    "Fetching deals with params:",
-    params,
-    "minProfit:",
-    minProfit,
-    "qualityUpgrade:",
-    qualityUpgrade,
-    "enchantmentUpgrade:",
-    enchantmentUpgrade
-  );
-
   let buyOrderQuery = supabase
     .from("orders")
     .select(
-      "id, item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount"
+      "id, item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount, created_at"
     )
     .eq("action_type", "request");
   if (tier) {
@@ -51,7 +40,7 @@ export default async function Deals({
   let sellOrderQuery = supabase
     .from("orders")
     .select(
-      "id, item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount"
+      "id, item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount, created_at"
     )
     .eq("action_type", "offer");
   if (tier) {
@@ -64,8 +53,14 @@ export default async function Deals({
   }
 
   const deals = getDeals({
-    sellOrders: sellOrders.data,
-    buyOrders: buyOrders.data,
+    sellOrders: sellOrders.data.map((order) => ({
+      ...order,
+      created_at: new Date(order.created_at),
+    })),
+    buyOrders: buyOrders.data.map((order) => ({
+      ...order,
+      created_at: new Date(order.created_at),
+    })),
     premium,
     minProfit,
     qualityUpgrade,
@@ -88,6 +83,7 @@ export default async function Deals({
       enchantmentLevel: deal.orders.buyOrder.enchantment_level,
       qualityLevel: deal.orders.buyOrder.quality_level,
       price: deal.orders.buyOrder.unit_price_silver,
+      createdAt: deal.orders.buyOrder.created_at,
     },
     sellOrder: {
       id: deal.orders.sellOrder.id,
@@ -96,6 +92,7 @@ export default async function Deals({
       enchantmentLevel: deal.orders.sellOrder.enchantment_level,
       qualityLevel: deal.orders.sellOrder.quality_level,
       price: deal.orders.sellOrder.unit_price_silver,
+      createdAt: deal.orders.sellOrder.created_at,
     },
   }));
 

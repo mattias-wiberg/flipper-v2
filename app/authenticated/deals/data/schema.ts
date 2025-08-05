@@ -7,6 +7,7 @@ const orderSchema = z.object({
   qualityLevel: z.number().min(1).max(5),
   price: z.number(),
   location: z.string(),
+  createdAt: z.date(),
 });
 export const dealSchema = z.object({
   name: z.string(),
@@ -14,7 +15,6 @@ export const dealSchema = z.object({
   buyOrder: orderSchema,
   sellOrder: orderSchema,
   profit: z.number(),
-  // profitPercentage: z.number(),
   qualityUpgradeRequired: z.boolean(),
   qualityUpgradeCost: z.number().optional(),
   enchantmentUpgradeRequired: z.boolean(),

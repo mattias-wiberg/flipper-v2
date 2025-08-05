@@ -15,6 +15,7 @@ type SellOrder = {
   enchantment_level: number;
   quality_level: number;
   unit_price_silver: number;
+  created_at: Date;
   amount: number;
   location_id: number;
 };
@@ -25,6 +26,7 @@ type BuyOrder = {
   enchantment_level: number;
   quality_level: number;
   unit_price_silver: number;
+  created_at: Date;
   amount: number;
   location_id: number;
 };
