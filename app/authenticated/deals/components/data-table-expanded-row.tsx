@@ -10,17 +10,25 @@ interface DealExpandedRowProps<TData> {
 }
 
 export function DealExpandedRow<TData>({ row }: DealExpandedRowProps<TData>) {
-  const deal = dealSchema.parse(row.original);
-  console.log("Rendering expanded row for deal:", deal);
+  const { data: deal } = dealSchema.safeParse(row.original);
 
   return (
-    <div className="flex flex-row gap-7 p-4">
-      <DealOrderTable deal={deal} />
-      {deal.enchantmentUpgradeRequired &&
-        deal.enchantmentUpgradeShoppingList && (
-          <OrderDetailsEnchantmentChecklist deal={deal} />
-        )}
-      <DealCostBreakdown deal={deal} />
-    </div>
+    <>
+      {deal ? (
+        <div className="flex flex-row gap-7 p-4">
+          <DealOrderTable deal={deal} />
+          {deal.enchantmentUpgradeRequired &&
+            deal.enchantmentUpgradeShoppingList && (
+              <OrderDetailsEnchantmentChecklist deal={deal} />
+            )}
+          <DealCostBreakdown deal={deal} />
+        </div>
+      ) : (
+        <div>
+          Error loading deal details please provide this information to the
+          developers: <code>{JSON.stringify(row.original)}</code>
+        </div>
+      )}
+    </>
   );
 }

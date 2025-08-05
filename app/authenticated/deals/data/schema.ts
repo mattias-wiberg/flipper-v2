@@ -3,7 +3,7 @@ import { z } from "zod";
 const orderSchema = z.object({
   itemTypeId: z.string(),
   enchantmentLevel: z.number().min(0).max(4),
-  qualityLevel: z.number().min(0).max(4),
+  qualityLevel: z.number().min(1).max(5),
   price: z.number(),
   location: z.string(),
 });
