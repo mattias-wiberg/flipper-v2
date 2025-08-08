@@ -39,6 +39,12 @@ type FindDealsInput = {
   enchantmentUpgrade: boolean;
 };
 
+export type DealOrderCounts = {
+  sellOrders: number;
+  buyOrders: number;
+  potentialDeals: number;
+};
+
 function getPotentialDeals(params: FindDealsInput): Array<{
   sellOrder: SellOrder;
   buyOrder: BuyOrder;
@@ -191,12 +197,15 @@ function getPotentialDeals(params: FindDealsInput): Array<{
   return potentialDeals;
 }
 
-function getDeals(params: FindDealsInput): Array<{
-  orders: ReturnType<typeof getPotentialDeals>[number];
-  amount: number;
-}> {
+function getDeals(params: FindDealsInput): {
+  deals: Array<{
+    orders: ReturnType<typeof getPotentialDeals>[number];
+    amount: number;
+  }>;
+  potentialDealsCount: number;
+} {
   const potentialDeals = getPotentialDeals(params);
-  const deals: ReturnType<typeof getDeals> = [];
+  const deals: ReturnType<typeof getDeals>["deals"] = [];
   for (const deal of potentialDeals) {
     if (deal.buyOrder.amount > 0 && deal.sellOrder.amount > 0) {
       const amount = Math.min(deal.buyOrder.amount, deal.sellOrder.amount);
@@ -209,7 +218,10 @@ function getDeals(params: FindDealsInput): Array<{
       deal.sellOrder.amount -= amount;
     }
   }
-  return deals;
+  return {
+    deals,
+    potentialDealsCount: potentialDeals.length,
+  };
 }
 
 export { getDeals };

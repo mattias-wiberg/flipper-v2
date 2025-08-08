@@ -28,6 +28,7 @@ import {
 import { ChevronRight, Info } from "lucide-react";
 import { DealExpandedRow } from "./data-table-expanded-row";
 
+import { DealOrderCounts } from "@/lib/deals";
 import Link from "next/link";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
@@ -35,11 +36,13 @@ import { DataTableToolbar } from "./data-table-toolbar";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  counts: DealOrderCounts;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  counts,
 }: DataTableProps<TData, TValue>) {
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
@@ -167,20 +170,26 @@ export function DataTable<TData, TValue>({
                 >
                   <div className="flex items-center justify-center flex-col gap-2 py-10">
                     <Info className="w-10 h-10" />
-                    <div>
-                      No deals were found with your current data. To get
-                      started, go to the{" "}
-                      <Link href="/authenticated/token" className="underline ">
-                        token page
-                      </Link>{" "}
-                      and scan your market data using the{" "}
-                      <Link
-                        href="https://www.albion-online-data.com/"
-                        className="underline"
-                      >
-                        Albion Data Client
-                      </Link>
-                      .
+                    <div className="flex flex-col items-center gap-5">
+                      No deals were found with your current data, flip settings
+                      and table filters.
+                      <div className="text-muted-foreground">
+                        To get started, go to the{" "}
+                        <Link
+                          href="/authenticated/token"
+                          className="underline "
+                        >
+                          token page
+                        </Link>{" "}
+                        and scan your market data using the{" "}
+                        <Link
+                          href="https://www.albion-online-data.com/"
+                          className="underline"
+                        >
+                          Albion Data Client
+                        </Link>
+                        .
+                      </div>
                     </div>
                   </div>
                 </TableCell>
@@ -189,7 +198,7 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>
-      <DataTablePagination table={table} />
+      <DataTablePagination table={table} counts={counts} />
     </div>
   );
 }

@@ -48,7 +48,7 @@ export default async function Deals({
     return <div>Error fetching sell orders</div>;
   }
 
-  const deals = getDeals({
+  const { deals, potentialDealsCount } = getDeals({
     sellOrders: sellOrders.data.map((order) => ({
       ...order,
       created_at: new Date(order.created_at),
@@ -94,7 +94,15 @@ export default async function Deals({
 
   return (
     <div className="flex-1 w-full max-w-6xl flex flex-col mx-auto py-8">
-      <DataTable data={tableData} columns={columns} />
+      <DataTable
+        data={tableData}
+        columns={columns}
+        counts={{
+          sellOrders: sellOrders.data.length,
+          buyOrders: buyOrders.data.length,
+          potentialDeals: potentialDealsCount,
+        }}
+      />
     </div>
   );
 }

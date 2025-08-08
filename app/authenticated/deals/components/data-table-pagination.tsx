@@ -14,19 +14,27 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { DealOrderCounts } from "@/lib/deals";
+import { formatNumber } from "@/lib/locale";
 
 interface DataTablePaginationProps<TData> {
   table: Table<TData>;
+  counts: DealOrderCounts;
 }
 
 export function DataTablePagination<TData>({
   table,
+  counts,
 }: DataTablePaginationProps<TData>) {
   return (
     <div className="flex items-center justify-between px-2">
       <div className="text-muted-foreground flex-1 text-sm">
-        {table.getFilteredSelectedRowModel().rows.length} of{" "}
-        {table.getFilteredRowModel().rows.length} row(s) selected.
+        {/* {table.getFilteredSelectedRowModel().rows.length} of{" "}
+        {table.getFilteredRowModel().rows.length} row(s) selected. */}
+        Found {formatNumber(table.getFilteredRowModel().rows.length)}/
+        {formatNumber(counts.potentialDeals)} possible flips, from{" "}
+        {formatNumber(counts.sellOrders)}/{formatNumber(counts.buyOrders)}{" "}
+        sell/buy orders,
       </div>
       <div className="flex items-center space-x-6 lg:space-x-8">
         <div className="flex items-center space-x-2">
