@@ -2,6 +2,7 @@
 
 import { ColumnDef } from "@tanstack/react-table";
 
+import { Button } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -43,7 +44,28 @@ export const columns: ColumnDef<Deal>[] = [
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Name" />
     ),
-    cell: ({ row }) => <div>{row.getValue("name")}</div>,
+    cell: ({ row }) => {
+      const name = row.getValue("name");
+      return (
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="link"
+              onClick={(event) => {
+                if (typeof name === "string") {
+                  navigator.clipboard.writeText(name);
+                  event.preventDefault();
+                }
+              }}
+              aria-label="Copy name to clipboard"
+            >
+              {typeof name === "string" ? name : String(name)}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>Click to copy name</TooltipContent>
+        </Tooltip>
+      );
+    },
     enableSorting: false,
     enableHiding: false,
   },
