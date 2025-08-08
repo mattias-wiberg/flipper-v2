@@ -18,7 +18,7 @@ export default async function ProtectedPage({
   }
 
   return (
-    <div className="flex min-h-screen flex-col w-full items-center">
+    <div className="flex flex-col w-full items-center">
       <div className="hidden h-full w-full flex-1 flex-col gap-8 p-8 md:flex">
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-col gap-1">

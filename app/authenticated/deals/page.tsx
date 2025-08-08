@@ -1,12 +1,8 @@
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
 import { getDeals } from "@/lib/deals";
 import { getItemName } from "@/utils/items";
 import { createClient } from "@/utils/supabase/server";
 import { parseDealSearchParams } from "@/utils/utils";
 import { getWorldName } from "@/utils/worlds";
-import { Info } from "lucide-react";
-import Link from "next/link";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { Deal } from "./data/schema";
@@ -98,39 +94,6 @@ export default async function Deals({
 
   return (
     <div className="flex-1 w-full max-w-6xl flex flex-col mx-auto py-8">
-      {tableData.length === 0 && (
-        <div className="w-full mb-6">
-          <Alert className="w-full border-blue900/30 bg-blue-900/10 dark:bg-blue-900/10 dark:border-blue-900/40 flex flex-row items-center">
-            <Info className="w-5 h-5" />
-            <div className="flex-1">
-              <AlertDescription>
-                No deals were found with your current data. To get started, go
-                to the{" "}
-                <Link href="/authenticated/token" className="underline ">
-                  token page
-                </Link>{" "}
-                and scan your market data using the{" "}
-                <Link
-                  href="https://www.albion-online-data.com/"
-                  className="underline"
-                >
-                  Albion Data Client
-                </Link>
-                .
-              </AlertDescription>
-            </div>
-            <Link href="/authenticated/token">
-              <Button
-                size="sm"
-                variant="ghost"
-                className="font-bold hover:bg-blue-900/10"
-              >
-                Token Page
-              </Button>
-            </Link>
-          </Alert>
-        </div>
-      )}
       <DataTable data={tableData} columns={columns} />
     </div>
   );

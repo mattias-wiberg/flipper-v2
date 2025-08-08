@@ -50,7 +50,6 @@ export default async function RootLayout({
                   </div>
                 </div>
 
-                {/* Footer */}
                 <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-4">
                   <ThemeSwitcher />
                   <p>

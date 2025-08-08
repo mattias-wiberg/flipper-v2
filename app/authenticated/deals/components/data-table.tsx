@@ -25,9 +25,10 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, Info } from "lucide-react";
 import { DealExpandedRow } from "./data-table-expanded-row";
 
+import Link from "next/link";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
 
@@ -164,7 +165,24 @@ export function DataTable<TData, TValue>({
                   colSpan={columns.length + 1}
                   className="h-24 text-center"
                 >
-                  No results.
+                  <div className="flex items-center justify-center flex-col gap-2 py-10">
+                    <Info className="w-10 h-10" />
+                    <div>
+                      No deals were found with your current data. To get
+                      started, go to the{" "}
+                      <Link href="/authenticated/token" className="underline ">
+                        token page
+                      </Link>{" "}
+                      and scan your market data using the{" "}
+                      <Link
+                        href="https://www.albion-online-data.com/"
+                        className="underline"
+                      >
+                        Albion Data Client
+                      </Link>
+                      .
+                    </div>
+                  </div>
                 </TableCell>
               </TableRow>
             )}

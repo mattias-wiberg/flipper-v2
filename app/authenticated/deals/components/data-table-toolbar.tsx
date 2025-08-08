@@ -47,7 +47,7 @@ export function DataTableToolbar<TData>({
           </Tooltip>
         </TooltipProvider>
         <Input
-          placeholder="Filter orders..."
+          placeholder="Filter found flips..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("name")?.setFilterValue(event.target.value)
