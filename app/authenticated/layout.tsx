@@ -23,7 +23,10 @@ export default async function ProtectedPage({
         <div className="flex items-center justify-between gap-2">
           <div className="flex flex-col gap-1">
             <h2 className="text-2xl font-semibold tracking-tight">
-              Welcome back!
+              Welcome back
+              {user.user_metadata.nickname &&
+                ", " + user.user_metadata.nickname}
+              !
             </h2>
             <p className="text-muted-foreground">
               Here&apos;s a list of the found flips.
