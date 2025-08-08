@@ -1,11 +1,18 @@
 "use client";
 
 import { Table } from "@tanstack/react-table";
-import { X } from "lucide-react";
+import { RefreshCcw, X } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
+import { useRouter } from "next/navigation";
 import { tiers } from "../data/data";
 import { DataTableDealOptions } from "./data-table-deal-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
@@ -19,11 +26,26 @@ interface DataTableToolbarProps<TData> {
 export function DataTableToolbar<TData>({
   table,
 }: DataTableToolbarProps<TData>) {
+  const router = useRouter();
   const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
     <div className="flex items-center justify-between">
       <div className="flex flex-1 items-center gap-2">
+        <TooltipProvider>
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                className="size-8"
+                onClick={() => router.refresh()}
+              >
+                <RefreshCcw />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Refresh flips</TooltipContent>
+          </Tooltip>
+        </TooltipProvider>
         <Input
           placeholder="Filter orders..."
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
