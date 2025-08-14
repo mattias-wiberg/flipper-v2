@@ -1,4 +1,79 @@
 {
+  "T4_RUNE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Adept's Rune"
+  },
+  "T5_RUNE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Expert's Rune"
+  },
+  "T6_RUNE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Master's Rune"
+  },
+  "T7_RUNE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Rune"
+  },
+  "T8_RUNE": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Elder's Rune"
+  },
+  "T4_SOUL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Adept's Soul"
+  },
+  "T5_SOUL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Expert's Soul"
+  },
+  "T6_SOUL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Master's Soul"
+  },
+  "T7_SOUL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Soul"
+  },
+  "T8_SOUL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Elder's Soul"
+  },
+  "T4_RELIC": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Adept's Relic"
+  },
+  "T5_RELIC": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Expert's Relic"
+  },
+  "T6_RELIC": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Master's Relic"
+  },
+  "T7_RELIC": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Grandmaster's Relic"
+  },
+  "T8_RELIC": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Elder's Relic"
+  },
   "T3_2H_SHAPESHIFTER_SET1": {
     "itemValue": 256,
     "category": "2H-weapon",
