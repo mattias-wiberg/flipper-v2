@@ -1,4 +1,39 @@
 {
+  "T2_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Novice Blacksmith's Journal (Full)"
+  },
+  "T3_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Journeyman Blacksmith's Journal (Full)"
+  },
+  "T4_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Adept Blacksmith's Journal (Full)"
+  },
+  "T5_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Expert Blacksmith's Journal (Full)"
+  },
+  "T6_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Master Blacksmith's Journal (Full)"
+  },
+  "T7_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Grandmaster Blacksmith's Journal (Full)"
+  },
+  "T8_JOURNAL_WARRIOR_FULL": {
+    "itemValue": 0,
+    "category": "2H-weapon",
+    "name": "Elder Blacksmith's Journal (Full)"
+  },
   "T4_RUNE": {
     "itemValue": 0,
     "category": "2H-weapon",
