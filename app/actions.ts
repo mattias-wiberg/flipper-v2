@@ -32,9 +32,15 @@ export const signUpAction = async (
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
     const adminClient = createAdminClient();
-    await adminClient.from("tokens").insert({
-      user_id: data.user?.id,
-    });
+    await adminClient.from("tokens").upsert(
+      {
+        user_id: data.user?.id,
+      },
+      {
+        onConflict: "user_id",
+        ignoreDuplicates: true,
+      }
+    );
     return encodedRedirect(
       "success",
       "/sign-up",
