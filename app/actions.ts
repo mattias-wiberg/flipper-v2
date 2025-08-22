@@ -1,6 +1,5 @@
 "use server";
 
-import { createAdminClient } from "@/utils/supabase/admin";
 import { createClient } from "@/utils/supabase/server";
 import { encodedRedirect } from "@/utils/utils";
 import {
@@ -31,16 +30,6 @@ export const signUpAction = async (
     console.error(error.code + " " + error.message);
     return encodedRedirect("error", "/sign-up", error.message);
   } else {
-    const adminClient = createAdminClient();
-    await adminClient.from("tokens").upsert(
-      {
-        user_id: data.user?.id,
-      },
-      {
-        onConflict: "user_id",
-        ignoreDuplicates: true,
-      }
-    );
     return encodedRedirect(
       "success",
       "/sign-up",
