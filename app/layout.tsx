@@ -6,20 +6,80 @@ import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Heart } from "lucide-react";
+import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
-const defaultUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : "http://localhost:3000";
+// Prefer the custom domain for stable canonical/OG URLs, fall back to Vercel preview/local.
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
+    : "http://localhost:3000");
 
-export const metadata = {
-  metadataBase: new URL(defaultUrl),
-  title:
-    "Albion Online Black Market Flipping Tool | Real-Time Profitable Trades & Data",
-  description:
-    "Find the most profitable Albion Online Black Market flips instantly. Real-time data, private database, and seamless integration for serious traders.",
+const SITE_NAME = "Flipper";
+const SITE_TITLE =
+  "Albion Online Black Market Flipping Tool | Real-Time Profitable Trades & Data";
+const SITE_DESCRIPTION =
+  "Find the most profitable Albion Online Black Market flips instantly. Real-time data, private database, and seamless integration for serious traders.";
+
+export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
+  title: SITE_TITLE,
+  description: SITE_DESCRIPTION,
+  keywords: [
+    "Albion Online",
+    "Black Market",
+    "flipping",
+    "trading",
+    "profit calculator",
+    "market data",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    url: SITE_URL,
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    siteName: SITE_NAME,
+    images: [
+      {
+        url: new URL("/opengraph-image", SITE_URL).toString(),
+        width: 1200,
+        height: 630,
+        alt: SITE_TITLE,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_TITLE,
+    description: SITE_DESCRIPTION,
+    images: [new URL("/opengraph-image", SITE_URL).toString()],
+    creator: "@mattiaswiberg",
+  },
+  authors: [{ name: "Mattias Wiberg", url: "https://mattiaswiberg.com" }],
+  creator: "Mattias Wiberg",
+  publisher: "Mattias Wiberg",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-snippet": -1,
+      "max-image-preview": "large",
+      "max-video-preview": -1,
+    },
+  },
+  icons: {
+    icon: "/favicon.ico",
+  },
+  category: "business",
 };
 
 const geistSans = Geist({
@@ -74,6 +134,33 @@ export default async function RootLayout({
               <Toaster />
               <SpeedInsights />
               <Analytics />
+              {/* JSON-LD structured data for a web app/software application */}
+              <Script
+                id="ld-software-application"
+                type="application/ld+json"
+                strategy="afterInteractive"
+                dangerouslySetInnerHTML={{
+                  __html: JSON.stringify({
+                    "@context": "https://schema.org",
+                    "@type": "SoftwareApplication",
+                    name: SITE_NAME,
+                    applicationCategory: "BusinessApplication",
+                    operatingSystem: "Web",
+                    url: SITE_URL,
+                    description: SITE_DESCRIPTION,
+                    offers: {
+                      "@type": "Offer",
+                      price: "0",
+                      priceCurrency: "USD",
+                    },
+                    creator: {
+                      "@type": "Person",
+                      name: "Mattias Wiberg",
+                      url: "https://mattiaswiberg.com",
+                    },
+                  }),
+                }}
+              />
             </TooltipProvider>
           </ThemeProvider>
         </AuthProvider>

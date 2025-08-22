@@ -29,6 +29,7 @@ import {
   Zap,
 } from "lucide-react";
 import Link from "next/link";
+import Script from "next/script";
 
 export default function LandingPage() {
   return (
@@ -243,6 +244,33 @@ export default function LandingPage() {
           or join the Discord.
         </p>
       </section>
+      {/* JSON-LD feature list */}
+      <Script
+        id="ld-features"
+        type="application/ld+json"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            name: "Flipper Features",
+            itemListElement: [
+              { "@type": "ListItem", position: 1, name: "Private Database" },
+              { "@type": "ListItem", position: 2, name: "Real-Time Data" },
+              {
+                "@type": "ListItem",
+                position: 3,
+                name: "Enchantment & Quality Upgrades",
+              },
+              {
+                "@type": "ListItem",
+                position: 4,
+                name: "Seamless Integration",
+              },
+            ],
+          }),
+        }}
+      />
     </main>
   );
 }
