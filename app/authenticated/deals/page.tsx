@@ -3,9 +3,17 @@ import { getItemName } from "@/utils/items";
 import { createClient } from "@/utils/supabase/server";
 import { parseDealSearchParams } from "@/utils/utils";
 import { getWorldName } from "@/utils/worlds";
+import type { Metadata } from "next";
 import { columns } from "./components/columns";
 import { DataTable } from "./components/data-table";
 import { Deal } from "./data/schema";
+
+export const metadata: Metadata = {
+  title: "Deals",
+  description:
+    "Live view of profitable Black Market flips based on your latest data.",
+  alternates: { canonical: "/authenticated/deals" },
+};
 
 export default async function Deals({
   searchParams,

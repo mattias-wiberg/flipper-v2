@@ -4,6 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { createClient } from "@/utils/supabase/server";
 import { HelpCircle } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Database token",
+  alternates: { canonical: "/authenticated/token" },
+};
 export default async function TokenManager() {
   const supabase = await createClient();
 

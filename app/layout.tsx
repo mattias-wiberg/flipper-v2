@@ -37,9 +37,6 @@ export const metadata: Metadata = {
     "profit calculator",
     "market data",
   ],
-  alternates: {
-    canonical: "/",
-  },
   openGraph: {
     type: "website",
     url: SITE_URL,

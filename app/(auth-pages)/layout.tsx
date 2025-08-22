@@ -1,4 +1,13 @@
 import { Bot } from "lucide-react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Account | Flipper",
+    template: "%s | Flipper",
+  },
+  robots: { index: false, follow: false },
+};
 
 export default async function Layout({
   children,

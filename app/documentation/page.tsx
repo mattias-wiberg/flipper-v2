@@ -13,7 +13,15 @@ import {
   Table2,
   Terminal,
 } from "lucide-react";
+import type { Metadata } from "next";
 import Link from "next/link";
+
+export const metadata: Metadata = {
+  title: "Documentation | Flipper — How to use the Albion Black Market tool",
+  description:
+    "Step-by-step guide to using Flipper with the Albion Data Client to find profitable Black Market flips.",
+  alternates: { canonical: "/documentation" },
+};
 
 const steps = [
   {
