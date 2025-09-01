@@ -6,7 +6,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Image from "next/image";
 
 import {
   Tooltip,
@@ -48,7 +47,7 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
           zIndex: 1000,
         }}
       >
-        <Image width={128} height={128} src={previewImg} alt="Preview" />
+        <img width={128} height={128} src={previewImg} alt="Preview" />
       </div>
     );
   };
@@ -94,7 +93,7 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
                 onMouseLeave={() => setPreviewImg(null)}
                 onMouseMove={handleMouseMove}
               >
-                <Image
+                <img
                   width={24}
                   height={24}
                   src={`https://render.albiononline.com/v1/item/${order.itemTypeId}.png`}
