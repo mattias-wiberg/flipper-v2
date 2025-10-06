@@ -13,12 +13,23 @@ export const metadata: Metadata = {
 export default async function TokenManager() {
   const supabase = await createClient();
 
-  const { data, error } = await supabase
+  const { error: upsertError } = await supabase.from("tokens").upsert(
+    {},
+    {
+      onConflict: "user_id",
+      ignoreDuplicates: false,
+    }
+  );
+  if (upsertError) {
+    console.warn("Error upserting token:", upsertError);
+  }
+
+  const { data: tokenData, error: selectError } = await supabase
     .from("tokens")
     .select("token")
     .single();
 
-  if (error || !data) {
+  if (selectError || !tokenData) {
     return (
       <div className="flex-1 w-full max-w-md flex flex-col items-center justify-center mx-auto py-16">
         <Card className="w-full shadow-lg border-primary/30 border-2 bg-background">
@@ -54,7 +65,6 @@ export default async function TokenManager() {
       </div>
     );
   }
-  const token = data.token;
 
   return (
     <div className="flex-1 w-full max-w-xl flex flex-col items-center justify-center mx-auto">
@@ -63,12 +73,12 @@ export default async function TokenManager() {
         Your token is used to upload your market data. Keep it secret! Anyone
         with this token can upload data to your private database.
       </span>
-      <Token token={token} />
+      <Token token={tokenData.token} />
       <p className="leading-7">
         To get started using your token launch the albion data client by doing
         the following:
       </p>
-      <TokenTutorial token={token} />
+      <TokenTutorial token={tokenData.token} />
     </div>
   );
 }

@@ -12,13 +12,10 @@ export async function GET(request: Request) {
 
   if (code) {
     const supabase = await createClient();
-    const { data, error } = await supabase.auth.exchangeCodeForSession(code);
-    if (!error && data?.user?.id) {
-      const { createAdminClient } = await import("@/utils/supabase/admin");
-      const adminClient = createAdminClient();
-      await adminClient.from("tokens").insert({ user_id: data.user.id });
-    } else {
-      console.error("User ID not found when exchanging code for session");
+    const { error } = await supabase.auth.exchangeCodeForSession(code);
+    if (error) {
+      console.error("Error exchanging code for session:", error);
+      return NextResponse.redirect(`${origin}/?error=auth_error`);
     }
   }
 
