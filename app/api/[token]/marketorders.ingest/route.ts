@@ -52,7 +52,7 @@ export async function POST(
           id: order.Id,
           item_type_id: order.ItemTypeId,
           item_group_type_id: order.ItemGroupTypeId,
-          location_id: order.LocationId,
+          location_id: parseInt(order.LocationId, 10),
           tier: parseInt(tierMatch[1], 10),
           quality_level: order.QualityLevel,
           enchantment_level: order.EnchantmentLevel,

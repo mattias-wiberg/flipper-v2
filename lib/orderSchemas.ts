@@ -4,7 +4,7 @@ export const orderSchema = z.object({
   Id: z.number(),
   ItemTypeId: z.string(),
   ItemGroupTypeId: z.string(),
-  LocationId: z.number(),
+  LocationId: z.string(),
   QualityLevel: z.number(),
   EnchantmentLevel: z.number(),
   UnitPriceSilver: z.number(),
