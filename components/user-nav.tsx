@@ -45,10 +45,10 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
           <div className="flex flex-col space-y-1">
-            <p className="text-sm leading-none font-medium">
+            <p className="text-sm leading-none font-medium truncate">
               {user.user_metadata.nickname || user.email || "--"}
             </p>
-            <p className="text-muted-foreground text-xs leading-none">
+            <p className="text-muted-foreground text-xs leading-none truncate">
               {user.user_metadata.nickname ? user.email : user.id}
             </p>
           </div>
