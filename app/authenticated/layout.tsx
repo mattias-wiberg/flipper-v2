@@ -35,10 +35,9 @@ export default async function ProtectedPage({
               Welcome back
               {user.user_metadata.nickname &&
                 ", " + user.user_metadata.nickname}
-              !
             </h2>
             <p className="text-muted-foreground">
-              Here&apos;s a list of the found flips.
+              Thank you for using Flipper!
             </p>
           </div>
           <div className="flex items-center gap-2">
