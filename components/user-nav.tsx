@@ -68,7 +68,6 @@ export function UserNav() {
           <DropdownMenuItem onClick={() => router.push("/documentation")}>
             Documentation
           </DropdownMenuItem>
-          <DropdownMenuItem>Settings</DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={signOut}>Log out</DropdownMenuItem>
