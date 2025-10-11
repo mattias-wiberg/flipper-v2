@@ -93,7 +93,7 @@ export function DataTableDealOptions() {
           className="ml-auto hidden h-8 lg:flex"
         >
           <Settings />
-          Settings
+          Options
         </Button>
       </PopoverTrigger>
       <PopoverContent className="w-[250px] p-1 bg-popover text-popover-foreground border shadow-md rounded-md">
