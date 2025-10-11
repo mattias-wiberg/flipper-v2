@@ -23,8 +23,15 @@ export default async function Deals({
   const supabase = await createClient();
 
   const params = await searchParams;
-  const { tier, minProfit, qualityUpgrade, enchantmentUpgrade, premium } =
-    parseDealSearchParams(params);
+  const {
+    tier,
+    minProfit,
+    qualityUpgrade,
+    enchantmentUpgrade,
+    premium,
+    minPercentualProfit,
+    profitGate,
+  } = parseDealSearchParams(params);
 
   let buyOrderQuery = supabase
     .from("orders")
@@ -67,6 +74,8 @@ export default async function Deals({
     })),
     premium,
     minProfit,
+    minPercentualProfit,
+    profitGate,
     qualityUpgrade,
     enchantmentUpgrade,
   });
@@ -75,6 +84,7 @@ export default async function Deals({
     name: getItemName(deal.orders.buyOrder.item_group_type_id),
     tier: deal.orders.sellOrder.tier.toString(),
     profit: deal.orders.profit,
+    percentualProfit: deal.orders.percentualProfit,
     qualityUpgradeRequired: deal.orders.qualityUpgrade,
     qualityUpgradeCost: deal.orders.qualityUpgradeCost,
     enchantmentUpgradeRequired: deal.orders.enchantmentUpgrade,

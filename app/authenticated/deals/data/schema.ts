@@ -15,6 +15,7 @@ export const dealSchema = z.object({
   buyOrder: orderSchema,
   sellOrder: orderSchema,
   profit: z.number(),
+  percentualProfit: z.number(),
   qualityUpgradeRequired: z.boolean(),
   qualityUpgradeCost: z.number().optional(),
   enchantmentUpgradeRequired: z.boolean(),

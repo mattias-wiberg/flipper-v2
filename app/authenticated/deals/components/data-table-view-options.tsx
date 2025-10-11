@@ -13,6 +13,10 @@ import {
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 
+const columnIdTranslations: Record<string, string> = {
+  percentualProfit: "Margin (%)",
+};
+
 export function DataTableViewOptions<TData>({
   table,
 }: {
@@ -47,7 +51,7 @@ export function DataTableViewOptions<TData>({
                 checked={column.getIsVisible()}
                 onCheckedChange={(value) => column.toggleVisibility(!!value)}
               >
-                {column.id}
+                {columnIdTranslations[column.id] || column.id}
               </DropdownMenuCheckboxItem>
             );
           })}

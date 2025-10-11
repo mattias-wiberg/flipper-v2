@@ -57,6 +57,7 @@ export const columns: ColumnDef<Deal>[] = [
                   event.preventDefault();
                 }
               }}
+              className="pl-0"
               aria-label="Copy name to clipboard"
             >
               {typeof name === "string" ? name : String(name)}
@@ -91,6 +92,20 @@ export const columns: ColumnDef<Deal>[] = [
     ),
   },
   {
+    accessorKey: "percentualProfit",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Margin (%)" />
+    ),
+    cell: ({ row }) => (
+      <div className="w-[80px]">
+        {row.original.percentualProfit.toLocaleString(undefined, {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        })}
+      </div>
+    ),
+  },
+  {
     accessorKey: "amount",
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Amount" />
@@ -105,7 +120,7 @@ export const columns: ColumnDef<Deal>[] = [
     cell: ({ row }) => {
       const location =
         row.original.sellOrder.location || row.original.buyOrder.location;
-      return <div className="w-[80px]">{location}</div>;
+      return <div className="w-[80px] whitespace-nowrap">{location}</div>;
     },
   },
   {

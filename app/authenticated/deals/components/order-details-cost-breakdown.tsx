@@ -43,7 +43,7 @@ export const DealCostBreakdown = ({ deal }: DealCostBreakdownProps) => {
       style={{ fontFamily: "Inter, sans-serif" }}
     >
       <div className="font-semibold text-base mb-1 whitespace-nowrap">
-        Cost Breakdown
+        Profit Breakdown
       </div>
       {rows.map((row) => (
         <div key={row.label} className="flex justify-between gap-6">

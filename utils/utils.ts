@@ -47,6 +47,8 @@ export function groupBy<T>(
 export function parseDealSearchParams(params: { [key: string]: string }): {
   tier?: number;
   minProfit: number;
+  minPercentualProfit: number;
+  profitGate: "and" | "or";
   qualityUpgrade: boolean;
   enchantmentUpgrade: boolean;
   premium: boolean;
@@ -54,6 +56,8 @@ export function parseDealSearchParams(params: { [key: string]: string }): {
   return {
     tier: parseInt(params.tier, 10) || undefined,
     minProfit: parseInt(params.minProfit, 10) || 0,
+    minPercentualProfit: parseInt(params.minPercentualProfit, 10) || 0,
+    profitGate: params.profitGate === "or" ? "or" : "and",
     qualityUpgrade: params.qualityUpgrade === "1",
     enchantmentUpgrade: params.enchantmentUpgrade === "1",
     premium: params.premium === "1",

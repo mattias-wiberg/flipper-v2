@@ -35,6 +35,8 @@ type FindDealsInput = {
   buyOrders: BuyOrder[];
   premium: boolean;
   minProfit: number;
+  minPercentualProfit: number;
+  profitGate: "and" | "or";
   qualityUpgrade: boolean;
   enchantmentUpgrade: boolean;
 };
@@ -49,6 +51,7 @@ function getPotentialDeals(params: FindDealsInput): Array<{
   sellOrder: SellOrder;
   buyOrder: BuyOrder;
   profit: number;
+  percentualProfit: number;
   qualityUpgrade: boolean;
   qualityUpgradeCost?: number;
   enchantmentUpgrade: boolean;
@@ -60,6 +63,8 @@ function getPotentialDeals(params: FindDealsInput): Array<{
     buyOrders,
     premium,
     minProfit,
+    minPercentualProfit,
+    profitGate,
     qualityUpgrade,
     enchantmentUpgrade,
   } = params;
@@ -89,11 +94,16 @@ function getPotentialDeals(params: FindDealsInput): Array<{
         ) {
           return; // Impossible to match enchantment levels
         }
-        let profit =
+        const profit =
           buyOrder.unit_price_silver -
           sellOrder.unit_price_silver -
           buyOrder.unit_price_silver * (premium ? 0.04 : 0.08); // Subtract premium fee
-        if (profit < minProfit) {
+        const percentualProfit = (profit / sellOrder.unit_price_silver) * 100;
+        if (
+          !(profitGate === "and"
+            ? profit > minProfit && percentualProfit > minPercentualProfit
+            : profit > minProfit || percentualProfit > minPercentualProfit)
+        ) {
           return;
         }
         if (
@@ -104,6 +114,7 @@ function getPotentialDeals(params: FindDealsInput): Array<{
             sellOrder,
             buyOrder,
             profit,
+            percentualProfit,
             qualityUpgrade: false,
             enchantmentUpgrade: false,
           });
@@ -124,11 +135,20 @@ function getPotentialDeals(params: FindDealsInput): Array<{
             getItemValue(buyOrder.item_group_type_id)
           );
           const qualityUpgradeProfit = profit - qualityUpgradeCost;
-          if (qualityUpgradeProfit > minProfit) {
+          const qualityUpgradePercentualProfit =
+            (qualityUpgradeProfit / sellOrder.unit_price_silver) * 100;
+          if (
+            profitGate === "and"
+              ? qualityUpgradeProfit > minProfit &&
+                qualityUpgradePercentualProfit > minPercentualProfit
+              : qualityUpgradeProfit > minProfit ||
+                qualityUpgradePercentualProfit > minPercentualProfit
+          ) {
             potentialDeals.push({
               sellOrder,
               buyOrder,
               profit: qualityUpgradeProfit,
+              percentualProfit: qualityUpgradePercentualProfit,
               qualityUpgrade,
               enchantmentUpgrade: false,
               qualityUpgradeCost,
@@ -159,11 +179,20 @@ function getPotentialDeals(params: FindDealsInput): Array<{
               enchantmentUpgradeCost = upgradeCost;
               enchantmentUpgradeShoppingList = shoppingList;
               const enchantmentUpgradeProfit = profit - enchantmentUpgradeCost;
-              if (enchantmentUpgradeProfit > minProfit) {
+              const enchantmentUpgradePercentualProfit =
+                (enchantmentUpgradeProfit / sellOrder.unit_price_silver) * 100;
+              if (
+                profitGate === "and"
+                  ? enchantmentUpgradeProfit > minProfit &&
+                    enchantmentUpgradePercentualProfit > minPercentualProfit
+                  : enchantmentUpgradeProfit > minProfit ||
+                    enchantmentUpgradePercentualProfit > minPercentualProfit
+              ) {
                 potentialDeals.push({
                   sellOrder,
                   buyOrder,
                   profit: enchantmentUpgradeProfit,
+                  percentualProfit: enchantmentUpgradePercentualProfit,
                   qualityUpgrade: false,
                   enchantmentUpgrade,
                   enchantmentUpgradeCost,
@@ -176,11 +205,20 @@ function getPotentialDeals(params: FindDealsInput): Array<{
         if (qualityUpgradeCost && enchantmentUpgradeCost) {
           const totalUpgradeProfit =
             profit - qualityUpgradeCost - enchantmentUpgradeCost;
-          if (totalUpgradeProfit > minProfit) {
+          const totalUpgradePercentualProfit =
+            (totalUpgradeProfit / sellOrder.unit_price_silver) * 100;
+          if (
+            profitGate === "and"
+              ? totalUpgradeProfit > minProfit &&
+                totalUpgradePercentualProfit > minPercentualProfit
+              : totalUpgradeProfit > minProfit ||
+                totalUpgradePercentualProfit > minPercentualProfit
+          ) {
             potentialDeals.push({
               sellOrder,
               buyOrder,
               profit: totalUpgradeProfit,
+              percentualProfit: totalUpgradePercentualProfit,
               qualityUpgrade: true,
               enchantmentUpgrade: true,
               qualityUpgradeCost,
