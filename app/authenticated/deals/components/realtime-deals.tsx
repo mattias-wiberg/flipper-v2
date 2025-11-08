@@ -4,7 +4,7 @@ import { getDeals } from "@/lib/deals";
 import { getItemName } from "@/utils/items";
 import { getWorldName } from "@/utils/worlds";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Deal } from "../data/schema";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
@@ -26,8 +26,10 @@ export function RealtimeDeals({
     const [deals, setDeals] = useState<Deal[]>(initialData.deals);
     const [counts, setCounts] = useState(initialData.counts);
     const supabase = useMemo(() => createClientComponentClient(), []);
+    const mountedRef = useRef(true);
 
     const fetchAndUpdateDeals = useCallback(async () => {
+        try {
         const {
             tier,
             minProfit,
@@ -114,17 +116,23 @@ export function RealtimeDeals({
                 price: deal.orders.sellOrder.unit_price_silver,
                 createdAt: deal.orders.sellOrder.created_at,
             },
-        }));
+            }));
 
-        setDeals(tableData);
-        setCounts({
-            sellOrders: sellOrders.data.length,
-            buyOrders: buyOrders.data.length,
-            potentialDeals: potentialDealsCount,
-        });
-    }, [searchParams, supabase]);
+            setDeals(tableData);
+            setCounts({
+                sellOrders: sellOrders.data.length,
+                buyOrders: buyOrders.data.length,
+                potentialDeals: potentialDealsCount,
+            });
+        } catch (error) {
+            console.error("Error updating deals:", error);
+            // Optionally set error state here for UI feedback
+        }
+    }, [searchParams, supabase, mountedRef]);
 
     useEffect(() => {
+        mountedRef.current = true;
+
         // Fetch initial data on mount to ensure fresh client snapshot
         fetchAndUpdateDeals();
 
@@ -140,13 +148,16 @@ export function RealtimeDeals({
                 },
                 () => {
                     // Refresh data when any change occurs
-                    fetchAndUpdateDeals();
+                    if (mountedRef.current) {
+                        fetchAndUpdateDeals();
+                    }
                 }
             )
             .subscribe();
 
         // Clean up subscription
         return () => {
+            mountedRef.current = false;
             channel.unsubscribe();
         };
     }, [supabase, fetchAndUpdateDeals]); // Re-subscribe when dependencies change
