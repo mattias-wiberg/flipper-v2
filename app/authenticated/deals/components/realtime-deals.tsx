@@ -4,7 +4,7 @@ import { getDeals } from "@/lib/deals";
 import { getItemName } from "@/utils/items";
 import { getWorldName } from "@/utils/worlds";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Deal } from "../data/schema";
 import { columns } from "./columns";
 import { DataTable } from "./data-table";
@@ -25,9 +25,9 @@ export function RealtimeDeals({
 }) {
     const [deals, setDeals] = useState<Deal[]>(initialData.deals);
     const [counts, setCounts] = useState(initialData.counts);
-    const supabase = createClientComponentClient();
+    const supabase = useMemo(() => createClientComponentClient(), []);
 
-    const fetchAndUpdateDeals = async () => {
+    const fetchAndUpdateDeals = useCallback(async () => {
         const {
             tier,
             minProfit,
@@ -88,7 +88,7 @@ export function RealtimeDeals({
         const tableData: Deal[] = newDeals.map((deal) => ({
             amount: deal.amount,
             name: getItemName(deal.orders.buyOrder.item_group_type_id),
-            tier: deal.orders.sellOrder.tier.toString(),
+            tier: deal.orders.sellOrder.tier?.toString() ?? "",
             profit: deal.orders.profit,
             percentualProfit: deal.orders.percentualProfit,
             qualityUpgradeRequired: deal.orders.qualityUpgrade,
@@ -122,9 +122,12 @@ export function RealtimeDeals({
             buyOrders: buyOrders.data.length,
             potentialDeals: potentialDealsCount,
         });
-    };
+    }, [searchParams, supabase]);
 
     useEffect(() => {
+        // Fetch initial data on mount to ensure fresh client snapshot
+        fetchAndUpdateDeals();
+
         // Set up real-time listeners for both buy and sell orders
         const channel = supabase
             .channel("orders-channel")
@@ -144,9 +147,9 @@ export function RealtimeDeals({
 
         // Clean up subscription
         return () => {
-            supabase.removeChannel(channel);
+            channel.unsubscribe();
         };
-    }, [searchParams]); // Re-subscribe when search params change
+    }, [supabase, fetchAndUpdateDeals]); // Re-subscribe when dependencies change
 
     return (
         <div className="flex-1 w-full max-w-6xl flex flex-col mx-auto py-8">
