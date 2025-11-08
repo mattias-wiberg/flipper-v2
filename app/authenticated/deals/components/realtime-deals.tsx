@@ -30,47 +30,51 @@ export function RealtimeDeals({
 
     const fetchAndUpdateDeals = useCallback(async () => {
         try {
-        const {
-            tier,
-            minProfit,
-            qualityUpgrade,
-            enchantmentUpgrade,
-            premium,
-            minPercentualProfit,
-            profitGate,
-        } = searchParams;
+            const {
+                tier,
+                minProfit,
+                qualityUpgrade,
+                enchantmentUpgrade,
+                premium,
+                minPercentualProfit,
+                profitGate,
+            } = searchParams;
 
-        let buyOrderQuery = supabase
-            .from("orders")
-            .select(
-                "id, item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount, created_at"
-            )
-            .eq("action_type", "request");
-        if (tier) {
-            buyOrderQuery = buyOrderQuery.eq("tier", tier);
-        }
-        const buyOrders = await buyOrderQuery;
-        if (buyOrders.error) {
-            console.error("Error fetching buy orders:", buyOrders.error);
-            return;
-        }
+            let buyOrderQuery = supabase
+                .from("orders")
+                .select(
+                    "id, item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount, created_at"
+                )
+                .eq("action_type", "request");
+            if (tier) {
+                buyOrderQuery = buyOrderQuery.eq("tier", tier);
+            }
+            const buyOrders = await buyOrderQuery;
+            if (buyOrders.error) {
+                console.error("Error fetching buy orders:", buyOrders.error);
+                return;
+            }
 
-        let sellOrderQuery = supabase
-            .from("orders")
-            .select(
-                "id, item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount, created_at"
-            )
-            .eq("action_type", "offer");
-        if (tier) {
-            sellOrderQuery = sellOrderQuery.eq("tier", tier);
-        }
-        const sellOrders = await sellOrderQuery;
-        if (sellOrders.error) {
-            console.error("Error fetching sell orders:", sellOrders.error);
-            return;
-        }
+            // Check if component is still mounted before continuing
+            if (!mountedRef.current) return;
 
-        const { deals: newDeals, potentialDealsCount } = getDeals({
+            let sellOrderQuery = supabase
+                .from("orders")
+                .select(
+                    "id, item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount, created_at"
+                )
+                .eq("action_type", "offer");
+            if (tier) {
+                sellOrderQuery = sellOrderQuery.eq("tier", tier);
+            }
+            const sellOrders = await sellOrderQuery;
+            if (sellOrders.error) {
+                console.error("Error fetching sell orders:", sellOrders.error);
+                return;
+            }
+
+            // Check if component is still mounted before updating state
+            if (!mountedRef.current) return;        const { deals: newDeals, potentialDealsCount } = getDeals({
             sellOrders: sellOrders.data.map((order: any) => ({
                 ...order,
                 created_at: new Date(order.created_at),
@@ -118,17 +122,20 @@ export function RealtimeDeals({
             },
             }));
 
-            setDeals(tableData);
-            setCounts({
-                sellOrders: sellOrders.data.length,
-                buyOrders: buyOrders.data.length,
-                potentialDeals: potentialDealsCount,
-            });
+            // Only update state if component is still mounted
+            if (mountedRef.current) {
+                setDeals(tableData);
+                setCounts({
+                    sellOrders: sellOrders.data.length,
+                    buyOrders: buyOrders.data.length,
+                    potentialDeals: potentialDealsCount,
+                });
+            }
         } catch (error) {
             console.error("Error updating deals:", error);
             // Optionally set error state here for UI feedback
         }
-    }, [searchParams, supabase, mountedRef]);
+    }, [searchParams, supabase]);
 
     useEffect(() => {
         mountedRef.current = true;
@@ -158,7 +165,20 @@ export function RealtimeDeals({
         // Clean up subscription
         return () => {
             mountedRef.current = false;
-            channel.unsubscribe();
+            // Defensive unsubscribe for different Supabase SDK versions
+            try {
+                const unsub = channel.unsubscribe?.();
+                if (unsub && typeof unsub.then === "function") {
+                    unsub.catch(console.error);
+                }
+            } catch {
+                // Fallback for older SDK versions
+                try {
+                    supabase.removeChannel?.(channel);
+                } catch (e) {
+                    console.error("Error cleaning up channel:", e);
+                }
+            }
         };
     }, [supabase, fetchAndUpdateDeals]); // Re-subscribe when dependencies change
 
