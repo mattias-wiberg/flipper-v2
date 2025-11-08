@@ -4,9 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { parseDealSearchParams } from "@/utils/utils";
 import { getWorldName } from "@/utils/worlds";
 import type { Metadata } from "next";
-import { columns } from "./components/columns";
-import { DataTable } from "./components/data-table";
-import { Deal } from "./data/schema";
+import { RealtimeDeals } from "./components/realtime-deals";
 
 export const metadata: Metadata = {
   title: "Deals",
@@ -21,26 +19,18 @@ export default async function Deals({
   searchParams: Promise<{ [key: string]: string }>;
 }) {
   const supabase = await createClient();
-
   const params = await searchParams;
-  const {
-    tier,
-    minProfit,
-    qualityUpgrade,
-    enchantmentUpgrade,
-    premium,
-    minPercentualProfit,
-    profitGate,
-  } = parseDealSearchParams(params);
+  const parsedParams = parseDealSearchParams(params);
 
+  // Get initial data
   let buyOrderQuery = supabase
     .from("orders")
     .select(
       "id, item_type_id, location_id, item_group_type_id, enchantment_level, quality_level, unit_price_silver, amount, created_at"
     )
     .eq("action_type", "request");
-  if (tier) {
-    buyOrderQuery = buyOrderQuery.eq("tier", tier);
+  if (parsedParams.tier) {
+    buyOrderQuery = buyOrderQuery.eq("tier", parsedParams.tier);
   }
   const buyOrders = await buyOrderQuery;
   if (buyOrders.error) {
@@ -54,8 +44,8 @@ export default async function Deals({
       "id, item_type_id, location_id, item_group_type_id, tier, enchantment_level, quality_level, unit_price_silver, amount, created_at"
     )
     .eq("action_type", "offer");
-  if (tier) {
-    sellOrderQuery = sellOrderQuery.eq("tier", tier);
+  if (parsedParams.tier) {
+    sellOrderQuery = sellOrderQuery.eq("tier", parsedParams.tier);
   }
   const sellOrders = await sellOrderQuery;
   if (sellOrders.error) {
@@ -72,55 +62,46 @@ export default async function Deals({
       ...order,
       created_at: new Date(order.created_at),
     })),
-    premium,
-    minProfit,
-    minPercentualProfit,
-    profitGate,
-    qualityUpgrade,
-    enchantmentUpgrade,
+    ...parsedParams,
   });
-  const tableData: Deal[] = deals.map((deal) => ({
-    amount: deal.amount,
-    name: getItemName(deal.orders.buyOrder.item_group_type_id),
-    tier: deal.orders.sellOrder.tier.toString(),
-    profit: deal.orders.profit,
-    percentualProfit: deal.orders.percentualProfit,
-    qualityUpgradeRequired: deal.orders.qualityUpgrade,
-    qualityUpgradeCost: deal.orders.qualityUpgradeCost,
-    enchantmentUpgradeRequired: deal.orders.enchantmentUpgrade,
-    enchantmentUpgradeCost: deal.orders.enchantmentUpgradeCost,
-    enchantmentUpgradeShoppingList: deal.orders.enchantmentUpgradeShoppingList,
-    buyOrder: {
-      id: deal.orders.buyOrder.id,
-      location: getWorldName(deal.orders.buyOrder.location_id),
-      itemTypeId: deal.orders.buyOrder.item_type_id,
-      enchantmentLevel: deal.orders.buyOrder.enchantment_level,
-      qualityLevel: deal.orders.buyOrder.quality_level,
-      price: deal.orders.buyOrder.unit_price_silver,
-      createdAt: deal.orders.buyOrder.created_at,
-    },
-    sellOrder: {
-      id: deal.orders.sellOrder.id,
-      location: getWorldName(deal.orders.sellOrder.location_id),
-      itemTypeId: deal.orders.sellOrder.item_type_id,
-      enchantmentLevel: deal.orders.sellOrder.enchantment_level,
-      qualityLevel: deal.orders.sellOrder.quality_level,
-      price: deal.orders.sellOrder.unit_price_silver,
-      createdAt: deal.orders.sellOrder.created_at,
-    },
-  }));
 
-  return (
-    <div className="flex-1 w-full max-w-6xl flex flex-col mx-auto py-8">
-      <DataTable
-        data={tableData}
-        columns={columns}
-        counts={{
-          sellOrders: sellOrders.data.length,
-          buyOrders: buyOrders.data.length,
-          potentialDeals: potentialDealsCount,
-        }}
-      />
-    </div>
-  );
+  const initialData = {
+    deals: deals.map((deal) => ({
+      amount: deal.amount,
+      name: getItemName(deal.orders.buyOrder.item_group_type_id),
+      tier: deal.orders.sellOrder.tier.toString(),
+      profit: deal.orders.profit,
+      percentualProfit: deal.orders.percentualProfit,
+      qualityUpgradeRequired: deal.orders.qualityUpgrade,
+      qualityUpgradeCost: deal.orders.qualityUpgradeCost,
+      enchantmentUpgradeRequired: deal.orders.enchantmentUpgrade,
+      enchantmentUpgradeCost: deal.orders.enchantmentUpgradeCost,
+      enchantmentUpgradeShoppingList: deal.orders.enchantmentUpgradeShoppingList,
+      buyOrder: {
+        id: deal.orders.buyOrder.id,
+        location: getWorldName(deal.orders.buyOrder.location_id),
+        itemTypeId: deal.orders.buyOrder.item_type_id,
+        enchantmentLevel: deal.orders.buyOrder.enchantment_level,
+        qualityLevel: deal.orders.buyOrder.quality_level,
+        price: deal.orders.buyOrder.unit_price_silver,
+        createdAt: deal.orders.buyOrder.created_at,
+      },
+      sellOrder: {
+        id: deal.orders.sellOrder.id,
+        location: getWorldName(deal.orders.sellOrder.location_id),
+        itemTypeId: deal.orders.sellOrder.item_type_id,
+        enchantmentLevel: deal.orders.sellOrder.enchantment_level,
+        qualityLevel: deal.orders.sellOrder.quality_level,
+        price: deal.orders.sellOrder.unit_price_silver,
+        createdAt: deal.orders.sellOrder.created_at,
+      },
+    })),
+    counts: {
+      sellOrders: sellOrders.data.length,
+      buyOrders: buyOrders.data.length,
+      potentialDeals: potentialDealsCount,
+    },
+  };
+
+  return <RealtimeDeals initialData={initialData} searchParams={parsedParams} />;
 }
