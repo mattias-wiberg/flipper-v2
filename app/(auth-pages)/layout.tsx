@@ -6,7 +6,11 @@ export const metadata: Metadata = {
     default: "Account | Flipper",
     template: "%s | Flipper",
   },
-  robots: { index: false, follow: false },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true },
+  },
 };
 
 export default async function Layout({
