@@ -1,52 +1,38 @@
-import { bodySchema } from "@/lib/orderSchemas";
 import { promises as fs } from "fs";
 import path from "path";
 
-const ORDERS_FILE = path.join(process.cwd(), "mocker", "data", "orders.json");
+// Local-dev recorder for live scans (see mocker/README.md "Live scan").
+//
+// Appends every posted body as one JSON line:
+//   {"receivedAt": "<iso>", "body": <exact posted JSON>}
+// so a scan can later be replayed byte-for-byte through the real ingest
+// route (`npm run golden:replay`).
+//
+// Deliberately append-only (safe under rapid page-through traffic, unlike
+// read-modify-write) and deliberately unvalidated — replay must reproduce
+// exactly what live traffic did, including rejected batches.
+const RAW_FILE = path.join(
+  process.cwd(),
+  "mocker",
+  "data",
+  "golden.raw.jsonl"
+);
 
 export async function POST(request: Request) {
   try {
-    let body;
+    const text = await request.text();
+    let body: unknown;
     try {
-      body = await request.json();
-    } catch (e) {
-      return new Response("Invalid JSON", { status: 400 });
+      body = text ? JSON.parse(text) : null;
+    } catch {
+      body = { _unparseable: text?.slice(0, 1000) };
     }
-
-    const parseResult = bodySchema.safeParse(body);
-    if (!parseResult.success) {
-      return new Response(
-        JSON.stringify({
-          error: "Invalid body format",
-          details: parseResult.error.errors,
-        }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
-      );
-    }
-
-    // Read the current orders.json
-    let ordersData;
-    try {
-      const fileContent = await fs.readFile(ORDERS_FILE, "utf-8");
-      ordersData = JSON.parse(fileContent);
-    } catch (e) {
-      // If file does not exist or is invalid, start with empty array
-      ordersData = [];
-    }
-
-    // Append the new orders as a new entry in the array
-    ordersData.push({ Orders: parseResult.data.Orders });
-
-    // Write back to the file
-    await fs.writeFile(
-      ORDERS_FILE,
-      JSON.stringify(ordersData, null, 2),
-      "utf-8"
-    );
-
-    return new Response("Orders appended successfully", { status: 200 });
+    const line =
+      JSON.stringify({ receivedAt: new Date().toISOString(), body }) + "\n";
+    await fs.appendFile(RAW_FILE, line, "utf-8");
+    return new Response("Recorded", { status: 200 });
   } catch (error) {
-    console.error("Error processing request:", error);
+    console.error("Error recording request:", error);
     return new Response("Internal Server Error", { status: 500 });
   }
 }
