@@ -1,5 +1,5 @@
-const f = require("fs");
-const p = require("path");
+const fs = require("fs");
+const path = require("path");
 
 const categories = {
   "1H-weapon": "1H-weapon",
@@ -12,176 +12,208 @@ const categories = {
   offhands: "offhands",
 };
 
-const itemNamesJsonPath = p.resolve(__dirname, "items.txt");
-const itemNamesRaw = f.readFileSync(itemNamesJsonPath, "utf-8");
-const itemNames = itemNamesRaw.split("\n");
-const fullItemsJsonPath = p.resolve(__dirname, "items.json");
-const fullItemsRaw = f.readFileSync(fullItemsJsonPath, "utf-8");
-const fullItems = JSON.parse(fullItemsRaw);
+const itemNamesPath = path.join(__dirname, "items.txt");
+const itemDataPath = path.join(__dirname, "items.json");
+const outputPath = path.resolve(
+  __dirname,
+  "..",
+  "public",
+  "formattedItems.json",
+);
 
-const itemNameMap = itemNames.reduce((acc, line) => {
-  const match = line.split(":").map((s) => s.trim());
-  acc[match[1]] = match[2];
-  return acc;
-}, {});
+function readJson(filePath) {
+  return JSON.parse(fs.readFileSync(filePath, "utf8"));
+}
 
-const simpleItemsMap = fullItems.items.simpleitem.reduce((acc, item) => {
-  if (item["@uniquename"]) {
-    acc[item["@uniquename"]] = {
-      ...item,
-    };
+function asArray(value) {
+  if (Array.isArray(value)) {
+    return value;
   }
-  return acc;
+  return value ? [value] : [];
+}
+
+function parseItemNames(raw) {
+  const itemNames = {};
+
+  for (const line of raw.split(/\r?\n/)) {
+    // The dump contains an optional line number before the item ID.
+    const match = line.match(/^\s*(?:\d+\s*:\s*)?([^:]+?)\s*:\s*(.*?)\s*$/);
+    if (!match) {
+      continue;
+    }
+
+    const id = match[1].trim();
+    const name = match[2].trim();
+    if (id && name) {
+      itemNames[id] = name;
+    }
+  }
+
+  return itemNames;
+}
+
+const itemNames = parseItemNames(fs.readFileSync(itemNamesPath, "utf8"));
+const fullItems = readJson(itemDataPath);
+
+if (!fullItems || Array.isArray(fullItems) || !fullItems.items) {
+  throw new Error(
+    "utils/items.json must be the raw Albion item dump. Run npm run sync:ao-dumps before formatting items.",
+  );
+}
+
+const allItems = Object.values(fullItems.items).flatMap((group) =>
+  Array.isArray(group) ? group : [],
+);
+const itemMap = allItems.reduce((map, item) => {
+  if (item && item["@uniquename"]) {
+    map[item["@uniquename"]] = item;
+  }
+  return map;
 }, {});
-const equimentItems = [
-  ...fullItems.items.transformationweapon,
-  ...fullItems.items.weapon,
-  ...fullItems.items.equipmentitem,
+
+const equipmentItems = [
+  ...asArray(fullItems.items.transformationweapon),
+  ...asArray(fullItems.items.weapon),
+  ...asArray(fullItems.items.equipmentitem),
 ];
-const equimentItemsMap = equimentItems.reduce((acc, item) => {
-  if (item["@uniquename"]) {
-    acc[item["@uniquename"]] = {
-      ...item,
-    };
-  }
-  return acc;
-}, {});
 
 const formattedItems = {};
 const unhandledSlotTypes = new Set();
 const unhandledWeapons = new Set();
 const unhandledCraftingResources = new Set();
-const unhandledEquiment = new Set();
+const unhandledEquipment = new Set();
 
-function getItemValue(item) {
-  if (!item.craftingrequirements) {
+function getItemValue(item, visiting = new Set()) {
+  if (!item || !item.craftingrequirements) {
     return null;
   }
 
-  const craftresources = Array.isArray(item.craftingrequirements)
-    ? item.craftingrequirements[0].craftresource
-    : item.craftingrequirements.craftresource;
-  if (!craftresources) {
+  const requirements = Array.isArray(item.craftingrequirements)
+    ? item.craftingrequirements.find(
+        (requirement) => requirement && requirement.craftresource,
+      )
+    : item.craftingrequirements;
+  const craftResources = requirements && requirements.craftresource;
+  if (!craftResources) {
     return null;
+  }
+
+  const itemId = item["@uniquename"];
+  if (itemId) {
+    if (visiting.has(itemId)) {
+      return null;
+    }
+    visiting = new Set(visiting);
+    visiting.add(itemId);
   }
 
   let itemValue = 0;
-  for (const resource of Array.isArray(craftresources)
-    ? craftresources
-    : [craftresources]) {
-    if (resource["@uniquename"]) {
-      if (simpleItemsMap[resource["@uniquename"]]) {
-        const simpleItem = simpleItemsMap[resource["@uniquename"]];
-        if (simpleItem["@itemvalue"]) {
-          itemValue +=
-            parseInt(simpleItem["@itemvalue"], 10) *
-            parseInt(resource["@count"], 10);
-        }
-      } else {
-        // Crafting resource might be another equiment item
-        if (!equimentItemsMap[resource["@uniquename"]]) {
-          unhandledCraftingResources.add(resource["@uniquename"]);
-        } else {
-          itemValue += getItemValue(equimentItemsMap[resource["@uniquename"]]);
-        }
-      }
+  for (const resource of asArray(craftResources)) {
+    const resourceId = resource["@uniquename"];
+    if (!resourceId) {
+      continue;
+    }
+
+    const count = Number.parseInt(resource["@count"], 10);
+    if (!Number.isFinite(count)) {
+      continue;
+    }
+
+    const resourceItem = itemMap[resourceId];
+    if (!resourceItem) {
+      unhandledCraftingResources.add(resourceId);
+      continue;
+    }
+
+    const directValue = Number.parseInt(resourceItem["@itemvalue"], 10);
+    if (Number.isFinite(directValue)) {
+      itemValue += directValue * count;
+      continue;
+    }
+
+    const nestedValue = getItemValue(resourceItem, visiting);
+    if (nestedValue !== null) {
+      itemValue += nestedValue * count;
     }
   }
+
   return itemValue;
 }
 
-function getItemCategory(equipment) {
-  let category;
-  switch (equipment["@slottype"]) {
-    case "mainhand":
-      if (equipment["@twohanded"]) {
-        category = equipment["@twohanded"]
-          ? categories["2H-weapon"]
-          : categories["1H-weapon"];
-      } else {
-        unhandledWeapons.add(equipment["@uniquename"]);
-      }
-      break;
-    case "armor":
-      category = categories.armors;
-      break;
-    case "shoes":
-      category = categories.shoes;
-      break;
-    case "cape":
-      category = categories.capes;
-      break;
-    case "bag":
-      category = categories.bags;
-      break;
-    case "head":
-      category = categories.head;
-      break;
-    case "shoes":
-      category = categories.shoes;
-      break;
-    case "offhand":
-      category = categories.offhands;
-      break;
-    default:
-      unhandledSlotTypes.add(equipment["@slottype"]);
-      break;
-  }
-  return category;
+function isTrue(value) {
+  return value === true || value === "true" || value === 1 || value === "1";
 }
 
-for (const equipment of equimentItems) {
-  if (!equipment["@uniquename"]) {
-    console.warn("Equipment without @uniquename:", equipment);
+function getItemCategory(equipment) {
+  switch (equipment["@slottype"]) {
+    case "mainhand":
+      if (equipment["@twohanded"] === undefined) {
+        unhandledWeapons.add(equipment["@uniquename"]);
+        return undefined;
+      }
+      return isTrue(equipment["@twohanded"])
+        ? categories["2H-weapon"]
+        : categories["1H-weapon"];
+    case "armor":
+      return categories.armors;
+    case "shoes":
+      return categories.shoes;
+    case "cape":
+      return categories.capes;
+    case "bag":
+      return categories.bags;
+    case "head":
+      return categories.head;
+    case "offhand":
+      return categories.offhands;
+    default:
+      unhandledSlotTypes.add(equipment["@slottype"] || "missing");
+      return undefined;
   }
-  if (!equipment["@shopcategory"]) {
-    console.warn("Equipment without @shopcategory:", equipment["@uniquename"]);
+}
+
+for (const equipment of equipmentItems) {
+  const itemId = equipment["@uniquename"];
+  if (!itemId) {
+    unhandledEquipment.add("missing");
+    continue;
   }
+
   const category = getItemCategory(equipment);
   const itemValue = getItemValue(equipment);
-  const name = itemNameMap[equipment["@uniquename"]];
+  const name = itemNames[itemId];
+
   if (category && itemValue !== null && name) {
-    if (formattedItems[equipment["@uniquename"]]) {
+    if (formattedItems[itemId]) {
       console.warn(
-        `Duplicate item found: ${equipment["@uniquename"]}, overwriting category`
+        `Duplicate item found: ${itemId}, overwriting previous value`,
       );
     }
-    formattedItems[equipment["@uniquename"]] = {
-      ...formattedItems[equipment["@uniquename"]],
+    formattedItems[itemId] = {
       itemValue,
       category,
       name,
     };
   } else {
-    unhandledEquiment.add(equipment["@uniquename"]);
+    unhandledEquipment.add(itemId);
   }
 }
 
-// Remove any entries without a valid name property
-for (const key of Object.keys(formattedItems)) {
-  if (
-    !formattedItems[key].name ||
-    typeof formattedItems[key].name !== "string"
-  ) {
-    delete formattedItems[key];
+function reportUnhandled(label, values) {
+  if (values.size === 0) {
+    return;
   }
+  const sample = [...values].slice(0, 10).join(", ");
+  const suffix = values.size > 10 ? ", ..." : "";
+  console.warn(`${label}: ${values.size} (${sample}${suffix})`);
 }
 
-console.warn(
-  "Unhandled slot types: ,",
-  [...unhandledSlotTypes.values()].join("\n")
-);
-console.warn("Unhandled weapons:", [...unhandledWeapons.values()].join("\n"));
-console.warn(
-  "Unhandled crafting resources:",
-  [...unhandledCraftingResources.values()].join("\n")
-);
-console.warn(
-  "Unhandled equipment:",
-  [...unhandledEquiment.values()].join("\n")
-);
-const publicPath = p.join(process.cwd(), "public", "formattedItems.json");
-f.writeFileSync(publicPath, JSON.stringify(formattedItems, null, 2));
+reportUnhandled("Unhandled slot types", unhandledSlotTypes);
+reportUnhandled("Unhandled weapons", unhandledWeapons);
+reportUnhandled("Unhandled crafting resources", unhandledCraftingResources);
+reportUnhandled("Unhandled equipment", unhandledEquipment);
+
+fs.writeFileSync(outputPath, `${JSON.stringify(formattedItems, null, 2)}\n`);
 console.log(
-  `Formatted items saved to public/formattedItems.json with ${Object.keys(formattedItems).length} items`
+  `Formatted items saved to ${path.relative(process.cwd(), outputPath)} with ${Object.keys(formattedItems).length} items`,
 );

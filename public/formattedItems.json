@@ -1,114 +1,4 @@
 {
-  "T2_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Novice Blacksmith's Journal (Full)"
-  },
-  "T3_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Journeyman Blacksmith's Journal (Full)"
-  },
-  "T4_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Adept Blacksmith's Journal (Full)"
-  },
-  "T5_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Expert Blacksmith's Journal (Full)"
-  },
-  "T6_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Master Blacksmith's Journal (Full)"
-  },
-  "T7_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Grandmaster Blacksmith's Journal (Full)"
-  },
-  "T8_JOURNAL_WARRIOR_FULL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Elder Blacksmith's Journal (Full)"
-  },
-  "T4_RUNE": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Adept's Rune"
-  },
-  "T5_RUNE": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Expert's Rune"
-  },
-  "T6_RUNE": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Master's Rune"
-  },
-  "T7_RUNE": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Grandmaster's Rune"
-  },
-  "T8_RUNE": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Elder's Rune"
-  },
-  "T4_SOUL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Adept's Soul"
-  },
-  "T5_SOUL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Expert's Soul"
-  },
-  "T6_SOUL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Master's Soul"
-  },
-  "T7_SOUL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Grandmaster's Soul"
-  },
-  "T8_SOUL": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Elder's Soul"
-  },
-  "T4_RELIC": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Adept's Relic"
-  },
-  "T5_RELIC": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Expert's Relic"
-  },
-  "T6_RELIC": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Master's Relic"
-  },
-  "T7_RELIC": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Grandmaster's Relic"
-  },
-  "T8_RELIC": {
-    "itemValue": 0,
-    "category": "2H-weapon",
-    "name": "Elder's Relic"
-  },
   "T3_2H_SHAPESHIFTER_SET1": {
     "itemValue": 256,
     "category": "2H-weapon",
@@ -1021,27 +911,27 @@
   },
   "T4_MAIN_1HCROSSBOW": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Light Crossbow"
   },
   "T5_MAIN_1HCROSSBOW": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Light Crossbow"
   },
   "T6_MAIN_1HCROSSBOW": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Light Crossbow"
   },
   "T7_MAIN_1HCROSSBOW": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Light Crossbow"
   },
   "T8_MAIN_1HCROSSBOW": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Light Crossbow"
   },
   "T4_2H_REPEATINGCROSSBOW_UNDEAD": {
@@ -1171,32 +1061,32 @@
   },
   "T3_MAIN_CURSEDSTAFF": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Cursed Staff"
   },
   "T4_MAIN_CURSEDSTAFF": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Cursed Staff"
   },
   "T5_MAIN_CURSEDSTAFF": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Cursed Staff"
   },
   "T6_MAIN_CURSEDSTAFF": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Cursed Staff"
   },
   "T7_MAIN_CURSEDSTAFF": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Cursed Staff"
   },
   "T8_MAIN_CURSEDSTAFF": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Cursed Staff"
   },
   "T4_2H_CURSEDSTAFF": {
@@ -1251,27 +1141,27 @@
   },
   "T4_MAIN_CURSEDSTAFF_UNDEAD": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Lifecurse Staff"
   },
   "T5_MAIN_CURSEDSTAFF_UNDEAD": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Lifecurse Staff"
   },
   "T6_MAIN_CURSEDSTAFF_UNDEAD": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Lifecurse Staff"
   },
   "T7_MAIN_CURSEDSTAFF_UNDEAD": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Lifecurse Staff"
   },
   "T8_MAIN_CURSEDSTAFF_UNDEAD": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Lifecurse Staff"
   },
   "T4_2H_SKULLORB_HELL": {
@@ -1326,87 +1216,87 @@
   },
   "T4_MAIN_CURSEDSTAFF_AVALON": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Shadowcaller"
   },
   "T5_MAIN_CURSEDSTAFF_AVALON": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Shadowcaller"
   },
   "T6_MAIN_CURSEDSTAFF_AVALON": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Shadowcaller"
   },
   "T7_MAIN_CURSEDSTAFF_AVALON": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Shadowcaller"
   },
   "T8_MAIN_CURSEDSTAFF_AVALON": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Shadowcaller"
   },
   "T4_MAIN_CURSEDSTAFF_CRYSTAL": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Rotcaller Staff"
   },
   "T5_MAIN_CURSEDSTAFF_CRYSTAL": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Rotcaller Staff"
   },
   "T6_MAIN_CURSEDSTAFF_CRYSTAL": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Rotcaller Staff"
   },
   "T7_MAIN_CURSEDSTAFF_CRYSTAL": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Rotcaller Staff"
   },
   "T8_MAIN_CURSEDSTAFF_CRYSTAL": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Rotcaller Staff"
   },
   "T2_MAIN_FIRESTAFF": {
     "itemValue": 96,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Novice's Fire Staff"
   },
   "T3_MAIN_FIRESTAFF": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Fire Staff"
   },
   "T4_MAIN_FIRESTAFF": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Fire Staff"
   },
   "T5_MAIN_FIRESTAFF": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Fire Staff"
   },
   "T6_MAIN_FIRESTAFF": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Fire Staff"
   },
   "T7_MAIN_FIRESTAFF": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Fire Staff"
   },
   "T8_MAIN_FIRESTAFF": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Fire Staff"
   },
   "T4_2H_FIRESTAFF": {
@@ -1461,27 +1351,27 @@
   },
   "T4_MAIN_FIRESTAFF_KEEPER": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Wildfire Staff"
   },
   "T5_MAIN_FIRESTAFF_KEEPER": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Wildfire Staff"
   },
   "T6_MAIN_FIRESTAFF_KEEPER": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Wildfire Staff"
   },
   "T7_MAIN_FIRESTAFF_KEEPER": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Wildfire Staff"
   },
   "T8_MAIN_FIRESTAFF_KEEPER": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Wildfire Staff"
   },
   "T4_2H_FIRESTAFF_HELL": {
@@ -1561,57 +1451,57 @@
   },
   "T4_MAIN_FIRESTAFF_CRYSTAL": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Flamewalker Staff"
   },
   "T5_MAIN_FIRESTAFF_CRYSTAL": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Flamewalker Staff"
   },
   "T6_MAIN_FIRESTAFF_CRYSTAL": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Flamewalker Staff"
   },
   "T7_MAIN_FIRESTAFF_CRYSTAL": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Flamewalker Staff"
   },
   "T8_MAIN_FIRESTAFF_CRYSTAL": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Flamewalker Staff"
   },
   "T3_MAIN_FROSTSTAFF": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Frost Staff"
   },
   "T4_MAIN_FROSTSTAFF": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Frost Staff"
   },
   "T5_MAIN_FROSTSTAFF": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Frost Staff"
   },
   "T6_MAIN_FROSTSTAFF": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Frost Staff"
   },
   "T7_MAIN_FROSTSTAFF": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Frost Staff"
   },
   "T8_MAIN_FROSTSTAFF": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Frost Staff"
   },
   "T4_2H_FROSTSTAFF": {
@@ -1666,27 +1556,27 @@
   },
   "T4_MAIN_FROSTSTAFF_KEEPER": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Hoarfrost Staff"
   },
   "T5_MAIN_FROSTSTAFF_KEEPER": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Hoarfrost Staff"
   },
   "T6_MAIN_FROSTSTAFF_KEEPER": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Hoarfrost Staff"
   },
   "T7_MAIN_FROSTSTAFF_KEEPER": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Hoarfrost Staff"
   },
   "T8_MAIN_FROSTSTAFF_KEEPER": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Hoarfrost Staff"
   },
   "T4_2H_ICEGAUNTLETS_HELL": {
@@ -1741,27 +1631,27 @@
   },
   "T4_MAIN_FROSTSTAFF_AVALON": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Chillhowl"
   },
   "T5_MAIN_FROSTSTAFF_AVALON": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Chillhowl"
   },
   "T6_MAIN_FROSTSTAFF_AVALON": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Chillhowl"
   },
   "T7_MAIN_FROSTSTAFF_AVALON": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Chillhowl"
   },
   "T8_MAIN_FROSTSTAFF_AVALON": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Chillhowl"
   },
   "T4_2H_FROSTSTAFF_CRYSTAL": {
@@ -1791,32 +1681,32 @@
   },
   "T3_MAIN_ARCANESTAFF": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Arcane Staff"
   },
   "T4_MAIN_ARCANESTAFF": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Arcane Staff"
   },
   "T5_MAIN_ARCANESTAFF": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Arcane Staff"
   },
   "T6_MAIN_ARCANESTAFF": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Arcane Staff"
   },
   "T7_MAIN_ARCANESTAFF": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Arcane Staff"
   },
   "T8_MAIN_ARCANESTAFF": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Arcane Staff"
   },
   "T4_2H_ARCANESTAFF": {
@@ -1871,27 +1761,27 @@
   },
   "T4_MAIN_ARCANESTAFF_UNDEAD": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Witchwork Staff"
   },
   "T5_MAIN_ARCANESTAFF_UNDEAD": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Witchwork Staff"
   },
   "T6_MAIN_ARCANESTAFF_UNDEAD": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Witchwork Staff"
   },
   "T7_MAIN_ARCANESTAFF_UNDEAD": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Witchwork Staff"
   },
   "T8_MAIN_ARCANESTAFF_UNDEAD": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Witchwork Staff"
   },
   "T4_2H_ARCANESTAFF_HELL": {
@@ -1996,32 +1886,32 @@
   },
   "T3_MAIN_HOLYSTAFF": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Holy Staff"
   },
   "T4_MAIN_HOLYSTAFF": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Holy Staff"
   },
   "T5_MAIN_HOLYSTAFF": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Holy Staff"
   },
   "T6_MAIN_HOLYSTAFF": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Holy Staff"
   },
   "T7_MAIN_HOLYSTAFF": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Holy Staff"
   },
   "T8_MAIN_HOLYSTAFF": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Holy Staff"
   },
   "T4_2H_HOLYSTAFF": {
@@ -2076,27 +1966,27 @@
   },
   "T4_MAIN_HOLYSTAFF_MORGANA": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Lifetouch Staff"
   },
   "T5_MAIN_HOLYSTAFF_MORGANA": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Lifetouch Staff"
   },
   "T6_MAIN_HOLYSTAFF_MORGANA": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Lifetouch Staff"
   },
   "T7_MAIN_HOLYSTAFF_MORGANA": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Lifetouch Staff"
   },
   "T8_MAIN_HOLYSTAFF_MORGANA": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Lifetouch Staff"
   },
   "T4_2H_HOLYSTAFF_HELL": {
@@ -2151,27 +2041,27 @@
   },
   "T4_MAIN_HOLYSTAFF_AVALON": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Hallowfall"
   },
   "T5_MAIN_HOLYSTAFF_AVALON": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Hallowfall"
   },
   "T6_MAIN_HOLYSTAFF_AVALON": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Hallowfall"
   },
   "T7_MAIN_HOLYSTAFF_AVALON": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Hallowfall"
   },
   "T8_MAIN_HOLYSTAFF_AVALON": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Hallowfall"
   },
   "T4_2H_HOLYSTAFF_CRYSTAL": {
@@ -2201,32 +2091,32 @@
   },
   "T3_MAIN_NATURESTAFF": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Nature Staff"
   },
   "T4_MAIN_NATURESTAFF": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Nature Staff"
   },
   "T5_MAIN_NATURESTAFF": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Nature Staff"
   },
   "T6_MAIN_NATURESTAFF": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Nature Staff"
   },
   "T7_MAIN_NATURESTAFF": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Nature Staff"
   },
   "T8_MAIN_NATURESTAFF": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Nature Staff"
   },
   "T4_2H_NATURESTAFF": {
@@ -2281,27 +2171,27 @@
   },
   "T4_MAIN_NATURESTAFF_KEEPER": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Druidic Staff"
   },
   "T5_MAIN_NATURESTAFF_KEEPER": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Druidic Staff"
   },
   "T6_MAIN_NATURESTAFF_KEEPER": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Druidic Staff"
   },
   "T7_MAIN_NATURESTAFF_KEEPER": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Druidic Staff"
   },
   "T8_MAIN_NATURESTAFF_KEEPER": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Druidic Staff"
   },
   "T4_2H_NATURESTAFF_HELL": {
@@ -2356,82 +2246,82 @@
   },
   "T4_MAIN_NATURESTAFF_AVALON": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Ironroot Staff"
   },
   "T5_MAIN_NATURESTAFF_AVALON": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Ironroot Staff"
   },
   "T6_MAIN_NATURESTAFF_AVALON": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Ironroot Staff"
   },
   "T7_MAIN_NATURESTAFF_AVALON": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Ironroot Staff"
   },
   "T8_MAIN_NATURESTAFF_AVALON": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Ironroot Staff"
   },
   "T4_MAIN_NATURESTAFF_CRYSTAL": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Forgebark Staff"
   },
   "T5_MAIN_NATURESTAFF_CRYSTAL": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Forgebark Staff"
   },
   "T6_MAIN_NATURESTAFF_CRYSTAL": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Forgebark Staff"
   },
   "T7_MAIN_NATURESTAFF_CRYSTAL": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Forgebark Staff"
   },
   "T8_MAIN_NATURESTAFF_CRYSTAL": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Forgebark Staff"
   },
   "T3_MAIN_DAGGER": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Dagger"
   },
   "T4_MAIN_DAGGER": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Dagger"
   },
   "T5_MAIN_DAGGER": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Dagger"
   },
   "T6_MAIN_DAGGER": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Dagger"
   },
   "T7_MAIN_DAGGER": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Dagger"
   },
   "T8_MAIN_DAGGER": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Dagger"
   },
   "T4_2H_DAGGERPAIR": {
@@ -2486,52 +2376,52 @@
   },
   "T4_MAIN_RAPIER_MORGANA": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Bloodletter"
   },
   "T5_MAIN_RAPIER_MORGANA": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Bloodletter"
   },
   "T6_MAIN_RAPIER_MORGANA": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Bloodletter"
   },
   "T7_MAIN_RAPIER_MORGANA": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Bloodletter"
   },
   "T8_MAIN_RAPIER_MORGANA": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Bloodletter"
   },
   "T4_MAIN_DAGGER_HELL": {
     "itemValue": 672,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Demonfang"
   },
   "T5_MAIN_DAGGER_HELL": {
     "itemValue": 1344,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Demonfang"
   },
   "T6_MAIN_DAGGER_HELL": {
     "itemValue": 2688,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Demonfang"
   },
   "T7_MAIN_DAGGER_HELL": {
     "itemValue": 5376,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Demonfang"
   },
   "T8_MAIN_DAGGER_HELL": {
     "itemValue": 10752,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Demonfang"
   },
   "T4_2H_IRONGAUNTLETS_HELL": {
@@ -2636,32 +2526,32 @@
   },
   "T3_MAIN_SPEAR": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Spear"
   },
   "T4_MAIN_SPEAR": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Spear"
   },
   "T5_MAIN_SPEAR": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Spear"
   },
   "T6_MAIN_SPEAR": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Spear"
   },
   "T7_MAIN_SPEAR": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Spear"
   },
   "T8_MAIN_SPEAR": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Spear"
   },
   "T4_2H_SPEAR": {
@@ -2716,27 +2606,27 @@
   },
   "T4_MAIN_SPEAR_KEEPER": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Heron Spear"
   },
   "T5_MAIN_SPEAR_KEEPER": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Heron Spear"
   },
   "T6_MAIN_SPEAR_KEEPER": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Heron Spear"
   },
   "T7_MAIN_SPEAR_KEEPER": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Heron Spear"
   },
   "T8_MAIN_SPEAR_KEEPER": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Heron Spear"
   },
   "T4_2H_HARPOON_HELL": {
@@ -2791,27 +2681,27 @@
   },
   "T4_MAIN_SPEAR_LANCE_AVALON": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Daybreaker"
   },
   "T5_MAIN_SPEAR_LANCE_AVALON": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Daybreaker"
   },
   "T6_MAIN_SPEAR_LANCE_AVALON": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Daybreaker"
   },
   "T7_MAIN_SPEAR_LANCE_AVALON": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Daybreaker"
   },
   "T8_MAIN_SPEAR_LANCE_AVALON": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Daybreaker"
   },
   "T4_2H_GLAIVE_CRYSTAL": {
@@ -2841,32 +2731,32 @@
   },
   "T3_MAIN_AXE": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Battleaxe"
   },
   "T4_MAIN_AXE": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Battleaxe"
   },
   "T5_MAIN_AXE": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Battleaxe"
   },
   "T6_MAIN_AXE": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Battleaxe"
   },
   "T7_MAIN_AXE": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Battleaxe"
   },
   "T8_MAIN_AXE": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Battleaxe"
   },
   "T4_2H_AXE": {
@@ -3046,42 +2936,42 @@
   },
   "T1_MAIN_SWORD": {
     "itemValue": 0,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Beginner's Broadsword"
   },
   "T2_MAIN_SWORD": {
     "itemValue": 96,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Novice's Broadsword"
   },
   "T3_MAIN_SWORD": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Broadsword"
   },
   "T4_MAIN_SWORD": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Broadsword"
   },
   "T5_MAIN_SWORD": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Broadsword"
   },
   "T6_MAIN_SWORD": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Broadsword"
   },
   "T7_MAIN_SWORD": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Broadsword"
   },
   "T8_MAIN_SWORD": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Broadsword"
   },
   "T4_2H_CLAYMORE": {
@@ -3136,27 +3026,27 @@
   },
   "T4_MAIN_SCIMITAR_MORGANA": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Clarent Blade"
   },
   "T5_MAIN_SCIMITAR_MORGANA": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Clarent Blade"
   },
   "T6_MAIN_SCIMITAR_MORGANA": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Clarent Blade"
   },
   "T7_MAIN_SCIMITAR_MORGANA": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Clarent Blade"
   },
   "T8_MAIN_SCIMITAR_MORGANA": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Clarent Blade"
   },
   "T4_2H_CLEAVER_HELL": {
@@ -3236,27 +3126,27 @@
   },
   "T4_MAIN_SWORD_CRYSTAL": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Infinity Blade"
   },
   "T5_MAIN_SWORD_CRYSTAL": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Infinity Blade"
   },
   "T6_MAIN_SWORD_CRYSTAL": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Infinity Blade"
   },
   "T7_MAIN_SWORD_CRYSTAL": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Infinity Blade"
   },
   "T8_MAIN_SWORD_CRYSTAL": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Infinity Blade"
   },
   "T3_2H_QUARTERSTAFF": {
@@ -3342,27 +3232,27 @@
   "T4_2H_COMBATSTAFF_MORGANA": {
     "itemValue": 640,
     "category": "2H-weapon",
-    "name": "Adept's Black Monk Stave"
+    "name": "Adept's Black Monk Staff"
   },
   "T5_2H_COMBATSTAFF_MORGANA": {
     "itemValue": 1280,
     "category": "2H-weapon",
-    "name": "Expert's Black Monk Stave"
+    "name": "Expert's Black Monk Staff"
   },
   "T6_2H_COMBATSTAFF_MORGANA": {
     "itemValue": 2560,
     "category": "2H-weapon",
-    "name": "Master's Black Monk Stave"
+    "name": "Master's Black Monk Staff"
   },
   "T7_2H_COMBATSTAFF_MORGANA": {
     "itemValue": 5120,
     "category": "2H-weapon",
-    "name": "Grandmaster's Black Monk Stave"
+    "name": "Grandmaster's Black Monk Staff"
   },
   "T8_2H_COMBATSTAFF_MORGANA": {
     "itemValue": 10240,
     "category": "2H-weapon",
-    "name": "Elder's Black Monk Stave"
+    "name": "Elder's Black Monk Staff"
   },
   "T4_2H_TWINSCYTHE_HELL": {
     "itemValue": 896,
@@ -3466,32 +3356,32 @@
   },
   "T3_MAIN_HAMMER": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Hammer"
   },
   "T4_MAIN_HAMMER": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Hammer"
   },
   "T5_MAIN_HAMMER": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Hammer"
   },
   "T6_MAIN_HAMMER": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Hammer"
   },
   "T7_MAIN_HAMMER": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Hammer"
   },
   "T8_MAIN_HAMMER": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Hammer"
   },
   "T4_2H_POLEHAMMER": {
@@ -3671,32 +3561,32 @@
   },
   "T3_MAIN_MACE": {
     "itemValue": 192,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Journeyman's Mace"
   },
   "T4_MAIN_MACE": {
     "itemValue": 384,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Mace"
   },
   "T5_MAIN_MACE": {
     "itemValue": 768,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Mace"
   },
   "T6_MAIN_MACE": {
     "itemValue": 1536,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Mace"
   },
   "T7_MAIN_MACE": {
     "itemValue": 3072,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Mace"
   },
   "T8_MAIN_MACE": {
     "itemValue": 6144,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Mace"
   },
   "T4_2H_MACE": {
@@ -3751,52 +3641,52 @@
   },
   "T4_MAIN_ROCKMACE_KEEPER": {
     "itemValue": 480,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Bedrock Mace"
   },
   "T5_MAIN_ROCKMACE_KEEPER": {
     "itemValue": 960,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Bedrock Mace"
   },
   "T6_MAIN_ROCKMACE_KEEPER": {
     "itemValue": 1920,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Bedrock Mace"
   },
   "T7_MAIN_ROCKMACE_KEEPER": {
     "itemValue": 3840,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Bedrock Mace"
   },
   "T8_MAIN_ROCKMACE_KEEPER": {
     "itemValue": 7680,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Bedrock Mace"
   },
   "T4_MAIN_MACE_HELL": {
     "itemValue": 672,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Incubus Mace"
   },
   "T5_MAIN_MACE_HELL": {
     "itemValue": 1344,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Incubus Mace"
   },
   "T6_MAIN_MACE_HELL": {
     "itemValue": 2688,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Incubus Mace"
   },
   "T7_MAIN_MACE_HELL": {
     "itemValue": 5376,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Incubus Mace"
   },
   "T8_MAIN_MACE_HELL": {
     "itemValue": 10752,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Incubus Mace"
   },
   "T4_2H_MACE_MORGANA": {
@@ -3851,27 +3741,27 @@
   },
   "T4_MAIN_MACE_CRYSTAL": {
     "itemValue": 1824,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Adept's Dreadstorm Monarch"
   },
   "T5_MAIN_MACE_CRYSTAL": {
     "itemValue": 3648,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Expert's Dreadstorm Monarch"
   },
   "T6_MAIN_MACE_CRYSTAL": {
     "itemValue": 7296,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Master's Dreadstorm Monarch"
   },
   "T7_MAIN_MACE_CRYSTAL": {
     "itemValue": 14592,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Grandmaster's Dreadstorm Monarch"
   },
   "T8_MAIN_MACE_CRYSTAL": {
     "itemValue": 29184,
-    "category": "2H-weapon",
+    "category": "1H-weapon",
     "name": "Elder's Dreadstorm Monarch"
   },
   "T3_2H_KNUCKLES_SET1": {
@@ -4224,10 +4114,30 @@
     "category": "offhands",
     "name": "Elder's Astral Aegis"
   },
-  "T8_OFF_SHIELD_CRYSTAL_PROTOTYPE": {
-    "itemValue": 2048,
+  "T4_OFF_SHIELD_CRYSTAL": {
+    "itemValue": 608,
     "category": "offhands",
-    "name": "Crystal Shield"
+    "name": "Adept's Unbreakable Ward"
+  },
+  "T5_OFF_SHIELD_CRYSTAL": {
+    "itemValue": 1216,
+    "category": "offhands",
+    "name": "Expert's Unbreakable Ward"
+  },
+  "T6_OFF_SHIELD_CRYSTAL": {
+    "itemValue": 2432,
+    "category": "offhands",
+    "name": "Master's Unbreakable Ward"
+  },
+  "T7_OFF_SHIELD_CRYSTAL": {
+    "itemValue": 4864,
+    "category": "offhands",
+    "name": "Grandmaster's Unbreakable Ward"
+  },
+  "T8_OFF_SHIELD_CRYSTAL": {
+    "itemValue": 9728,
+    "category": "offhands",
+    "name": "Elder's Unbreakable Ward"
   },
   "T2_OFF_BOOK": {
     "itemValue": 32,
@@ -4364,10 +4274,30 @@
     "category": "offhands",
     "name": "Elder's Celestial Censer"
   },
-  "T8_OFF_ORB_CRYSTAL_PROTOTYPE": {
-    "itemValue": 2048,
+  "T4_OFF_TOME_CRYSTAL": {
+    "itemValue": 608,
     "category": "offhands",
-    "name": "Crystal Book"
+    "name": "Adept's Timelocked Grimoire"
+  },
+  "T5_OFF_TOME_CRYSTAL": {
+    "itemValue": 1216,
+    "category": "offhands",
+    "name": "Expert's Timelocked Grimoire"
+  },
+  "T6_OFF_TOME_CRYSTAL": {
+    "itemValue": 2432,
+    "category": "offhands",
+    "name": "Master's Timelocked Grimoire"
+  },
+  "T7_OFF_TOME_CRYSTAL": {
+    "itemValue": 4864,
+    "category": "offhands",
+    "name": "Grandmaster's Timelocked Grimoire"
+  },
+  "T8_OFF_TOME_CRYSTAL": {
+    "itemValue": 9728,
+    "category": "offhands",
+    "name": "Elder's Timelocked Grimoire"
   },
   "T3_OFF_TORCH": {
     "itemValue": 64,
@@ -4499,10 +4429,30 @@
     "category": "offhands",
     "name": "Elder's Leering Cane"
   },
-  "T8_OFF_TORCH_CRYSTAL_PROTOTYPE": {
-    "itemValue": 2048,
+  "T4_OFF_TORCH_CRYSTAL": {
+    "itemValue": 608,
     "category": "offhands",
-    "name": "Crystal Torch"
+    "name": "Adept's Blueflame Torch"
+  },
+  "T5_OFF_TORCH_CRYSTAL": {
+    "itemValue": 1216,
+    "category": "offhands",
+    "name": "Expert's Blueflame Torch"
+  },
+  "T6_OFF_TORCH_CRYSTAL": {
+    "itemValue": 2432,
+    "category": "offhands",
+    "name": "Master's Blueflame Torch"
+  },
+  "T7_OFF_TORCH_CRYSTAL": {
+    "itemValue": 4864,
+    "category": "offhands",
+    "name": "Grandmaster's Blueflame Torch"
+  },
+  "T8_OFF_TORCH_CRYSTAL": {
+    "itemValue": 9728,
+    "category": "offhands",
+    "name": "Elder's Blueflame Torch"
   },
   "T2_CAPE": {
     "itemValue": 32,
@@ -6248,6 +6198,81 @@
     "itemValue": 9728,
     "category": "shoes",
     "name": "Elder's Shoes of Tenacity"
+  },
+  "T4_HEAD_LEATHER_DRAGON": {
+    "itemValue": 608,
+    "category": "head",
+    "name": "Adept's Dragonslayer Hood"
+  },
+  "T5_HEAD_LEATHER_DRAGON": {
+    "itemValue": 1216,
+    "category": "head",
+    "name": "Expert's Dragonslayer Hood"
+  },
+  "T6_HEAD_LEATHER_DRAGON": {
+    "itemValue": 2432,
+    "category": "head",
+    "name": "Master's Dragonslayer Hood"
+  },
+  "T7_HEAD_LEATHER_DRAGON": {
+    "itemValue": 4864,
+    "category": "head",
+    "name": "Grandmaster's Dragonslayer Hood"
+  },
+  "T8_HEAD_LEATHER_DRAGON": {
+    "itemValue": 9728,
+    "category": "head",
+    "name": "Elder's Dragonslayer Hood"
+  },
+  "T4_ARMOR_LEATHER_DRAGON": {
+    "itemValue": 1216,
+    "category": "armors",
+    "name": "Adept's Dragonslayer Jacket"
+  },
+  "T5_ARMOR_LEATHER_DRAGON": {
+    "itemValue": 2432,
+    "category": "armors",
+    "name": "Expert's Dragonslayer Jacket"
+  },
+  "T6_ARMOR_LEATHER_DRAGON": {
+    "itemValue": 4864,
+    "category": "armors",
+    "name": "Master's Dragonslayer Jacket"
+  },
+  "T7_ARMOR_LEATHER_DRAGON": {
+    "itemValue": 9728,
+    "category": "armors",
+    "name": "Grandmaster's Dragonslayer Jacket"
+  },
+  "T8_ARMOR_LEATHER_DRAGON": {
+    "itemValue": 19456,
+    "category": "armors",
+    "name": "Elder's Dragonslayer Jacket"
+  },
+  "T4_SHOES_LEATHER_DRAGON": {
+    "itemValue": 608,
+    "category": "shoes",
+    "name": "Adept's Dragonslayer Shoes"
+  },
+  "T5_SHOES_LEATHER_DRAGON": {
+    "itemValue": 1216,
+    "category": "shoes",
+    "name": "Expert's Dragonslayer Shoes"
+  },
+  "T6_SHOES_LEATHER_DRAGON": {
+    "itemValue": 2432,
+    "category": "shoes",
+    "name": "Master's Dragonslayer Shoes"
+  },
+  "T7_SHOES_LEATHER_DRAGON": {
+    "itemValue": 4864,
+    "category": "shoes",
+    "name": "Grandmaster's Dragonslayer Shoes"
+  },
+  "T8_SHOES_LEATHER_DRAGON": {
+    "itemValue": 9728,
+    "category": "shoes",
+    "name": "Elder's Dragonslayer Shoes"
   },
   "T2_HEAD_CLOTH_SET1": {
     "itemValue": 32,
@@ -8008,5 +8033,20 @@
     "itemValue": 0,
     "category": "shoes",
     "name": "Purple Rich Noble's Footwear"
+  },
+  "T8_HEAD_PLATE_PROTOTYPE": {
+    "itemValue": 2048,
+    "category": "head",
+    "name": "Dragonknight Helmet"
+  },
+  "T8_ARMOR_PLATE_PROTOTYPE": {
+    "itemValue": 4096,
+    "category": "armors",
+    "name": "Dragonknight Armor"
+  },
+  "T8_SHOES_PLATE_PROTOTYPE": {
+    "itemValue": 2048,
+    "category": "shoes",
+    "name": "Dragonknight Boots"
   }
 }

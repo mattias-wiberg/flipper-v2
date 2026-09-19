@@ -1,22 +1,40 @@
-const f = require("fs");
-const p = require("path");
+const fs = require("fs");
+const path = require("path");
 
-const worldNamesJsonPath = p.resolve(__dirname, "world.txt");
-const worldNamesRaw = f.readFileSync(worldNamesJsonPath, "utf-8");
-const worldNames = worldNamesRaw.split("\n");
+const worldNamesPath = path.join(__dirname, "world.txt");
+const outputPath = path.resolve(
+  __dirname,
+  "..",
+  "public",
+  "formattedWorldNames.json",
+);
 
-const formattedWorldNames = {};
-for (const worldNameLine of worldNames) {
-  // Match any line with format: ID: Name (ID can be any non-space string)
-  const match = worldNameLine.match(/^([^:]+):\s*(.+)$/);
-  if (match) {
-    const id = match[1].trim();
-    const name = match[2].trim();
-    formattedWorldNames[id] = name;
+function parseWorldNames(raw) {
+  const worldNames = {};
+
+  for (const line of raw.split(/\r?\n/)) {
+    const separatorIndex = line.indexOf(":");
+    if (separatorIndex === -1) {
+      continue;
+    }
+
+    const id = line.slice(0, separatorIndex).trim();
+    const name = line.slice(separatorIndex + 1).trim();
+    if (id && name) {
+      worldNames[id] = name;
+    }
   }
+
+  return worldNames;
 }
-const publicPath = p.join(process.cwd(), "public", "formattedWorldNames.json");
-f.writeFileSync(publicPath, JSON.stringify(formattedWorldNames, null, 2));
+
+const formattedWorldNames = parseWorldNames(
+  fs.readFileSync(worldNamesPath, "utf8"),
+);
+fs.writeFileSync(
+  outputPath,
+  `${JSON.stringify(formattedWorldNames, null, 2)}\n`,
+);
 console.log(
-  `Formatted world names saved to formattedWorldNames.json with ${Object.keys(formattedWorldNames).length} items`
+  `Formatted world names saved to ${path.relative(process.cwd(), outputPath)} with ${Object.keys(formattedWorldNames).length} items`,
 );
