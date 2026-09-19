@@ -113,7 +113,8 @@ export const columns: ColumnDef<Deal>[] = [
     cell: ({ row }) => <div className="w-[80px]">{row.getValue("amount")}</div>,
   },
   {
-    accessorKey: "location",
+    id: "location",
+    accessorFn: (row) => row.sellOrder.location || row.buyOrder.location,
     header: ({ column }) => (
       <DataTableColumnHeader column={column} title="Location" />
     ),
