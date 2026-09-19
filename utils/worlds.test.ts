@@ -6,7 +6,13 @@ describe("getWorldName", () => {
     expect(getWorldName("1000")).toBe("Lymhurst");
   });
 
-  it("returns undefined for an invalid ID", () => {
-    expect(getWorldName("999999")).toBeUndefined();
+  it("resolves IDs that were zero-padded in the world dump", () => {
+    expect(getWorldName(7)).toBe("Thetford Market");
+    expect(getWorldName("0007")).toBe("Thetford Market");
+    expect(getWorldName(201)).toBe("Sleetwater Basin");
+  });
+
+  it("returns a placeholder for an invalid ID", () => {
+    expect(getWorldName("999999")).toBe("?");
   });
 });

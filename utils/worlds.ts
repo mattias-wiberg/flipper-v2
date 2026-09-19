@@ -3,6 +3,10 @@ import path from "path";
 
 let cachedWorldNames: Record<string, string> | undefined;
 
+function normalizeWorldId(id: string): string {
+  return /^\d+$/.test(id) ? id.replace(/^0+(?=\d)/, "") : id;
+}
+
 function getWorldNames(): Record<string, string> {
   if (!cachedWorldNames) {
     const worldNamesPath = path.join(
@@ -11,7 +15,13 @@ function getWorldNames(): Record<string, string> {
       "formattedWorldNames.json"
     );
     const raw = fs.readFileSync(worldNamesPath, "utf-8");
-    cachedWorldNames = JSON.parse(raw);
+    const worldNames = JSON.parse(raw) as Record<string, string>;
+    cachedWorldNames = Object.fromEntries(
+      Object.entries(worldNames).map(([id, name]) => [
+        normalizeWorldId(id),
+        name,
+      ])
+    );
   }
   // At this point, cachedWorldNames is guaranteed to be initialized
   return cachedWorldNames as Record<string, string>;
@@ -24,5 +34,5 @@ function getWorldNames(): Record<string, string> {
  */
 export function getWorldName(id: number | string): string {
   const worldNames = getWorldNames();
-  return worldNames[id.toString()] ?? "?";
+  return worldNames[normalizeWorldId(id.toString())] ?? "?";
 }
