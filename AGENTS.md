@@ -11,3 +11,7 @@ Use the canonical labels `needs-triage`, `needs-info`, `ready-for-agent`, `ready
 ### Domain docs
 
 This is a single-context repo with root `CONTEXT.md` and `docs/adr/`. See `docs/agents/domain.md`.
+
+### TypeSafe
+
+Use `.agents/skills/typesafe-ai/SKILL.md` when working with TypeSafe or AI-powered semantic judgments in this project. Read it before implementation and follow its live documentation guidance.
