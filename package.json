@@ -9,6 +9,7 @@
     "db:migrate": "supabase db diff | supabase migration new",
     "db:generate:types:local": "supabase gen types typescript --local > database.types.ts",
     "mock:order:ingest": "node --experimental-fetch ./mocker/sendOrders.js",
+    "golden:orders": "node --experimental-fetch ./mocker/getOrders.js",
     "sync:ao-dumps": "node --experimental-fetch utils/syncAoDumps.js",
     "format:items": "node utils/itemsFormatter.js",
     "format:world": "node utils/worldFormatter.js",

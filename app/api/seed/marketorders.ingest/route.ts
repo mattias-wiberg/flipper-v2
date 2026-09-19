@@ -1,22 +1,17 @@
 import { promises as fs } from "fs";
 import path from "path";
 
-// Local-dev recorder for live scans (see mocker/README.md "Live scan").
+// Local-dev recorder for live scans (see mocker/README.md).
 //
 // Appends every posted body as one JSON line:
 //   {"receivedAt": "<iso>", "body": <exact posted JSON>}
 // so a scan can later be replayed byte-for-byte through the real ingest
-// route (`npm run golden:replay`).
+// route (`npm run mock:order:ingest`).
 //
 // Deliberately append-only (safe under rapid page-through traffic, unlike
 // read-modify-write) and deliberately unvalidated — replay must reproduce
 // exactly what live traffic did, including rejected batches.
-const RAW_FILE = path.join(
-  process.cwd(),
-  "mocker",
-  "data",
-  "golden.raw.jsonl"
-);
+const RAW_FILE = path.join(process.cwd(), "mocker", "data", "golden.raw.jsonl");
 
 export async function POST(request: Request) {
   try {
