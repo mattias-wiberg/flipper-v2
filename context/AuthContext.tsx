@@ -1,11 +1,11 @@
-"use client"; // This context provider will be a Client Component
+"use client";
 
-import { createClient } from "@/utils/supabase/client"; // Adjust path
+import { createClient } from "@/utils/supabase/client";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
 import { useRouter } from "next/navigation";
 import {
   createContext,
-  ReactNode,
+  type ReactNode,
   useContext,
   useEffect,
   useState,
@@ -21,39 +21,50 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const supabase = createClient();
+  const [supabase] = useState(() => createClient());
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    // Set up the auth state change listener
+    let mounted = true;
+
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null);
-      setLoading(false);
+      if (mounted) {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
     });
 
-    // Get initial session - important for initial load
     const fetchInitialSession = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
-      setUser(session?.user ?? null);
-      setLoading(false);
+
+      if (mounted) {
+        setUser(session?.user ?? null);
+        setLoading(false);
+      }
     };
-    fetchInitialSession();
+    void fetchInitialSession();
 
     return () => {
+      mounted = false;
       subscription?.unsubscribe();
     };
-  }, [supabase.auth]);
+  }, [supabase]);
 
   const signOut = async () => {
-    await supabase.auth.signOut();
-    router.push("/");
-    setUser(null); // Immediately update state
+    const { error } = await supabase.auth.signOut();
+    if (error) {
+      throw error;
+    }
+
+    setUser(null);
+    router.replace("/");
+    router.refresh();
   };
 
   const value = {

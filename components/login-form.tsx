@@ -1,14 +1,14 @@
 "use client";
 
+import { signInAction } from "@/app/actions";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
+import { signInSchema } from "@/utils/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import {
@@ -21,51 +21,24 @@ import {
   FormMessage,
 } from "./ui/form";
 
-const formSchema = z.object({
-  email: z.string().email(),
-  password: z.string(),
-});
-
 export function LoginForm({
   className,
   ...props
 }: React.ComponentPropsWithoutRef<"div">) {
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const searchParams = useSearchParams();
+  const error = searchParams.get("error");
+
+  const form = useForm<z.infer<typeof signInSchema>>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       email: "",
       password: "",
     },
   });
 
-  // Import the useAuth hook
-  const { supabase } = useAuth();
-  const router = useRouter();
-  const [error, setError] = useState<string | null>(null);
-
-  // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof formSchema>) {
-    setError(null);
-    // reset dirty status
+  async function onSubmit(values: z.infer<typeof signInSchema>) {
     form.reset(values);
-
-    try {
-      // Sign in directly with Supabase client
-      const { error } = await supabase.auth.signInWithPassword(values);
-
-      if (error) {
-        console.error("Login error:", error.message);
-        setError(error.message);
-        // Handle error (you could set a form error state here)
-        return;
-      }
-
-      // Redirect to protected page on success
-      router.push("/authenticated/deals");
-    } catch (err) {
-      console.error("Login error:", err);
-    }
+    await signInAction(values);
   }
 
   return (
@@ -76,10 +49,18 @@ export function LoginForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8"
+              aria-busy={form.formState.isSubmitting}
+            >
               <div className="grid gap-6">
                 {error && !form.formState.isDirty && (
-                  <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
+                  <div
+                    role="alert"
+                    aria-live="assertive"
+                    className="rounded-md border border-destructive bg-destructive/15 p-3 text-sm font-medium text-destructive"
+                  >
                     {error}
                   </div>
                 )}
@@ -100,7 +81,7 @@ export function LoginForm({
                         />
                       </FormControl>
                       <FormDescription>
-                        This is your public display name.
+                        Use the email address associated with your account.
                       </FormDescription>
                       <FormMessage />
                     </FormItem>
@@ -122,13 +103,22 @@ export function LoginForm({
                         </Link>
                       </div>
                       <FormControl>
-                        <Input type="password" required {...field} />
+                        <Input
+                          type="password"
+                          autoComplete="current-password"
+                          required
+                          {...field}
+                        />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
                   Login
                 </Button>
 

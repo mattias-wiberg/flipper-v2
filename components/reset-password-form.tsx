@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { passwordUpdateSchema } from "@/utils/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSearchParams } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -23,16 +24,6 @@ import {
   FormMessage,
 } from "./ui/form";
 
-const formSchema = z
-  .object({
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
 export function ResetPasswordForm({
   className,
   ...props
@@ -41,27 +32,22 @@ export function ResetPasswordForm({
   const error = searchParams.get("error");
   const success = searchParams.get("success");
 
-  // Define your form
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof passwordUpdateSchema>>({
+    resolver: zodResolver(passwordUpdateSchema),
     defaultValues: {
       password: "",
       confirmPassword: "",
     },
   });
 
-  // Define a submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Reset form dirty status
+  async function onSubmit(values: z.infer<typeof passwordUpdateSchema>) {
     form.reset(values);
 
-    // Create FormData to pass to the server action
     const formData = new FormData();
     formData.append("password", values.password);
     formData.append("confirmPassword", values.confirmPassword);
 
-    // Call the server action with the form data
-    resetPasswordAction(formData);
+    await resetPasswordAction(formData);
   }
 
   return (
@@ -72,16 +58,28 @@ export function ResetPasswordForm({
       </CardHeader>
       <CardContent>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className="space-y-8"
+            aria-busy={form.formState.isSubmitting}
+          >
             <div className="grid gap-6">
               <div className="grid gap-6">
                 {error && !form.formState.isDirty && (
-                  <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
+                  <div
+                    role="alert"
+                    aria-live="assertive"
+                    className="rounded-md border border-destructive bg-destructive/15 p-3 text-sm font-medium text-destructive"
+                  >
                     {error}
                   </div>
                 )}
                 {success && !form.formState.isDirty && (
-                  <div className="p-3 bg-green-600/15 border border-green-600 text-green-600 font-medium text-sm rounded-md">
+                  <div
+                    role="status"
+                    aria-live="polite"
+                    className="rounded-md border border-green-600 bg-green-600/15 p-3 text-sm font-medium text-green-600"
+                  >
                     {success}
                   </div>
                 )}
@@ -95,6 +93,7 @@ export function ResetPasswordForm({
                         <Input
                           autoFocus
                           type="password"
+                          autoComplete="new-password"
                           placeholder="New password"
                           required
                           {...field}
@@ -112,8 +111,9 @@ export function ResetPasswordForm({
                       <FormLabel>Confirm Password</FormLabel>
                       <FormControl>
                         <Input
-                          type="password"
-                          placeholder="Confirm password"
+                            type="password"
+                            autoComplete="new-password"
+                            placeholder="Confirm password"
                           required
                           {...field}
                         />
@@ -122,7 +122,11 @@ export function ResetPasswordForm({
                     </FormItem>
                   )}
                 />
-                <Button type="submit" className="w-full">
+                <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting}
+                >
                   Reset Password
                 </Button>
               </div>

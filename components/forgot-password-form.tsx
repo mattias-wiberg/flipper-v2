@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { forgotPasswordSchema } from "@/utils/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -26,10 +27,6 @@ import {
   FormMessage,
 } from "./ui/form";
 
-const formSchema = z.object({
-  email: z.string().email(),
-});
-
 export function ForgotPasswordForm({
   className,
   ...props
@@ -38,21 +35,16 @@ export function ForgotPasswordForm({
   const error = searchParams.get("error");
   const success = searchParams.get("success");
 
-  // Define your form
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof forgotPasswordSchema>>({
+    resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
       email: "",
     },
   });
 
-  // Define a submit handler
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Reset form dirty status
+  async function onSubmit(values: z.infer<typeof forgotPasswordSchema>) {
     form.reset(values);
-
-    // Call the server action directly with values
-    forgotPasswordAction(values);
+    await forgotPasswordAction(values);
   }
 
   return (
@@ -66,16 +58,28 @@ export function ForgotPasswordForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8"
+              aria-busy={form.formState.isSubmitting}
+            >
               <div className="grid gap-6">
                 <div className="grid gap-6">
                   {error && !form.formState.isDirty && (
-                    <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
+                    <div
+                      role="alert"
+                      aria-live="assertive"
+                      className="rounded-md border border-destructive bg-destructive/15 p-3 text-sm font-medium text-destructive"
+                    >
                       {error}
                     </div>
                   )}
                   {success && !form.formState.isDirty && (
-                    <div className="p-3 bg-green-600/15 border border-green-600 text-green-600 font-medium text-sm rounded-md">
+                    <div
+                      role="status"
+                      aria-live="polite"
+                      className="rounded-md border border-green-600 bg-green-600/15 p-3 text-sm font-medium text-green-600"
+                    >
                       {success}
                     </div>
                   )}
@@ -101,7 +105,11 @@ export function ForgotPasswordForm({
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={form.formState.isSubmitting}
+                  >
                     Send Reset Link
                   </Button>
                 </div>

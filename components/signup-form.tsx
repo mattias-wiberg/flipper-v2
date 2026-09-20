@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { cn } from "@/lib/utils";
+import { signUpSchema } from "@/utils/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -20,18 +21,6 @@ import {
   FormMessage,
 } from "./ui/form";
 
-const formSchema = z
-  .object({
-    nickname: z.string().optional(),
-    email: z.string().email(),
-    password: z.string().min(6, "Password must be at least 6 characters"),
-    confirmPassword: z.string(),
-  })
-  .refine((data) => data.password === data.confirmPassword, {
-    message: "Passwords don't match",
-    path: ["confirmPassword"],
-  });
-
 export function SignupForm({
   className,
   ...props
@@ -40,9 +29,8 @@ export function SignupForm({
   const error = searchParams.get("error");
   const success = searchParams.get("success");
 
-  // 1. Define your form.
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       nickname: "",
       email: "",
@@ -51,13 +39,9 @@ export function SignupForm({
     },
   });
 
-  // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Reset form dirty status
+  async function onSubmit(values: z.infer<typeof signUpSchema>) {
     form.reset(values);
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    signUpAction(values);
+    await signUpAction(values);
   }
 
   return (
@@ -68,16 +52,28 @@ export function SignupForm({
         </CardHeader>
         <CardContent>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-8"
+              aria-busy={form.formState.isSubmitting}
+            >
               <div className="grid gap-6">
                 <div className="grid gap-6">
                   {error && !form.formState.isDirty && (
-                    <div className="p-3 bg-destructive/15 border border-destructive text-destructive font-medium text-sm rounded-md">
+                    <div
+                      role="alert"
+                      aria-live="assertive"
+                      className="rounded-md border border-destructive bg-destructive/15 p-3 text-sm font-medium text-destructive"
+                    >
                       {error}
                     </div>
                   )}
                   {success && !form.formState.isDirty && (
-                    <div className="p-3 bg-green-600/15 border border-green-600 text-green-600 font-medium text-sm rounded-md">
+                    <div
+                      role="status"
+                      aria-live="polite"
+                      className="rounded-md border border-green-600 bg-green-600/15 p-3 text-sm font-medium text-green-600"
+                    >
                       {success}
                     </div>
                   )}
@@ -91,7 +87,8 @@ export function SignupForm({
                           <Input
                             autoFocus
                             placeholder="Joe The Tank"
-                            type="nickname"
+                            type="text"
+                            autoComplete="nickname"
                             required
                             {...field}
                           />
@@ -117,8 +114,8 @@ export function SignupForm({
                             {...field}
                           />
                         </FormControl>
-                        <FormDescription>
-                          This is you will use to login with.
+                            <FormDescription>
+                          You will use this email address to log in.
                         </FormDescription>
                         <FormMessage />
                       </FormItem>
@@ -152,7 +149,11 @@ export function SignupForm({
                       </FormItem>
                     )}
                   />
-                  <Button type="submit" className="w-full">
+                  <Button
+                    type="submit"
+                    className="w-full"
+                    disabled={form.formState.isSubmitting}
+                  >
                     Sign up
                   </Button>
                 </div>
