@@ -16,5 +16,7 @@ module.exports = {
       },
     ],
   },
-  transformIgnorePatterns: ["/node_modules/(?!(?:@tanstack)/)"],
+  transformIgnorePatterns: [
+    "/node_modules/(?!(?:@tanstack|@blobatar|blobatar)/)",
+  ],
 };
