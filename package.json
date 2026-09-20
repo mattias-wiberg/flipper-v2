@@ -48,6 +48,7 @@
     "zod": "4.6.5"
   },
   "devDependencies": {
+    "@dokploy/cli": "^0.30.7",
     "@swc/core": "^1.16.2",
     "@swc/jest": "^0.2.39",
     "@tailwindcss/postcss": "^4.3.3",
