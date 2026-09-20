@@ -21,7 +21,7 @@
 ## Left alone
 
 - Existing Base UI wrappers and their consumers were not rewritten because the prior tickets already migrated the reachable surfaces.
-- The non-Radix wrappers and direct dependencies listed above were intentionally not replaced.
+- The non-Radix wrappers and direct dependencies listed above were intentionally kept on their own libraries and upgraded in place where their current-major APIs required it.
 - `mocker/data/marketorders.expected.json`, database/schema/RLS files, authentication/domain behavior, and deal rules were intentionally not changed.
 - Existing per-component reports remain the detailed record for the earlier migrations.
 - The pre-upgrade golden replay was run from commit `4cd2a69` in an isolated worktree: 5,131 batches sent with 0 failures, 220,124 orders exported, and the expected SHA-256 matched (`6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`).
@@ -49,7 +49,12 @@
 - No shipped behavior changes result from this final sweep: every deleted Radix wrapper was unreachable, and the illustrative code string is not rendered by an application consumer.
 - Previously recorded Base UI differences remain intentional and require manual confirmation: Tabs use manual keyboard activation, menu state uses Base UI data attributes, and the Base Nova wrappers carry the documented visual spacing, radius, transition, and responsive-shell differences.
 
-## Verify by hand
+## Manual verification
+
+- Completed on the production build at desktop and 375x812 viewports: home, documentation, login form fields, protected-route redirect, theme menu switching from dark to light, footer links, and responsive public/auth layouts.
+- The only browser console errors during these checks were the existing local Vercel Analytics and Speed Insights 404s.
+- Authenticated account and Deals flows remain pending because no test session was available: sign-up, sign-in with a real account, password recovery/update, sign-out, deal loading, table expansion, sorting/filtering/pagination, reset/delete actions, and authenticated keyboard/focus paths.
+- Calendar and resizable-panel interaction checks remain pending because no application consumer currently renders those wrappers.
 
 - Run sign-up, sign-in, password recovery, password update, sign-out, and protected-route redirect flows.
 - On desktop and mobile, exercise sidebar navigation, account/theme menus, responsive sheet behavior, focus return, Escape dismissal, and keyboard navigation.
