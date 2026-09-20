@@ -1,11 +1,21 @@
 const fs = require("fs");
+const crypto = require("crypto");
+const os = require("os");
 const path = require("path");
+
+const EXPECTED_OUTPUT = path.resolve(
+  path.join(__dirname, "data", "marketorders.expected.json"),
+);
 
 const DEFAULTS = {
   token: "14f799f4-bdf0-4feb-856a-30641cdd7250",
-  output: path.join(__dirname, "data", "marketorders.expected.json"),
+  output: path.join(
+    os.tmpdir(),
+    `flipper-v2-marketorders-${process.pid}.actual.json`,
+  ),
   pageSize: 1000,
   includeCreatedAt: false,
+  compare: false,
 };
 
 const ORDER_COLUMNS = [
@@ -68,6 +78,10 @@ function parseArgs(args) {
       options.includeCreatedAt = true;
       continue;
     }
+    if (flag === "--compare") {
+      options.compare = true;
+      continue;
+    }
     if (flag === "--help") {
       options.help = true;
       continue;
@@ -112,8 +126,36 @@ Options:
   --output <file>             Output JSON path
   --page-size <number>        Rows per request (default: ${DEFAULTS.pageSize})
   --include-created-at        Include database-generated created_at values
+  --compare                   Compare output with the checked-in expected fixture
   --help                      Show this help
 `);
+}
+
+function assertSafeOutput(output) {
+  if (path.resolve(output) === EXPECTED_OUTPUT) {
+    throw new Error(
+      "Refusing to overwrite the checked-in expected fixture. Use a temporary output path.",
+    );
+  }
+}
+
+function hashFile(file) {
+  return crypto
+    .createHash("sha256")
+    .update(fs.readFileSync(file))
+    .digest("hex");
+}
+
+function compareWithExpected(output) {
+  const expectedHash = hashFile(EXPECTED_OUTPUT);
+  const actualHash = hashFile(output);
+
+  process.stdout.write(`expected: ${expectedHash}\n`);
+  process.stdout.write(`actual:   ${actualHash}\n`);
+  if (expectedHash !== actualHash) {
+    throw new Error("Golden test failed");
+  }
+  process.stdout.write("Golden test passed\n");
 }
 
 async function getOrders({
@@ -185,13 +227,19 @@ async function main(overrides = {}) {
     key: environment.SUPABASE_SERVICE_ROLE_KEY,
     ...overrides,
   };
+  const output = path.resolve(options.output);
+  assertSafeOutput(output);
   const orders = await getOrders(options);
 
-  fs.mkdirSync(path.dirname(options.output), { recursive: true });
-  fs.writeFileSync(options.output, `${JSON.stringify(orders)}\n`, "utf8");
-  process.stdout.write(`Saved ${orders.length} orders to ${options.output}\n`);
+  fs.mkdirSync(path.dirname(output), { recursive: true });
+  fs.writeFileSync(output, `${JSON.stringify(orders)}\n`, "utf8");
+  process.stdout.write(`Saved ${orders.length} orders to ${output}\n`);
 
-  return { count: orders.length, output: options.output };
+  if (options.compare) {
+    compareWithExpected(output);
+  }
+
+  return { count: orders.length, output };
 }
 
 if (require.main === module) {
