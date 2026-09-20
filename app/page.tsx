@@ -22,7 +22,6 @@ import {
   ArrowRight,
   BarChart2,
   Database,
-  GitFork,
   Link2,
   PlayCircle,
   Users,
@@ -250,7 +249,7 @@ export default function LandingPage() {
               />
             }
           >
-            <GitFork data-icon="inline-start" /> GitHub
+            GitHub
           </Button>
         </div>
         <p className="text-center text-muted-foreground mt-8">

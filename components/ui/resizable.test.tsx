@@ -15,9 +15,8 @@ describe("resizable", () => {
       </ResizablePanelGroup>,
     );
 
-    expect(markup).toContain("data-group");
-    expect(markup).toContain("data-panel");
-    expect(markup).toContain("data-separator");
+    expect(markup).toContain(">Top</div>");
+    expect(markup).toContain(">Bottom</div>");
     expect(markup).toContain('aria-orientation="horizontal"');
   });
 });

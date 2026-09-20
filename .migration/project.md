@@ -11,9 +11,9 @@
 - Final source and manifest scans contain no Radix imports or direct Radix dependencies. The retained primitive wrappers use Base UI; `cmdk`, `vaul`, `sonner`, `input-otp`, `react-day-picker`, `recharts`, and `react-resizable-panels` remain on their intended libraries.
 - `utils/auth.ts` and `utils/items.ts`: adapted Zod 4 error/schema seams; `lib/orderSchemas.test.ts` adds focused parsing coverage without changing domain formulas or persisted fixtures.
 - `components/ui/chart.tsx`: updated the custom tooltip and legend prop types for Recharts 3.
-- `package.json` and `package-lock.json`: upgraded `@tanstack/react-table` to `9.2.4`, `lucide-react` to `1.47.0`, `react-day-picker` to `10.0.1`, `react-resizable-panels` to `4.12.4`, and TypeScript to `7.0.2`; Jest now uses the SWC transformer because TypeScript 7 no longer exposes the compiler API required by ts-jest.
+- `package.json` and `package-lock.json`: upgraded `@tanstack/react-table` to `9.2.4`, `lucide-react` to `1.47.0`, `react-day-picker` to `10.0.1`, `react-resizable-panels` to `4.13.0`, and TypeScript to `7.0.2`; Jest now uses the SWC transformer because TypeScript 7 no longer exposes the compiler API required by ts-jest.
 - `app/authenticated/deals/components/*`: migrated the reachable table consumers and column tests to TanStack Table v9's explicit feature registration and `useTable` API.
-- `components/ui/calendar.tsx`, `resizable.tsx`, and `command.tsx`: retained their non-Radix libraries, adapted current-major APIs, and fixed standalone command search icon sizing.
+- `components/ui/calendar.tsx`, `resizable.tsx`, and `command.tsx`: retained their non-Radix libraries, adapted current-major APIs, fixed standalone command search icon sizing, and gave the command dialog an accessible title.
 - `components/ui/account-menu.tsx`: deleted after confirming it had no consumers.
 - `app/authenticated/deals/components/*`, `components/user-nav.tsx`, `components/theme-switcher.tsx`, and shared icon wrappers: grouped Base UI collections, applied `data-icon` to text-button icons, removed manual child icon sizing, and retained existing actions.
 - Auth success messages now use semantic primary tokens instead of raw green color classes.
@@ -56,11 +56,13 @@
 - Authenticated account and Deals flows remain pending because no test session was available: sign-up, sign-in with a real account, password recovery/update, sign-out, deal loading, table expansion, sorting/filtering/pagination, reset/delete actions, and authenticated keyboard/focus paths.
 - Calendar and resizable-panel interaction checks remain pending because no application consumer currently renders those wrappers.
 
-- Run sign-up, sign-in, password recovery, password update, sign-out, and protected-route redirect flows.
-- On desktop and mobile, exercise sidebar navigation, account/theme menus, responsive sheet behavior, focus return, Escape dismissal, and keyboard navigation.
+## Remaining Manual Checklist
+
+- With an authenticated test account, run sign-up, sign-in, password recovery, password update, and sign-out flows.
+- On authenticated desktop and mobile layouts, exercise sidebar navigation, account/theme menus, responsive sheet behavior, focus return, Escape dismissal, and keyboard navigation.
 - On Deals, load data, search, filter tiers, set flip parameters, sort, hide/show columns, paginate, refresh, expand rows, inspect order details, and run reset/delete confirmations.
 - Open selects, popovers, menus, tabs, tooltips, dialogs, checkboxes, and toast notifications; verify accessible names, typeahead/arrow navigation, Enter/Space activation for tabs, outside/Escape dismissal, and focus return.
-- Verify light/dark/system theme switching and responsive layout at narrow and desktop widths.
+- Render a calendar and resizable panel fixture if consumers are added, then verify mouse and keyboard interaction.
 
 ## Residual known warnings
 
