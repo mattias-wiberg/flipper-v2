@@ -48,7 +48,7 @@ export function DataTableFacetedFilter<TData, TValue>({
       <PopoverTrigger
         render={
           <Button variant="outline" size="sm" className="h-8 border-dashed">
-            <PlusCircle />
+            <PlusCircle data-icon="inline-start" />
             {title}
             {selectedValues.size > 0 && (
               <>
@@ -122,10 +122,10 @@ export function DataTableFacetedFilter<TData, TValue>({
                           : "border-input [&_svg]:invisible",
                       )}
                     >
-                      <Check className="text-primary-foreground size-3.5" />
+                      <Check className="text-primary-foreground" />
                     </div>
                     {option.icon && (
-                      <option.icon className="text-muted-foreground size-4" />
+                      <option.icon className="text-muted-foreground" />
                     )}
                     <div>
                       {option.note && (

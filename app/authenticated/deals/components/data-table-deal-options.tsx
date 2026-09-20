@@ -113,7 +113,7 @@ export function DataTableDealOptions() {
             size="sm"
             className="ml-auto hidden h-8 lg:flex"
           >
-            <Settings />
+            <Settings data-icon="inline-start" />
             Options
           </Button>
         }

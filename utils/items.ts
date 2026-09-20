@@ -18,7 +18,7 @@ const itemSchema = z.object({
   itemValue: z.number().min(0),
 });
 
-const itemsSchema = z.record(itemSchema);
+const itemsSchema = z.record(z.string(), itemSchema);
 type ItemType = z.infer<typeof itemSchema>;
 
 // Load and cache the JSON from public/formattedItems.json
@@ -28,7 +28,7 @@ function getItems(): Record<string, ItemType> {
     const itemsJsonPath = path.join(
       process.cwd(),
       "public",
-      "formattedItems.json"
+      "formattedItems.json",
     );
     const raw = fs.readFileSync(itemsJsonPath, "utf-8");
     // Validate and parse using Zod
@@ -48,7 +48,7 @@ function getItemCategory(itemTypeId: string): ItemCategory {
     return items[itemTypeId].category;
   } else {
     throw new Error(
-      `Item type ID ${itemTypeId} not found in formattedItems.json`
+      `Item type ID ${itemTypeId} not found in formattedItems.json`,
     );
   }
 }
@@ -64,7 +64,7 @@ function getItemValue(itemTypeId: string): number {
     return items[itemTypeId].itemValue;
   } else {
     throw new Error(
-      `Item type ID ${itemTypeId} not found or missing itemValue in formattedItems.json`
+      `Item type ID ${itemTypeId} not found or missing itemValue in formattedItems.json`,
     );
   }
 }
@@ -80,7 +80,7 @@ function getItemName(itemTypeId: string): string {
     return items[itemTypeId].name;
   } else {
     throw new Error(
-      `Item type ID ${itemTypeId} not found or missing name in formattedItems.json`
+      `Item type ID ${itemTypeId} not found or missing name in formattedItems.json`,
     );
   }
 }

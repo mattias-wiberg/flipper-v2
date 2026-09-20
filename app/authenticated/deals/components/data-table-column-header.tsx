@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
@@ -40,29 +41,33 @@ export function DataTableColumnHeader<TData, TValue>({
             >
               <span>{title}</span>
               {column.getIsSorted() === "desc" ? (
-                <ArrowDown />
+                <ArrowDown data-icon="inline-end" />
               ) : column.getIsSorted() === "asc" ? (
-                <ArrowUp />
+                <ArrowUp data-icon="inline-end" />
               ) : (
-                <ChevronsUpDown />
+                <ChevronsUpDown data-icon="inline-end" />
               )}
             </Button>
           }
         />
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
-            <ArrowUp />
-            Asc
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
-            <ArrowDown />
-            Desc
-          </DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => column.toggleSorting(false)}>
+              <ArrowUp />
+              Asc
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => column.toggleSorting(true)}>
+              <ArrowDown />
+              Desc
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
           <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
-            <EyeOff />
-            Hide
-          </DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={() => column.toggleVisibility(false)}>
+              <EyeOff />
+              Hide
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>

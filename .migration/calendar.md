@@ -5,6 +5,7 @@
 ## Changed
 
 - `components/ui/calendar.tsx`: added locale-aware month formatting and day data, switched the month grid class key to the current v9 API, and passed locale through the custom DayButton.
+- Calendar chevron sizing is delegated to the surrounding button/caption styles rather than manual child icon classes.
 - Leftover scan: no Radix import exists in this component.
 
 ## Left alone

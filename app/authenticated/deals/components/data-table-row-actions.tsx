@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -66,28 +67,35 @@ export function DataTableRowActions<TData>({
       <DropdownMenuContent align="end" className="w-[160px]">
         {/* <DropdownMenuItem>Mark as flipped</DropdownMenuItem> */}
         {/* <DropdownMenuSeparator /> */}
-        <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Delete</DropdownMenuSubTrigger>
-          <DropdownMenuSubContent>
-            <DropdownMenuItem
-              onClick={() => void deleteSpecificOrder(deal.sellOrder.id)}
-            >
-              Sell order
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() => void deleteSpecificOrder(deal.buyOrder.id)}
-            >
-              Buy order
-            </DropdownMenuItem>
-            <DropdownMenuItem
-              onClick={() =>
-                void deleteSpecificOrder([deal.sellOrder.id, deal.buyOrder.id])
-              }
-            >
-              Both
-            </DropdownMenuItem>
-          </DropdownMenuSubContent>
-        </DropdownMenuSub>
+        <DropdownMenuGroup>
+          <DropdownMenuSub>
+            <DropdownMenuSubTrigger>Delete</DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  onClick={() => void deleteSpecificOrder(deal.sellOrder.id)}
+                >
+                  Sell order
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() => void deleteSpecificOrder(deal.buyOrder.id)}
+                >
+                  Buy order
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={() =>
+                    void deleteSpecificOrder([
+                      deal.sellOrder.id,
+                      deal.buyOrder.id,
+                    ])
+                  }
+                >
+                  Both
+                </DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

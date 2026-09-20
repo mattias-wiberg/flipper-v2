@@ -1,19 +1,21 @@
 # dropdown-menu
 
-2026-09-20, golden pair via CLI plus consumer sweep, migrated the discovery and shared menu surface to Base UI while retaining a Base-only trigger mapping for excluded row/reset consumers.
+2026-09-20, golden pair via CLI plus consumer sweep, migrated the discovery and shared menu surface to Base UI and completed the row/reset consumer audit.
 
 ## Changed
 
 - `components/ui/dropdown-menu.tsx`: replaced the dual Base UI/Radix tree with Base UI Menu root, trigger, portal, positioner, popup, group, item, checkbox, radio, submenu, separator, and indicator parts. Positioning and state classes now use Base UI attributes.
-- `app/authenticated/deals/components/data-table-column-header.tsx`: changed the sorting/visibility trigger to `render` and updated its open-state class.
+- `app/authenticated/deals/components/data-table-column-header.tsx`: changed the sorting/visibility trigger to `render`, grouped menu items, added button icon metadata, and updated its open-state class.
 - `app/authenticated/deals/components/data-table-view-options.tsx`: removed the direct Radix trigger import, switched to the shared Base UI trigger, and grouped the label and checkbox items.
-- `components/theme-switcher.tsx` and `components/user-nav.tsx`: existing Base UI `render` consumers remain compatible.
+- `app/authenticated/deals/components/data-table-reset-actions.tsx`: uses the Base UI `render` trigger, groups reset items, and marks the visible button icon.
+- `app/authenticated/deals/components/data-table-row-actions.tsx`: uses the Base UI `render` trigger and groups submenu items.
+- `components/theme-switcher.tsx` and `components/user-nav.tsx`: grouped radio/account items and removed manual child icon sizing while retaining Base UI `render` consumers.
 - `components/ui/dropdown-menu.tsx` leftover scan: `grep -n "radix-ui\|@radix-ui"` is clean.
 
 ## Left alone
 
-- `app/authenticated/deals/components/data-table-row-actions.tsx` and `data-table-reset-actions.tsx`: explicitly excluded by the task. Their legacy `asChild` prop is translated directly to Base UI `render` inside the shared wrapper; no Radix branch remains.
-- Radix dependencies in `package.json`: other project wrappers still use them and dependency removal is out of scope.
+- `components/ui/dropdown-menu.tsx` retains the narrow `asChild` compatibility bridge for callers that have not yet moved to `render`; current row/reset callers now use `render` directly.
+- `cmdk`, `vaul`, `sonner`, `input-otp`, `react-day-picker`, `recharts`, and `react-resizable-panels` remain on their intended non-Radix libraries.
 
 ## Behavior changes
 

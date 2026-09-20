@@ -72,7 +72,7 @@ export function SignupForm({
                     <div
                       role="status"
                       aria-live="polite"
-                      className="rounded-md border border-green-600 bg-green-600/15 p-3 text-sm font-medium text-green-600"
+                      className="rounded-md border border-primary bg-primary/15 p-3 text-sm font-medium text-primary"
                     >
                       {success}
                     </div>
@@ -114,7 +114,7 @@ export function SignupForm({
                             {...field}
                           />
                         </FormControl>
-                            <FormDescription>
+                        <FormDescription>
                           You will use this email address to log in.
                         </FormDescription>
                         <FormMessage />

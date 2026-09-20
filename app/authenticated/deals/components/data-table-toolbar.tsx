@@ -69,7 +69,7 @@ export function DataTableToolbar<TData>({
             onClick={() => table.resetColumnFilters()}
           >
             Reset
-            <X />
+            <X data-icon="inline-end" />
           </Button>
         )}
       </div>

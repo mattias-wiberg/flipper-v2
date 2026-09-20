@@ -1,20 +1,20 @@
 # chart
 
-2026-09-20, current Recharts v2-compatible API contract update, intentionally kept on Recharts.
+2026-09-20, Recharts 3 migration using the current installed type surface, upgraded successfully while intentionally remaining on Recharts.
 
 ## Changed
 
-- `components/ui/chart.tsx`: added the current initial responsive dimension option and chart data-slot marker, made chart ids nullish-safe, filtered hidden tooltip/legend payload entries, and preserved zero-valued tooltip values.
+- `components/ui/chart.tsx`: retained the initial responsive dimension option, chart data-slot marker, nullish-safe ids, hidden payload filtering, and zero-valued tooltip behavior; updated custom tooltip and legend props to Recharts 3 types.
+- `package.json` and `package-lock.json`: pin direct `recharts` to `3.10.1`.
 - Leftover scan: no Radix import exists in this component.
 
 ## Left alone
 
-- `recharts@2.15.4` remains the chart implementation; no Recharts 3 or Base UI dependency was installed.
-- No chart consumer currently exists in the application.
+- No chart consumer currently exists in the application, so no chart rendering call site was changed.
 
 ## Behavior changes
 
-None intended. Entries with Recharts type `none` are now omitted from generated tooltip and legend rows.
+None intended. Entries with Recharts type `none` continue to be omitted from generated tooltip and legend rows.
 
 ## Verify by hand
 

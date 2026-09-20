@@ -8,6 +8,7 @@
 ## After
 - Base UI Accordion root, item, header, trigger, and panel.
 - Nova open/closed animation attributes and explicit open/closed icons are used.
+- Trigger-level SVG sizing now controls the child chevron icons instead of manual icon sizing classes.
 
 ## Behavior deltas
 - The wrapper follows Base UI panel height and state conventions.

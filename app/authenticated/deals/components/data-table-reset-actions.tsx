@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -99,18 +100,20 @@ export function DataTableResetActions() {
               size="sm"
               className="ml-auto hidden h-8 lg:flex"
             >
-              <Rewind />
+              <Rewind data-icon="inline-start" />
               Reset
             </Button>
           }
         />
         <DropdownMenuContent align="start">
-          <DropdownMenuItem onClick={handleItemReset}>
-            Item orders
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={handleCraftingReset}>
-            Crafting material orders
-          </DropdownMenuItem>
+          <DropdownMenuGroup>
+            <DropdownMenuItem onClick={handleItemReset}>
+              Item orders
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleCraftingReset}>
+              Crafting material orders
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
         </DropdownMenuContent>
       </DropdownMenu>
 

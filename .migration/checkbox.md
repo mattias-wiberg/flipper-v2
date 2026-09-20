@@ -5,6 +5,7 @@
 ## Changed
 
 - `components/ui/checkbox.tsx`: replaced Radix Checkbox with Base UI Root/Indicator and updated state selectors to `data-checked`/`data-indeterminate`.
+- Checkbox-root SVG styling now owns the indicator size instead of sizing the child icon directly.
 - `app/authenticated/deals/components/data-table-deal-options.tsx`: replaced the removed popover checkbox helper with native-label composition around the shared Base UI checkbox.
 - `components/ui/checkbox.tsx` leftover scan: `grep -n "radix-ui\|@radix-ui"` is clean.
 

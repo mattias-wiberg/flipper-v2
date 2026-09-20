@@ -44,7 +44,7 @@ export function AuthenticatedSidebar() {
               render={<Link href="/authenticated/deals" />}
             >
               <span className="flex size-8 shrink-0 items-center justify-center rounded-md bg-primary text-primary-foreground">
-                <LayoutDashboard className="size-4" />
+                <LayoutDashboard />
               </span>
               <span className="font-semibold">Flipper</span>
             </SidebarMenuButton>

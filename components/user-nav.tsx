@@ -46,7 +46,7 @@ export function UserNav() {
       setError(
         signOutError instanceof Error
           ? signOutError.message
-          : "Could not log out"
+          : "Could not log out",
       );
     }
   };
@@ -65,10 +65,10 @@ export function UserNav() {
         render={
           <Button
             variant="ghost"
-            className="relative h-8 w-8 rounded-full"
+            className="relative size-8 rounded-full"
             aria-label="Open account menu"
           >
-            <Avatar className="h-9 w-9">
+            <Avatar className="size-9">
               <AvatarFallback>{fallbackNickname}</AvatarFallback>
             </Avatar>
           </Button>
@@ -76,10 +76,7 @@ export function UserNav() {
       />
       <DropdownMenuContent className="w-56" align="end">
         {error && (
-          <p
-            role="alert"
-            className="px-2 py-1.5 text-sm text-destructive"
-          >
+          <p role="alert" className="px-2 py-1.5 text-sm text-destructive">
             {error}
           </p>
         )}
@@ -96,12 +93,14 @@ export function UserNav() {
           </DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="text-primary data-highlighted:bg-primary data-highlighted:text-primary-foreground"
-          onClick={() => router.push("/authenticated/deals")}
-        >
-          Find flips!
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuItem
+            className="text-primary data-highlighted:bg-primary data-highlighted:text-primary-foreground"
+            onClick={() => router.push("/authenticated/deals")}
+          >
+            Find flips!
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => router.push("/authenticated/token")}>
@@ -112,9 +111,11 @@ export function UserNav() {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={() => void handleSignOut()}>
-          Log out
-        </DropdownMenuItem>
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={() => void handleSignOut()}>
+            Log out
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
   );

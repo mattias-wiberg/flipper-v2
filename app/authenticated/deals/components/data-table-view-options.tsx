@@ -32,7 +32,7 @@ export function DataTableViewOptions<TData>({
             size="sm"
             className="ml-auto hidden h-8 lg:flex"
           >
-            <Settings2 />
+            <Settings2 data-icon="inline-start" />
             View
           </Button>
         }

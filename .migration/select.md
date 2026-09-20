@@ -5,7 +5,8 @@
 ## Changed
 
 - `components/ui/select.tsx`: replaced Radix Select with Base UI Root, Trigger, Value, Portal, Positioner, Popup, List, Item, ItemText, ItemIndicator, Group, GroupLabel, Separator, and scroll-arrow parts. Positioning now uses `alignItemWithTrigger` and Base UI state attributes.
-- `app/authenticated/deals/components/data-table-pagination.tsx`: retained the public page-size behavior and replaced spacing utilities with `gap` utilities.
+- `app/authenticated/deals/components/data-table-pagination.tsx`: retained the public page-size behavior, grouped page-size items, and replaced spacing utilities with `gap` utilities.
+- Select trigger icon sizing is delegated to the wrapper selector rather than a manual child icon class.
 - `components/ui/select.tsx` leftover scan: `grep -n "radix-ui\|@radix-ui"` is clean.
 
 ## Left alone

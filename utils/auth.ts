@@ -3,22 +3,24 @@ import { z } from "zod";
 export const AUTHENTICATED_REDIRECT = "/authenticated/deals";
 export const PASSWORD_RESET_REDIRECT = "/authenticated/reset-password";
 
-const email = z.string().email("Enter a valid email address.");
+const email = z.email({ error: "Enter a valid email address." });
 
 export const signInSchema = z.object({
   email,
-  password: z.string().min(1, "Password is required"),
+  password: z.string().min(1, { error: "Password is required" }),
 });
 
 export const signUpSchema = z
   .object({
     nickname: z.string().optional(),
     email,
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, { error: "Password must be at least 6 characters" }),
     confirmPassword: z.string(),
   })
   .refine((values) => values.password === values.confirmPassword, {
-    message: "Passwords don't match",
+    error: "Passwords don't match",
     path: ["confirmPassword"],
   });
 
@@ -26,15 +28,17 @@ export const forgotPasswordSchema = z.object({ email });
 
 export const passwordUpdateSchema = z
   .object({
-    password: z.string().min(6, "Password must be at least 6 characters"),
+    password: z
+      .string()
+      .min(6, { error: "Password must be at least 6 characters" }),
     confirmPassword: z.string(),
   })
   .refine((values) => values.password === values.confirmPassword, {
-    message: "Passwords don't match",
+    error: "Passwords don't match",
     path: ["confirmPassword"],
   });
 
-export function getValidationMessage(error: z.ZodError) {
+export function getValidationMessage(error: z.ZodError<unknown>) {
   return error.issues[0]?.message ?? "Invalid form data";
 }
 
@@ -69,14 +73,13 @@ export function getRequestOrigin(requestHeaders: Headers) {
   }
 
   return (
-    normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL) ??
-    "http://localhost:3000"
+    normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL) ?? "http://localhost:3000"
   );
 }
 
 export function getSafeRedirectPath(
   requestedPath: string | null | undefined,
-  origin: string
+  origin: string,
 ) {
   if (
     !requestedPath ||
@@ -100,7 +103,7 @@ export function getSafeRedirectPath(
 
 export function getSafeRedirectUrl(
   requestedPath: string | null | undefined,
-  origin: string
+  origin: string,
 ) {
   return new URL(getSafeRedirectPath(requestedPath, origin), origin);
 }

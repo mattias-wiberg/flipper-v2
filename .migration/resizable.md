@@ -5,6 +5,7 @@
 ## Changed
 
 - `components/ui/resizable.tsx`: typed wrappers with the package's exported `PanelGroupProps`, `PanelProps`, and `PanelResizeHandleProps`, added data-slot markers, and preserved the v3 PanelGroup/PanelResizeHandle API.
+- The optional handle wrapper now owns the grip icon size instead of a manual child icon size.
 - Leftover scan: no Radix import exists in this component.
 
 ## Left alone
