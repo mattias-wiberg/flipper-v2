@@ -21,7 +21,7 @@
 - The non-Radix wrappers and direct dependencies listed above were intentionally not replaced.
 - `mocker/data/marketorders.expected.json`, database/schema/RLS files, authentication/domain behavior, and deal rules were intentionally not changed.
 - Existing per-component reports remain the detailed record for the earlier migrations.
-- No pre-upgrade golden replay was run as part of this dependency-upgrade pass.
+- The pre-upgrade golden replay was run from commit `4cd2a69` in an isolated worktree: 5,131 batches sent with 0 failures, 220,124 orders exported, and the expected SHA-256 matched (`6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`).
 
 ## Verification
 

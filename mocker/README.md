@@ -22,7 +22,7 @@ Captured on 2026-09-20 before the dependency and component upgrade:
 - `npx tsc --noEmit`: passed.
 - `npx jest --runInBand`: failed 5 tests in 2 existing suites. `utils/items.test.ts` fails for `UNIQUE_HIDEOUT` and `NON_EXISTENT_ITEM`; `lib/upgradeCosts.test.ts` fails three assertions against the current return and validation contracts.
 - `npm run build`: passed with existing Baseline Browser Mapping, Browserslist, middleware-convention, and edge-runtime warnings.
-- Golden replay: not run here because it requires the live app, a configured Supabase project, and a clean token/order state. The replay/tool safety checks pass locally.
+- Golden replay: passed against the pre-upgrade commit `4cd2a69` in an isolated worktree. The old app replayed 5,131 batches with 0 failures, exported 220,124 orders, and matched the expected SHA-256 (`6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`).
 
 Keep this baseline separate from any failures introduced by the upgrade.
 
