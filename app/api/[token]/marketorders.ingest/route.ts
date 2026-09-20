@@ -1,9 +1,10 @@
 import { bodySchema } from "@/lib/orderSchemas";
+import type { TablesInsert } from "@/database.types";
 import { createAdminClient } from "@/utils/supabase/admin";
 
 export async function POST(
   request: Request,
-  { params }: { params: Promise<{ token: string }> }
+  { params }: { params: Promise<{ token: string }> },
 ) {
   const { token } = await params;
 
@@ -35,13 +36,13 @@ export async function POST(
       return new Response(
         JSON.stringify({
           error: "Invalid body format",
-          details: parseResult.error.errors,
+          details: parseResult.error.issues,
         }),
-        { status: 400, headers: { "Content-Type": "application/json" } }
+        { status: 400, headers: { "Content-Type": "application/json" } },
       );
     }
 
-    let ordersToInsert = [];
+    const ordersToInsert: TablesInsert<"orders">[] = [];
     for (const order of parseResult.data.Orders) {
       // console.log("Processing order:", order);
       const silver = order.UnitPriceSilver / 10000; // Convert to silver
@@ -64,7 +65,7 @@ export async function POST(
         });
       } else {
         console.warn(
-          `Order ${order.Id} has an invalid ItemTypeId format: ${order.ItemTypeId}`
+          `Order ${order.Id} has an invalid ItemTypeId format: ${order.ItemTypeId}`,
         );
       }
     }
