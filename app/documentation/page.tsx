@@ -240,12 +240,14 @@ const Documentation = () => {
           </Card>
         ))}
         <div className="flex justify-end mb-8">
-          <Link href="/authenticated/deals">
-            <Button size="lg" className="flex items-center gap-2">
-              Get Started
-              <ArrowRight />
-            </Button>
-          </Link>
+          <Button
+            size="lg"
+            nativeButton={false}
+            render={<Link href="/authenticated/deals" />}
+          >
+            Get Started
+            <ArrowRight data-icon="inline-end" />
+          </Button>
         </div>
       </div>
     </section>

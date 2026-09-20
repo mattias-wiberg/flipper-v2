@@ -1,14 +1,13 @@
 import { ThemeSwitcher } from "@/components/theme-switcher";
-import { SidebarInset } from "@/components/ui/sidebar";
 import { Toaster } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
-import { TooltipProvider } from "@radix-ui/react-tooltip";
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Heart } from "lucide-react";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
-import { Geist } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
@@ -85,6 +84,13 @@ export const metadata: Metadata = {
 const geistSans = Geist({
   display: "swap",
   subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
 });
 
 export default async function RootLayout({
@@ -93,7 +99,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={geistSans.className} suppressHydrationWarning>
+    <html
+      lang="en"
+      className={`${geistSans.variable} ${geistMono.variable}`}
+      suppressHydrationWarning
+    >
       <body className="bg-background text-foreground">
         <AuthProvider>
           <ThemeProvider
@@ -103,34 +113,30 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <TooltipProvider>
-              <SidebarInset>
-                <div className="flex-1 w-full flex flex-col gap-20 items-center">
-                  <div className="flex flex-col gap-20 w-full max-w-7xl p-5">
-                    {children}
-                  </div>
-                </div>
+              <div className="flex min-h-svh w-full flex-col">
+                <div className="flex min-w-0 flex-1 flex-col">{children}</div>
 
-                <footer className="w-full flex items-center justify-center border-t mx-auto text-center text-xs gap-8 py-4">
+                <footer className="flex w-full flex-col items-center justify-center gap-3 border-t px-4 py-4 text-center text-xs sm:flex-row sm:gap-8">
                   <ThemeSwitcher />
                   <p>
                     &copy; {new Date().getFullYear()} Flipper. Open source on{" "}
                     <a
                       href="https://github.com/mattias-wiberg/flipper-v2"
-                      className="underline"
+                      className="underline underline-offset-4"
                     >
                       GitHub
                     </a>
                     . Made with{" "}
-                    <Heart className="inline h-4 w-4 text-red-500" /> by{" "}
+                    <Heart className="inline size-4 text-red-500" /> by{" "}
                     <a
                       href="https://www.linkedin.com/in/mattiaswiberg/"
-                      className="underline"
+                      className="underline underline-offset-4"
                     >
                       Mattias Wiberg
                     </a>
                   </p>
                 </footer>
-              </SidebarInset>
+              </div>
               <Toaster />
               <SpeedInsights />
               <Analytics />

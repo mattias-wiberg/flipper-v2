@@ -31,7 +31,7 @@ export default async function TokenManager() {
 
   if (selectError || !tokenData) {
     return (
-      <div className="flex-1 w-full max-w-md flex flex-col items-center justify-center mx-auto py-16">
+      <div className="mx-auto flex w-full max-w-md flex-1 flex-col items-center justify-center py-8 sm:py-16">
         <Card className="w-full shadow-lg border-primary/30 border-2 bg-background">
           <CardHeader className="flex flex-col items-center">
             <HelpCircle className="w-10 h-10 text-primary mb-2" />
@@ -46,20 +46,21 @@ export default async function TokenManager() {
               Please contact support on our Discord to have one generated for
               you.
             </p>
-            <a
-              href="https://discord.gg/2ySkAuX"
-              target="_blank"
-              rel="noopener"
-              className="w-full flex justify-center"
+            <Button
+              size="lg"
+              variant="secondary"
+              className="w-full font-bold"
+              nativeButton={false}
+              render={
+                <a
+                  href="https://discord.gg/2ySkAuX"
+                  target="_blank"
+                  rel="noopener"
+                />
+              }
             >
-              <Button
-                size="lg"
-                variant="secondary"
-                className="min-w-[180px] flex items-center justify-center font-bold"
-              >
-                Join the Discord
-              </Button>
-            </a>
+              Join the Discord
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -67,14 +68,14 @@ export default async function TokenManager() {
   }
 
   return (
-    <div className="flex-1 w-full max-w-xl flex flex-col items-center justify-center mx-auto">
-      <h1 className="text-lg font-bold mb-4">Your database token</h1>
-      <span className="text-sm">
+    <div className="mx-auto flex w-full max-w-xl flex-1 flex-col items-center justify-center gap-3">
+      <h1 className="text-lg font-bold">Your database token</h1>
+      <p className="text-sm text-center">
         Your token is used to upload your market data. Keep it secret! Anyone
         with this token can upload data to your private database.
-      </span>
+      </p>
       <Token token={tokenData.token} />
-      <p className="leading-7">
+      <p className="leading-7 text-center">
         To get started using your token launch the albion data client by doing
         the following:
       </p>

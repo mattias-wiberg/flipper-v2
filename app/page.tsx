@@ -44,20 +44,29 @@ export default function LandingPage() {
           real-time data. Trusted by serious traders.
         </p>
         <div className="flex flex-col md:flex-row gap-4 justify-center mb-8">
-          <Link href="/sign-up">
-            <Button size="lg" className="font-bold">
-              Get Started <ArrowRight className="ml-2 w-5 h-5" />
-            </Button>
-          </Link>
-          <a
-            href="https://www.youtube.com/watch?v=cz4VEmaDG7k&ab_channel=KillAxe22"
-            target="_blank"
-            rel="noopener"
+          <Button
+            size="lg"
+            className="font-bold"
+            nativeButton={false}
+            render={<Link href="/sign-up" />}
           >
-            <Button variant="outline" size="lg" className="font-bold">
-              <PlayCircle className="mr-2 w-5 h-5" /> See it in Action
-            </Button>
-          </a>
+            Get Started <ArrowRight data-icon="inline-end" />
+          </Button>
+          <Button
+            variant="outline"
+            size="lg"
+            className="font-bold"
+            nativeButton={false}
+            render={
+              <a
+                href="https://www.youtube.com/watch?v=cz4VEmaDG7k&ab_channel=KillAxe22"
+                target="_blank"
+                rel="noopener"
+              />
+            }
+          >
+            <PlayCircle data-icon="inline-start" /> See it in Action
+          </Button>
         </div>
       </section>
 
@@ -213,28 +222,36 @@ export default function LandingPage() {
           Join the Community
         </h2>
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
-          <a href="https://discord.gg/2ySkAuX" target="_blank" rel="noopener">
-            <Button
-              size="lg"
-              variant="secondary"
-              className="min-w-[200px] flex items-center justify-center"
-            >
-              <Users className="mr-2 w-5 h-5" /> Join the Discord
-            </Button>
-          </a>
-          <a
-            href="https://github.com/mattias-wiberg/flipper-v2"
-            target="_blank"
-            rel="noopener"
+          <Button
+            size="lg"
+            variant="secondary"
+            className="min-w-[200px]"
+            nativeButton={false}
+            render={
+              <a
+                href="https://discord.gg/2ySkAuX"
+                target="_blank"
+                rel="noopener"
+              />
+            }
           >
-            <Button
-              size="lg"
-              variant="ghost"
-              className="min-w-[200px] flex items-center justify-center"
-            >
-              <Github className="mr-2 w-5 h-5" /> GitHub
-            </Button>
-          </a>
+            <Users data-icon="inline-start" /> Join the Discord
+          </Button>
+          <Button
+            size="lg"
+            variant="ghost"
+            className="min-w-[200px]"
+            nativeButton={false}
+            render={
+              <a
+                href="https://github.com/mattias-wiberg/flipper-v2"
+                target="_blank"
+                rel="noopener"
+              />
+            }
+          >
+            <Github data-icon="inline-start" /> GitHub
+          </Button>
         </div>
         <p className="text-center text-muted-foreground mt-8">
           Need help? Check out our{" "}

@@ -1,4 +1,5 @@
 "use client";
+
 import {
   Collapsible,
   CollapsibleContent,
@@ -14,6 +15,36 @@ import React from "react";
 
 const website_url = "https://flipper.mattiaswiberg.com";
 
+function CopyCommand({
+  command,
+  display,
+  platform,
+}: {
+  command: string;
+  display: string;
+  platform: string;
+}) {
+  return (
+    <Tooltip>
+      <TooltipTrigger
+        render={
+          <button
+            type="button"
+            aria-label={`Copy ${platform} command`}
+            className="max-w-full overflow-x-auto rounded bg-muted px-[0.3rem] py-[0.2rem] text-left font-mono text-sm break-all"
+            onClick={() => {
+              navigator.clipboard.writeText(command);
+            }}
+          />
+        }
+      >
+        <code>{display}</code>
+      </TooltipTrigger>
+      <TooltipContent>Click to copy</TooltipContent>
+    </Tooltip>
+  );
+}
+
 const TutorialItem = ({
   title,
   listItems,
@@ -22,22 +53,25 @@ const TutorialItem = ({
   listItems: React.ReactNode[];
 }) => {
   const [isOpen, setIsOpen] = React.useState(false);
+
   return (
     <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-      <CollapsibleTrigger asChild>
-        <div className="flex items-center justify-between gap-4 cursor-pointer select-none px-2 py-1 rounded hover:bg-muted transition">
-          <h4 className="text-sm font-semibold">{title}</h4>
-          <span
-            className="size-8 flex items-center justify-center rounded hover:bg-accent transition"
-            aria-label="Toggle"
-          >
-            {isOpen ? <ChevronUp /> : <ChevronDown />}
-            <span className="sr-only">Toggle</span>
-          </span>
-        </div>
+      <CollapsibleTrigger
+        render={
+          <button
+            type="button"
+            className="flex w-full items-center justify-between gap-4 rounded px-2 py-2 text-left transition hover:bg-muted"
+          />
+        }
+      >
+        <span className="text-sm font-semibold">{title}</span>
+        <span className="flex size-8 items-center justify-center rounded transition hover:bg-accent">
+          {isOpen ? <ChevronUp /> : <ChevronDown />}
+          <span className="sr-only">Toggle {title}</span>
+        </span>
       </CollapsibleTrigger>
       <CollapsibleContent>
-        <ul className="ml-8 list-decimal [&>li]:mt-2 text-sm">
+        <ul className="ml-8 list-decimal text-sm [&>li]:mt-2">
           {listItems.map((item, index) => (
             <li key={index}>{item}</li>
           ))}
@@ -48,37 +82,42 @@ const TutorialItem = ({
 };
 
 export const TokenTutorial = ({ token }: { token: string }) => {
+  const windowsCommand =
+    "\\Program` Files\\Albion` Data` Client\\albiondata-client.exe -i " +
+    website_url +
+    "/api/" +
+    token;
+  const macCommand =
+    "/Applications/Albion\\ Data\\ Client.app/Contents/MacOS/albiondata-client -i " +
+    website_url +
+    "/api/" +
+    token;
+  const macDisplay = String.raw`/Applications/Albion\ Data\ Client.app/Contents/MacOS/albiondata-client -i ${website_url}/api/${token}`;
+  const linuxCommand =
+    "/opt/Albion\\ Data\\ Client/albiondata-client -i " +
+    website_url +
+    "/api/" +
+    token;
+  const linuxDisplay = String.raw`/opt/Albion\ Data\ Client/albiondata-client -i ${website_url}/api/${token}`;
+
   return (
-    <div className="flex-1 w-full flex flex-col gap-2 ml-2">
+    <div className="flex w-full flex-1 flex-col gap-2">
       <TutorialItem
         title="Windows"
         listItems={[
           <>
             Open Windows PowerShell. Keybinding
-            <code className="ml-1 bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            <code className="ml-1 rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Win + x A
             </code>
           </>,
-          <div className="flex flex-col gap-1 items-start">
+          <div className="flex flex-col items-start gap-1">
             Copy and paste the following command into the terminal:
-            <Tooltip>
-              <TooltipTrigger>
-                <code
-                  className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      "\\Program` Files\\Albion` Data` Client\\albiondata-client.exe -i " +
-                        website_url +
-                        "/api/" +
-                        token
-                    );
-                  }}
-                >
-                  {`\Program Files\Albion Data Client\albiondata-client.exe -i ${website_url}/api/${token}`}
-                </code>
-              </TooltipTrigger>
-              <TooltipContent>Click to copy</TooltipContent>
-            </Tooltip>
+            <CopyCommand
+              command={windowsCommand}
+              display={`\\Program Files\\Albion Data Client\\albiondata-client.exe -i ${website_url}/api/${token}`}
+              platform="Windows"
+            />
             <span className="text-sm text-muted-foreground">
               Tip: You can save the above command as a batch file (.bat) for
               easy access.
@@ -91,31 +130,17 @@ export const TokenTutorial = ({ token }: { token: string }) => {
         listItems={[
           <>
             Open the terminal. Keybinding{" "}
-            <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            <code className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Cmd + Space
             </code>
           </>,
-          <div className="flex flex-col gap-1 items-start">
+          <div className="flex flex-col items-start gap-1">
             Copy and paste the following command into the terminal:
-            <Tooltip>
-              <TooltipTrigger>
-                <code
-                  className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      "/Applications/Albion\\ Data\\ Client.app/Contents/MacOS/albiondata-client -i " +
-                        website_url +
-                        "/api/" +
-                        token
-                    );
-                  }}
-                >
-                  {`/Applications/Albion\ Data\ Client.app/Contents/MacOS/albiondata-client -i ${website_url}/api/${token}
-                `}
-                </code>
-              </TooltipTrigger>
-              <TooltipContent>Click to copy</TooltipContent>
-            </Tooltip>
+            <CopyCommand
+              command={macCommand}
+              display={macDisplay}
+              platform="macOS"
+            />
             <span className="text-sm text-muted-foreground">
               Tip: You can save the above command as a shell script (.sh) for
               easy access.
@@ -128,30 +153,17 @@ export const TokenTutorial = ({ token }: { token: string }) => {
         listItems={[
           <>
             Open the terminal. Keybinding{" "}
-            <code className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm">
+            <code className="rounded bg-muted px-[0.3rem] py-[0.2rem] font-mono text-sm">
               Ctrl + Alt + T
             </code>
           </>,
-          <div className="flex flex-col gap-1 items-start">
+          <div className="flex flex-col items-start gap-1">
             Copy and paste the following command into the terminal:
-            <Tooltip>
-              <TooltipTrigger>
-                <code
-                  className="bg-muted relative rounded px-[0.3rem] py-[0.2rem] font-mono text-sm"
-                  onClick={() => {
-                    navigator.clipboard.writeText(
-                      "/opt/Albion\\ Data\\ Client/albiondata-client -i " +
-                        website_url +
-                        "/api/" +
-                        token
-                    );
-                  }}
-                >
-                  {`/opt/Albion\ Data\ Client/albiondata-client -i ${website_url}/api/${token}`}
-                </code>
-              </TooltipTrigger>
-              <TooltipContent>Click to copy</TooltipContent>
-            </Tooltip>
+            <CopyCommand
+              command={linuxCommand}
+              display={linuxDisplay}
+              platform="Linux"
+            />
             <span className="text-sm text-muted-foreground">
               Tip: You can save the above command as a shell script (.sh) for
               easy access.
