@@ -1,7 +1,7 @@
 "use client";
 
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button, buttonVariants } from "@/components/ui/button";
+import { Blobatar } from "@/components/ui/blobatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,12 +14,10 @@ import {
 import { useAuth } from "@/context/AuthContext";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 export function UserNav() {
   const { user, loading, signOut } = useAuth();
-  const router = useRouter();
   const [error, setError] = useState<string | null>(null);
 
   if (loading) {
@@ -51,14 +49,6 @@ export function UserNav() {
     }
   };
 
-  // Fall back to be either first two letters in capital or First letters in first 2 words if nickname contains a space
-  const fallbackNickname = user?.user_metadata.nickname
-    ? user.user_metadata.nickname
-        .split(" ")
-        .slice(0, 2)
-        .map((word: string) => word.charAt(0).toUpperCase())
-        .join("")
-    : "U";
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -68,9 +58,7 @@ export function UserNav() {
             className="relative size-8 rounded-full"
             aria-label="Open account menu"
           >
-            <Avatar className="size-9">
-              <AvatarFallback>{fallbackNickname}</AvatarFallback>
-            </Avatar>
+            <Blobatar name={user.id} className="size-9" />
           </Button>
         }
       />
@@ -91,24 +79,6 @@ export function UserNav() {
               </p>
             </div>
           </DropdownMenuLabel>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem
-            className="text-primary data-highlighted:bg-primary data-highlighted:text-primary-foreground"
-            onClick={() => router.push("/authenticated/deals")}
-          >
-            Find flips!
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem onClick={() => router.push("/authenticated/token")}>
-            Token
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => router.push("/documentation")}>
-            Documentation
-          </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
