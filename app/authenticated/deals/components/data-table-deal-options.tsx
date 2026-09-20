@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   Popover,
-  PopoverCheckboxItem,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
@@ -14,6 +14,30 @@ import { parseDealSearchParams } from "@/utils/utils";
 import { Settings } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
+import { updateDealSearchParams } from "./data-table-query";
+
+function DealOptionCheckbox({
+  id,
+  checked,
+  label,
+  onCheckedChange,
+}: {
+  id: string;
+  checked: boolean;
+  label: string;
+  onCheckedChange: (checked: boolean) => void;
+}) {
+  return (
+    <label
+      htmlFor={id}
+      className="relative flex cursor-pointer select-none items-center gap-2 rounded-sm px-2 py-2 text-sm outline-none transition-colors hover:bg-accent focus-within:bg-accent focus-within:text-accent-foreground"
+    >
+      <Checkbox id={id} checked={checked} onCheckedChange={onCheckedChange} />
+      <span className="w-full cursor-pointer">{label}</span>
+    </label>
+  );
+}
+
 export function DataTableDealOptions() {
   const router = useRouter();
   const pathname = usePathname();
@@ -22,20 +46,16 @@ export function DataTableDealOptions() {
   // Get a new searchParams string by merging the current
   // searchParams with provided key/value pairs
   const createQueryString = useCallback(
-    (updates: Record<string, string>) => {
-      const params = new URLSearchParams();
-      Object.entries(updates).forEach(([name, value]) => {
-        params.set(name, value);
-      });
-      return params.toString();
+    (updates: Record<string, string | null>) => {
+      return updateDealSearchParams(searchParams.toString(), updates);
     },
-    [searchParams]
+    [searchParams],
   );
 
   // Local state for popover form
   const [open, setOpen] = useState(false);
   const parsedParameters = parseDealSearchParams(
-    Object.fromEntries(searchParams.entries())
+    Object.fromEntries(searchParams.entries()),
   );
   const [localState, setLocalState] = useState(parsedParameters);
 
@@ -61,19 +81,19 @@ export function DataTableDealOptions() {
 
   // Save handler: update search params from local state
   const handleSave = () => {
-    const params: Record<string, string> = {};
-    if (localState.enchantmentUpgrade) params.enchantmentUpgrade = "1";
-    if (localState.qualityUpgrade) params.qualityUpgrade = "1";
-    if (localState.premium) params.premium = "1";
-    if (localState.minProfit > 0)
-      params.minProfit = String(localState.minProfit);
-    if (localState.minPercentualProfit > 0)
-      params.minPercentualProfit = String(localState.minPercentualProfit);
-    if (localState.profitGate !== "and")
-      params.profitGate = localState.profitGate;
-    const query =
-      Object.keys(params).length > 0 ? "?" + createQueryString(params) : "";
-    router.push(pathname + query);
+    const query = createQueryString({
+      enchantmentUpgrade: localState.enchantmentUpgrade ? "1" : null,
+      qualityUpgrade: localState.qualityUpgrade ? "1" : null,
+      premium: localState.premium ? "1" : null,
+      minProfit: localState.minProfit > 0 ? String(localState.minProfit) : null,
+      minPercentualProfit:
+        localState.minPercentualProfit > 0
+          ? String(localState.minPercentualProfit)
+          : null,
+      profitGate:
+        localState.profitGate !== "and" ? localState.profitGate : null,
+    });
+    router.push(query ? `${pathname}?${query}` : pathname);
     setOpen(false);
   };
 
@@ -86,40 +106,42 @@ export function DataTableDealOptions() {
 
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="ml-auto hidden h-8 lg:flex"
-        >
-          <Settings />
-          Options
-        </Button>
-      </PopoverTrigger>
+      <PopoverTrigger
+        render={
+          <Button
+            variant="outline"
+            size="sm"
+            className="ml-auto hidden h-8 lg:flex"
+          >
+            <Settings />
+            Options
+          </Button>
+        }
+      />
       <PopoverContent className="w-[250px] p-1 bg-popover text-popover-foreground border shadow-md rounded-md">
         <div className="text-sm font-semibold px-2 py-1.5">Flip parameters</div>
         <div className="h-px bg-muted my-1 -mx-1" />
-        <PopoverCheckboxItem
+        <DealOptionCheckbox
           id="enchantmentUpgrade"
           checked={localState.enchantmentUpgrade}
           onCheckedChange={(checked) =>
-            setLocalState((s) => ({ ...s, enchantmentUpgrade: !!checked }))
+            setLocalState((s) => ({ ...s, enchantmentUpgrade: checked }))
           }
           label="Enchantment Upgrades"
         />
-        <PopoverCheckboxItem
+        <DealOptionCheckbox
           id="qualityUpgrade"
           checked={localState.qualityUpgrade}
           onCheckedChange={(checked) =>
-            setLocalState((s) => ({ ...s, qualityUpgrade: !!checked }))
+            setLocalState((s) => ({ ...s, qualityUpgrade: checked }))
           }
           label="Quality Upgrades"
         />
-        <PopoverCheckboxItem
+        <DealOptionCheckbox
           id="premium"
           checked={localState.premium}
           onCheckedChange={(checked) =>
-            setLocalState((s) => ({ ...s, premium: !!checked }))
+            setLocalState((s) => ({ ...s, premium: checked }))
           }
           label="Premium"
         />
@@ -128,12 +150,10 @@ export function DataTableDealOptions() {
           <div className="flex justify-between items-center">
             <Label htmlFor="minimumProfit">Minimum profit</Label>
             <Tabs
-              defaultValue={localState.profitGate}
+              value={localState.profitGate}
               onValueChange={(value) =>
-                setLocalState((s) => ({
-                  ...s,
-                  profitGate: value as "and" | "or",
-                }))
+                (value === "and" || value === "or") &&
+                setLocalState((s) => ({ ...s, profitGate: value }))
               }
             >
               <TabsList size="xs">

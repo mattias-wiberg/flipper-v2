@@ -34,15 +34,18 @@ export function DataTableToolbar<TData>({
       <div className="flex flex-1 items-center gap-2">
         <TooltipProvider>
           <Tooltip>
-            <TooltipTrigger asChild>
-              <Button
-                size="icon"
-                className="size-8"
-                onClick={() => router.refresh()}
-              >
-                <RefreshCcw />
-              </Button>
-            </TooltipTrigger>
+            <TooltipTrigger
+              render={
+                <Button
+                  size="icon"
+                  className="size-8"
+                  aria-label="Refresh flips"
+                  onClick={() => router.refresh()}
+                >
+                  <RefreshCcw />
+                </Button>
+              }
+            />
             <TooltipContent side="bottom">Refresh flips</TooltipContent>
           </Tooltip>
         </TooltipProvider>
