@@ -1,7 +1,5 @@
 "use client";
 
-import { ColumnDef } from "@tanstack/react-table";
-
 import { Button } from "@/components/ui/button";
 import {
   Tooltip,
@@ -12,8 +10,9 @@ import { ArrowUp10, ArrowUpZA } from "lucide-react";
 import { Deal } from "../data/schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
+import type { DealColumnDef } from "./data-table-config";
 
-export const columns: ColumnDef<Deal>[] = [
+export const columns: DealColumnDef<Deal>[] = [
   // TODO: add selection actions
   // {
   //   id: "select",

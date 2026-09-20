@@ -1,7 +1,7 @@
 "use client";
 
-import { Table } from "@tanstack/react-table";
 import { RefreshCcw, X } from "lucide-react";
+import type { RowData } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -18,16 +18,17 @@ import { DataTableDealOptions } from "./data-table-deal-options";
 import { DataTableFacetedFilter } from "./data-table-faceted-filter";
 import { DataTableResetActions } from "./data-table-reset-actions";
 import { DataTableViewOptions } from "./data-table-view-options";
+import type { DealTable } from "./data-table-config";
 
-interface DataTableToolbarProps<TData> {
-  table: Table<TData>;
+interface DataTableToolbarProps<TData extends RowData> {
+  table: DealTable<TData>;
 }
 
-export function DataTableToolbar<TData>({
+export function DataTableToolbar<TData extends RowData>({
   table,
 }: DataTableToolbarProps<TData>) {
   const router = useRouter();
-  const isFiltered = table.getState().columnFilters.length > 0;
+  const isFiltered = table.state.columnFilters.length > 0;
 
   return (
     <div className="flex items-center justify-between">

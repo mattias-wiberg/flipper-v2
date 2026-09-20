@@ -1,18 +1,13 @@
 "use client";
 
 import {
-  ColumnDef,
-  ColumnFiltersState,
+  type ColumnFiltersState,
   flexRender,
-  getCoreRowModel,
-  getFacetedRowModel,
-  getFacetedUniqueValues,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  SortingState,
-  useReactTable,
-  VisibilityState,
+  useTable,
+  type RowData,
+  type RowSelectionState,
+  type SortingState,
+  type ColumnVisibilityState,
 } from "@tanstack/react-table";
 import * as React from "react";
 
@@ -38,21 +33,22 @@ import { DealOrderCounts } from "@/lib/deals";
 import Link from "next/link";
 import { DataTablePagination } from "./data-table-pagination";
 import { DataTableToolbar } from "./data-table-toolbar";
+import { dealTableFeatures, type DealColumnDef } from "./data-table-config";
 
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[];
+interface DataTableProps<TData extends RowData> {
+  columns: DealColumnDef<TData>[];
   data: TData[];
   counts: DealOrderCounts;
 }
 
-export function DataTable<TData, TValue>({
+export function DataTable<TData extends RowData>({
   columns,
   data,
   counts,
-}: DataTableProps<TData, TValue>) {
-  const [rowSelection, setRowSelection] = React.useState({});
+}: DataTableProps<TData>) {
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
   const [columnVisibility, setColumnVisibility] =
-    React.useState<VisibilityState>({});
+    React.useState<ColumnVisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
     [],
   );
@@ -66,7 +62,8 @@ export function DataTable<TData, TValue>({
     setExpandedRows((prev) => ({ ...prev, [rowId]: open }));
   };
 
-  const table = useReactTable({
+  const table = useTable({
+    features: dealTableFeatures,
     data,
     columns,
     state: {
@@ -77,6 +74,7 @@ export function DataTable<TData, TValue>({
     },
     initialState: {
       pagination: {
+        pageIndex: 0,
         pageSize: 25,
       },
     },
@@ -85,12 +83,6 @@ export function DataTable<TData, TValue>({
     onSortingChange: setSorting,
     onColumnFiltersChange: setColumnFilters,
     onColumnVisibilityChange: setColumnVisibility,
-    getCoreRowModel: getCoreRowModel(),
-    getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    getSortedRowModel: getSortedRowModel(),
-    getFacetedRowModel: getFacetedRowModel(),
-    getFacetedUniqueValues: getFacetedUniqueValues(),
   });
 
   return (

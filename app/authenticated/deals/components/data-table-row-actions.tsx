@@ -12,16 +12,17 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
+import type { RowData } from "@tanstack/react-table";
 import { toast } from "sonner";
 import { dealSchema } from "../data/schema";
+import type { DealRow } from "./data-table-config";
 
-interface DataTableRowActionsProps<TData> {
-  row: Row<TData>;
+interface DataTableRowActionsProps<TData extends RowData> {
+  row: DealRow<TData>;
 }
 
-export function DataTableRowActions<TData>({
+export function DataTableRowActions<TData extends RowData>({
   row,
 }: DataTableRowActionsProps<TData>) {
   const { data: deal } = dealSchema.safeParse(row.original);

@@ -1,10 +1,10 @@
 # command
 
-2026-09-20, classification only, intentionally left on cmdk because it is not a Radix wrapper and has no Base UI counterpart.
+2026-09-20, cmdk retained as the command implementation; fixed the standalone input icon sizing regression.
 
 ## Changed
 
-- `components/ui/command.tsx`: no migration was performed; the wrapper continues to expose cmdk command, input, list, group, item, and dialog composition. Search icon sizing is owned by the input wrapper.
+- `components/ui/command.tsx`: the wrapper continues to expose cmdk command, input, list, group, item, and dialog composition. `CommandInput` now owns the search icon's `size-4`; the dialog no longer overrides that standalone icon through a descendant selector.
 - Leftover scan: `grep -n "radix-ui\|@radix-ui" components/ui/command.tsx` is clean.
 
 ## Left alone
@@ -13,7 +13,7 @@
 
 ## Behavior changes
 
-None.
+The standalone `CommandInput` search icon is consistently sized in both inline and dialog composition.
 
 ## Verify by hand
 

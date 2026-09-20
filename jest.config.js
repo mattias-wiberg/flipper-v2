@@ -1,7 +1,3 @@
-const { createDefaultPreset } = require("ts-jest");
-
-const tsJestTransformCfg = createDefaultPreset().transform;
-
 /** @type {import("jest").Config} **/
 module.exports = {
   testEnvironment: "node",
@@ -9,6 +5,16 @@ module.exports = {
     "^@/(.*)$": "<rootDir>/$1",
   },
   transform: {
-    ...tsJestTransformCfg,
+    "^.+\\.[tj]sx?$": [
+      "@swc/jest",
+      {
+        jsc: {
+          transform: {
+            react: { runtime: "automatic" },
+          },
+        },
+      },
+    ],
   },
+  transformIgnorePatterns: ["/node_modules/(?!(?:@tanstack)/)"],
 };

@@ -1,6 +1,6 @@
 # project
 
-2026-09-20, post-migration compatibility sweep, completed the Base UI consumer audit and exact Zod/Recharts/Supabase dependency updates; the reachable application remains on the Base UI `base-nova` model.
+2026-09-20, post-migration compatibility sweep, completed the Base UI consumer audit and exact Zod/Recharts/Supabase dependency updates, then completed the current-major dependency pass; the reachable application remains on the Base UI `base-nova` model.
 
 ## Changed
 
@@ -11,6 +11,9 @@
 - Final source and manifest scans contain no Radix imports or direct Radix dependencies. The retained primitive wrappers use Base UI; `cmdk`, `vaul`, `sonner`, `input-otp`, `react-day-picker`, `recharts`, and `react-resizable-panels` remain on their intended libraries.
 - `utils/auth.ts` and `utils/items.ts`: adapted Zod 4 error/schema seams; `lib/orderSchemas.test.ts` adds focused parsing coverage without changing domain formulas or persisted fixtures.
 - `components/ui/chart.tsx`: updated the custom tooltip and legend prop types for Recharts 3.
+- `package.json` and `package-lock.json`: upgraded `@tanstack/react-table` to `9.2.4`, `lucide-react` to `1.47.0`, `react-day-picker` to `10.0.1`, `react-resizable-panels` to `4.12.4`, and TypeScript to `7.0.2`; Jest now uses the SWC transformer because TypeScript 7 no longer exposes the compiler API required by ts-jest.
+- `app/authenticated/deals/components/*`: migrated the reachable table consumers and column tests to TanStack Table v9's explicit feature registration and `useTable` API.
+- `components/ui/calendar.tsx`, `resizable.tsx`, and `command.tsx`: retained their non-Radix libraries, adapted current-major APIs, and fixed standalone command search icon sizing.
 - `components/ui/account-menu.tsx`: deleted after confirming it had no consumers.
 - `app/authenticated/deals/components/*`, `components/user-nav.tsx`, `components/theme-switcher.tsx`, and shared icon wrappers: grouped Base UI collections, applied `data-icon` to text-button icons, removed manual child icon sizing, and retained existing actions.
 - Auth success messages now use semantic primary tokens instead of raw green color classes.
@@ -31,8 +34,9 @@
 - `npx tsc --noEmit`: passed.
 - Current post-upgrade `npx tsc --noEmit`: passed.
 - `npx jest --runInBand`: passed, 11/11 suites and 34/34 tests. The historical five-test baseline failures documented in `mocker/README.md` did not recur; no test was weakened.
-- Current post-upgrade `npx jest --runInBand`: passed, 12/12 suites and 36/36 tests.
+- Current post-upgrade `npx jest --runInBand`: passed, 15/15 suites and 39/39 tests.
 - Current focused `npx jest utils/auth.test.ts lib/orderSchemas.test.ts --runInBand`: passed, 2/2 suites and 6/6 tests.
+- Current focused dependency consumers `npx jest app/authenticated/deals/components/columns.test.ts app/authenticated/deals/components/data-table-query.test.ts components/ui/calendar.test.tsx components/ui/resizable.test.tsx components/ui/command.test.tsx --runInBand`: passed, 5/5 suites and 7/7 tests.
 - `npm run build`: passed; the expected fixture and domain files were not modified.
 - Current post-upgrade `npm run build`: passed; the expected fixture and domain files were not modified.
 - `npm run mock:order:ingest`: passed, 5,131 batches sent and 0 failed.
@@ -56,7 +60,7 @@
 ## Residual known warnings
 
 - The dependency install reports the existing `glob` notice and two audit vulnerabilities (one low, one high); no audit fix was applied in this migration.
-- `npm outdated --json` still reports unrelated newer majors for `@tanstack/react-table`, `lucide-react`, `react-day-picker`, `react-resizable-panels`, and `typescript`; this pass only performed the explicitly requested Zod 4 and Recharts 3 compatibility work.
+- `npm outdated --json`: passed with `{}`; all requested direct dependency upgrades are current in the configured registry.
 - Production build retains the Edge Runtime deprecation and the warning that Edge Runtime disables static generation for affected pages.
 - A supplementary `npm ls --depth=0` on Windows reports Next's platform-optional `@img/sharp-wasm32` and `@emnapi/runtime` as extraneous; the clean install and production build still pass, and these are unrelated to the migration.
 - The lockfile retains 16 Radix packages transitively required by `cmdk` and `vaul`: `@radix-ui/primitive`, `@radix-ui/react-compose-refs`, `@radix-ui/react-context`, `@radix-ui/react-dialog`, `@radix-ui/react-dismissable-layer`, `@radix-ui/react-focus-guards`, `@radix-ui/react-focus-scope`, `@radix-ui/react-id`, `@radix-ui/react-portal`, `@radix-ui/react-presence`, `@radix-ui/react-primitive`, `@radix-ui/react-slot`, `@radix-ui/react-use-callback-ref`, `@radix-ui/react-use-controllable-state`, `@radix-ui/react-use-effect-event`, and `@radix-ui/react-use-layout-effect`.

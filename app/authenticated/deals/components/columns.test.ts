@@ -1,12 +1,13 @@
-import {
-  createTable,
-  getCoreRowModel,
-  getFilteredRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-} from "@tanstack/react-table";
+import { constructTable, tableFeatures } from "@tanstack/react-table";
+import { storeReactivityBindings } from "@tanstack/table-core/store-reactivity-bindings";
 import { columns } from "./columns";
 import type { Deal } from "../data/schema";
+import { dealTableFeatures, type DealTableFeatures } from "./data-table-config";
+
+const testFeatures: DealTableFeatures = tableFeatures({
+  ...dealTableFeatures,
+  coreReactivityFeature: storeReactivityBindings(),
+});
 
 function makeDeal(
   id: number,
@@ -38,14 +39,11 @@ function makeDeal(
 
 describe("deals table columns", () => {
   it("sorts deals by the displayed location", () => {
-    const table = createTable<Deal>({
+    const table = constructTable({
+      features: testFeatures,
       data: [makeDeal(1, "Lymhurst Market"), makeDeal(2, "Caerleon Market")],
       columns,
-      state: { sorting: [{ id: "location", desc: false }] },
-      onStateChange: () => {},
-      getCoreRowModel: getCoreRowModel(),
-      getSortedRowModel: getSortedRowModel(),
-      renderFallbackValue: null,
+      initialState: { sorting: [{ id: "location", desc: false }] },
     });
 
     expect(
@@ -54,23 +52,19 @@ describe("deals table columns", () => {
   });
 
   it("applies filtering, pagination, and column visibility state", () => {
-    const table = createTable<Deal>({
+    const table = constructTable({
+      features: testFeatures,
       data: [
         makeDeal(1, "Lymhurst Market", "Master's Broadsword"),
         makeDeal(2, "Caerleon Market", "Adept's Bow"),
         makeDeal(3, "Bridgewatch Market", "Journeyman's Broadsword"),
       ],
       columns,
-      state: {
+      initialState: {
         columnFilters: [{ id: "name", value: "broadsword" }],
         columnVisibility: { location: false },
         pagination: { pageIndex: 1, pageSize: 1 },
       },
-      onStateChange: () => {},
-      getCoreRowModel: getCoreRowModel(),
-      getFilteredRowModel: getFilteredRowModel(),
-      getPaginationRowModel: getPaginationRowModel(),
-      renderFallbackValue: null,
     });
 
     expect(table.getPageCount()).toBe(2);

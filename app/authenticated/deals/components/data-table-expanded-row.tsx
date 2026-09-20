@@ -1,15 +1,17 @@
-import { Row } from "@tanstack/react-table";
-
 import { dealSchema } from "../data/schema";
 import { DealCostBreakdown } from "./order-details-cost-breakdown";
 import { OrderDetailsEnchantmentChecklist } from "./order-details-enchantment-checklist";
 import { DealOrderTable } from "./order-details-table";
+import type { DealRow } from "./data-table-config";
+import type { RowData } from "@tanstack/react-table";
 
-interface DealExpandedRowProps<TData> {
-  row: Row<TData>;
+interface DealExpandedRowProps<TData extends RowData> {
+  row: DealRow<TData>;
 }
 
-export function DealExpandedRow<TData>({ row }: DealExpandedRowProps<TData>) {
+export function DealExpandedRow<TData extends RowData>({
+  row,
+}: DealExpandedRowProps<TData>) {
   const { data: deal } = dealSchema.safeParse(row.original);
 
   return (

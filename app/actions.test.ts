@@ -1,14 +1,18 @@
-const mockCreateClient = jest.fn();
-const mockRevalidatePath = jest.fn();
-
 jest.mock("@/utils/supabase/server", () => ({
-  createClient: (...args: unknown[]) => mockCreateClient(...args),
+  createClient: jest.fn(),
 }));
-jest.mock("next/cache", () => ({ revalidatePath: mockRevalidatePath }));
+jest.mock("next/cache", () => ({ revalidatePath: jest.fn() }));
 jest.mock("next/headers", () => ({ headers: jest.fn() }));
 jest.mock("next/navigation", () => ({ redirect: jest.fn() }));
 
 import { deleteItemOrdersAction, deleteSpecificOrderAction } from "./actions";
+
+const mockCreateClient = jest.mocked(
+  jest.requireMock("@/utils/supabase/server").createClient,
+);
+const mockRevalidatePath = jest.mocked(
+  jest.requireMock("next/cache").revalidatePath,
+);
 
 function makeQuery(error: Error | null = null) {
   const result = Promise.resolve({ error });
@@ -32,7 +36,7 @@ function makeQuery(error: Error | null = null) {
 
 function configureClient(
   query: ReturnType<typeof makeQuery>,
-  user: object | null
+  user: object | null,
 ) {
   const getUser = jest.fn().mockResolvedValue({
     data: { user },
@@ -77,19 +81,19 @@ describe("order deletion actions", () => {
       1,
       "item_type_id",
       "ilike",
-      "%RUNE%"
+      "%RUNE%",
     );
     expect(query.not).toHaveBeenNthCalledWith(
       2,
       "item_type_id",
       "ilike",
-      "%SOUL%"
+      "%SOUL%",
     );
     expect(query.not).toHaveBeenNthCalledWith(
       3,
       "item_type_id",
       "ilike",
-      "%RELIC%"
+      "%RELIC%",
     );
     expect(mockRevalidatePath).toHaveBeenCalledWith("/authenticated/deals");
   });

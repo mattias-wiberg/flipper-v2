@@ -1,7 +1,7 @@
 "use client";
 
-import { Table } from "@tanstack/react-table";
 import { Settings2 } from "lucide-react";
+import type { RowData } from "@tanstack/react-table";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -13,15 +13,16 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import type { DealTable } from "./data-table-config";
 
 const columnIdTranslations: Record<string, string> = {
   percentualProfit: "Margin (%)",
 };
 
-export function DataTableViewOptions<TData>({
+export function DataTableViewOptions<TData extends RowData>({
   table,
 }: {
-  table: Table<TData>;
+  table: DealTable<TData>;
 }) {
   return (
     <DropdownMenu>

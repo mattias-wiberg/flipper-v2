@@ -1,16 +1,17 @@
 # calendar
 
-2026-09-20, current react-day-picker v9 API contract update, intentionally kept on react-day-picker.
+2026-09-20, upgraded to react-day-picker v10.0.1, intentionally kept on react-day-picker.
 
 ## Changed
 
-- `components/ui/calendar.tsx`: added locale-aware month formatting and day data, switched the month grid class key to the current v9 API, and passed locale through the custom DayButton.
+- `components/ui/calendar.tsx`: retained the current DayPicker v10 API (`DayPicker`, `DayButton`, `getDefaultClassNames`, `components`, and `classNames`) with no deprecated props.
 - Calendar chevron sizing is delegated to the surrounding button/caption styles rather than manual child icon classes.
+- `package.json` and `package-lock.json`: upgraded `react-day-picker` to `10.0.1`.
 - Leftover scan: no Radix import exists in this component.
 
 ## Left alone
 
-- `react-day-picker` remains the calendar implementation; no Base UI calendar replacement was introduced.
+- `react-day-picker@10.0.1` remains the calendar implementation; no Base UI calendar replacement was introduced.
 - No calendar consumer currently exists in the application.
 
 ## Behavior changes
