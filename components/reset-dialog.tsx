@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -34,6 +36,7 @@ export function ResetDialog({
   showDoNotShowAgain = true,
 }: ResetDialogProps) {
   const [doNotShowAgain, setDoNotShowAgain] = React.useState(false);
+  const doNotShowAgainId = React.useId();
 
   useEffect(() => {
     if (!open) setDoNotShowAgain(false);
@@ -47,23 +50,23 @@ export function ResetDialog({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         {showDoNotShowAgain && (
-          <div className="flex items-center gap-2 mb-2 mt-2">
+          <div className="mt-2 mb-2 flex items-center gap-2">
             <Checkbox
-              id="do-not-show-again"
+              id={`do-not-show-again-${doNotShowAgainId}`}
               checked={doNotShowAgain}
               onCheckedChange={(checked) => setDoNotShowAgain(!!checked)}
             />
             <label
-              htmlFor="do-not-show-again"
-              className="text-sm select-none cursor-pointer"
+              htmlFor={`do-not-show-again-${doNotShowAgainId}`}
+              className="cursor-pointer text-sm select-none"
             >
               Do not show this again
             </label>
           </div>
         )}
         <DialogFooter>
-          <DialogClose asChild>
-            <Button variant="outline">{cancelLabel}</Button>
+          <DialogClose render={<Button variant="outline" />}>
+            {cancelLabel}
           </DialogClose>
           <Button
             variant="destructive"

@@ -187,8 +187,24 @@ export const signOutAction = async () => {
   return redirect("/log-in");
 };
 
-export const deleteItemOrdersAction = async () => {
+const getAuthorizedSupabase = async () => {
   const supabase = await createClient();
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    console.error(error.message);
+    return null;
+  }
+
+  return data.user ? supabase : null;
+};
+
+export const deleteItemOrdersAction = async () => {
+  const supabase = await getAuthorizedSupabase();
+  if (!supabase) {
+    return true;
+  }
+
   const query = supabase
     .from("orders")
     .delete()
@@ -207,7 +223,11 @@ export const deleteItemOrdersAction = async () => {
 };
 
 export const deleteCraftingMaterialOrdersAction = async () => {
-  const supabase = await createClient();
+  const supabase = await getAuthorizedSupabase();
+  if (!supabase) {
+    return true;
+  }
+
   const query = supabase
     .from("orders")
     .delete()
@@ -223,9 +243,15 @@ export const deleteCraftingMaterialOrdersAction = async () => {
   return !!error;
 };
 
-export const deleteSpecificOrderAction = async (orderId: number) => {
-  const supabase = await createClient();
-  const query = supabase.from("orders").delete().eq("id", orderId);
+export const deleteSpecificOrderAction = async (orderId: number | number[]) => {
+  const supabase = await getAuthorizedSupabase();
+  if (!supabase) {
+    return true;
+  }
+
+  const query = Array.isArray(orderId)
+    ? supabase.from("orders").delete().in("id", orderId)
+    : supabase.from("orders").delete().eq("id", orderId);
 
   const { error } = await query;
   if (error) {

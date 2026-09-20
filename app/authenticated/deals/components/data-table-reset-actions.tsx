@@ -61,7 +61,7 @@ export function DataTableResetActions() {
 
   const handleItemReset = () => {
     if (shouldSkipItemDialog) {
-      deleteItemOrders();
+      void deleteItemOrders();
     } else {
       setOpenItemDialog(true);
     }
@@ -69,7 +69,7 @@ export function DataTableResetActions() {
 
   const handleCraftingReset = () => {
     if (shouldSkipCraftingDialog) {
-      deleteCraftingMaterialOrders();
+      void deleteCraftingMaterialOrders();
     } else {
       setOpenCraftingDialog(true);
     }
@@ -79,29 +79,31 @@ export function DataTableResetActions() {
     if (doNotShowAgain && typeof window !== "undefined") {
       localStorage.setItem("skipItemOrdersResetDialog", "true");
     }
-    deleteItemOrders();
+    void deleteItemOrders();
   };
 
   const handleCraftingDialogConfirm = (doNotShowAgain: boolean) => {
     if (doNotShowAgain && typeof window !== "undefined") {
       localStorage.setItem("skipCraftingMaterialOrdersResetDialog", "true");
     }
-    deleteCraftingMaterialOrders();
+    void deleteCraftingMaterialOrders();
   };
 
   return (
     <>
       <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-            className="ml-auto hidden h-8 lg:flex"
-          >
-            <Rewind />
-            Reset
-          </Button>
-        </DropdownMenuTrigger>
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="outline"
+              size="sm"
+              className="ml-auto hidden h-8 lg:flex"
+            >
+              <Rewind />
+              Reset
+            </Button>
+          }
+        />
         <DropdownMenuContent align="start">
           <DropdownMenuItem onClick={handleItemReset}>
             Item orders

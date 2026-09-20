@@ -29,16 +29,21 @@ export function DataTableRowActions<TData>({
     return "?";
   }
 
-  const deleteSpecificOrder = async (id: number) => {
-    const error = await deleteSpecificOrderAction(id);
+  const deleteSpecificOrder = async (orderIds: number | number[]) => {
+    const multiple = Array.isArray(orderIds);
+    const error = await deleteSpecificOrderAction(orderIds);
     if (error) {
-      toast.error("Failed to clear item order", {
-        description: "There was an error deleting the item order.",
+      toast.error(`Failed to clear item order${multiple ? "s" : ""}`, {
+        description: multiple
+          ? "There was an error deleting the item orders."
+          : "There was an error deleting the item order.",
         position: "top-center",
       });
     } else {
-      toast.success("Item order cleared successfully", {
-        description: "The item order has been deleted.",
+      toast.success(`Item order${multiple ? "s" : ""} cleared successfully`, {
+        description: multiple
+          ? "The item orders have been deleted."
+          : "The item order has been deleted.",
         position: "top-center",
       });
     }
@@ -46,16 +51,18 @@ export function DataTableRowActions<TData>({
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button
-          variant="ghost"
-          size="icon"
-          className="data-[state=open]:bg-muted size-8"
-        >
-          <MoreHorizontal />
-          <span className="sr-only">Open menu</span>
-        </Button>
-      </DropdownMenuTrigger>
+      <DropdownMenuTrigger
+        render={
+          <Button
+            variant="ghost"
+            size="icon"
+            className="data-popup-open:bg-muted size-8"
+          >
+            <MoreHorizontal />
+            <span className="sr-only">Open menu</span>
+          </Button>
+        }
+      />
       <DropdownMenuContent align="end" className="w-[160px]">
         {/* <DropdownMenuItem>Mark as flipped</DropdownMenuItem> */}
         {/* <DropdownMenuSeparator /> */}
@@ -63,20 +70,19 @@ export function DataTableRowActions<TData>({
           <DropdownMenuSubTrigger>Delete</DropdownMenuSubTrigger>
           <DropdownMenuSubContent>
             <DropdownMenuItem
-              onClick={() => deleteSpecificOrder(deal.sellOrder.id)}
+              onClick={() => void deleteSpecificOrder(deal.sellOrder.id)}
             >
               Sell order
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => deleteSpecificOrder(deal.buyOrder.id)}
+              onClick={() => void deleteSpecificOrder(deal.buyOrder.id)}
             >
               Buy order
             </DropdownMenuItem>
             <DropdownMenuItem
-              onClick={() => {
-                deleteSpecificOrder(deal.sellOrder.id);
-                deleteSpecificOrder(deal.buyOrder.id);
-              }}
+              onClick={() =>
+                void deleteSpecificOrder([deal.sellOrder.id, deal.buyOrder.id])
+              }
             >
               Both
             </DropdownMenuItem>

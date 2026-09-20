@@ -1,7 +1,9 @@
+"use client";
+
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Deal } from "../data/schema";
 
 interface OrderDetailsEnchantmentChecklistProps {
@@ -19,6 +21,13 @@ export const OrderDetailsEnchantmentChecklist = ({
   const [checked, setChecked] = useState<boolean[]>(
     Array(flatList.length).fill(false),
   );
+  const checklistKey = flatList
+    .map((entry) => `${entry.amount}:${entry.price}`)
+    .join("|");
+
+  useEffect(() => {
+    setChecked(Array(flatList.length).fill(false));
+  }, [checklistKey, flatList.length]);
 
   // Map from section/row to flat index
   const getFlatIndex = (sectionIdx: number, rowIdx: number) => {
@@ -29,10 +38,10 @@ export const OrderDetailsEnchantmentChecklist = ({
     return idx + rowIdx;
   };
 
-  const handleCheck = (flatIdx: number) => {
+  const handleCheck = (flatIdx: number, nextValue: boolean) => {
     setChecked((prev) => {
       const updated = [...prev];
-      updated[flatIdx] = !updated[flatIdx];
+      updated[flatIdx] = nextValue;
       return updated;
     });
   };
@@ -72,7 +81,7 @@ export const OrderDetailsEnchantmentChecklist = ({
                   const flatIdx = getFlatIndex(sectionIdx, rowIdx);
                   return (
                     <div
-                      key={rowIdx}
+                      key={`${sectionIdx}-${rowIdx}`}
                       className="flex items-center justify-between gap-2"
                     >
                       <label
@@ -81,7 +90,9 @@ export const OrderDetailsEnchantmentChecklist = ({
                       >
                         <Checkbox
                           checked={checked[flatIdx]}
-                          onCheckedChange={() => handleCheck(flatIdx)}
+                          onCheckedChange={(value) =>
+                            handleCheck(flatIdx, value)
+                          }
                           id={`enchant-${sectionIdx}-${rowIdx}`}
                           aria-label={`Mark ${entry.amount} materials at ${entry.price.toLocaleString()} silver as collected`}
                         />
