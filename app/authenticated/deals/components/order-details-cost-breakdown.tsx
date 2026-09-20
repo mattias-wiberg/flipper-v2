@@ -1,3 +1,4 @@
+import { Separator } from "@/components/ui/separator";
 import { formatNumber } from "@/lib/locale";
 import { useSearchParams } from "next/navigation";
 import { Deal } from "../data/schema";
@@ -38,13 +39,14 @@ export const DealCostBreakdown = ({ deal }: DealCostBreakdownProps) => {
   }
 
   return (
-    <div
+    <section
       className="flex flex-col gap-1 text-sm"
       style={{ fontFamily: "Inter, sans-serif" }}
+      aria-label="Profit breakdown"
     >
-      <div className="font-semibold text-base mb-1 whitespace-nowrap">
+      <h3 className="mb-1 text-base font-semibold whitespace-nowrap">
         Profit Breakdown
-      </div>
+      </h3>
       {rows.map((row) => (
         <div key={row.label} className="flex justify-between gap-6">
           <span className="text-xs text-muted-foreground whitespace-nowrap">
@@ -55,12 +57,12 @@ export const DealCostBreakdown = ({ deal }: DealCostBreakdownProps) => {
           </span>
         </div>
       ))}
-      <div className="border-t my-1" />
+      <Separator className="my-1" />
       <div className="flex justify-end font-semibold">
         <span className="font-mono whitespace-nowrap">
           {formatNumber(deal.profit)}
         </span>
       </div>
-    </div>
+    </section>
   );
 };

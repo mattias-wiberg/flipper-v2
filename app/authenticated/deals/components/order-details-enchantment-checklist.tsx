@@ -1,4 +1,6 @@
 import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import { useState } from "react";
 import { Deal } from "../data/schema";
 
@@ -15,7 +17,7 @@ export const OrderDetailsEnchantmentChecklist = ({
   // Flatten for checked state: [ [a, b], [c] ] => [a, b, c]
   const flatList = shoppingList.flat();
   const [checked, setChecked] = useState<boolean[]>(
-    Array(flatList.length).fill(false)
+    Array(flatList.length).fill(false),
   );
 
   // Map from section/row to flat index
@@ -39,30 +41,31 @@ export const OrderDetailsEnchantmentChecklist = ({
   const allEntries = shoppingList.flat();
   const totalAmount = allEntries.reduce(
     (sum, entry) => sum + (entry?.amount || 0),
-    0
+    0,
   );
   const totalCost = allEntries.reduce(
     (sum, entry) => sum + (entry?.amount || 0) * (entry?.price || 0),
-    0
+    0,
   );
 
   return (
-    <div
+    <section
       className="flex flex-col gap-1 text-sm"
       style={{ fontFamily: "Inter, sans-serif" }}
+      aria-label="Enchantment materials"
     >
-      <div className="font-semibold text-base mb-1 whitespace-nowrap">
+      <h3 className="mb-1 text-base font-semibold whitespace-nowrap">
         Enchantment materials
-      </div>
-      <div className="space-y-3">
+      </h3>
+      <div className="flex flex-col gap-3">
         {shoppingList.map((section, sectionIdx) =>
           section && section.length > 0 ? (
             <div key={SECTION_LABELS[sectionIdx] || sectionIdx}>
-              <div className="flex items-center mb-1">
+              <div className="mb-1 flex items-center">
                 <span className="text-xs text-muted-foreground font-medium whitespace-nowrap">
                   {SECTION_LABELS[sectionIdx] || `Type ${sectionIdx + 1}`}
                 </span>
-                <span className="flex-1 border-t border-gray-200 ml-2" />
+                <Separator className="ml-2 flex-1" />
               </div>
               <div className="flex flex-col gap-1">
                 {section.map((entry, rowIdx) => {
@@ -72,26 +75,30 @@ export const OrderDetailsEnchantmentChecklist = ({
                       key={rowIdx}
                       className="flex items-center justify-between gap-2"
                     >
-                      <div className="flex items-center gap-2 flex-1 min-w-0">
+                      <label
+                        htmlFor={`enchant-${sectionIdx}-${rowIdx}`}
+                        className="flex min-w-0 flex-1 cursor-pointer items-center gap-2"
+                      >
                         <Checkbox
                           checked={checked[flatIdx]}
                           onCheckedChange={() => handleCheck(flatIdx)}
                           id={`enchant-${sectionIdx}-${rowIdx}`}
+                          aria-label={`Mark ${entry.amount} materials at ${entry.price.toLocaleString()} silver as collected`}
                         />
                         <span
-                          className={
-                            (checked[flatIdx] && "line-through") +
-                            " text-muted-foreground text-xs truncate"
-                          }
+                          className={cn(
+                            "text-muted-foreground truncate text-xs",
+                            checked[flatIdx] && "line-through",
+                          )}
                         >
                           {entry.amount}x
                         </span>
-                      </div>
+                      </label>
                       <span
-                        className={
-                          (checked[flatIdx] && "line-through") +
-                          " font-mono text-xs text-right"
-                        }
+                        className={cn(
+                          "text-right font-mono text-xs",
+                          checked[flatIdx] && "line-through",
+                        )}
                         style={{ minWidth: 60 }}
                       >
                         {entry.price.toLocaleString()}
@@ -101,24 +108,27 @@ export const OrderDetailsEnchantmentChecklist = ({
                 })}
               </div>
             </div>
-          ) : null
+          ) : null,
         )}
         {allEntries.length > 0 && (
-          <div className="flex items-center justify-between gap-2 mt-2 pt-2 border-t border-gray-200">
-            <span className="text-muted-foreground text-xs font-semibold">
-              {totalAmount}x
-            </span>
-            <span
-              className="font-mono text-xs text-right font-semibold"
-              style={{ minWidth: 60 }}
-            >
-              {totalCost.toLocaleString(undefined, {
-                maximumFractionDigits: 0,
-              })}
-            </span>
-          </div>
+          <>
+            <Separator className="my-1" />
+            <div className="flex items-center justify-between gap-2">
+              <span className="text-muted-foreground text-xs font-semibold">
+                {totalAmount}x
+              </span>
+              <span
+                className="text-right font-mono text-xs font-semibold"
+                style={{ minWidth: 60 }}
+              >
+                {totalCost.toLocaleString(undefined, {
+                  maximumFractionDigits: 0,
+                })}
+              </span>
+            </div>
+          </>
         )}
       </div>
-    </div>
+    </section>
   );
 };

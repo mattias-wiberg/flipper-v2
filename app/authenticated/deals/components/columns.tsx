@@ -48,21 +48,23 @@ export const columns: ColumnDef<Deal>[] = [
       const name = row.getValue("name");
       return (
         <Tooltip>
-          <TooltipTrigger asChild>
-            <Button
-              variant="link"
-              onClick={(event) => {
-                if (typeof name === "string") {
-                  navigator.clipboard.writeText(name);
-                  event.preventDefault();
-                }
-              }}
-              className="pl-0"
-              aria-label="Copy name to clipboard"
-            >
-              {typeof name === "string" ? name : String(name)}
-            </Button>
-          </TooltipTrigger>
+          <TooltipTrigger
+            render={
+              <Button
+                variant="link"
+                onClick={(event) => {
+                  if (typeof name === "string") {
+                    navigator.clipboard.writeText(name);
+                    event.preventDefault();
+                  }
+                }}
+                className="pl-0"
+                aria-label="Copy name to clipboard"
+              >
+                {typeof name === "string" ? name : String(name)}
+              </Button>
+            }
+          />
           <TooltipContent>Click to copy name</TooltipContent>
         </Tooltip>
       );
@@ -133,9 +135,18 @@ export const columns: ColumnDef<Deal>[] = [
         <div className="flex items-center justify-end gap-1">
           {enchantmentUpgradeRequired && (
             <Tooltip>
-              <TooltipTrigger asChild>
-                <ArrowUp10 className="text-sm text-muted-foreground cursor-help" />
-              </TooltipTrigger>
+              <TooltipTrigger
+                render={
+                  <span
+                    role="img"
+                    tabIndex={0}
+                    aria-label="Enchantment upgrade required"
+                    className="cursor-help text-sm text-muted-foreground"
+                  >
+                    <ArrowUp10 aria-hidden="true" />
+                  </span>
+                }
+              />
               <TooltipContent>
                 <p>Enchantment upgrade required</p>
               </TooltipContent>
@@ -143,9 +154,18 @@ export const columns: ColumnDef<Deal>[] = [
           )}
           {qualityUpgradeRequired && (
             <Tooltip>
-              <TooltipTrigger asChild>
-                <ArrowUpZA className="text-sm text-muted-foreground cursor-help" />
-              </TooltipTrigger>
+              <TooltipTrigger
+                render={
+                  <span
+                    role="img"
+                    tabIndex={0}
+                    aria-label="Quality upgrade required"
+                    className="cursor-help text-sm text-muted-foreground"
+                  >
+                    <ArrowUpZA aria-hidden="true" />
+                  </span>
+                }
+              />
               <TooltipContent>
                 <p>Quality upgrade required</p>
               </TooltipContent>

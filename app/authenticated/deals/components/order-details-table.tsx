@@ -12,6 +12,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { Button } from "@/components/ui/button";
 import { getEnchantmentName, getQualityName } from "@/lib/items";
 import { formatNumber, formatTimeDelta } from "@/lib/locale";
 import { HelpCircle } from "lucide-react";
@@ -62,18 +63,27 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
             <TableHead>Enchantment</TableHead>
             <TableHead>Quality</TableHead>
             <TableHead>Price</TableHead>
-            <TableHead className="flex items-center gap-2">
-              Age{" "}
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <span className="cursor-pointer">
-                    <HelpCircle size={16} />
-                  </span>
-                </TooltipTrigger>
-                <TooltipContent side="top">
-                  Shows how long ago the order was added to the database.
-                </TooltipContent>
-              </Tooltip>
+            <TableHead>
+              <div className="flex items-center gap-2">
+                Age
+                <Tooltip>
+                  <TooltipTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        className="size-6 cursor-help"
+                        aria-label="About order age"
+                      />
+                    }
+                  >
+                    <HelpCircle aria-hidden="true" />
+                  </TooltipTrigger>
+                  <TooltipContent side="top">
+                    Shows how long ago the order was added to the database.
+                  </TooltipContent>
+                </Tooltip>
+              </div>
             </TableHead>
           </TableRow>
         </TableHeader>
@@ -83,23 +93,25 @@ export const DealOrderTable = ({ deal }: DealOrderTableProps) => {
             { text: "Buy Order", order: deal.buyOrder },
           ].map(({ text, order }, index) => (
             <TableRow key={index}>
-              <TableCell
-                className="text-muted-foreground font-medium flex items-center gap-2 w-fit"
-                onMouseEnter={() =>
-                  setPreviewImg(
-                    `https://render.albiononline.com/v1/item/${order.itemTypeId}.png`
-                  )
-                }
-                onMouseLeave={() => setPreviewImg(null)}
-                onMouseMove={handleMouseMove}
-              >
-                <img
-                  width={24}
-                  height={24}
-                  src={`https://render.albiononline.com/v1/item/${order.itemTypeId}.png`}
-                  alt={order.itemTypeId}
-                />
-                {text}
+              <TableCell className="text-muted-foreground font-medium">
+                <div
+                  className="flex w-fit items-center gap-2"
+                  onMouseEnter={() =>
+                    setPreviewImg(
+                      `https://render.albiononline.com/v1/item/${order.itemTypeId}.png`,
+                    )
+                  }
+                  onMouseLeave={() => setPreviewImg(null)}
+                  onMouseMove={handleMouseMove}
+                >
+                  <img
+                    width={24}
+                    height={24}
+                    src={`https://render.albiononline.com/v1/item/${order.itemTypeId}.png`}
+                    alt={order.itemTypeId}
+                  />
+                  {text}
+                </div>
               </TableCell>
               <TableCell>
                 {getEnchantmentName(order.enchantmentLevel)}{" "}

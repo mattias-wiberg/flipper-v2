@@ -16,7 +16,12 @@ import {
 } from "@tanstack/react-table";
 import * as React from "react";
 
-import { Collapsible, CollapsibleTrigger } from "@/components/ui/collapsible";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -25,6 +30,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 import { ChevronRight, Info } from "lucide-react";
 import { DealExpandedRow } from "./data-table-expanded-row";
 
@@ -48,17 +54,16 @@ export function DataTable<TData, TValue>({
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
+    [],
   );
   const [sorting, setSorting] = React.useState<SortingState>([]);
 
-  // New: manage expanded rows state at the top level
   const [expandedRows, setExpandedRows] = React.useState<
     Record<string, boolean>
   >({});
 
-  const handleToggleRow = (rowId: string) => {
-    setExpandedRows((prev) => ({ ...prev, [rowId]: !prev[rowId] }));
+  const handleToggleRow = (rowId: string, open: boolean) => {
+    setExpandedRows((prev) => ({ ...prev, [rowId]: open }));
   };
 
   const table = useReactTable({
@@ -104,81 +109,78 @@ export function DataTable<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
                 ))}
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.flatMap((row) => {
-                const isOpen = !!expandedRows[row.id];
-                return [
-                  <Collapsible
-                    key={row.id + "-collapsible"}
-                    open={isOpen}
-                    onOpenChange={() => handleToggleRow(row.id)}
-                    asChild
-                  >
-                    <CollapsibleTrigger asChild>
-                      <TableRow
-                        data-state={row.getIsSelected() && "selected"}
-                        className="cursor-pointer"
-                      >
-                        <TableCell className="w-8 p-0 align-middle">
-                          <button
-                            type="button"
-                            className="flex items-center justify-center w-8 h-8 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 rounded"
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => {
+              const isOpen = !!expandedRows[row.id];
+              return (
+                <Collapsible
+                  key={row.id}
+                  open={isOpen}
+                  onOpenChange={(open) => handleToggleRow(row.id, open)}
+                  render={<TableBody />}
+                >
+                  <TableRow data-state={row.getIsSelected() && "selected"}>
+                    <TableCell className="w-8 p-0 align-middle">
+                      <CollapsibleTrigger
+                        render={
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="size-8"
                             aria-label={isOpen ? "Collapse row" : "Expand row"}
-                            data-state={isOpen ? "open" : "closed"}
-                          >
-                            <ChevronRight
-                              className={`transition-transform ${isOpen ? "rotate-90" : ""}`}
-                            />
-                          </button>
-                        </TableCell>
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell key={cell.id}>
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </CollapsibleTrigger>
-                  </Collapsible>,
-                  isOpen && (
-                    <TableRow
-                      key={row.id + "-expanded"}
-                      className="bg-muted/20"
-                    >
-                      <TableCell colSpan={columns.length + 1} className="py-0">
-                        <DealExpandedRow row={row} />
+                          />
+                        }
+                      >
+                        <ChevronRight
+                          aria-hidden="true"
+                          className={cn(
+                            "transition-transform",
+                            isOpen && "rotate-90",
+                          )}
+                        />
+                      </CollapsibleTrigger>
+                    </TableCell>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </TableCell>
-                    </TableRow>
-                  ),
-                ];
-              })
-            ) : (
+                    ))}
+                  </TableRow>
+                  <CollapsibleContent
+                    render={<TableRow className="bg-muted/20" />}
+                  >
+                    <TableCell colSpan={columns.length + 1} className="py-0">
+                      <DealExpandedRow row={row} />
+                    </TableCell>
+                  </CollapsibleContent>
+                </Collapsible>
+              );
+            })
+          ) : (
+            <TableBody>
               <TableRow>
                 <TableCell
                   colSpan={columns.length + 1}
                   className="h-24 text-center"
                 >
-                  <div className="flex items-center justify-center flex-col gap-2 py-10">
-                    <Info className="w-10 h-10" />
+                  <div className="flex flex-col items-center justify-center gap-2 py-10">
+                    <Info className="size-10" />
                     <div className="flex flex-col items-center gap-5">
                       No deals were found with your current data, flip settings
                       and table filters.
                       <div className="text-muted-foreground">
                         To get started, go to the{" "}
-                        <Link
-                          href="/authenticated/token"
-                          className="underline "
-                        >
+                        <Link href="/authenticated/token" className="underline">
                           token page
                         </Link>{" "}
                         and scan your market data using the{" "}
@@ -194,8 +196,8 @@ export function DataTable<TData, TValue>({
                   </div>
                 </TableCell>
               </TableRow>
-            )}
-          </TableBody>
+            </TableBody>
+          )}
         </Table>
       </div>
       <DataTablePagination table={table} counts={counts} />

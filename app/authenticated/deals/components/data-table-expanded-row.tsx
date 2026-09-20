@@ -15,16 +15,16 @@ export function DealExpandedRow<TData>({ row }: DealExpandedRowProps<TData>) {
   return (
     <>
       {deal ? (
-        <div className="flex flex-row gap-7 p-4">
+        <div className="flex min-w-0 flex-col gap-6 p-4 xl:flex-row">
           <DealOrderTable deal={deal} />
           {deal.enchantmentUpgradeRequired &&
-            deal.enchantmentUpgradeShoppingList && (
-              <OrderDetailsEnchantmentChecklist deal={deal} />
-            )}
+            deal.enchantmentUpgradeShoppingList?.some(
+              (section) => section.length > 0,
+            ) && <OrderDetailsEnchantmentChecklist deal={deal} />}
           <DealCostBreakdown deal={deal} />
         </div>
       ) : (
-        <div>
+        <div role="alert">
           Error loading deal details please provide this information to the
           developers: <code>{JSON.stringify(row.original)}</code>
         </div>
