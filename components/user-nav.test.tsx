@@ -55,7 +55,8 @@ describe("UserNav", () => {
     expect(markup).toContain('aria-label="Open account menu"');
     expect(markup).not.toContain(">MW</span>");
     expect(markup).toMatch(/<button[^>]+size-10[^>]+rounded-full/);
-    expect(markup).toContain("rounded-full size-10");
+    expect(markup).toContain("rounded-full size-full");
+    expect(markup).not.toContain("px-4 py-2");
     expect(markup).toContain("<svg");
     expect(markup).toContain("mo-always");
   });

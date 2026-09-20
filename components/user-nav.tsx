@@ -55,12 +55,13 @@ export function UserNav() {
         render={
           <Button
             variant="ghost"
+            size="icon"
             className="relative size-10 rounded-full"
             aria-label="Open account menu"
           >
             <Blobatar
               name={user.id}
-              className="size-10"
+              className="size-full"
               blobatar={{ animate: "always" }}
             />
           </Button>
