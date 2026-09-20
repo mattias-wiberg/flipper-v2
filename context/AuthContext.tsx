@@ -2,7 +2,7 @@
 
 import { createClient } from "@/utils/supabase/client";
 import type { SupabaseClient, User } from "@supabase/supabase-js";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   createContext,
   type ReactNode,
@@ -24,10 +24,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [supabase] = useState(() => createClient());
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const pathname = usePathname();
   const router = useRouter();
 
   useEffect(() => {
     let mounted = true;
+    if (!user) {
+      setLoading(true);
+    }
 
     const {
       data: { subscription },
@@ -54,7 +58,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       mounted = false;
       subscription?.unsubscribe();
     };
-  }, [supabase]);
+  }, [pathname, supabase]);
 
   const signOut = async () => {
     const { error } = await supabase.auth.signOut();

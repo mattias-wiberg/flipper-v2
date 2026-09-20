@@ -42,10 +42,10 @@ function renderUserNav(user: User | null, loading = false) {
   return renderToStaticMarkup(<UserNav />);
 }
 
-function getAvatarSource(markup: string) {
-  const source = markup.match(/<img[^>]+src="([^"]+)"/)?.[1];
-  expect(source).toBeDefined();
-  return source;
+function getAvatarMarkup(markup: string) {
+  const avatar = markup.match(/<svg[\s\S]*?<\/svg>/)?.[0];
+  expect(avatar).toBeDefined();
+  return avatar;
 }
 
 describe("UserNav", () => {
@@ -54,14 +54,15 @@ describe("UserNav", () => {
 
     expect(markup).toContain('aria-label="Open account menu"');
     expect(markup).not.toContain(">MW</span>");
-    expect(getAvatarSource(markup)).toMatch(/^data:image\/svg\+xml,/);
+    expect(markup).toContain("<svg");
+    expect(markup).toContain("mo-always");
   });
 
   it("keeps the avatar stable when display metadata changes", () => {
-    const original = getAvatarSource(
+    const original = getAvatarMarkup(
       renderUserNav(createUser("user-123", "Mattias Wiberg")),
     );
-    const renamed = getAvatarSource(
+    const renamed = getAvatarMarkup(
       renderUserNav(
         createUser("user-123", "Different Name", "different@example.com"),
       ),
@@ -69,7 +70,7 @@ describe("UserNav", () => {
 
     expect(renamed).toBe(original);
     expect(
-      getAvatarSource(
+      getAvatarMarkup(
         renderUserNav(createUser("different-user", "Mattias Wiberg")),
       ),
     ).not.toBe(original);
