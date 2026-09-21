@@ -1,4 +1,6 @@
-export const CANONICAL_SITE_URL = "https://flipper.mattiaswiberg.com";
+import siteUrlConfig from "../site-url.config.json";
+
+export const CANONICAL_SITE_URL = siteUrlConfig.canonicalSiteUrl;
 export const LOCAL_SITE_URL = "http://localhost:3000";
 
 export type SiteUrlEnvironment = Readonly<Record<string, string | undefined>>;

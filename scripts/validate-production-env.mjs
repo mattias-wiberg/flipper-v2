@@ -1,4 +1,9 @@
-const canonicalSiteUrl = "https://flipper.mattiaswiberg.com";
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
+const { canonicalSiteUrl } = JSON.parse(
+  readFileSync(path.join(process.cwd(), "site-url.config.json"), "utf8"),
+);
 const publicVariables = [
   "NEXT_PUBLIC_SITE_URL",
   "NEXT_PUBLIC_SUPABASE_URL",
