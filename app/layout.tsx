@@ -3,8 +3,6 @@ import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
 import { getSiteUrl } from "@/lib/site-url";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Heart } from "lucide-react";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
@@ -134,8 +132,6 @@ export default async function RootLayout({
                 </footer>
               </div>
               <Toaster />
-              <SpeedInsights />
-              <Analytics />
               {/* JSON-LD structured data for a web app/software application */}
               <Script
                 id="ld-software-application"

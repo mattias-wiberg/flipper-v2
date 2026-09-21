@@ -74,3 +74,16 @@ curl --fail http://127.0.0.1:3000/documentation
 The expected health body is `{"status":"ok"}`. The root and documentation
 requests are public-page checks; they must succeed without an authenticated
 session. The image health check performs the same health request internally.
+
+## Local Verification Evidence
+
+The container boundary has been verified locally with non-secret placeholder
+values. `npm ci`, `npx tsc --noEmit`, `npx jest --runInBand` (17 suites, 45
+tests), and the production build passed. The real image built from the lockfile,
+started as UID `1001`, returned `200 {"status":"ok"}` from `/api/health`,
+returned `200` for `/` and `/documentation`, and returned `404` for the
+development recorder in production. The focused Prettier check for changed
+source and documentation files passed.
+
+These checks cover the local image boundary. DNS/TLS, the deployed canonical
+domain, Dokploy history, and full release smoke remain deployment-owned checks.

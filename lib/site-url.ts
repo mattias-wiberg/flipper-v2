@@ -48,9 +48,17 @@ export function getSiteUrl(
 ) {
   const configuredOrigin = normalizeSiteUrl(environment.NEXT_PUBLIC_SITE_URL);
   if (nodeEnv === "production") {
-    return configuredOrigin === CANONICAL_SITE_URL
-      ? configuredOrigin
-      : CANONICAL_SITE_URL;
+    if (!configuredOrigin) {
+      throw new Error(
+        "Missing required environment variable: NEXT_PUBLIC_SITE_URL",
+      );
+    }
+
+    if (configuredOrigin !== CANONICAL_SITE_URL) {
+      throw new Error("Invalid environment variable: NEXT_PUBLIC_SITE_URL");
+    }
+
+    return configuredOrigin;
   }
 
   if (configuredOrigin) {

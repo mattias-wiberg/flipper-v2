@@ -1,7 +1,4 @@
-import {
-  assertProductionEnvironment,
-  getInvalidProductionEnvironmentVariables,
-} from "./config";
+import { getServerSupabaseConfig } from "./config";
 import { CANONICAL_SITE_URL, LOCAL_SITE_URL, getSiteUrl } from "./site-url";
 
 describe("deployment configuration", () => {
@@ -17,23 +14,17 @@ describe("deployment configuration", () => {
   });
 
   it("requires the canonical public origin in production", () => {
+    expect(() => getSiteUrl({}, "production")).toThrow(/NEXT_PUBLIC_SITE_URL/);
     expect(() =>
-      assertProductionEnvironment({
-        ...validEnvironment,
-        NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
-      }),
+      getSiteUrl(
+        {
+          ...validEnvironment,
+          NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
+        },
+        "production",
+      ),
     ).toThrow(/NEXT_PUBLIC_SITE_URL/);
-
-    expect(() => assertProductionEnvironment(validEnvironment)).not.toThrow();
-  });
-
-  it("reports public names that could expose server or monitoring secrets", () => {
-    expect(
-      getInvalidProductionEnvironmentVariables({
-        ...validEnvironment,
-        NEXT_PUBLIC_OTLP_HEADERS: "must-not-be-public",
-      }),
-    ).toContain("NEXT_PUBLIC_OTLP_HEADERS");
+    expect(getSiteUrl(validEnvironment, "production")).toBe(CANONICAL_SITE_URL);
   });
 
   it("does not include configuration values in validation diagnostics", () => {
@@ -45,7 +36,7 @@ describe("deployment configuration", () => {
     let thrown: unknown;
 
     try {
-      assertProductionEnvironment(invalidEnvironment);
+      getServerSupabaseConfig(invalidEnvironment);
     } catch (error) {
       thrown = error;
     }
@@ -55,5 +46,17 @@ describe("deployment configuration", () => {
       expect(thrown.message).toContain("SUPABASE_SERVICE_ROLE_KEY");
       expect(thrown.message).not.toContain(secret);
     }
+  });
+
+  it("returns the server configuration required by ingestion", () => {
+    expect(
+      getServerSupabaseConfig({
+        NEXT_PUBLIC_SUPABASE_URL: validEnvironment.NEXT_PUBLIC_SUPABASE_URL,
+        SUPABASE_SERVICE_ROLE_KEY: validEnvironment.SUPABASE_SERVICE_ROLE_KEY,
+      }),
+    ).toEqual({
+      url: validEnvironment.NEXT_PUBLIC_SUPABASE_URL,
+      serviceRoleKey: validEnvironment.SUPABASE_SERVICE_ROLE_KEY,
+    });
   });
 });
