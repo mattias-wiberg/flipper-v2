@@ -8,22 +8,23 @@ import {
   signInSchema,
   signUpSchema,
 } from "./auth";
+import { CANONICAL_SITE_URL } from "@/lib/site-url";
 
 describe("auth boundaries", () => {
   const origin = "https://flipper.example";
 
   it("only allows same-origin absolute paths for auth redirects", () => {
     expect(getSafeRedirectPath("/authenticated/reset-password", origin)).toBe(
-      "/authenticated/reset-password"
+      "/authenticated/reset-password",
     );
     expect(getSafeRedirectPath("https://attacker.example/steal", origin)).toBe(
-      AUTHENTICATED_REDIRECT
+      AUTHENTICATED_REDIRECT,
     );
     expect(getSafeRedirectPath("//attacker.example/steal", origin)).toBe(
-      AUTHENTICATED_REDIRECT
+      AUTHENTICATED_REDIRECT,
     );
     expect(getSafeRedirectPath("authenticated/reset-password", origin)).toBe(
-      AUTHENTICATED_REDIRECT
+      AUTHENTICATED_REDIRECT,
     );
   });
 
@@ -31,14 +32,14 @@ describe("auth boundaries", () => {
     expect(
       getSafeRedirectUrl(
         "/authenticated/reset-password?source=email#password",
-        origin
-      ).toString()
+        origin,
+      ).toString(),
     ).toBe(
-      "https://flipper.example/authenticated/reset-password?source=email#password"
+      "https://flipper.example/authenticated/reset-password?source=email#password",
     );
-    expect(getSafeRedirectUrl("https://attacker.example/steal", origin).toString()).toBe(
-      "https://flipper.example/authenticated/deals"
-    );
+    expect(
+      getSafeRedirectUrl("https://attacker.example/steal", origin).toString(),
+    ).toBe("https://flipper.example/authenticated/deals");
   });
 
   it("uses the request origin before deployment fallbacks", () => {
@@ -50,26 +51,43 @@ describe("auth boundaries", () => {
     expect(getRequestOrigin(headers)).toBe(origin);
   });
 
+  it("uses the canonical origin in production instead of forwarded headers", () => {
+    expect(
+      getRequestOrigin(
+        new Headers({
+          origin: "https://attacker.example",
+          host: "attacker.example",
+          "x-forwarded-host": "attacker.example",
+          "x-forwarded-proto": "http",
+        }),
+        {
+          NODE_ENV: "production",
+          NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+        },
+      ),
+    ).toBe(CANONICAL_SITE_URL);
+  });
+
   it("rejects invalid credentials at the server validation seam", () => {
     expect(
       signInSchema.safeParse({ email: "not-an-email", password: "secret" })
-        .success
+        .success,
     ).toBe(false);
     expect(
       signUpSchema.safeParse({
         email: "user@example.com",
         password: "secret",
         confirmPassword: "different",
-      }).success
+      }).success,
     ).toBe(false);
     expect(
-      forgotPasswordSchema.safeParse({ email: "not-an-email" }).success
+      forgotPasswordSchema.safeParse({ email: "not-an-email" }).success,
     ).toBe(false);
     expect(
       passwordUpdateSchema.safeParse({
         password: "secret",
         confirmPassword: "different",
-      }).success
+      }).success,
     ).toBe(false);
   });
 });

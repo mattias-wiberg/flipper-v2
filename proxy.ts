@@ -1,7 +1,12 @@
-import { type NextRequest } from "next/server";
+import { type NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/utils/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
+  // Health is a process check and must not depend on Supabase or Auth.
+  if (request.nextUrl.pathname === "/api/health") {
+    return NextResponse.next();
+  }
+
   return await updateSession(request);
 }
 
