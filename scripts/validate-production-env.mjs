@@ -1,9 +1,6 @@
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import siteUrlPolicy from "../site-url-policy.js";
 
-const { canonicalSiteUrl } = JSON.parse(
-  readFileSync(path.join(process.cwd(), "site-url.config.json"), "utf8"),
-);
+const { CANONICAL_SITE_URL, normalizeSiteUrl } = siteUrlPolicy;
 const publicVariables = [
   "NEXT_PUBLIC_SITE_URL",
   "NEXT_PUBLIC_SUPABASE_URL",
@@ -20,31 +17,16 @@ const requiredVariables = buildOnly
 const missing = requiredVariables.filter((name) => !process.env[name]?.trim());
 const invalid = [];
 
-function isOrigin(value) {
-  try {
-    const url = new URL(value);
-    return (
-      ["http:", "https:"].includes(url.protocol) &&
-      url.pathname === "/" &&
-      !url.search &&
-      !url.hash
-    );
-  } catch {
-    return false;
-  }
-}
-
 if (
   process.env.NEXT_PUBLIC_SITE_URL?.trim() &&
-  (!isOrigin(process.env.NEXT_PUBLIC_SITE_URL) ||
-    new URL(process.env.NEXT_PUBLIC_SITE_URL).origin !== canonicalSiteUrl)
+  normalizeSiteUrl(process.env.NEXT_PUBLIC_SITE_URL) !== CANONICAL_SITE_URL
 ) {
   invalid.push("NEXT_PUBLIC_SITE_URL");
 }
 
 if (
   process.env.NEXT_PUBLIC_SUPABASE_URL?.trim() &&
-  !isOrigin(process.env.NEXT_PUBLIC_SUPABASE_URL)
+  !normalizeSiteUrl(process.env.NEXT_PUBLIC_SUPABASE_URL)
 ) {
   invalid.push("NEXT_PUBLIC_SUPABASE_URL");
 }

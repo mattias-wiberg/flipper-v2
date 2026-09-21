@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
 
-node /app/validate-production-env.mjs
+node /app/scripts/validate-production-env.mjs
 exec "$@"

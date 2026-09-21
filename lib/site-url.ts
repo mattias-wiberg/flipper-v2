@@ -1,66 +1,38 @@
-import siteUrlConfig from "../site-url.config.json";
+import {
+  CANONICAL_SITE_URL,
+  isCanonicalSiteUrl,
+  LOCAL_SITE_URL,
+  normalizeOrigin,
+  normalizeSiteUrl,
+} from "../site-url-policy.js";
 
-export const CANONICAL_SITE_URL = siteUrlConfig.canonicalSiteUrl;
-export const LOCAL_SITE_URL = "http://localhost:3000";
+export {
+  CANONICAL_SITE_URL,
+  LOCAL_SITE_URL,
+  normalizeOrigin,
+  normalizeSiteUrl,
+};
 
 export type SiteUrlEnvironment = Readonly<Record<string, string | undefined>>;
-
-export function normalizeOrigin(value: string | null | undefined) {
-  if (!value?.trim()) {
-    return null;
-  }
-
-  try {
-    const url = new URL(value);
-    if (!["http:", "https:"].includes(url.protocol)) {
-      return null;
-    }
-
-    return url.origin;
-  } catch {
-    return null;
-  }
-}
-
-export function normalizeSiteUrl(value: string | null | undefined) {
-  if (!value?.trim()) {
-    return null;
-  }
-
-  try {
-    const url = new URL(value);
-    if (
-      !["http:", "https:"].includes(url.protocol) ||
-      url.pathname !== "/" ||
-      url.search ||
-      url.hash
-    ) {
-      return null;
-    }
-
-    return url.origin;
-  } catch {
-    return null;
-  }
-}
 
 export function getSiteUrl(
   environment: SiteUrlEnvironment = process.env,
   nodeEnv: string | undefined = process.env.NODE_ENV,
 ) {
-  const configuredOrigin = normalizeSiteUrl(environment.NEXT_PUBLIC_SITE_URL);
+  const configuredValue = environment.NEXT_PUBLIC_SITE_URL;
+  const configuredOrigin = normalizeSiteUrl(configuredValue);
   if (nodeEnv === "production") {
-    if (!configuredOrigin) {
+    if (!configuredValue?.trim()) {
       throw new Error(
         "Missing required environment variable: NEXT_PUBLIC_SITE_URL",
       );
     }
 
-    if (configuredOrigin !== CANONICAL_SITE_URL) {
+    if (!isCanonicalSiteUrl(configuredValue)) {
       throw new Error("Invalid environment variable: NEXT_PUBLIC_SITE_URL");
     }
 
-    return configuredOrigin;
+    return CANONICAL_SITE_URL;
   }
 
   if (configuredOrigin) {
