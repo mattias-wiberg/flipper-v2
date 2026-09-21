@@ -35,6 +35,20 @@ function assertIncludes(label, body, value) {
   }
 }
 
+function assertCanonicalLink(label, body, expectedUrl) {
+  const canonicalLinks = [...body.matchAll(/<link\b[^>]*>/gi)].flatMap(
+    ([tag]) => {
+      const rel = tag.match(/\brel\s*=\s*["']([^"']+)["']/i)?.[1];
+      const href = tag.match(/\bhref\s*=\s*["']([^"']+)["']/i)?.[1];
+      return rel?.split(/\s+/).includes("canonical") && href ? [href] : [];
+    },
+  );
+
+  if (canonicalLinks.length !== 1 || canonicalLinks[0] !== expectedUrl) {
+    throw new Error(`${label} did not expose the expected canonical link`);
+  }
+}
+
 async function fetchRoute(baseUrl, route) {
   let response;
   try {
@@ -46,8 +60,10 @@ async function fetchRoute(baseUrl, route) {
     throw new Error(`${route.name} could not be fetched`);
   }
 
-  if (!response.ok) {
-    throw new Error(`${route.name} returned HTTP ${response.status}`);
+  if (response.status !== 200) {
+    throw new Error(
+      `${route.name} returned HTTP ${response.status}, expected 200`,
+    );
   }
 
   if (new URL(response.url).origin !== baseUrl.origin) {
@@ -79,7 +95,7 @@ async function main() {
     accept: "text/html",
   });
   const homeBody = await home.text();
-  assertIncludes("home", homeBody, `${CANONICAL_SITE_URL}/`);
+  assertCanonicalLink("home", homeBody, CANONICAL_SITE_URL);
   console.log("PASS home");
 
   const documentation = await fetchRoute(baseUrl, {
@@ -88,7 +104,7 @@ async function main() {
     accept: "text/html",
   });
   const documentationBody = await documentation.text();
-  assertIncludes(
+  assertCanonicalLink(
     "documentation",
     documentationBody,
     `${CANONICAL_SITE_URL}/documentation`,

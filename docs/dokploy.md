@@ -48,6 +48,26 @@ and unprotected branches must not replace production. Keep the current
 known-good release and its deployment history until the new release has
 passed every smoke check.
 
+## Command Discovery
+
+Discover the CLI shape before inspecting or changing a resource. These commands
+are read-only; do not infer IDs or flags from a previous Dokploy version:
+
+```sh
+npx --no-install dokploy --help
+npx --no-install dokploy project --help
+npx --no-install dokploy project all --help
+npx --no-install dokploy application --help
+npx --no-install dokploy application search --help
+npx --no-install dokploy application one --help
+npx --no-install dokploy deployment --help
+npx --no-install dokploy deployment all --help
+npx --no-install dokploy domain --help
+npx --no-install dokploy domain by-application-id --help
+npx --no-install dokploy rollback --help
+npx --no-install dokploy rollback rollback --help
+```
+
 ## Read-Only Inspection
 
 Use the repository-local CLI only. Configure its existing local credentials or
@@ -97,7 +117,8 @@ accepting a release.
 ## DNS, TLS, and Forwarded Headers
 
 1. Keep the current known-good Vercel release available while the Dokploy
-   application is built and checked on its temporary or provider URL.
+   application is built and checked on its temporary or provider URL. Record
+   the existing DNS record target and Vercel release before changing either.
 2. Point the `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse
    proxy target supplied by the operator's server. Do not commit that target
    or provider credentials.
@@ -106,10 +127,9 @@ accepting a release.
 4. Redirect HTTP to HTTPS and preserve the public `Host` and protocol through
    `Host`, `X-Forwarded-Host`, `X-Forwarded-Proto`, and `X-Forwarded-For`.
    The public protocol must arrive as `https`.
-5. Confirm the existing Supabase project's site URL and allowed callback list
-   contain the canonical origin and exactly
-   `https://flipper.mattiaswiberg.com/auth/callback`. Do not change the
-   project or create a replacement project.
+5. Do not change the existing Supabase project, production data service, or
+   Auth provider during this web-service cutover. A separate release gate owns
+   authenticated and ingestion workflow verification.
 
 Verify the provider route without exposing configuration values:
 
@@ -162,10 +182,9 @@ does not claim DNS, TLS, Supabase Auth, ingestion, provider history, or
 rollback acceptance; those require the operator checks in this document and
 the separate release smoke gate.
 
-4. Verify the browser-visible callback origin, sign-in/session behavior, and
-   ingestion workflow with the controlled production test account and token.
-   Keep those values in protected systems only; never put them in commands,
-   screenshots, logs, or reports.
+4. Leave authenticated, ingestion, observability, and broader release-smoke
+   checks to their owning gates. This ticket's verifier intentionally does not
+   implement or claim those checks.
 5. Mark the new release known-good only after all required evidence passes.
    Until then, leave the previous successful release available in Dokploy.
 
@@ -174,9 +193,9 @@ the separate release smoke gate.
 Rollback is an explicit operator action. It is not performed by this change or
 automatically inferred from a failed build.
 
-1. If the new release fails health, public-origin, Auth, or ingestion checks,
-   stop acceptance and record the failed deployment ID and the previous
-   known-good deployment ID without copying secrets.
+1. If the new release fails health or public-origin checks, stop acceptance and
+   record the failed deployment ID and the previous known-good deployment ID
+   without copying secrets.
 2. Confirm that the previous image/release is still available and that DNS and
    the canonical domain have not been deleted.
 3. In Dokploy, select the previous known-good rollback record for the exact
@@ -187,9 +206,14 @@ automatically inferred from a failed build.
 npx --no-install dokploy rollback rollback --rollbackId <known-good-rollback-id> --json
 ```
 
-4. Recheck deployment status, `/api/health`, the public pages, canonical
-   metadata, and the relevant Auth/ingestion smoke checks.
-5. Keep the failed release and its history for diagnosis. Do not use deletion,
+4. If this is the first Dokploy cutover or Dokploy rollback cannot restore the
+   service, confirm the exact DNS target recorded before cutover and restore
+   that target to return traffic to the previous known-good provider release.
+   This is a separate DNS mutation requiring operator confirmation; do not
+   delete the Dokploy application or its deployment history.
+5. Recheck deployment status, `/api/health`, the public pages, and canonical
+   metadata against whichever release is serving traffic.
+6. Keep the failed release and its history for diagnosis. Do not use deletion,
    cleanup, or `rollback delete` as a substitute for rollback evidence.
 
 ## Acceptance Evidence
@@ -206,6 +230,7 @@ item below without disclosing secrets:
 - Public and runtime variables are protected Dokploy variables; the service
   role key is runtime-only and absent from image build inputs and logs.
 - The previous successful release remains available until acceptance and the
-  documented rollback procedure has been operator-verified.
+  documented Dokploy or recorded-DNS fallback rollback procedure has been
+  operator-verified.
 - The existing Supabase project remains the only production data and Auth
   service.
