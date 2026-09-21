@@ -1,0 +1,12 @@
+.git
+.github
+.agents
+.husky
+node_modules
+.next
+coverage
+.env
+.env.*
+!.env.example
+mocker/data
+*.log

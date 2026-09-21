@@ -1,3 +1,8 @@
+import {
+  getSiteUrl,
+  normalizeOrigin,
+  type SiteUrlEnvironment,
+} from "@/lib/site-url";
 import { z } from "zod";
 
 export const AUTHENTICATED_REDIRECT = "/authenticated/deals";
@@ -42,19 +47,14 @@ export function getValidationMessage(error: z.ZodError<unknown>) {
   return error.issues[0]?.message ?? "Invalid form data";
 }
 
-function normalizeOrigin(value: string | null | undefined) {
-  if (!value) {
-    return null;
+export function getRequestOrigin(
+  requestHeaders: Headers,
+  environment: SiteUrlEnvironment = process.env,
+) {
+  if (environment.NODE_ENV === "production") {
+    return getSiteUrl(environment, "production");
   }
 
-  try {
-    return new URL(value).origin;
-  } catch {
-    return null;
-  }
-}
-
-export function getRequestOrigin(requestHeaders: Headers) {
   const origin = normalizeOrigin(requestHeaders.get("origin"));
   if (origin) {
     return origin;
@@ -72,9 +72,7 @@ export function getRequestOrigin(requestHeaders: Headers) {
     return `${protocol}://${host}`;
   }
 
-  return (
-    normalizeOrigin(process.env.NEXT_PUBLIC_SITE_URL) ?? "http://localhost:3000"
-  );
+  return getSiteUrl(environment, "development");
 }
 
 export function getSafeRedirectPath(

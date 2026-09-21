@@ -2,8 +2,7 @@ import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuthProvider } from "@/context/AuthContext";
-import { Analytics } from "@vercel/analytics/next";
-import { SpeedInsights } from "@vercel/speed-insights/next";
+import { getSiteUrl } from "@/lib/site-url";
 import { Heart } from "lucide-react";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
@@ -11,12 +10,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
 
-// Prefer the custom domain for stable canonical/OG URLs, fall back to Vercel preview/local.
-const SITE_URL =
-  process.env.NEXT_PUBLIC_SITE_URL ||
-  (process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000");
+const SITE_URL = getSiteUrl();
 
 const SITE_NAME = "Flipper";
 const SITE_TITLE =
@@ -126,8 +120,8 @@ export default async function RootLayout({
                     >
                       GitHub
                     </a>
-                    . Made with{" "}
-                    <Heart className="inline size-4 text-red-500" /> by{" "}
+                    . Made with <Heart className="inline size-4 text-red-500" />{" "}
+                    by{" "}
                     <a
                       href="https://www.linkedin.com/in/mattiaswiberg/"
                       className="underline underline-offset-4"
@@ -138,8 +132,6 @@ export default async function RootLayout({
                 </footer>
               </div>
               <Toaster />
-              <SpeedInsights />
-              <Analytics />
               {/* JSON-LD structured data for a web app/software application */}
               <Script
                 id="ld-software-application"

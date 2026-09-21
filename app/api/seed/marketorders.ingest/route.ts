@@ -14,6 +14,10 @@ import path from "path";
 const RAW_FILE = path.join(process.cwd(), "mocker", "data", "golden.raw.jsonl");
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV !== "development") {
+    return new Response("Not Found", { status: 404 });
+  }
+
   try {
     const text = await request.text();
     let body: unknown;
