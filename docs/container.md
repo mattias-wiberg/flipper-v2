@@ -84,6 +84,8 @@ started as UID `1001`, returned `200 {"status":"ok"}` from `/api/health`,
 returned `200` for `/` and `/documentation`, and returned `404` for the
 development recorder in production. The focused Prettier check for changed
 source and documentation files passed.
+The historical pre-upgrade baseline in `mocker/README.md` is separate from
+this current branch result and does not describe these passing checks.
 
 These checks cover the local image boundary. DNS/TLS, the deployed canonical
 domain, Dokploy history, and full release smoke remain deployment-owned checks.
