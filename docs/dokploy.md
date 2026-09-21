@@ -46,7 +46,7 @@ entrypoint or start command.
 The deployment trigger may follow merges to `main`, but preview deployments
 and unprotected branches must not replace production. Keep the current
 known-good release and its deployment history until the new release has
-passed every smoke check.
+passed the deployment smoke test and operator checklist.
 
 ## Command Discovery
 
@@ -180,9 +180,9 @@ DEPLOYMENT_BASE_URL=http://127.0.0.1:3000 npm run verify:deployment
 The default production invocation must omit `DEPLOYMENT_BASE_URL`. The check
 does not claim DNS, TLS, Supabase Auth, ingestion, provider history, or
 rollback acceptance; those require the operator checks in this document and
-the separate release smoke gate.
+the separate release gate.
 
-4. Leave authenticated, ingestion, observability, and broader release-smoke
+4. Leave authenticated, ingestion, observability, and broader release gate
    checks to their owning gates. This ticket's verifier intentionally does not
    implement or claim those checks.
 5. Mark the new release known-good only after all required evidence passes.
@@ -193,7 +193,7 @@ the separate release smoke gate.
 Rollback is an explicit operator action. It is not performed by this change or
 automatically inferred from a failed build.
 
-1. If the new release fails health or public-origin checks, stop acceptance and
+1. If the new release fails health or public origin checks, stop acceptance and
    record the failed deployment ID and the previous known-good deployment ID
    without copying secrets.
 2. Confirm that the previous image/release is still available and that DNS and
