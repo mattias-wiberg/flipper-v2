@@ -88,4 +88,5 @@ The historical pre-upgrade baseline in `mocker/README.md` is separate from
 this current branch result and does not describe these passing checks.
 
 These checks cover the local image boundary. DNS/TLS, the deployed canonical
-domain, Dokploy history, and full release smoke remain deployment-owned checks.
+domain, Dokploy history, and the deployment smoke test remain deployment-owned
+checks.

@@ -1,30 +1,18 @@
 import siteUrlPolicy from "../site-url-policy.js";
 
-const { CANONICAL_SITE_URL } = siteUrlPolicy;
+const { CANONICAL_SITE_URL, parseSiteUrl } = siteUrlPolicy;
 const transportBaseUrl =
   process.env.DEPLOYMENT_BASE_URL?.trim() || CANONICAL_SITE_URL;
 
 function parseBaseUrl(value) {
-  try {
-    const url = new URL(value);
-    if (
-      !["http:", "https:"].includes(url.protocol) ||
-      url.pathname !== "/" ||
-      url.username ||
-      url.password ||
-      url.search ||
-      url.hash
-    ) {
-      throw new Error();
-    }
-
-    url.pathname = url.pathname.replace(/\/+$/, "") || "/";
-    return url;
-  } catch {
+  const url = parseSiteUrl(value);
+  if (!url) {
     throw new Error(
       "DEPLOYMENT_BASE_URL must be an http(s) origin without credentials, query, or hash",
     );
   }
+
+  return url;
 }
 
 function assertIncludes(label, body, value) {
@@ -50,11 +38,12 @@ function assertCanonicalLink(label, body, expectedUrl) {
 }
 
 async function fetchRoute(baseUrl, route) {
+  const requestedUrl = new URL(route.path, baseUrl);
   let response;
   try {
-    response = await fetch(new URL(route.path, baseUrl), {
+    response = await fetch(requestedUrl, {
       headers: { Accept: route.accept },
-      redirect: "follow",
+      redirect: "manual",
     });
   } catch {
     throw new Error(`${route.name} could not be fetched`);

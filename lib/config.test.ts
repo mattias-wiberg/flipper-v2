@@ -1,5 +1,11 @@
 import { getServerSupabaseConfig } from "./config";
-import { CANONICAL_SITE_URL, LOCAL_SITE_URL, getSiteUrl } from "./site-url";
+import {
+  CANONICAL_SITE_URL,
+  LOCAL_SITE_URL,
+  getSiteUrl,
+  normalizeOrigin,
+  normalizeSiteUrl,
+} from "./site-url";
 
 describe("deployment configuration", () => {
   const validEnvironment = {
@@ -25,6 +31,22 @@ describe("deployment configuration", () => {
       ),
     ).toThrow(/NEXT_PUBLIC_SITE_URL/);
     expect(getSiteUrl(validEnvironment, "production")).toBe(CANONICAL_SITE_URL);
+  });
+
+  it("rejects credential-bearing site and Supabase URLs", () => {
+    const siteUrl = "https://site-user:site-secret@flipper.mattiaswiberg.com/";
+    const supabaseUrl =
+      "https://supabase-user:supabase-secret@project.supabase.co/";
+
+    expect(normalizeOrigin(siteUrl)).toBeNull();
+    expect(normalizeSiteUrl(siteUrl)).toBeNull();
+    expect(normalizeSiteUrl(supabaseUrl)).toBeNull();
+    expect(() =>
+      getSiteUrl(
+        { ...validEnvironment, NEXT_PUBLIC_SITE_URL: siteUrl },
+        "production",
+      ),
+    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
   });
 
   it("does not include configuration values in validation diagnostics", () => {
