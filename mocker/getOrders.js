@@ -8,7 +8,6 @@ const EXPECTED_OUTPUT = path.resolve(
 );
 
 const DEFAULTS = {
-  token: "14f799f4-bdf0-4feb-856a-30641cdd7250",
   output: path.join(
     os.tmpdir(),
     `flipper-v2-marketorders-${process.pid}.actual.json`,
@@ -66,6 +65,7 @@ function parseArgs(args) {
   const environment = getEnvironment();
   const options = {
     ...DEFAULTS,
+    token: environment.FLIPPER_INGESTION_TOKEN,
     url: environment.NEXT_PUBLIC_SUPABASE_URL,
     key: environment.SUPABASE_SERVICE_ROLE_KEY,
   };
@@ -122,7 +122,7 @@ function printHelp() {
 Options:
   --url <url>                 Supabase URL (defaults to NEXT_PUBLIC_SUPABASE_URL)
   --key <key>                 Service role key (defaults to SUPABASE_SERVICE_ROLE_KEY)
-  --token <uuid>              Token to export
+  --token <uuid>              Token to export (defaults to FLIPPER_INGESTION_TOKEN)
   --output <file>             Output JSON path
   --page-size <number>        Rows per request (default: ${DEFAULTS.pageSize})
   --include-created-at        Include database-generated created_at values
@@ -173,6 +173,11 @@ async function getOrders({
   if (!key) {
     throw new Error(
       "Missing Supabase service role key. Set SUPABASE_SERVICE_ROLE_KEY or --key.",
+    );
+  }
+  if (!token) {
+    throw new Error(
+      "Missing ingestion token. Set FLIPPER_INGESTION_TOKEN or --token.",
     );
   }
   if (!Number.isInteger(pageSize) || pageSize < 1) {

@@ -194,9 +194,12 @@ the separate release gate.
 Rollback is an explicit operator action. It is not performed by this change or
 automatically inferred from a failed build.
 
-1. If the new release fails health or public origin checks, stop acceptance and
-   record the failed deployment ID and the previous known-good deployment ID
-   without copying secrets.
+1. If the new release fails health or public origin checks, or an owning
+   deployment smoke test/release gate reports an Auth, ingestion, or
+   observability failure, stop acceptance and record the failed deployment ID
+   and the previous known-good deployment ID without copying secrets. Hand off
+   redacted release evidence to the owning gate; this ticket does not implement
+   those workflow checks.
 2. Confirm that the previous image/release is still available and that DNS and
    the canonical domain have not been deleted.
 3. In Dokploy, select the previous known-good rollback record for the exact

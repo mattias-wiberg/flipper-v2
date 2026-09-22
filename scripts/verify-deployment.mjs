@@ -48,6 +48,38 @@ function assertCanonicalLink(label, body, expectedUrl) {
   }
 }
 
+function getAttribute(tag, name) {
+  return tag.match(new RegExp(`\\b${name}\\s*=\\s*["']([^"']+)["']`, "i"))?.[1];
+}
+
+function assertMetaContent(label, body, attribute, key, expectedValue) {
+  const values = [...body.matchAll(/<meta\b[^>]*>/gi)].flatMap(([tag]) => {
+    if (getAttribute(tag, attribute) !== key) {
+      return [];
+    }
+
+    const content = getAttribute(tag, "content");
+    return content ? [content] : [];
+  });
+
+  if (values.length !== 1 || values[0] !== expectedValue) {
+    throw new Error(`${label} did not expose the expected metadata value`);
+  }
+}
+
+function assertSoftwareApplicationUrl(body, expectedUrl) {
+  const decodedBody = body.replace(/\\+"/g, '"');
+  const urls = [
+    ...decodedBody.matchAll(
+      /"@type"\s*:\s*"SoftwareApplication"[\s\S]*?"url"\s*:\s*"([^"]+)"/g,
+    ),
+  ].map(([, url]) => url);
+
+  if (urls.length !== 1 || urls[0] !== expectedUrl) {
+    throw new Error("home did not expose the expected JSON-LD URL");
+  }
+}
+
 async function fetchRoute(baseUrl, routeName) {
   const route = ROUTES[routeName];
   const requestedUrl = new URL(route.path, baseUrl);
@@ -89,6 +121,21 @@ async function main() {
   const home = await fetchRoute(baseUrl, "home");
   const homeBody = await home.text();
   assertCanonicalLink("home", homeBody, CANONICAL_SITE_URL);
+  assertMetaContent(
+    "home Open Graph",
+    homeBody,
+    "property",
+    "og:url",
+    CANONICAL_SITE_URL,
+  );
+  assertMetaContent(
+    "home Twitter",
+    homeBody,
+    "name",
+    "twitter:image",
+    `${CANONICAL_SITE_URL}/opengraph-image`,
+  );
+  assertSoftwareApplicationUrl(homeBody, CANONICAL_SITE_URL);
   console.log("PASS home");
 
   const documentation = await fetchRoute(baseUrl, "documentation");
