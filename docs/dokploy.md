@@ -116,9 +116,10 @@ accepting a release.
 
 ## DNS, TLS, and Forwarded Headers
 
-1. Keep the current known-good Vercel release available while the Dokploy
-   application is built and checked on its temporary or provider URL. Record
-   the existing DNS record target and Vercel release before changing either.
+1. Keep the current known-good release available on its existing provider while
+   the Dokploy application is built and checked on its temporary or provider
+   URL. Record the existing DNS record target and known-good release before
+   changing either.
 2. Point the `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse
    proxy target supplied by the operator's server. Do not commit that target
    or provider credentials.
@@ -208,7 +209,7 @@ npx --no-install dokploy rollback rollback --rollbackId <known-good-rollback-id>
 
 4. If this is the first Dokploy cutover or Dokploy rollback cannot restore the
    service, confirm the exact DNS target recorded before cutover and restore
-   that target to return traffic to the previous known-good provider release.
+   that target to return traffic to the recorded known-good release.
    This is a separate DNS mutation requiring operator confirmation; do not
    delete the Dokploy application or its deployment history.
 5. Recheck deployment status, `/api/health`, the public pages, and canonical

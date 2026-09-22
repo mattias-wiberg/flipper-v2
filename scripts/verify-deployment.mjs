@@ -3,6 +3,17 @@ import siteUrlPolicy from "../site-url-policy.js";
 const { CANONICAL_SITE_URL, parseSiteUrl } = siteUrlPolicy;
 const transportBaseUrl =
   process.env.DEPLOYMENT_BASE_URL?.trim() || CANONICAL_SITE_URL;
+const ROUTES = {
+  health: { path: "/api/health", accept: "application/json" },
+  home: { path: "/", accept: "text/html" },
+  documentation: { path: "/documentation", accept: "text/html" },
+  manifest: {
+    path: "/manifest.webmanifest",
+    accept: "application/manifest+json",
+  },
+  robots: { path: "/robots.txt", accept: "text/plain" },
+  sitemap: { path: "/sitemap.xml", accept: "application/xml" },
+};
 
 function parseBaseUrl(value) {
   const url = parseSiteUrl(value);
@@ -37,7 +48,8 @@ function assertCanonicalLink(label, body, expectedUrl) {
   }
 }
 
-async function fetchRoute(baseUrl, route) {
+async function fetchRoute(baseUrl, routeName) {
+  const route = ROUTES[routeName];
   const requestedUrl = new URL(route.path, baseUrl);
   let response;
   try {
@@ -46,17 +58,17 @@ async function fetchRoute(baseUrl, route) {
       redirect: "manual",
     });
   } catch {
-    throw new Error(`${route.name} could not be fetched`);
+    throw new Error(`${routeName} could not be fetched`);
   }
 
   if (response.status !== 200) {
     throw new Error(
-      `${route.name} returned HTTP ${response.status}, expected 200`,
+      `${routeName} returned HTTP ${response.status}, expected 200`,
     );
   }
 
   if (new URL(response.url).origin !== baseUrl.origin) {
-    throw new Error(`${route.name} redirected to another origin`);
+    throw new Error(`${routeName} redirected to another origin`);
   }
 
   return response;
@@ -64,11 +76,7 @@ async function fetchRoute(baseUrl, route) {
 
 async function main() {
   const baseUrl = parseBaseUrl(transportBaseUrl);
-  const health = await fetchRoute(baseUrl, {
-    name: "health",
-    path: "/api/health",
-    accept: "application/json",
-  });
+  const health = await fetchRoute(baseUrl, "health");
   const healthBody = await health.json();
   if (JSON.stringify(healthBody) !== JSON.stringify({ status: "ok" })) {
     throw new Error("health returned an unexpected response");
@@ -78,20 +86,12 @@ async function main() {
   }
   console.log("PASS health");
 
-  const home = await fetchRoute(baseUrl, {
-    name: "home",
-    path: "/",
-    accept: "text/html",
-  });
+  const home = await fetchRoute(baseUrl, "home");
   const homeBody = await home.text();
   assertCanonicalLink("home", homeBody, CANONICAL_SITE_URL);
   console.log("PASS home");
 
-  const documentation = await fetchRoute(baseUrl, {
-    name: "documentation",
-    path: "/documentation",
-    accept: "text/html",
-  });
+  const documentation = await fetchRoute(baseUrl, "documentation");
   const documentationBody = await documentation.text();
   assertCanonicalLink(
     "documentation",
@@ -100,22 +100,14 @@ async function main() {
   );
   console.log("PASS documentation");
 
-  const manifest = await fetchRoute(baseUrl, {
-    name: "manifest",
-    path: "/manifest.webmanifest",
-    accept: "application/manifest+json",
-  });
+  const manifest = await fetchRoute(baseUrl, "manifest");
   const manifestBody = await manifest.json();
   if (manifestBody.start_url !== CANONICAL_SITE_URL) {
     throw new Error("manifest did not use the canonical site URL");
   }
   console.log("PASS manifest");
 
-  const robots = await fetchRoute(baseUrl, {
-    name: "robots",
-    path: "/robots.txt",
-    accept: "text/plain",
-  });
+  const robots = await fetchRoute(baseUrl, "robots");
   const robotsBody = await robots.text();
   assertIncludes(
     "robots",
@@ -125,11 +117,7 @@ async function main() {
   assertIncludes("robots", robotsBody, `Host: ${CANONICAL_SITE_URL}`);
   console.log("PASS robots");
 
-  const sitemap = await fetchRoute(baseUrl, {
-    name: "sitemap",
-    path: "/sitemap.xml",
-    accept: "application/xml",
-  });
+  const sitemap = await fetchRoute(baseUrl, "sitemap");
   const sitemapBody = await sitemap.text();
   assertIncludes("sitemap", sitemapBody, `<loc>${CANONICAL_SITE_URL}/</loc>`);
   assertIncludes(
