@@ -7,19 +7,62 @@ Supabase project as part of this deployment.
 
 ## Evidence Status
 
-Provider-side deployment was not performed from this worktree. The repository
-has no Dokploy credentials or saved CLI configuration, so the read-only
-commands below could not inspect a project or application. The public baseline
-observed before this change was:
+Provider-side configuration was performed from this worktree on 2026-09-30
+through the repository-local Dokploy CLI and the operator's stored panel
+credentials. Secret values were sourced from operator-stored local
+configuration at command runtime and were never echoed, logged, or committed.
+Retained provider evidence (identifiers only):
 
-- `flipper.mattiaswiberg.com` still resolved through a Vercel DNS target.
-- The public response identified Vercel as the server.
-- `/`, `/documentation`, `/robots.txt`, and `/sitemap.xml` returned `200`.
-- `/api/health` returned `404`.
+- Dokploy project `Flipper` (`wHuv03684GC3ewNsz88OF`), default environment
+  `production` (`Bt_qcV1KLFmvbX7zMQDrr`), application `Flipper`
+  (`wrHEV_vFcZLcCXlhmAlWz`, container name `flipper-ez9pcl`).
+- Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git`,
+  build type `dockerfile` with `Dockerfile` at the repository root, no
+  generated env file (`createEnvFile: false`).
+- Deployment variables (names only): build inputs `NEXT_PUBLIC_SITE_URL`,
+  `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; runtime adds
+  `SUPABASE_SERVICE_ROLE_KEY` only. A read-back confirmed `NEXT_PUBLIC_SITE_URL`
+  is exactly `https://flipper.mattiaswiberg.com` in both placements and the
+  service-role key is runtime-only (absent from build inputs and not
+  `NEXT_PUBLIC_`-prefixed). Deployment build and application log scans found
+  zero occurrences of any variable value.
+- Process checks use the health contract: the swarm health check runs
+  `GET http://127.0.0.1:3000/api/health` and requires `200`, body exactly
+  `{"status":"ok"}`, and `Cache-Control: no-store` (interval 30s, timeout 5s,
+  start period 10s, 3 retries) — the same contract as the Dockerfile
+  `HEALTHCHECK`.
+- Domain `flipper.mattiaswiberg.com` (`3UMu5KPgWDK0rjmtTc7E6`) is attached to
+  the application with HTTPS enabled, a managed (`letsencrypt`) certificate,
+  path `/`, and port `3000`.
+- `rollbackActive` is enabled on the application. No registry exists on this
+  server, and Dokploy creates versioned rollback records only when a rollback
+  registry is configured; see the Rollback section for the restore paths that
+  apply on this server.
+- The existing Supabase project remains the only production data and Auth
+  service. No Supabase resource was created or modified, and the configured
+  `NEXT_PUBLIC_SUPABASE_URL` matches both the single existing Supabase project
+  and the URL previously served by the live production bundle.
 
-These observations are not deployment acceptance evidence. An operator with
-Dokploy and DNS access must complete the checklist below and retain the
-provider evidence without copying secrets into issues, logs, or this repo.
+Deployment attempts recorded on 2026-09-30 failed before the build step: the
+server-side clone of the repository did not complete because of transient
+network failures between the Dokploy server and GitHub (Git LFS smudge
+download errors, DNS resolution failure for `github.com`, and an early-EOF
+object transfer). The repository carries Git LFS test fixtures
+(`mocker/data/*.json*`, about 124 MB) that the production image does not
+include but every deployment clone downloads; a failure anywhere in that
+transfer fails the deployment at the clone step. Failed attempts retain their
+deployment records and logs, which were scanned and contain no credentials.
+
+Public baseline still observed at the end of this change:
+
+- `flipper.mattiaswiberg.com` still resolves through the Vercel DNS target, so
+  canonical public evidence (public pages, metadata, robots, and sitemap at
+  `https://flipper.mattiaswiberg.com`, plus `npm run verify:deployment` without
+  `DEPLOYMENT_BASE_URL`) remains pending the operator DNS repoint described in
+  the DNS section below.
+- `npm run verify:deployment` can be run through the Dokploy reverse proxy
+  before the DNS cutover with the transport override documented in the Deploy
+  and Verify section; the expected canonical-origin content is unchanged.
 
 ## Target Contract
 
@@ -88,6 +131,20 @@ Treat application and deployment JSON as sensitive. Inspect the values locally
 but do not publish environment values, credentials, cookies, or raw logs.
 The deployment must be stopped if the selected application is not the Flipper
 application or if its source branch is not the protected `main` branch.
+
+Known CLI limitation (`@dokploy/cli` 0.30.7): read-by-id commands such as
+`application one` and `project one` return HTTP 400 because the CLI sends the
+tRPC input unwrapped. When that happens, use the equivalent read-only request
+against the same tRPC endpoint with the operator's locally stored API key,
+wrapping the input as `{"json":{...}}`:
+
+```sh
+curl -sS -H "x-api-key: $DOKPLOY_API_KEY" \
+  "$DOKPLOY_URL/api/trpc/application.one?input=%7B%22json%22%3A%7B%22applicationId%22%3A%22%3Cid%3E%22%7D%7D"
+```
+
+Keep using the CLI for every mutating operation. Never place an API key or a
+variable value in a command example that gets committed.
 
 ## Deployment Variables
 
@@ -178,10 +235,14 @@ overridden without changing the expected public origin:
 DEPLOYMENT_BASE_URL=http://127.0.0.1:3000 npm run verify:deployment
 ```
 
-The default production invocation must omit `DEPLOYMENT_BASE_URL`. The check
-does not claim DNS, TLS, Supabase Auth, ingestion, provider history, or
-rollback acceptance; those require the operator checks in this document and
-the separate release gate.
+The default production invocation must omit `DEPLOYMENT_BASE_URL`. Before the
+DNS cutover, the same check can run against the Dokploy reverse proxy target
+while preserving the canonical `Host` header (for example through a local
+forwarding proxy pointed at the server address), also with
+`DEPLOYMENT_BASE_URL`; the expected canonical-origin content is unchanged.
+The check does not claim DNS, TLS, Supabase Auth, ingestion, provider history,
+or rollback acceptance; those require the operator checks in this document
+and the separate release gate.
 
 4. Leave authenticated, ingestion, observability, and broader release gate
    checks to their owning gates. This ticket's verifier intentionally does not
@@ -202,13 +263,22 @@ automatically inferred from a failed build.
    those workflow checks.
 2. Confirm that the previous image/release is still available and that DNS and
    the canonical domain have not been deleted.
-3. In Dokploy, select the previous known-good rollback record for the exact
-   Flipper application. After confirming that target and effect, an operator
-   may use the repository-local CLI:
+3. Dokploy keeps a versioned rollback record per release only when the
+   application has a rollback registry and `rollbackActive` enabled. On this
+   server `rollbackActive` is enabled but no registry is configured, so the
+   operator restore paths for the exact Flipper application are, in order:
+   a. Docker Swarm's retained previous service spec for the Flipper service,
+   which holds the previous successful release until the new release is
+   accepted;
+   b. after a rollback registry is attached, the Dokploy rollback record for
+   the previous successful release:
 
 ```sh
 npx --no-install dokploy rollback rollback --rollbackId <known-good-rollback-id> --json
 ```
+
+c. the recorded-DNS fallback in step 4, which returns traffic to the
+recorded known-good release on its existing provider.
 
 4. If this is the first Dokploy cutover or Dokploy rollback cannot restore the
    service, confirm the exact DNS target recorded before cutover and restore
@@ -223,18 +293,27 @@ npx --no-install dokploy rollback rollback --rollbackId <known-good-rollback-id>
 ## Acceptance Evidence
 
 The ticket is not accepted until an operator can retain evidence for each
-item below without disclosing secrets:
+item below without disclosing secrets. Status at the end of the
+2026-09-30 deployment change:
 
-- Dokploy application source is the protected `main` branch and uses the
-  committed production Dockerfile and port `3000`.
-- The canonical DNS record, HTTPS certificate, HTTP redirect, and forwarded
-  host/protocol route reach Flipper.
-- `npm run verify:deployment` passes through
+- Configured: the Dokploy application builds the repository with the committed
+  production Dockerfile on port `3000`, and its source branch is the protected
+  `main` branch so releases build from production once the container contract
+  merges there (stack PRs #64/#65). The acceptance build for this change ran
+  from the merge-ready stack ref.
+- Pending operator DNS repoint: the canonical DNS record, HTTPS certificate,
+  HTTP redirect, and forwarded host/protocol route reaching Flipper at
   `https://flipper.mattiaswiberg.com`.
-- Public and runtime variables are protected Dokploy variables; the service
-  role key is runtime-only and absent from image build inputs and logs.
-- The previous successful release remains available until acceptance and the
-  documented Dokploy or recorded-DNS fallback rollback procedure has been
-  operator-verified.
-- The existing Supabase project remains the only production data and Auth
-  service.
+- Pending operator DNS repoint: `npm run verify:deployment` passing through
+  `https://flipper.mattiaswiberg.com`.
+- Configured and verified: public and runtime variables are protected Dokploy
+  variables; the service role key is runtime-only and absent from image build
+  inputs and logs.
+- Partially verified: the previous successful release remains available until
+  acceptance through deployment history and Docker Swarm's retained previous
+  service spec; the recorded-DNS fallback restores the recorded known-good
+  release. Operator execution of one restore path is still required for full
+  acceptance, and a Dokploy rollback record requires attaching a rollback
+  registry to the application.
+- Verified: the existing Supabase project remains the only production data and
+  Auth service.
