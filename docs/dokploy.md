@@ -46,20 +46,22 @@ Retained provider evidence (identifiers only):
   `NEXT_PUBLIC_SUPABASE_URL` matches both the single existing Supabase project
   and the URL previously served by the live production bundle.
 
-Eleven deployment attempts recorded on 2026-09-30 and 2026-10-01 (including
-supervised automatic retries) all failed before the build step: the
+Twelve deployment attempts recorded on 2026-09-30 and 2026-10-01 (eight
+manual, four supervised automatic retries) all failed before the build step: the
 server-side clone of the repository did not complete because of transient
 network failures between the Dokploy server and GitHub (Git LFS smudge
 download errors, DNS resolution failures for `github.com`, and early-EOF
-object transfers). GitHub's Git LFS endpoint itself was healthy throughout
-(verified separately), so the failures are on the server's network path. The
+object transfers). A separate probe at the end of the run returned HTTP 200
+from GitHub's Git LFS batch endpoint, so the failures point at the server's
+network path rather than a blocked or quota-limited endpoint. The
 repository carries Git LFS test fixtures (`mocker/data/*.json*`, about 124 MB)
 that the production image does not include but every deployment clone
 downloads; a failure anywhere in that transfer fails the deployment at the
 clone step. Every failed attempt retains its deployment record and log, which
 was scanned and contains no credentials. The recorded remediation for the
-next operator session is in the Follow-ups section: redeploy once the
-server's GitHub connectivity is stable, then run the deployment smoke test.
+next operator session is in the Follow-ups and Deploy and Verify sections:
+redeploy once the server's GitHub connectivity is stable, then run the
+deployment smoke test.
 
 Public baseline still observed at the end of this change:
 
@@ -323,7 +325,7 @@ item below without disclosing secrets. Status at the end of the
 - Configured: the Dokploy application builds the repository with the committed
   production Dockerfile on port `3000`, and its source branch is the protected
   `main` branch so releases build from production once the container contract
-  merges there. No deployment attempt has yet completed end to end: all eleven
+  merges there. No deployment attempt has yet completed end to end: all twelve
   attempts recorded on 2026-09-30 and 2026-10-01 failed during the repository
   clone step before the build, on transient network failures between the
   Dokploy server and GitHub. Acceptance requires one deployment record showing
