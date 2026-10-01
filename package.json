@@ -15,7 +15,8 @@
     "format:world": "node utils/worldFormatter.js",
     "format:data": "npm run format:items && npm run format:world",
     "update:ao-data": "npm run sync:ao-dumps && npm run format:data",
-    "debug:items-formatter": "node --inspect-brk utils/itemsFormatter.js"
+    "debug:items-formatter": "node --inspect-brk utils/itemsFormatter.js",
+    "verify:deployment": "node scripts/verify-deployment.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

@@ -36,7 +36,9 @@ compared with the checked-in expected result.
 Before running the test:
 
 - Start the app with `npm run dev`.
-- Ensure the default token exists in the configured Supabase database.
+- Set `FLIPPER_INGESTION_TOKEN` to a dedicated validation token that exists in
+  the configured Supabase database. Keep the token in an ignored local env
+  file or protected operator environment; never commit it.
 - Use a fresh token, or remove its previous orders, before a repeat run. The
   ingest route upserts orders but does not remove rows that are missing from a
   later replay.
@@ -56,10 +58,9 @@ compares it with `marketorders.expected.json`, and fails when the hashes differ.
 The exporter also rejects the expected fixture as an output path, so the
 checked-in fixture cannot be replaced by the replay tool.
 
-`golden:orders` uses `NEXT_PUBLIC_SUPABASE_URL` and
-`SUPABASE_SERVICE_ROLE_KEY` from the environment and defaults to the token used
-by `mock:order:ingest`. Run the script directly to override the token or output
-path:
+`golden:orders` uses `NEXT_PUBLIC_SUPABASE_URL`,
+`SUPABASE_SERVICE_ROLE_KEY`, and `FLIPPER_INGESTION_TOKEN` from the environment.
+Run the script directly to override the token or output path:
 
 ```sh
 node --experimental-fetch mocker/getOrders.js --compare --token <token> --output <temporary-file>

@@ -9,6 +9,10 @@ const expectedOutput = path.join(
 );
 
 describe("golden order exporter", () => {
+  test("does not include a checked-in ingestion token", () => {
+    expect(DEFAULTS.token).toBeUndefined();
+  });
+
   test("uses a temporary output instead of the checked-in fixture by default", () => {
     expect(path.resolve(parseArgs([]).output)).not.toBe(
       path.resolve(expectedOutput),

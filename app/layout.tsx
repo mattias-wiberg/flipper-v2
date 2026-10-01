@@ -7,7 +7,6 @@ import { Heart } from "lucide-react";
 import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Geist, Geist_Mono } from "next/font/google";
-import Script from "next/script";
 import "./globals.css";
 
 const SITE_URL = getSiteUrl();
@@ -20,6 +19,7 @@ const SITE_DESCRIPTION =
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
+  alternates: { canonical: "/" },
   title: SITE_TITLE,
   description: SITE_DESCRIPTION,
   keywords: [
@@ -132,11 +132,11 @@ export default async function RootLayout({
                 </footer>
               </div>
               <Toaster />
-              {/* JSON-LD structured data for a web app/software application */}
-              <Script
-                id="ld-software-application"
+              {/* JSON-LD structured data for a web app/software application.
+                  Rendered as a plain inline script so it is present in the
+                  server-rendered HTML for crawlers without JavaScript. */}
+              <script
                 type="application/ld+json"
-                strategy="afterInteractive"
                 dangerouslySetInnerHTML={{
                   __html: JSON.stringify({
                     "@context": "https://schema.org",

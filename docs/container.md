@@ -78,14 +78,16 @@ session. The image health check performs the same health request internally.
 ## Local Verification Evidence
 
 The container boundary has been verified locally with non-secret placeholder
-values. `npm ci`, `npx tsc --noEmit`, `npx jest --runInBand` (17 suites, 45
-tests), and the production build passed. The real image built from the lockfile,
-started as UID `1001`, returned `200 {"status":"ok"}` from `/api/health`,
-returned `200` for `/` and `/documentation`, and returned `404` for the
-development recorder in production. The focused Prettier check for changed
-source and documentation files passed.
+values. `npm ci`, `npx tsc --noEmit`, `npx jest --runInBand` (19 suites, 51
+tests), the production build, and the focused Prettier check for changed source
+and documentation files passed. The real image built from the lockfile, started
+as UID `1001`, returned `200 {"status":"ok"}` with `Cache-Control: no-store`
+from `/api/health`, returned `200` for `/` and `/documentation`, and returned
+`404` for the development recorder in production. The local deployment
+verifier passed for health, public pages, manifest, robots, and sitemap.
 The historical pre-upgrade baseline in `mocker/README.md` is separate from
 this current branch result and does not describe these passing checks.
 
 These checks cover the local image boundary. DNS/TLS, the deployed canonical
-domain, Dokploy history, and full release smoke remain deployment-owned checks.
+domain, Dokploy history, and the deployment smoke test remain deployment-owned
+checks.

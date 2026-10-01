@@ -4,23 +4,10 @@ const CANONICAL_SITE_URL = siteUrlConfig.canonicalSiteUrl;
 const LOCAL_SITE_URL = "http://localhost:3000";
 
 function normalizeOrigin(value) {
-  if (!value?.trim()) {
-    return null;
-  }
-
-  try {
-    const url = new URL(value);
-    if (!["http:", "https:"].includes(url.protocol)) {
-      return null;
-    }
-
-    return url.origin;
-  } catch {
-    return null;
-  }
+  return parseHttpUrl(value)?.origin ?? null;
 }
 
-function normalizeSiteUrl(value) {
+function parseHttpUrl(value) {
   if (!value?.trim()) {
     return null;
   }
@@ -29,17 +16,29 @@ function normalizeSiteUrl(value) {
     const url = new URL(value);
     if (
       !["http:", "https:"].includes(url.protocol) ||
-      url.pathname !== "/" ||
-      url.search ||
-      url.hash
+      url.username ||
+      url.password
     ) {
       return null;
     }
 
-    return url.origin;
+    return url;
   } catch {
     return null;
   }
+}
+
+function parseSiteUrl(value) {
+  const url = parseHttpUrl(value);
+  if (!url || url.pathname !== "/" || url.search || url.hash) {
+    return null;
+  }
+
+  return url;
+}
+
+function normalizeSiteUrl(value) {
+  return parseSiteUrl(value)?.origin ?? null;
 }
 
 function isCanonicalSiteUrl(value) {
@@ -52,4 +51,5 @@ module.exports = {
   isCanonicalSiteUrl,
   normalizeOrigin,
   normalizeSiteUrl,
+  parseSiteUrl,
 };
