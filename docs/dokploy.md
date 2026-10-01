@@ -64,6 +64,22 @@ Public baseline still observed at the end of this change:
   before the DNS cutover with the transport override documented in the Deploy
   and Verify section; the expected canonical-origin content is unchanged.
 
+## Follow-ups
+
+- Every Dokploy deployment clone downloads the repository's Git LFS test
+  fixtures (`mocker/data/*.json*`, about 124 MB) even though the production
+  image does not use them. That transfer has failed repeatedly over the
+  homelab link and fails the deployment at the clone step. Until the fixtures
+  leave LFS or deployment clones can skip LFS smudge, treat a failed clone as
+  a retryable transport failure and redeploy; it is not an application defect.
+  Changing the fixture storage is tracked outside this deployment change.
+- An ingestion token that was hardcoded earlier in the repository's history
+  remains readable in the public git history even though HEAD is clean.
+  Revoke or rotate it in the existing Supabase project (operator action,
+  coordinated with #59), and keep ingestion credentials in environment
+  variables only. A git history rewrite is not required for this deployment
+  work.
+
 ## Target Contract
 
 Configure one Dokploy application with these values:
@@ -299,8 +315,11 @@ item below without disclosing secrets. Status at the end of the
 - Configured: the Dokploy application builds the repository with the committed
   production Dockerfile on port `3000`, and its source branch is the protected
   `main` branch so releases build from production once the container contract
-  merges there (stack PRs #64/#65). The acceptance build for this change ran
-  from the merge-ready stack ref.
+  merges there. No deployment attempt has yet completed end to end: all
+  attempts recorded on 2026-09-30 failed during the repository clone step
+  before the build, on transient network failures between the Dokploy server
+  and GitHub. Acceptance requires one deployment record showing a successful
+  build and a healthy start before this item can be marked met.
 - Pending operator DNS repoint: the canonical DNS record, HTTPS certificate,
   HTTP redirect, and forwarded host/protocol route reaching Flipper at
   `https://flipper.mattiaswiberg.com`.
@@ -308,7 +327,13 @@ item below without disclosing secrets. Status at the end of the
   `https://flipper.mattiaswiberg.com`.
 - Configured and verified: public and runtime variables are protected Dokploy
   variables; the service role key is runtime-only and absent from image build
-  inputs and logs.
+  inputs and logs. One historical exception requires operator action: an
+  ingestion token that was hardcoded in `mocker/getOrders.js` and
+  `mocker/sendOrders.js` earlier in the repository's history is still readable
+  in the public git history even though HEAD is clean. Revoking or rotating
+  that token in the existing Supabase project is an operator action (see
+  Follow-ups) and must be coordinated with the ingestion-validation work in
+  #59.
 - Partially verified: the previous successful release remains available until
   acceptance through deployment history and Docker Swarm's retained previous
   service spec; the recorded-DNS fallback restores the recorded known-good

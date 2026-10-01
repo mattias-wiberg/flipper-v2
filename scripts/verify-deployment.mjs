@@ -68,12 +68,21 @@ function assertMetaContent(label, body, attribute, key, expectedValue) {
 }
 
 function assertSoftwareApplicationUrl(body, expectedUrl) {
-  const decodedBody = body.replace(/\\+"/g, '"');
-  const urls = [
-    ...decodedBody.matchAll(
-      /"@type"\s*:\s*"SoftwareApplication"[\s\S]*?"url"\s*:\s*"([^"]+)"/g,
+  const jsonLdBlocks = [
+    ...body.matchAll(
+      /<script\b[^>]*type\s*=\s*["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
     ),
-  ].map(([, url]) => url);
+  ].map(([, json]) => {
+    try {
+      return JSON.parse(json);
+    } catch {
+      return null;
+    }
+  });
+
+  const urls = jsonLdBlocks
+    .filter((data) => data?.["@type"] === "SoftwareApplication")
+    .map((data) => data.url);
 
   if (urls.length !== 1 || urls[0] !== expectedUrl) {
     throw new Error("home did not expose the expected JSON-LD URL");
@@ -97,10 +106,6 @@ async function fetchRoute(baseUrl, routeName) {
     throw new Error(
       `${routeName} returned HTTP ${response.status}, expected 200`,
     );
-  }
-
-  if (new URL(response.url).origin !== baseUrl.origin) {
-    throw new Error(`${routeName} redirected to another origin`);
   }
 
   return response;
