@@ -16,9 +16,12 @@ Retained provider evidence (identifiers only):
 - Dokploy project `Flipper` (`wHuv03684GC3ewNsz88OF`), default environment
   `production` (`Bt_qcV1KLFmvbX7zMQDrr`), application `Flipper`
   (`wrHEV_vFcZLcCXlhmAlWz`, container name `flipper-ez9pcl`).
-- Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git`,
-  build type `dockerfile` with `Dockerfile` at the repository root, no
-  generated env file (`createEnvFile: false`).
+- Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git` on the
+  protected `main` branch, build type `dockerfile` with `Dockerfile` at the
+  repository root, no generated env file (`createEnvFile: false`). The
+  container contract reaches `main` when the implementation stack merges;
+  until then a deploy from `main` fails at the build step by design, and the
+  acceptance build runs from the merge-ready stack ref.
 - Deployment variables (names only): build inputs `NEXT_PUBLIC_SITE_URL`,
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; runtime adds
   `SUPABASE_SERVICE_ROLE_KEY` only. A read-back confirmed `NEXT_PUBLIC_SITE_URL`
@@ -43,15 +46,20 @@ Retained provider evidence (identifiers only):
   `NEXT_PUBLIC_SUPABASE_URL` matches both the single existing Supabase project
   and the URL previously served by the live production bundle.
 
-Deployment attempts recorded on 2026-09-30 failed before the build step: the
+Eleven deployment attempts recorded on 2026-09-30 and 2026-10-01 (including
+supervised automatic retries) all failed before the build step: the
 server-side clone of the repository did not complete because of transient
 network failures between the Dokploy server and GitHub (Git LFS smudge
-download errors, DNS resolution failure for `github.com`, and an early-EOF
-object transfer). The repository carries Git LFS test fixtures
-(`mocker/data/*.json*`, about 124 MB) that the production image does not
-include but every deployment clone downloads; a failure anywhere in that
-transfer fails the deployment at the clone step. Failed attempts retain their
-deployment records and logs, which were scanned and contain no credentials.
+download errors, DNS resolution failures for `github.com`, and early-EOF
+object transfers). GitHub's Git LFS endpoint itself was healthy throughout
+(verified separately), so the failures are on the server's network path. The
+repository carries Git LFS test fixtures (`mocker/data/*.json*`, about 124 MB)
+that the production image does not include but every deployment clone
+downloads; a failure anywhere in that transfer fails the deployment at the
+clone step. Every failed attempt retains its deployment record and log, which
+was scanned and contains no credentials. The recorded remediation for the
+next operator session is in the Follow-ups section: redeploy once the
+server's GitHub connectivity is stable, then run the deployment smoke test.
 
 Public baseline still observed at the end of this change:
 
@@ -315,11 +323,11 @@ item below without disclosing secrets. Status at the end of the
 - Configured: the Dokploy application builds the repository with the committed
   production Dockerfile on port `3000`, and its source branch is the protected
   `main` branch so releases build from production once the container contract
-  merges there. No deployment attempt has yet completed end to end: all
-  attempts recorded on 2026-09-30 failed during the repository clone step
-  before the build, on transient network failures between the Dokploy server
-  and GitHub. Acceptance requires one deployment record showing a successful
-  build and a healthy start before this item can be marked met.
+  merges there. No deployment attempt has yet completed end to end: all eleven
+  attempts recorded on 2026-09-30 and 2026-10-01 failed during the repository
+  clone step before the build, on transient network failures between the
+  Dokploy server and GitHub. Acceptance requires one deployment record showing
+  a successful build and a healthy start before this item can be marked met.
 - Pending operator DNS repoint: the canonical DNS record, HTTPS certificate,
   HTTP redirect, and forwarded host/protocol route reaching Flipper at
   `https://flipper.mattiaswiberg.com`.
