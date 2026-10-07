@@ -5,6 +5,39 @@ project remains the authoritative production service for Auth, tokens, orders,
 row-level access, and cleanup. Do not create or select another production
 Supabase project as part of this deployment.
 
+## Public Origin Contract (Migration Phase)
+
+During the migration from Vercel to the home-lab Dokploy deployment the
+application runs at `https://beta.flipper.mattiaswiberg.com`. That is the
+configured public origin for this phase:
+
+- `NEXT_PUBLIC_SITE_URL` must be exactly
+  `https://beta.flipper.mattiaswiberg.com` at build time and runtime. Startup
+  validation (`scripts/validate-production-env.mjs`) rejects any other value
+  and names the variable only; production never falls back to `VERCEL_URL` or
+  `localhost`.
+- The apex `https://flipper.mattiaswiberg.com` stays on Vercel until final
+  cutover and remains the documented final canonical origin. During the
+  migration the apex keeps serving the existing Vercel release.
+- All origin-aware behavior (canonical and metadata links, `robots.txt`,
+  `sitemap.xml`, the web manifest, the Auth callback and safe-redirect
+  validation, and middleware host handling) uses the configured origin from
+  `site-url.config.json`, the single source of truth.
+
+Final cutover flips the configured origin back to the apex in one operator
+session:
+
+1. Set `canonicalSiteUrl` in `site-url.config.json` back to
+   `https://flipper.mattiaswiberg.com` and update the migration-phase tests and
+   documentation that pin the beta origin.
+2. Update the Dokploy `NEXT_PUBLIC_SITE_URL` build input and runtime variable to
+   `https://flipper.mattiaswiberg.com`.
+3. Repoint the `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse
+   proxy and confirm the TLS certificate and HTTP-to-HTTPS redirect.
+4. Update the Supabase Auth Site URL and redirect allowlist to the apex origin.
+5. Redeploy and run `npm run verify:deployment`; its expected origin defaults to
+   the configured origin, which is now the apex.
+
 ## Evidence Status
 
 Provider-side configuration was performed from this worktree on 2026-09-30
@@ -24,8 +57,11 @@ Retained provider evidence (identifiers only):
   acceptance build runs from the merge-ready stack ref.
 - Deployment variables (names only): build inputs `NEXT_PUBLIC_SITE_URL`,
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; runtime adds
-  `SUPABASE_SERVICE_ROLE_KEY` only. A read-back confirmed `NEXT_PUBLIC_SITE_URL`
-  is exactly `https://flipper.mattiaswiberg.com` in both placements and the
+  `SUPABASE_SERVICE_ROLE_KEY` only. A read-back on 2026-09-30 confirmed
+  `NEXT_PUBLIC_SITE_URL` in both placements; under the migration-phase origin
+  contract above the value must be exactly
+  `https://beta.flipper.mattiaswiberg.com`, so the stored variable must be
+  updated to the beta origin (operator action) before the next deploy. The
   service-role key is runtime-only (absent from build inputs and not
   `NEXT_PUBLIC_`-prefixed). Deployment build and application log scans found
   zero occurrences of any variable value.
@@ -36,7 +72,10 @@ Retained provider evidence (identifiers only):
   `HEALTHCHECK`.
 - Domain `flipper.mattiaswiberg.com` (`3UMu5KPgWDK0rjmtTc7E6`) is attached to
   the application with HTTPS enabled, a managed (`letsencrypt`) certificate,
-  path `/`, and port `3000`.
+  path `/`, and port `3000`. Under the migration-phase origin contract the
+  public host serving the Dokploy deployment is
+  `beta.flipper.mattiaswiberg.com`; the apex attachment becomes live only at
+  final cutover.
 - `rollbackActive` is enabled on the application. No registry exists on this
   server, and Dokploy creates versioned rollback records only when a rollback
   registry is configured; see the Rollback section for the restore paths that
@@ -55,9 +94,12 @@ object transfers). A separate probe at the end of the run returned HTTP 200
 from GitHub's Git LFS batch endpoint, so the failures point at the server's
 network path rather than a blocked or quota-limited endpoint. The
 repository carries Git LFS test fixtures (`mocker/data/*.json*`, about 124 MB)
-that the production image does not include but every deployment clone
-downloads; a failure anywhere in that transfer fails the deployment at the
-clone step. Every failed attempt retains its deployment record and log, which
+that the production image does not include but every deployment clone was
+downloading; a failure anywhere in that transfer failed the deployment at the
+clone step. Deployment clones now run with `GIT_LFS_SKIP_SMUDGE=1` on the
+Dokploy host (operator-side), so deployment checkouts carry LFS pointer files
+instead of the fixture payloads; see the Follow-ups section. Every failed
+attempt retains its deployment record and log, which
 was scanned and contains no credentials. The recorded remediation for the
 next operator session is in the Follow-ups and Deploy and Verify sections:
 redeploy once the server's GitHub connectivity is stable, then run the
@@ -65,24 +107,32 @@ deployment smoke test.
 
 Public baseline still observed at the end of this change:
 
-- `flipper.mattiaswiberg.com` still resolves through the Vercel DNS target, so
-  canonical public evidence (public pages, metadata, robots, and sitemap at
-  `https://flipper.mattiaswiberg.com`, plus `npm run verify:deployment` without
-  `DEPLOYMENT_BASE_URL`) remains pending the operator DNS repoint described in
-  the DNS section below.
+- `flipper.mattiaswiberg.com` still resolves through the Vercel DNS target and
+  keeps serving the existing Vercel release until final cutover. During the
+  migration phase the canonical public evidence is observed at the configured
+  origin `https://beta.flipper.mattiaswiberg.com` (public pages, metadata,
+  robots, and sitemap, plus `npm run verify:deployment` without
+  `DEPLOYMENT_BASE_URL`).
 - `npm run verify:deployment` can be run through the Dokploy reverse proxy
-  before the DNS cutover with the transport override documented in the Deploy
-  and Verify section; the expected canonical-origin content is unchanged.
+  before the final cutover with the transport override documented in the Deploy
+  and Verify section; the expected configured-origin content is unchanged.
 
 ## Follow-ups
 
-- Every Dokploy deployment clone downloads the repository's Git LFS test
-  fixtures (`mocker/data/*.json*`, about 124 MB) even though the production
-  image does not use them. That transfer has failed repeatedly over the
-  homelab link and fails the deployment at the clone step. Until the fixtures
-  leave LFS or deployment clones can skip LFS smudge, treat a failed clone as
-  a retryable transport failure and redeploy; it is not an application defect.
-  Changing the fixture storage is tracked outside this deployment change.
+- Deployment clones run with `GIT_LFS_SKIP_SMUDGE=1` on the Dokploy host
+  (operator-side), so the repository's Git LFS test fixtures
+  (`mocker/data/*.json*`, about 124 MB) are pointer files in deployment
+  checkouts and the clone step no longer downloads their payloads. The
+  production image build and runtime must not depend on real `mocker/data`
+  contents: `.dockerignore` excludes `mocker/data` from the build context and
+  the only consumer is the development-only recorder, which returns `404`
+  outside `NODE_ENV=development`. Dev and test golden replay
+  (`npm run golden:orders`, the mocker tooling) still require a normal LFS
+  checkout (`git lfs pull`); a deployment checkout cannot run them. If a
+  deployment clone is ever made without the skip flag and the fixture transfer
+  fails, treat it as a retryable transport failure and redeploy; it is not an
+  application defect. Changing the fixture storage is tracked outside this
+  deployment change.
 - An ingestion token that was hardcoded earlier in the repository's history
   remains readable in the public git history even though HEAD is clean.
   Revoke or rotate it in the existing Supabase project (operator action,
@@ -94,18 +144,18 @@ Public baseline still observed at the end of this change:
 
 Configure one Dokploy application with these values:
 
-| Setting                     | Required value                              |
-| --------------------------- | ------------------------------------------- |
-| Repository                  | `mattias-wiberg/flipper-v2`                 |
-| Protected production branch | `main`                                      |
-| Build type                  | Dockerfile at repository root               |
-| Build context               | Repository root                             |
-| Container port              | `3000` over HTTP inside the private network |
-| Public domain               | `https://flipper.mattiaswiberg.com`         |
-| Health path                 | `GET /api/health`                           |
-| Health response             | `200` and exactly `{"status":"ok"}`         |
-| Health cache policy         | `Cache-Control: no-store`                   |
-| Storage                     | No application volume; Flipper is stateless |
+| Setting                     | Required value                                                              |
+| --------------------------- | --------------------------------------------------------------------------- |
+| Repository                  | `mattias-wiberg/flipper-v2`                                                 |
+| Protected production branch | `main`                                                                      |
+| Build type                  | Dockerfile at repository root                                               |
+| Build context               | Repository root                                                             |
+| Container port              | `3000` over HTTP inside the private network                                 |
+| Public domain               | `https://beta.flipper.mattiaswiberg.com` (migration phase; apex at cutover) |
+| Health path                 | `GET /api/health`                                                           |
+| Health response             | `200` and exactly `{"status":"ok"}`                                         |
+| Health cache policy         | `Cache-Control: no-store`                                                   |
+| Storage                     | No application volume; Flipper is stateless                                 |
 
 The committed `Dockerfile` is the production container contract. It pins the
 Node runtime, uses the lockfile, binds the server to `0.0.0.0:3000`, runs as
@@ -178,12 +228,12 @@ Enter these through Dokploy's protected application environment and build
 variable controls. The `.env.example` file contains placeholders for local
 development only and is not a production source of values.
 
-| Variable                        | Placement                        | Contract                                           |
-| ------------------------------- | -------------------------------- | -------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`          | Build input and runtime variable | Exactly `https://flipper.mattiaswiberg.com`        |
-| `NEXT_PUBLIC_SUPABASE_URL`      | Build input and runtime variable | URL of the existing authoritative Supabase project |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Build input and runtime variable | Existing public Supabase key                       |
-| `SUPABASE_SERVICE_ROLE_KEY`     | Protected runtime secret only    | Existing server-only Supabase service-role key     |
+| Variable                        | Placement                        | Contract                                                                             |
+| ------------------------------- | -------------------------------- | ------------------------------------------------------------------------------------ |
+| `NEXT_PUBLIC_SITE_URL`          | Build input and runtime variable | Exactly `https://beta.flipper.mattiaswiberg.com` (migration-phase configured origin) |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Build input and runtime variable | URL of the existing authoritative Supabase project                                   |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Build input and runtime variable | Existing public Supabase key                                                         |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Protected runtime secret only    | Existing server-only Supabase service-role key                                       |
 
 The three `NEXT_PUBLIC_*` values are intentionally available to the image
 build because Next.js inlines browser configuration. They must still be
@@ -199,15 +249,18 @@ accepting a release.
 
 ## DNS, TLS, and Forwarded Headers
 
-1. Keep the current known-good release available on its existing provider while
-   the Dokploy application is built and checked on its temporary or provider
-   URL. Record the existing DNS record target and known-good release before
-   changing either.
-2. Point the `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse
-   proxy target supplied by the operator's server. Do not commit that target
-   or provider credentials.
-3. Add the exact host to the Dokploy application domain with HTTPS enabled and
-   a managed certificate. Do not expose port `3000` directly to the Internet.
+1. Keep the current known-good release available on its existing provider (the
+   Vercel apex during the migration phase) while the Dokploy application is
+   built and checked on its temporary or provider URL. Record the existing DNS
+   record target and known-good release before changing either.
+2. During the migration phase the public host for the Dokploy deployment is
+   `beta.flipper.mattiaswiberg.com`: add that exact host to the Dokploy
+   application domain with HTTPS enabled and a managed certificate. At final
+   cutover (see the Public Origin Contract section), point the
+   `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse proxy target
+   supplied by the operator's server. Do not commit that target or provider
+   credentials.
+3. Do not expose port `3000` directly to the Internet.
 4. Redirect HTTP to HTTPS and preserve the public `Host` and protocol through
    `Host`, `X-Forwarded-Host`, `X-Forwarded-Proto`, and `X-Forwarded-For`.
    The public protocol must arrive as `https`.
@@ -215,19 +268,21 @@ accepting a release.
    Auth provider during this web-service cutover. A separate release gate owns
    authenticated and ingestion workflow verification.
 
-Verify the provider route without exposing configuration values:
+Verify the provider route without exposing configuration values (substitute the
+host under test — the beta host during the migration phase, the apex at final
+cutover):
 
 ```powershell
-Resolve-DnsName flipper.mattiaswiberg.com
-curl.exe -sS -I --max-time 20 http://flipper.mattiaswiberg.com/
-curl.exe -sS -I --max-time 20 https://flipper.mattiaswiberg.com/
+Resolve-DnsName beta.flipper.mattiaswiberg.com
+curl.exe -sS -I --max-time 20 http://beta.flipper.mattiaswiberg.com/
+curl.exe -sS -I --max-time 20 https://beta.flipper.mattiaswiberg.com/
 npx --no-install dokploy domain by-application-id --applicationId <application-id> --json
 npx --no-install dokploy application read-traefik-config --applicationId <application-id> --json
 ```
 
 The HTTP request must redirect to HTTPS, the HTTPS certificate must match the
-canonical host, and the Traefik configuration must route the host to port
-`3000`. The application deliberately uses the configured canonical origin in
+host under test, and the Traefik configuration must route the host to port
+`3000`. The application deliberately uses the configured public origin in
 production instead of trusting an arbitrary forwarded host; preserved
 forwarded headers are still required for correct proxy and request behavior.
 
@@ -253,19 +308,25 @@ npm run verify:deployment
 ```
 
 The check verifies the health contract, public home, documentation, canonical
-metadata references, `robots.txt`, and `sitemap.xml`. For a local image built
-with the production canonical build input, the transport endpoint can be
+metadata references, `robots.txt`, and `sitemap.xml` against the configured
+public origin (`https://beta.flipper.mattiaswiberg.com` during the migration
+phase, the apex after final cutover). For a local image built with the
+production configured-origin build input, the transport endpoint can be
 overridden without changing the expected public origin:
 
 ```sh
 DEPLOYMENT_BASE_URL=http://127.0.0.1:3000 npm run verify:deployment
 ```
 
-The default production invocation must omit `DEPLOYMENT_BASE_URL`. Before the
-DNS cutover, the same check can run against the Dokploy reverse proxy target
-while preserving the canonical `Host` header (for example through a local
+The expected origin itself is parameterized with `EXPECTED_SITE_URL`, which
+defaults to the configured origin; use it only when verifying a deployment that
+is intentionally built for a different origin, for example while validating the
+cutover step. The default production invocation must omit both
+`DEPLOYMENT_BASE_URL` and `EXPECTED_SITE_URL`. Before the
+final cutover, the same check can run against the Dokploy reverse proxy target
+while preserving the configured `Host` header (for example through a local
 forwarding proxy pointed at the server address), also with
-`DEPLOYMENT_BASE_URL`; the expected canonical-origin content is unchanged.
+`DEPLOYMENT_BASE_URL`; the expected configured-origin content is unchanged.
 The check does not claim DNS, TLS, Supabase Auth, ingestion, provider history,
 or rollback acceptance; those require the operator checks in this document
 and the separate release gate.
@@ -330,11 +391,15 @@ item below without disclosing secrets. Status at the end of the
   clone step before the build, on transient network failures between the
   Dokploy server and GitHub. Acceptance requires one deployment record showing
   a successful build and a healthy start before this item can be marked met.
-- Pending operator DNS repoint: the canonical DNS record, HTTPS certificate,
-  HTTP redirect, and forwarded host/protocol route reaching Flipper at
-  `https://flipper.mattiaswiberg.com`.
-- Pending operator DNS repoint: `npm run verify:deployment` passing through
-  `https://flipper.mattiaswiberg.com`.
+- Pending operator DNS repoint at final cutover: the apex DNS record, HTTPS
+  certificate, HTTP redirect, and forwarded host/protocol route reaching
+  Flipper at `https://flipper.mattiaswiberg.com`. During the migration phase
+  the same evidence is required at the configured origin
+  `https://beta.flipper.mattiaswiberg.com`.
+- Pending operator DNS repoint at final cutover: `npm run verify:deployment`
+  passing through `https://flipper.mattiaswiberg.com`. During the migration
+  phase the same check must pass through
+  `https://beta.flipper.mattiaswiberg.com`.
 - Configured and verified: public and runtime variables are protected Dokploy
   variables; the service role key is runtime-only and absent from image build
   inputs and logs. One historical exception requires operator action: an

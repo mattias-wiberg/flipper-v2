@@ -11,7 +11,11 @@ and listens on `0.0.0.0:3000`.
 Public values are required as Docker build inputs because Next.js inlines
 `NEXT_PUBLIC_*` values into browser bundles:
 
-- `NEXT_PUBLIC_SITE_URL` must be exactly `https://flipper.mattiaswiberg.com` for a production image.
+- `NEXT_PUBLIC_SITE_URL` must be exactly the configured public origin for a
+  production image. During the Vercel-to-Dokploy migration phase the configured
+  origin is `https://beta.flipper.mattiaswiberg.com`; the apex
+  `https://flipper.mattiaswiberg.com` stays on Vercel and remains the documented
+  final canonical origin until cutover (see `docs/dokploy.md`).
 - `NEXT_PUBLIC_SUPABASE_URL` is the existing Supabase project URL.
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` is the existing public Supabase key.
 
@@ -26,9 +30,18 @@ The health endpoint is `GET /api/health` and returns only
 proxy and performs no Supabase, Auth, data, filesystem, or observability work.
 The development recorder returns `404` unless `NODE_ENV=development`.
 
+The `mocker/data` fixtures are Git LFS files used only by dev/test golden
+replay. Deployment clones run with `GIT_LFS_SKIP_SMUDGE=1`, so those files are
+LFS pointer files in deployment checkouts. `.dockerignore` excludes
+`mocker/data` from the image build context and nothing in the production build
+or runtime reads those fixtures, so the image builds and runs unchanged from a
+pointer-only checkout. A normal LFS checkout (`git lfs pull`) is required only
+for `npm run golden:orders` and the mocker tooling.
+
 Local development can use `NEXT_PUBLIC_SITE_URL=http://localhost:3000`, or
-derive its origin from the local request when that value is absent. Dokploy,
-Umami, and SigNoz are not required for `npm run dev`.
+derive its origin from the local request when that value is absent. Production
+never falls back to `VERCEL_URL` or `localhost`. Dokploy, Umami, and SigNoz are
+not required for `npm run dev`.
 
 ## Release Checks
 
@@ -38,7 +51,7 @@ Run the application checks from a clean checkout:
 npm ci
 npx tsc --noEmit
 npx jest --runInBand
-NEXT_PUBLIC_SITE_URL=https://flipper.mattiaswiberg.com \
+NEXT_PUBLIC_SITE_URL=https://beta.flipper.mattiaswiberg.com \
 NEXT_PUBLIC_SUPABASE_URL=https://project.supabase.co \
 NEXT_PUBLIC_SUPABASE_ANON_KEY=public-anon-key \
 npm run build
@@ -49,14 +62,14 @@ time:
 
 ```sh
 docker build \
-  --build-arg NEXT_PUBLIC_SITE_URL=https://flipper.mattiaswiberg.com \
+  --build-arg NEXT_PUBLIC_SITE_URL=https://beta.flipper.mattiaswiberg.com \
   --build-arg NEXT_PUBLIC_SUPABASE_URL=https://project.supabase.co \
   --build-arg NEXT_PUBLIC_SUPABASE_ANON_KEY=public-anon-key \
   -t flipper:v56 .
 
 docker run --rm --name flipper-v56 \
   -p 3000:3000 \
-  -e NEXT_PUBLIC_SITE_URL=https://flipper.mattiaswiberg.com \
+  -e NEXT_PUBLIC_SITE_URL=https://beta.flipper.mattiaswiberg.com \
   -e NEXT_PUBLIC_SUPABASE_URL=https://project.supabase.co \
   -e NEXT_PUBLIC_SUPABASE_ANON_KEY=public-anon-key \
   -e SUPABASE_SERVICE_ROLE_KEY=replace-with-runtime-secret \
@@ -91,3 +104,12 @@ this current branch result and does not describe these passing checks.
 These checks cover the local image boundary. DNS/TLS, the deployed canonical
 domain, Dokploy history, and the deployment smoke test remain deployment-owned
 checks.
+
+Re-verified with the migration-phase origin change: `npm ci`, `npx tsc
+--noEmit`, `npx jest --runInBand` (19 suites, 58 tests), the focused Prettier
+check, and the production build with the canonical build input
+`NEXT_PUBLIC_SITE_URL=https://beta.flipper.mattiaswiberg.com` all pass. The
+production build was also run with `mocker/data` replaced by Git LFS pointer
+text (simulating a `GIT_LFS_SKIP_SMUDGE=1` deployment checkout) and passed
+unchanged, confirming the build does not read the fixtures. The fixtures were
+restored afterwards; no altered fixtures are committed.
