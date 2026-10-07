@@ -2,14 +2,28 @@ import { spawn } from "node:child_process";
 import { createServer, type Server } from "node:http";
 import path from "node:path";
 
-const CANONICAL_SITE_URL = "https://flipper.mattiaswiberg.com";
+import { CANONICAL_SITE_URL } from "../site-url-policy.js";
 
-function runVerifier(baseUrl: string) {
+const APEX_SITE_URL = "https://flipper.mattiaswiberg.com";
+
+function runVerifier(
+  baseUrl: string,
+  options: { expectedSiteUrl?: string } = {},
+) {
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    DEPLOYMENT_BASE_URL: baseUrl,
+  };
+  delete env.EXPECTED_SITE_URL;
+  if (options.expectedSiteUrl !== undefined) {
+    env.EXPECTED_SITE_URL = options.expectedSiteUrl;
+  }
+
   const child = spawn(
     process.execPath,
     [path.resolve(process.cwd(), "scripts/verify-deployment.mjs")],
     {
-      env: { ...process.env, DEPLOYMENT_BASE_URL: baseUrl },
+      env,
       stdio: ["ignore", "ignore", "pipe"],
     },
   );
@@ -27,30 +41,35 @@ function runVerifier(baseUrl: string) {
   );
 }
 
-function softwareApplicationJsonLd() {
+function softwareApplicationJsonLd(siteUrl: string) {
   return JSON.stringify({
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     name: "Flipper",
-    url: CANONICAL_SITE_URL,
+    url: siteUrl,
   });
 }
 
-function homeHtml(options: { jsonLdInScriptTag: boolean }) {
+function homeHtml(siteUrl: string, options: { jsonLdInScriptTag: boolean }) {
   const jsonLd = options.jsonLdInScriptTag
-    ? `<script type="application/ld+json">${softwareApplicationJsonLd()}</script>`
+    ? `<script type="application/ld+json">${softwareApplicationJsonLd(
+        siteUrl,
+      )}</script>`
     : `<script>self.__next_f.push(${JSON.stringify(
-        softwareApplicationJsonLd().replace(/"/g, '\\"'),
+        softwareApplicationJsonLd(siteUrl).replace(/"/g, '\\"'),
       )})</script>`;
 
   return `<!doctype html><html><head>
-    <link rel="canonical" href="${CANONICAL_SITE_URL}" />
-    <meta property="og:url" content="${CANONICAL_SITE_URL}" />
-    <meta name="twitter:image" content="${CANONICAL_SITE_URL}/opengraph-image" />
+    <link rel="canonical" href="${siteUrl}" />
+    <meta property="og:url" content="${siteUrl}" />
+    <meta name="twitter:image" content="${siteUrl}/opengraph-image" />
     </head><body>${jsonLd}</body></html>`;
 }
 
-function compliantOrigin(options: { jsonLdInScriptTag: boolean }): Server {
+function compliantOrigin(options: {
+  jsonLdInScriptTag: boolean;
+  siteUrl: string;
+}): Server {
   return createServer((request, response) => {
     switch (request.url) {
       case "/api/health":
@@ -62,30 +81,30 @@ function compliantOrigin(options: { jsonLdInScriptTag: boolean }): Server {
         return;
       case "/":
         response.writeHead(200, { "content-type": "text/html" });
-        response.end(homeHtml(options));
+        response.end(homeHtml(options.siteUrl, options));
         return;
       case "/documentation":
         response.writeHead(200, { "content-type": "text/html" });
         response.end(
-          `<!doctype html><html><head><link rel="canonical" href="${CANONICAL_SITE_URL}/documentation" /></head><body></body></html>`,
+          `<!doctype html><html><head><link rel="canonical" href="${options.siteUrl}/documentation" /></head><body></body></html>`,
         );
         return;
       case "/manifest.webmanifest":
         response.writeHead(200, {
           "content-type": "application/manifest+json",
         });
-        response.end(JSON.stringify({ start_url: CANONICAL_SITE_URL }));
+        response.end(JSON.stringify({ start_url: options.siteUrl }));
         return;
       case "/robots.txt":
         response.writeHead(200, { "content-type": "text/plain" });
         response.end(
-          `User-agent: *\nHost: ${CANONICAL_SITE_URL}\nSitemap: ${CANONICAL_SITE_URL}/sitemap.xml\n`,
+          `User-agent: *\nHost: ${options.siteUrl}\nSitemap: ${options.siteUrl}/sitemap.xml\n`,
         );
         return;
       case "/sitemap.xml":
         response.writeHead(200, { "content-type": "application/xml" });
         response.end(
-          `<?xml version="1.0" encoding="UTF-8"?><urlset><url><loc>${CANONICAL_SITE_URL}/</loc></url><url><loc>${CANONICAL_SITE_URL}/documentation</loc></url></urlset>`,
+          `<?xml version="1.0" encoding="UTF-8"?><urlset><url><loc>${options.siteUrl}/</loc></url><url><loc>${options.siteUrl}/documentation</loc></url></urlset>`,
         );
         return;
       default:
@@ -115,7 +134,7 @@ describe("deployment verifier", () => {
   it("rejects redirects instead of validating a followed response", async () => {
     const server = createServer((_request, response) => {
       response.writeHead(302, {
-        Location: "https://flipper.mattiaswiberg.com/",
+        Location: `${APEX_SITE_URL}/`,
       });
       response.end();
     });
@@ -131,8 +150,11 @@ describe("deployment verifier", () => {
     }
   });
 
-  it("passes against a compliant origin", async () => {
-    const server = compliantOrigin({ jsonLdInScriptTag: true });
+  it("passes against a compliant origin for the configured site URL", async () => {
+    const server = compliantOrigin({
+      jsonLdInScriptTag: true,
+      siteUrl: CANONICAL_SITE_URL,
+    });
     const baseUrl = await listen(server);
 
     try {
@@ -144,7 +166,10 @@ describe("deployment verifier", () => {
   });
 
   it("rejects JSON-LD that is not in the server-rendered HTML", async () => {
-    const server = compliantOrigin({ jsonLdInScriptTag: false });
+    const server = compliantOrigin({
+      jsonLdInScriptTag: false,
+      siteUrl: CANONICAL_SITE_URL,
+    });
     const baseUrl = await listen(server);
 
     try {
@@ -153,6 +178,70 @@ describe("deployment verifier", () => {
       expect(result.stderr).toContain(
         "home did not expose the expected JSON-LD URL",
       );
+    } finally {
+      await close(server);
+    }
+  });
+
+  it("asserts the configured site URL when EXPECTED_SITE_URL is not set", async () => {
+    const server = compliantOrigin({
+      jsonLdInScriptTag: true,
+      siteUrl: APEX_SITE_URL,
+    });
+    const baseUrl = await listen(server);
+
+    try {
+      const result = await runVerifier(baseUrl);
+      expect(result.code).toBe(1);
+      expect(result.stderr).toContain(
+        "home did not expose the expected canonical link",
+      );
+    } finally {
+      await close(server);
+    }
+  });
+
+  it("honors an EXPECTED_SITE_URL override for the deployment under test", async () => {
+    const alternateSiteUrl = "https://deployment.example.test";
+    const server = compliantOrigin({
+      jsonLdInScriptTag: true,
+      siteUrl: alternateSiteUrl,
+    });
+    const baseUrl = await listen(server);
+
+    try {
+      const passing = await runVerifier(baseUrl, {
+        expectedSiteUrl: alternateSiteUrl,
+      });
+      expect(passing.code).toBe(0);
+
+      const failing = await runVerifier(baseUrl, {
+        expectedSiteUrl: CANONICAL_SITE_URL,
+      });
+      expect(failing.code).toBe(1);
+      expect(failing.stderr).toContain(
+        "home did not expose the expected canonical link",
+      );
+    } finally {
+      await close(server);
+    }
+  });
+
+  it("rejects a credential-bearing EXPECTED_SITE_URL by name only", async () => {
+    const siteSecret = "site-secret-for-test";
+    const server = compliantOrigin({
+      jsonLdInScriptTag: true,
+      siteUrl: CANONICAL_SITE_URL,
+    });
+    const baseUrl = await listen(server);
+
+    try {
+      const result = await runVerifier(baseUrl, {
+        expectedSiteUrl: `https://site-user:${siteSecret}@deployment.example.test`,
+      });
+      expect(result.code).toBe(1);
+      expect(result.stderr).toContain("EXPECTED_SITE_URL");
+      expect(result.stderr).not.toContain(siteSecret);
     } finally {
       await close(server);
     }

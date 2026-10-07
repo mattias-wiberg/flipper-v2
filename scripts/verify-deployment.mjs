@@ -1,8 +1,27 @@
 import siteUrlPolicy from "../site-url-policy.js";
 
 const { CANONICAL_SITE_URL, parseSiteUrl } = siteUrlPolicy;
-const transportBaseUrl =
-  process.env.DEPLOYMENT_BASE_URL?.trim() || CANONICAL_SITE_URL;
+
+// EXPECTED_SITE_URL asserts the canonical origin of the deployment under test.
+// It defaults to the configured public origin (site-url.config.json) and can be
+// overridden when verifying a deployment that is intentionally built for a
+// different origin. DEPLOYMENT_BASE_URL stays a transport-only override (for
+// local container checks) and never changes the expected canonical content.
+function parseExpectedSiteUrl(value) {
+  const url = parseSiteUrl(value);
+  if (!url) {
+    throw new Error(
+      "EXPECTED_SITE_URL must be an http(s) origin without credentials, query, or hash",
+    );
+  }
+
+  return url.origin;
+}
+
+const expectedSiteUrlValue =
+  process.env.EXPECTED_SITE_URL?.trim() || CANONICAL_SITE_URL;
+const transportBaseUrlValue =
+  process.env.DEPLOYMENT_BASE_URL?.trim() || expectedSiteUrlValue;
 const ROUTES = {
   health: { path: "/api/health", accept: "application/json" },
   home: { path: "/", accept: "text/html" },
@@ -112,7 +131,8 @@ async function fetchRoute(baseUrl, routeName) {
 }
 
 async function main() {
-  const baseUrl = parseBaseUrl(transportBaseUrl);
+  const expectedSiteUrl = parseExpectedSiteUrl(expectedSiteUrlValue);
+  const baseUrl = parseBaseUrl(transportBaseUrlValue);
   const health = await fetchRoute(baseUrl, "health");
   const healthBody = await health.json();
   if (JSON.stringify(healthBody) !== JSON.stringify({ status: "ok" })) {
@@ -125,22 +145,22 @@ async function main() {
 
   const home = await fetchRoute(baseUrl, "home");
   const homeBody = await home.text();
-  assertCanonicalLink("home", homeBody, CANONICAL_SITE_URL);
+  assertCanonicalLink("home", homeBody, expectedSiteUrl);
   assertMetaContent(
     "home Open Graph",
     homeBody,
     "property",
     "og:url",
-    CANONICAL_SITE_URL,
+    expectedSiteUrl,
   );
   assertMetaContent(
     "home Twitter",
     homeBody,
     "name",
     "twitter:image",
-    `${CANONICAL_SITE_URL}/opengraph-image`,
+    `${expectedSiteUrl}/opengraph-image`,
   );
-  assertSoftwareApplicationUrl(homeBody, CANONICAL_SITE_URL);
+  assertSoftwareApplicationUrl(homeBody, expectedSiteUrl);
   console.log("PASS home");
 
   const documentation = await fetchRoute(baseUrl, "documentation");
@@ -148,14 +168,14 @@ async function main() {
   assertCanonicalLink(
     "documentation",
     documentationBody,
-    `${CANONICAL_SITE_URL}/documentation`,
+    `${expectedSiteUrl}/documentation`,
   );
   console.log("PASS documentation");
 
   const manifest = await fetchRoute(baseUrl, "manifest");
   const manifestBody = await manifest.json();
-  if (manifestBody.start_url !== CANONICAL_SITE_URL) {
-    throw new Error("manifest did not use the canonical site URL");
+  if (manifestBody.start_url !== expectedSiteUrl) {
+    throw new Error("manifest did not use the expected site URL");
   }
   console.log("PASS manifest");
 
@@ -164,18 +184,18 @@ async function main() {
   assertIncludes(
     "robots",
     robotsBody,
-    `Sitemap: ${CANONICAL_SITE_URL}/sitemap.xml`,
+    `Sitemap: ${expectedSiteUrl}/sitemap.xml`,
   );
-  assertIncludes("robots", robotsBody, `Host: ${CANONICAL_SITE_URL}`);
+  assertIncludes("robots", robotsBody, `Host: ${expectedSiteUrl}`);
   console.log("PASS robots");
 
   const sitemap = await fetchRoute(baseUrl, "sitemap");
   const sitemapBody = await sitemap.text();
-  assertIncludes("sitemap", sitemapBody, `<loc>${CANONICAL_SITE_URL}/</loc>`);
+  assertIncludes("sitemap", sitemapBody, `<loc>${expectedSiteUrl}/</loc>`);
   assertIncludes(
     "sitemap",
     sitemapBody,
-    `<loc>${CANONICAL_SITE_URL}/documentation</loc>`,
+    `<loc>${expectedSiteUrl}/documentation</loc>`,
   );
   console.log("PASS sitemap");
 
