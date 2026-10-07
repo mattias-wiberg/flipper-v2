@@ -90,9 +90,10 @@ session. The image health check performs the same health request internally.
 
 ## Local Verification Evidence
 
-The container boundary has been verified locally with non-secret placeholder
+The container boundary was verified locally in the pre-migration-phase run
+with non-secret placeholder
 values. `npm ci`, `npx tsc --noEmit`, `npx jest --runInBand` (19 suites, 51
-tests), the production build, and the focused Prettier check for changed source
+tests at that run), the production build, and the focused Prettier check for changed source
 and documentation files passed. The real image built from the lockfile, started
 as UID `1001`, returned `200 {"status":"ok"}` with `Cache-Control: no-store`
 from `/api/health`, returned `200` for `/` and `/documentation`, and returned
