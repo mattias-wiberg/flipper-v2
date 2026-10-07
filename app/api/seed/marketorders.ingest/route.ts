@@ -3,6 +3,11 @@ import path from "path";
 
 // Local-dev recorder for live scans (see mocker/README.md).
 //
+// Development-only: returns 404 outside `next dev`, and the production image
+// never contains `mocker/data` (excluded by .dockerignore), where the fixture
+// may be a Git LFS pointer file in deployment clones. Production build and
+// runtime must not depend on real mocker/data contents.
+//
 // Appends every posted body as one JSON line:
 //   {"receivedAt": "<iso>", "body": <exact posted JSON>}
 // so a scan can later be replayed byte-for-byte through the real ingest
