@@ -6,14 +6,26 @@ import { CANONICAL_SITE_URL } from "../site-url-policy.js";
 function runValidation(environment: Record<string, string>) {
   // Scrub inherited public and server-secret names so ambient NEXT_PUBLIC_*
   // exports cannot trip the script's forbidden-name scan or required checks.
-  const cleanEnv: Record<string, string> = {};
-  for (const [name, value] of Object.entries(process.env)) {
-    if (
-      value !== undefined &&
-      !name.startsWith("NEXT_PUBLIC_") &&
-      name !== "SUPABASE_SERVICE_ROLE_KEY"
+  // Start from process.env (which carries the required NODE_ENV) and delete
+  // the scrubbed names instead of rebuilding a literal.
+  const env: NodeJS.ProcessEnv = {
+    ...process.env,
+    NEXT_PUBLIC_SITE_URL: environment.NEXT_PUBLIC_SITE_URL,
+    NEXT_PUBLIC_SUPABASE_URL: environment.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: environment.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+  };
+  for (const name of Object.keys(env)) {
+    if (name === "SUPABASE_SERVICE_ROLE_KEY") {
+      delete env[name];
+    } else if (
+      name.startsWith("NEXT_PUBLIC_") &&
+      ![
+        "NEXT_PUBLIC_SITE_URL",
+        "NEXT_PUBLIC_SUPABASE_URL",
+        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+      ].includes(name)
     ) {
-      cleanEnv[name] = value;
+      delete env[name];
     }
   }
 
@@ -24,13 +36,7 @@ function runValidation(environment: Record<string, string>) {
       "--build",
     ],
     {
-      env: {
-        ...cleanEnv,
-        NEXT_PUBLIC_SITE_URL: environment.NEXT_PUBLIC_SITE_URL,
-        NEXT_PUBLIC_SUPABASE_URL: environment.NEXT_PUBLIC_SUPABASE_URL,
-        NEXT_PUBLIC_SUPABASE_ANON_KEY:
-          environment.NEXT_PUBLIC_SUPABASE_ANON_KEY,
-      },
+      env,
       encoding: "utf8",
     },
   );
