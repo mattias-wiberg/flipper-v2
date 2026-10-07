@@ -142,6 +142,9 @@ Public baseline on 2026-10-07:
 
 ## Open Items
 
+Open items are pending obligations that gate acceptance or final cutover; the
+Follow-ups section below lists deferred cleanups and background constraints.
+
 - Steady-state source branch: the Dokploy application builds from
   `agent/issue-57-dokploy` until the implementation stack merges to `main`.
   After the merge, switch the Dokploy source branch to the protected `main`
@@ -164,11 +167,10 @@ Public baseline on 2026-10-07:
   repository's Git LFS test fixtures (`mocker/data/*.json*`, ~123 MB: 58.8 MB
   `marketorders.expected.json`, 64.6 MB `marketorders.raw.jsonl`) are pointer
   files in deployment checkouts and the clone step no longer downloads their
-  payloads. The
-  production image build and runtime must not depend on real `mocker/data`
-  contents: `.dockerignore` excludes `mocker/data` from the build context and
-  the only consumer is the development-only recorder, which returns `404`
-  outside `NODE_ENV=development`. Dev and test golden replay
+  payloads. The production image build and runtime must not depend on real
+  `mocker/data` contents: `.dockerignore` excludes `mocker/data` from the
+  build context and the only consumer is the development-only recorder, which
+  returns `404` outside `NODE_ENV=development`. Dev and test golden replay
   (`npm run golden:orders`, the mocker tooling) still require a normal LFS
   checkout (`git lfs pull`); a deployment checkout cannot run them. If a
   deployment clone is ever made without the skip flag and the fixture transfer
@@ -379,7 +381,9 @@ and the separate release gate.
    checks to their owning gates. This ticket's verifier intentionally does not
    implement or claim those checks.
 5. Mark the new release known-good only after all required evidence passes.
-   Until then, leave the previous successful release available in Dokploy.
+   Until then, leave the previous successful release available in Dokploy (or
+   on its existing provider, before the first Dokploy release exists; see Open
+   Items).
 
 ## Rollback
 
