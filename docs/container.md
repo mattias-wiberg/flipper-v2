@@ -90,21 +90,19 @@ session. The image health check performs the same health request internally.
 
 ## Local Verification Evidence
 
-The container boundary was verified locally in the pre-migration-phase run
-with non-secret placeholder
-values. `npm ci`, `npx tsc --noEmit`, `npx jest --runInBand` (19 suites, 51
-tests at that run), the production build, and the focused Prettier check for changed source
-and documentation files passed. The real image built from the lockfile, started
-as UID `1001`, returned `200 {"status":"ok"}` with `Cache-Control: no-store`
-from `/api/health`, returned `200` for `/` and `/documentation`, and returned
-`404` for the development recorder in production. The local deployment
-verifier passed for health, public pages, manifest, robots, and sitemap.
-The historical pre-upgrade baseline in `mocker/README.md` is separate from
-this current branch result and does not describe these passing checks.
-
-These checks cover the local image boundary. DNS/TLS, the deployed canonical
-domain, Dokploy history, and the deployment smoke test remain deployment-owned
-checks.
+The container boundary was verified locally with non-secret placeholder values
+in an earlier run using the apex build input
+`NEXT_PUBLIC_SITE_URL=https://flipper.mattiaswiberg.com`, before the
+migration-phase origin contract. `npm ci`, `npx tsc --noEmit`, `npx jest
+--runInBand` (19 suites, 51 tests at that run), the production build, and the
+focused Prettier check for changed source and documentation files passed. The
+real image built from the lockfile, started as UID `1001`, returned
+`200 {"status":"ok"}` with `Cache-Control: no-store` from `/api/health`,
+returned `200` for `/` and `/documentation`, and returned `404` for the
+development recorder in production. The local deployment verifier passed for
+health, public pages, manifest, robots, and sitemap. The historical pre-upgrade
+baseline in `mocker/README.md` is separate from these runs and does not
+describe these passing checks.
 
 Re-verified with the migration-phase origin change: `npm ci`, `npx tsc
 --noEmit`, `npx jest --runInBand` (20 suites, 61 tests), the focused Prettier
@@ -114,3 +112,8 @@ production build was also run with `mocker/data` replaced by Git LFS pointer
 text (simulating a `GIT_LFS_SKIP_SMUDGE=1` deployment checkout) and passed
 unchanged, confirming the build does not read the fixtures. The fixtures were
 restored afterwards; no altered fixtures are committed.
+
+These checks cover the local image boundary. The same boundary is accepted in
+production on the Dokploy beta deployment (see `docs/dokploy.md` for the
+deployment and public-verification evidence); the apex DNS cutover and the
+Supabase Auth steps remain deployment-owned checks.

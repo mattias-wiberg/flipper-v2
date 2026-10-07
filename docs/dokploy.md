@@ -45,87 +45,126 @@ session:
 
 Provider-side configuration was performed from this worktree on 2026-09-30
 through the repository-local Dokploy CLI and the operator's stored panel
-credentials. Secret values were sourced from operator-stored local
-configuration at command runtime and were never echoed, logged, or committed.
-Retained provider evidence (identifiers only):
+credentials. The migration-phase beta deployment and its public verification
+were accepted on 2026-10-07. Secret values were sourced from operator-stored
+local configuration at command runtime and were never echoed, logged, or
+committed. Retained provider evidence (identifiers only):
 
-- Dokploy project `Flipper` (`wHuv03684GC3ewNsz88OF`), default environment
-  `production` (`Bt_qcV1KLFmvbX7zMQDrr`), application `Flipper`
-  (`wrHEV_vFcZLcCXlhmAlWz`, container name `flipper-ez9pcl`).
-- Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git` on the
-  protected `main` branch, build type `dockerfile` with `Dockerfile` at the
-  repository root, no generated env file (`createEnvFile: false`). The
-  container contract reaches `main` when the implementation stack merges;
-  until then a deploy from `main` fails at the build step by design, and the
-  acceptance build runs from the merge-ready stack ref.
+- Dokploy panel `https://dokploy.mattiaswiberg.com`; project `Flipper`
+  (`wHuv03684GC3ewNsz88OF`), default environment `production`
+  (`Bt_qcV1KLFmvbX7zMQDrr`), application `Flipper` (`wrHEV_vFcZLcCXlhmAlWz`,
+  container name `flipper-ez9pcl`).
+- Accepted deployment: deploymentId `yTsSGWbMOPxYqULDNGwzp`, status `done`,
+  `2026-10-07T19:52:27Z` to `2026-10-07T19:53:29Z` (62s), built from source
+  branch `agent/issue-57-dokploy` at `c5e0146`. This is the first successful
+  Dokploy release for this application.
+- Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git`, build
+  type `dockerfile` with `Dockerfile` at the repository root, no generated env
+  file (`createEnvFile: false`). The steady-state source branch is
+  `agent/issue-57-dokploy` until the implementation stack merges to `main`;
+  after the merge, switch the Dokploy source branch to the protected `main`
+  branch and redeploy (see Open Items).
 - Deployment variables (names only): build inputs `NEXT_PUBLIC_SITE_URL`,
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; runtime adds
-  `SUPABASE_SERVICE_ROLE_KEY` only. A read-back on 2026-09-30 confirmed
-  `NEXT_PUBLIC_SITE_URL` in both placements; under the migration-phase origin
-  contract above the value must be exactly
-  `https://beta.flipper.mattiaswiberg.com`, so the stored variable must be
-  updated to the beta origin (operator action) before the next deploy. The
-  service-role key is runtime-only (absent from build inputs and not
-  `NEXT_PUBLIC_`-prefixed). Deployment build and application log scans found
-  zero occurrences of any variable value.
+  `SUPABASE_SERVICE_ROLE_KEY` only. The accepted deployment ran with
+  `NEXT_PUBLIC_SITE_URL` set to the configured origin
+  `https://beta.flipper.mattiaswiberg.com`, and startup configuration
+  validation is present in the deployment log (see the log evidence below).
+  The service-role key is runtime-only (absent from build inputs and not
+  `NEXT_PUBLIC_`-prefixed) and log scans found zero occurrences of any
+  variable value.
 - Process checks use the health contract: the swarm health check runs
   `GET http://127.0.0.1:3000/api/health` and requires `200`, body exactly
   `{"status":"ok"}`, and `Cache-Control: no-store` (interval 30s, timeout 5s,
   start period 10s, 3 retries) — the same contract as the Dockerfile
   `HEALTHCHECK`.
-- Domain `flipper.mattiaswiberg.com` (`3UMu5KPgWDK0rjmtTc7E6`) is attached to
-  the application with HTTPS enabled, a managed (`letsencrypt`) certificate,
-  path `/`, and port `3000`. Under the migration-phase origin contract the
-  public host serving the Dokploy deployment is
-  `beta.flipper.mattiaswiberg.com`; the apex attachment becomes live only at
+- Public verification on 2026-10-07: `npm run verify:deployment` passed without
+  overrides against `https://beta.flipper.mattiaswiberg.com` for health, home,
+  documentation, manifest, robots, and sitemap, with canonical links equal to
+  the configured origin. The health contract matched exactly: HTTP `200`, body
+  `{"status":"ok"}`, `Cache-Control: no-store`. Home and documentation returned
+  HTTP `200`, and the development recorder returned `404` outside development.
+- DNS (Spaceship zone `mattiaswiberg.com`, read-back verified 2026-10-07):
+  `beta.flipper` is a CNAME to `mattiaswiberg.com`; `flipper` remains a CNAME
+  to `3494aaa2b2faa2e2.vercel-dns-017.com`, so the apex stays on Vercel until
   final cutover.
+- Dokploy domains on the application: `beta.flipper.mattiaswiberg.com`
+  (`qmSiPOPoSGdM7WxFn6T0v`, HTTPS, `letsencrypt`, port `3000`) added
+  2026-10-07; the pre-existing `flipper.mattiaswiberg.com` domain
+  (`3UMu5KPgWDK0rjmtTc7E6`) is retained unchanged for final cutover.
+- Deployment transport: `GIT_LFS_SKIP_SMUDGE=1` is set on the Dokploy swarm
+  service on the host (server-wide, operator-approved 2026-10-07), so
+  deployment clones no longer smudge the ~123 MB `mocker/data` LFS fixtures
+  (58.8 MB `marketorders.expected.json`, 64.6 MB `marketorders.raw.jsonl`).
+  The production image build and runtime are independent of real fixture
+  contents (proven by the LFS-pointer checkout simulation recorded in
+  `docs/container.md`); dev/test golden replay still requires a normal LFS
+  checkout. The accepted deployment's log contains zero LFS references.
+- Deployment log scan (log `flipper-ez9pcl-2026-10-07:19:52:27.log`, 204
+  lines): zero occurrences of `SUPABASE_SERVICE_ROLE_KEY=`, zero JWT-shaped
+  strings, zero occurrences of any `NEXT_PUBLIC_*` assignment; startup
+  configuration validation is present.
 - `rollbackActive` is enabled on the application. No registry exists on this
   server, and Dokploy creates versioned rollback records only when a rollback
   registry is configured; see the Rollback section for the restore paths that
   apply on this server.
-- The existing Supabase project remains the only production data and Auth
-  service. No Supabase resource was created or modified, and the configured
+- The existing Supabase project (`tetsknwxsintaitiufgx`, Flipper v2) remains
+  the only production data and Auth service and was untouched and authoritative
+  throughout. No Supabase resource was created or modified, and the configured
   `NEXT_PUBLIC_SUPABASE_URL` matches both the single existing Supabase project
   and the URL previously served by the live production bundle.
 
-Twelve deployment attempts recorded on 2026-09-30 and 2026-10-01 (eight
-manual, four supervised automatic retries) all failed before the build step: the
-server-side clone of the repository did not complete because of transient
-network failures between the Dokploy server and GitHub (Git LFS smudge
-download errors, DNS resolution failures for `github.com`, and early-EOF
-object transfers). A separate probe at the end of the run returned HTTP 200
-from GitHub's Git LFS batch endpoint, so the failures point at the server's
-network path rather than a blocked or quota-limited endpoint. The
-repository carries Git LFS test fixtures (`mocker/data/*.json*`, about 124 MB)
-that the production image does not include but every deployment clone was
+Deployment history context: twelve deployment attempts recorded on 2026-09-30
+and 2026-10-01 (eight manual, four supervised automatic retries) failed before
+the build step when the server-side clone did not complete during transient
+network episodes between the Dokploy server and GitHub (Git LFS smudge
+download errors at about 52 KiB/s, intermittent DNS resolution failures for
+`github.com`, and early-EOF object transfers). A probe at the end of that run
+returned HTTP 200 from GitHub's Git LFS batch endpoint, so the failures pointed
+at the server's network path rather than a blocked or quota-limited endpoint.
+The repository carries Git LFS test fixtures (`mocker/data/*.json*`, about 123
+MB) that the production image does not include but every deployment clone was
 downloading; a failure anywhere in that transfer failed the deployment at the
-clone step. Deployment clones now run with `GIT_LFS_SKIP_SMUDGE=1` on the
-Dokploy host (operator-side), so deployment checkouts carry LFS pointer files
-instead of the fixture payloads; see the Follow-ups section. Every failed
-attempt retains its deployment record and log, which
-was scanned and contains no credentials. The recorded remediation for the
-next operator session is in the Follow-ups and Deploy and Verify sections:
-redeploy once the server's GitHub connectivity is stable, then run the
-deployment smoke test.
+clone step. Every failed attempt retains its deployment record and log, which
+was scanned and contains no credentials. The transport was repaired on
+2026-10-07 by the `GIT_LFS_SKIP_SMUDGE=1` deployment-clone fix above plus
+stable link conditions, after which the deployment completed and passed public
+verification as recorded above.
 
-Public baseline still observed at the end of this change:
+Public baseline on 2026-10-07:
 
+- `https://beta.flipper.mattiaswiberg.com` serves the accepted Dokploy release;
+  `npm run verify:deployment` passes there for the health contract, public
+  pages, canonical metadata, manifest, robots, and sitemap.
 - `flipper.mattiaswiberg.com` still resolves through the Vercel DNS target and
-  keeps serving the existing Vercel release until final cutover. During the
-  migration phase the canonical public evidence is observed at the configured
-  origin `https://beta.flipper.mattiaswiberg.com` (public pages, metadata,
-  robots, and sitemap, plus `npm run verify:deployment` without
-  `DEPLOYMENT_BASE_URL`).
-- `npm run verify:deployment` can be run through the Dokploy reverse proxy
-  before the final cutover with the transport override documented in the Deploy
-  and Verify section; the expected configured-origin content is unchanged.
+  keeps serving the existing Vercel release until final cutover; the apex
+  remains the documented final canonical origin.
+
+## Open Items
+
+- Steady-state source branch: the Dokploy application builds from
+  `agent/issue-57-dokploy` until the implementation stack merges to `main`.
+  After the merge, switch the Dokploy source branch to the protected `main`
+  branch and redeploy so releases build from production.
+- First successful release and rollback: the accepted beta deployment is the
+  first successful Dokploy release for this application, so no previous Dokploy
+  release or rollback record exists to restore. The previous known-good release
+  is the Vercel deployment at the apex `https://flipper.mattiaswiberg.com`, and
+  the applicable rollback path is the documented DNS fallback (Rollback
+  section, step 4).
+- Supabase Auth for beta sign-in: the Supabase Auth Site URL and redirect
+  allowlist still need an entry for the beta callback origin
+  (`https://beta.flipper.mattiaswiberg.com`). This is an operator step owned by
+  #58; sign-in on the beta deployment requires it.
 
 ## Follow-ups
 
-- Deployment clones run with `GIT_LFS_SKIP_SMUDGE=1` on the Dokploy host
-  (operator-side), so the repository's Git LFS test fixtures
-  (`mocker/data/*.json*`, about 124 MB) are pointer files in deployment
-  checkouts and the clone step no longer downloads their payloads. The
+- Deployment clones run with `GIT_LFS_SKIP_SMUDGE=1`, set on the Dokploy swarm
+  service on the host (server-wide, operator-approved 2026-10-07), so the
+  repository's Git LFS test fixtures (`mocker/data/*.json*`, ~123 MB: 58.8 MB
+  `marketorders.expected.json`, 64.6 MB `marketorders.raw.jsonl`) are pointer
+  files in deployment checkouts and the clone step no longer downloads their
+  payloads. The
   production image build and runtime must not depend on real `mocker/data`
   contents: `.dockerignore` excludes `mocker/data` from the build context and
   the only consumer is the development-only recorder, which returns `404`
@@ -209,7 +248,8 @@ npx --no-install dokploy application read-traefik-config --applicationId <applic
 Treat application and deployment JSON as sensitive. Inspect the values locally
 but do not publish environment values, credentials, cookies, or raw logs.
 The deployment must be stopped if the selected application is not the Flipper
-application or if its source branch is not the protected `main` branch.
+application or if its source branch is not the expected release branch (`main`,
+or `agent/issue-57-dokploy` during the migration phase; see Open Items).
 
 Known CLI limitation (`@dokploy/cli` 0.30.7): read-by-id commands such as
 `application one` and `project one` return HTTP 400 because the CLI sends the
@@ -293,8 +333,9 @@ forwarded headers are still required for correct proxy and request behavior.
 
 Before any deployment, record the current successful deployment and rollback
 record from Dokploy. Do not remove it. A deployment is an operator action and
-must target the identified Flipper application and the merged commit on
-`main`.
+must target the identified Flipper application and the expected release commit
+(the merged commit on `main`, or `agent/issue-57-dokploy` at the recorded
+accepted SHA during the migration phase; see Open Items).
 
 After the image starts:
 
@@ -383,26 +424,23 @@ recorded known-good release on its existing provider.
 ## Acceptance Evidence
 
 The ticket is not accepted until an operator can retain evidence for each
-item below without disclosing secrets. Status at the end of the
-2026-09-30 deployment change:
+item below without disclosing secrets. Status at the end of the 2026-10-07
+beta deployment evidence:
 
-- Configured: the Dokploy application builds the repository with the committed
-  production Dockerfile on port `3000`, and its source branch is the protected
-  `main` branch so releases build from production once the container contract
-  merges there. No deployment attempt has yet completed end to end: all twelve
-  attempts recorded on 2026-09-30 and 2026-10-01 failed during the repository
-  clone step before the build, on transient network failures between the
-  Dokploy server and GitHub. Acceptance requires one deployment record showing
-  a successful build and a healthy start before this item can be marked met.
-- Pending operator DNS repoint at final cutover: the apex DNS record, HTTPS
-  certificate, HTTP redirect, and forwarded host/protocol route reaching
-  Flipper at `https://flipper.mattiaswiberg.com`. During the migration phase
-  the same evidence is required at the configured origin
-  `https://beta.flipper.mattiaswiberg.com`.
-- Pending operator DNS repoint at final cutover: `npm run verify:deployment`
-  passing through `https://flipper.mattiaswiberg.com`. During the migration
-  phase the same check must pass through
-  `https://beta.flipper.mattiaswiberg.com`.
+- Verified: the Dokploy application builds the repository with the committed
+  production Dockerfile on port `3000`, and deployment
+  `yTsSGWbMOPxYqULDNGwzp` (2026-10-07, status `done`, 62s) completed end to
+  end from source branch `agent/issue-57-dokploy` at `c5e0146` and started
+  healthy. The steady-state source branch switches to the protected `main`
+  branch after the implementation stack merges (see Open Items).
+- Verified at the migration-phase configured origin on 2026-10-07: DNS
+  (`beta.flipper` CNAME read-back), the managed HTTPS certificate on the
+  Dokploy domain, and the forwarded host/protocol route reach Flipper at
+  `https://beta.flipper.mattiaswiberg.com`. Pending at final cutover: the same
+  evidence at the apex `https://flipper.mattiaswiberg.com`.
+- Verified on 2026-10-07: `npm run verify:deployment` passing through
+  `https://beta.flipper.mattiaswiberg.com`. Pending at final cutover: the same
+  check passing through `https://flipper.mattiaswiberg.com`.
 - Configured and verified: public and runtime variables are protected Dokploy
   variables; the service role key is runtime-only and absent from image build
   inputs and logs. One historical exception requires operator action: an
@@ -412,11 +450,13 @@ item below without disclosing secrets. Status at the end of the
   that token in the existing Supabase project is an operator action (see
   Follow-ups) and must be coordinated with the ingestion-validation work in
   #59.
-- Partially verified: the previous successful release remains available until
-  acceptance through deployment history and Docker Swarm's retained previous
-  service spec; the recorded-DNS fallback restores the recorded known-good
-  release. Operator execution of one restore path is still required for full
-  acceptance, and a Dokploy rollback record requires attaching a rollback
-  registry to the application.
-- Verified: the existing Supabase project remains the only production data and
-  Auth service.
+- Partially verified: the previous known-good release is the Vercel deployment
+  at the apex and remains available and serving until final cutover; the
+  recorded-DNS fallback restores it (Rollback section, step 4). Because the
+  beta deployment is the first successful Dokploy release, no Dokploy rollback
+  record exists, and operator execution of the DNS fallback remains required
+  for full rollback acceptance.
+- Verified: the existing Supabase project (`tetsknwxsintaitiufgx`, Flipper v2)
+  remains the only production data and Auth service. Sign-in on the beta
+  deployment is pending the Supabase Auth Site URL / redirect allowlist step
+  owned by #58 (see Open Items).
