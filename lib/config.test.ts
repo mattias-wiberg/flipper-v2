@@ -15,12 +15,22 @@ describe("deployment configuration", () => {
     SUPABASE_SERVICE_ROLE_KEY: "server-only-service-role-key",
   };
 
+  it("uses the migration-phase beta origin as the configured public origin", () => {
+    expect(CANONICAL_SITE_URL).toBe("https://beta.flipper.mattiaswiberg.com");
+  });
+
   it("uses a local origin without production configuration", () => {
     expect(getSiteUrl({}, "development")).toBe(LOCAL_SITE_URL);
+    expect(
+      getSiteUrl({ VERCEL_URL: "vercel-deployment.example" }, "development"),
+    ).toBe(LOCAL_SITE_URL);
   });
 
   it("requires the canonical public origin in production", () => {
     expect(() => getSiteUrl({}, "production")).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    expect(() =>
+      getSiteUrl({ VERCEL_URL: "vercel-deployment.example" }, "production"),
+    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
     expect(() =>
       getSiteUrl(
         {
@@ -31,6 +41,26 @@ describe("deployment configuration", () => {
       ),
     ).toThrow(/NEXT_PUBLIC_SITE_URL/);
     expect(getSiteUrl(validEnvironment, "production")).toBe(CANONICAL_SITE_URL);
+  });
+
+  it("rejects a valid origin that is not the configured origin by name only", () => {
+    const wrongOrigin = "https://flipper.mattiaswiberg.com";
+    let thrown: unknown;
+
+    try {
+      getSiteUrl(
+        { ...validEnvironment, NEXT_PUBLIC_SITE_URL: wrongOrigin },
+        "production",
+      );
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(Error);
+    if (thrown instanceof Error) {
+      expect(thrown.message).toContain("NEXT_PUBLIC_SITE_URL");
+      expect(thrown.message).not.toContain(wrongOrigin);
+    }
   });
 
   it("rejects credential-bearing site and Supabase URLs", () => {
