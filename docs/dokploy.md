@@ -28,13 +28,16 @@ Final cutover flips the configured origin back to the apex in one operator
 session:
 
 1. Set `canonicalSiteUrl` in `site-url.config.json` back to
-   `https://flipper.mattiaswiberg.com` and update the migration-phase tests and
-   documentation that pin the beta origin.
+   `https://flipper.mattiaswiberg.com` and update the migration-phase tests,
+   documentation, and Supabase email templates (`emails/*.html` absolute asset
+   URLs) that pin the beta origin.
 2. Update the Dokploy `NEXT_PUBLIC_SITE_URL` build input and runtime variable to
    `https://flipper.mattiaswiberg.com`.
 3. Repoint the `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse
    proxy and confirm the TLS certificate and HTTP-to-HTTPS redirect.
-4. Update the Supabase Auth Site URL and redirect allowlist to the apex origin.
+4. Update the Supabase Auth Site URL and redirect allowlist to the apex origin,
+   and sync the updated `emails/*.html` templates into the Supabase Auth email
+   settings.
 5. Redeploy and run `npm run verify:deployment`; its expected origin defaults to
    the configured origin, which is now the apex.
 

@@ -106,7 +106,7 @@ domain, Dokploy history, and the deployment smoke test remain deployment-owned
 checks.
 
 Re-verified with the migration-phase origin change: `npm ci`, `npx tsc
---noEmit`, `npx jest --runInBand` (19 suites, 58 tests), the focused Prettier
+--noEmit`, `npx jest --runInBand` (20 suites, 60 tests), the focused Prettier
 check, and the production build with the canonical build input
 `NEXT_PUBLIC_SITE_URL=https://beta.flipper.mattiaswiberg.com` all pass. The
 production build was also run with `mocker/data` replaced by Git LFS pointer
