@@ -59,7 +59,9 @@ function isCanonicalSiteUrl(value) {
 // credentials, path, query, or hash. Fail closed at load time and name the
 // configuration key only; never echo the configured value in diagnostics.
 if (normalizeSiteUrl(CANONICAL_SITE_URL) !== CANONICAL_SITE_URL) {
-  throw new Error("Invalid configured origin in site-url.config.json");
+  throw new Error(
+    "Invalid configured origin for canonicalSiteUrl in site-url.config.json",
+  );
 }
 
 module.exports = {
