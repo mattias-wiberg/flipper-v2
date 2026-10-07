@@ -3,10 +3,12 @@ import path from "path";
 
 // Local-dev recorder for live scans (see mocker/README.md).
 //
-// Development-only: returns 404 outside `next dev`, and the production image
-// never contains `mocker/data` (excluded by .dockerignore), where the fixture
-// may be a Git LFS pointer file in deployment clones. Production build and
-// runtime must not depend on real mocker/data contents.
+// Development-only: returns 404 outside `next dev`, before any filesystem
+// access. `mocker/data` is excluded from the production image (.dockerignore)
+// and its tracked fixtures (`marketorders.*`) are Git LFS pointer files in
+// deployment clones (GIT_LFS_SKIP_SMUDGE=1), so the production build and
+// runtime must not depend on real contents there. This recorder's own output
+// (`golden.raw.jsonl`) is untracked and written only by local development.
 //
 // Appends every posted body as one JSON line:
 //   {"receivedAt": "<iso>", "body": <exact posted JSON>}

@@ -11,7 +11,7 @@ function parseExpectedSiteUrl(value) {
   const url = parseSiteUrl(value);
   if (!url) {
     throw new Error(
-      "EXPECTED_SITE_URL must be an http(s) origin without credentials, query, or hash",
+      "EXPECTED_SITE_URL must be an http(s) origin without credentials, path, query, or hash",
     );
   }
 
@@ -38,7 +38,7 @@ function parseBaseUrl(value) {
   const url = parseSiteUrl(value);
   if (!url) {
     throw new Error(
-      "DEPLOYMENT_BASE_URL must be an http(s) origin without credentials, query, or hash",
+      "DEPLOYMENT_BASE_URL must be an http(s) origin without credentials, path, query, or hash",
     );
   }
 
