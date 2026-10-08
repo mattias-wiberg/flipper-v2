@@ -155,10 +155,13 @@ Follow-ups section below lists deferred cleanups and background constraints.
   is the Vercel deployment at the apex `https://flipper.mattiaswiberg.com`, and
   the applicable rollback path is the documented DNS fallback (Rollback
   section, step 4).
-- Supabase Auth for beta sign-in: the Supabase Auth Site URL and redirect
-  allowlist still need an entry for the beta callback origin
-  (`https://beta.flipper.mattiaswiberg.com`). This is an operator step owned by
-  #58; sign-in on the beta deployment requires it.
+- Supabase Auth for beta sign-in: the Supabase Auth Site URL and the
+  redirect allowlist entries for the beta callback origin
+  (`https://beta.flipper.mattiaswiberg.com/` and
+  `https://beta.flipper.mattiaswiberg.com/**`) were being set by the
+  operator on 2026-10-08 (owned by #58); the provider read-back that proves
+  them is still pending (`docs/auth.md`, operator check 1), and sign-in on
+  the beta deployment requires them.
 
 ## Follow-ups
 

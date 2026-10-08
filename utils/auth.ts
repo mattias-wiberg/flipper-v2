@@ -93,7 +93,16 @@ export function getSafeRedirectPath(
       return AUTHENTICATED_REDIRECT;
     }
 
-    return `${requestedUrl.pathname}${requestedUrl.search}${requestedUrl.hash}`;
+    // URL normalization can collapse dot-segment and backslash inputs (for
+    // example `/.//host` or `/..\\host`) into a `//host` path that would be
+    // re-parsed as an off-origin URL. Re-apply the same shape check to the
+    // normalized result so only same-origin local paths survive.
+    const safePath = `${requestedUrl.pathname}${requestedUrl.search}${requestedUrl.hash}`;
+    if (!safePath.startsWith("/") || safePath.startsWith("//")) {
+      return AUTHENTICATED_REDIRECT;
+    }
+
+    return safePath;
   } catch {
     return AUTHENTICATED_REDIRECT;
   }
@@ -103,5 +112,13 @@ export function getSafeRedirectUrl(
   requestedPath: string | null | undefined,
   origin: string,
 ) {
-  return new URL(getSafeRedirectPath(requestedPath, origin), origin);
+  const redirectUrl = new URL(
+    getSafeRedirectPath(requestedPath, origin),
+    origin,
+  );
+
+  // Defense in depth: the resolved destination must stay on the origin.
+  return redirectUrl.origin === origin
+    ? redirectUrl
+    : new URL(AUTHENTICATED_REDIRECT, origin);
 }

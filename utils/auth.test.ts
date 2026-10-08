@@ -1,5 +1,6 @@
 import {
   AUTHENTICATED_REDIRECT,
+  PASSWORD_RESET_REDIRECT,
   forgotPasswordSchema,
   getRequestOrigin,
   getSafeRedirectUrl,
@@ -8,7 +9,7 @@ import {
   signInSchema,
   signUpSchema,
 } from "./auth";
-import { CANONICAL_SITE_URL } from "@/lib/site-url";
+import { CANONICAL_SITE_URL, LOCAL_SITE_URL } from "@/lib/site-url";
 
 describe("auth boundaries", () => {
   const origin = "https://flipper.example";
@@ -89,5 +90,154 @@ describe("auth boundaries", () => {
         confirmPassword: "different",
       }).success,
     ).toBe(false);
+  });
+});
+
+describe("password recovery redirect_to handling at the beta origin", () => {
+  const origin = CANONICAL_SITE_URL;
+
+  it("keeps the recovery redirect_to on the configured beta origin", () => {
+    expect(getSafeRedirectPath(PASSWORD_RESET_REDIRECT, origin)).toBe(
+      "/authenticated/reset-password",
+    );
+    expect(getSafeRedirectUrl(PASSWORD_RESET_REDIRECT, origin).toString()).toBe(
+      "https://beta.flipper.mattiaswiberg.com/authenticated/reset-password",
+    );
+  });
+
+  it("falls back to deal discovery when redirect_to is missing or escapes", () => {
+    for (const target of [
+      undefined,
+      null,
+      "",
+      "https://attacker.example/steal",
+      "https://beta.flipper.mattiaswiberg.com.evil.example/steal",
+      "https://attacker.example/steal?next=https://beta.flipper.mattiaswiberg.com",
+      "http://beta.flipper.mattiaswiberg.com/steal",
+      "//attacker.example/steal",
+      "/\\attacker.example/steal",
+      "\\\\attacker.example/steal",
+      "authenticated/reset-password",
+      // Dot-segment and backslash inputs that URL normalization collapses
+      // into protocol-relative `//host` paths.
+      "/.//attacker.example",
+      "/..//attacker.example",
+      "/%2e//attacker.example",
+      "/%2e%2e//attacker.example",
+      "/.\\\\attacker.example",
+      "/..\\\\attacker.example",
+      "/x/..//attacker.example",
+    ]) {
+      expect(getSafeRedirectPath(target, origin)).toBe(AUTHENTICATED_REDIRECT);
+      expect(getSafeRedirectUrl(target, origin).toString()).toBe(
+        "https://beta.flipper.mattiaswiberg.com/authenticated/deals",
+      );
+    }
+  });
+
+  it.each([
+    ["/%2f%2fattacker.example/steal", "/%2f%2fattacker.example/steal"],
+    ["/%2e%2e/%2e%2e/steal", "/steal"],
+    ["/%5c%5cattacker.example", "/%5c%5cattacker.example"],
+    ["/..%2f..%2fsteal", "/..%2f..%2fsteal"],
+    ["/%2f%2f%2f%2fattacker.example", "/%2f%2f%2f%2fattacker.example"],
+  ])(
+    "preserves %s as the on-origin path %s instead of falling back",
+    (target, expectedPath) => {
+      // Pin the exact contained result so an over-rejection regression to the
+      // fallback cannot pass silently.
+      expect(getSafeRedirectPath(target, origin)).toBe(expectedPath);
+      expect(getSafeRedirectPath(target, origin)).not.toBe(
+        AUTHENTICATED_REDIRECT,
+      );
+
+      const url = getSafeRedirectUrl(target, origin);
+      expect(url.origin).toBe(origin);
+      expect(url.pathname).toBe(expectedPath);
+    },
+  );
+
+  it("preserves single-backslash dot-segment inputs as on-origin paths instead of falling back", () => {
+    // These normalize to `/attacker.example` (same origin), so they must NOT
+    // collapse into the fallback — pin the exact contained result.
+    expect(getSafeRedirectPath("/.\\attacker.example", origin)).toBe(
+      "/attacker.example",
+    );
+    expect(getSafeRedirectPath("/..\\attacker.example", origin)).toBe(
+      "/attacker.example",
+    );
+    expect(getSafeRedirectUrl("/.\\attacker.example", origin).toString()).toBe(
+      "https://beta.flipper.mattiaswiberg.com/attacker.example",
+    );
+    expect(getSafeRedirectPath("/.\\attacker.example", origin)).not.toBe(
+      AUTHENTICATED_REDIRECT,
+    );
+  });
+
+  it("preserves safe query data on allowed local targets", () => {
+    expect(
+      getSafeRedirectUrl(
+        "/authenticated/reset-password?source=recovery#password",
+        origin,
+      ).toString(),
+    ).toBe(
+      "https://beta.flipper.mattiaswiberg.com/authenticated/reset-password?source=recovery#password",
+    );
+  });
+});
+
+describe("origin selection behind the proxy", () => {
+  it("returns the configured beta origin in production regardless of forwarded headers", () => {
+    expect(
+      getRequestOrigin(
+        new Headers({
+          origin: "https://attacker.example",
+          host: "attacker.example",
+          "x-forwarded-host": "attacker.example",
+          "x-forwarded-proto": "http",
+        }),
+        {
+          NODE_ENV: "production",
+          NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+        },
+      ),
+    ).toBe("https://beta.flipper.mattiaswiberg.com");
+  });
+
+  it("rejects a non-canonical configured origin in production", () => {
+    expect(() =>
+      getRequestOrigin(new Headers({}), {
+        NODE_ENV: "production",
+        NEXT_PUBLIC_SITE_URL: "https://attacker.example",
+      }),
+    ).toThrow("Invalid environment variable: NEXT_PUBLIC_SITE_URL");
+  });
+
+  it("derives the local origin for local development requests", () => {
+    expect(
+      getRequestOrigin(new Headers({ host: "localhost:3000" }), {
+        NODE_ENV: "development",
+      }),
+    ).toBe("http://localhost:3000");
+    expect(
+      getRequestOrigin(
+        new Headers({
+          "x-forwarded-host": "127.0.0.1:3000",
+          "x-forwarded-proto": "http",
+        }),
+        { NODE_ENV: "development" },
+      ),
+    ).toBe("http://127.0.0.1:3000");
+    expect(
+      getRequestOrigin(new Headers({}), {
+        NODE_ENV: "development",
+      }),
+    ).toBe(LOCAL_SITE_URL);
+    expect(
+      getRequestOrigin(new Headers({}), {
+        NODE_ENV: "development",
+        NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+      }),
+    ).toBe("https://beta.flipper.mattiaswiberg.com");
   });
 });
