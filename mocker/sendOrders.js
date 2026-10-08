@@ -3,7 +3,6 @@ const path = require("path");
 
 const DEFAULTS = {
   file: path.join(__dirname, "data", "marketorders.raw.jsonl"),
-  token: "14f799f4-bdf0-4feb-856a-30641cdd7250",
   appUrl: "http://localhost:3000",
 };
 
@@ -20,9 +19,15 @@ function loadBatches(file) {
 
 async function main({
   file = DEFAULTS.file,
-  token = DEFAULTS.token,
+  token = process.env.FLIPPER_INGESTION_TOKEN,
   appUrl = DEFAULTS.appUrl,
 } = {}) {
+  if (!token) {
+    throw new Error(
+      "Missing ingestion token. Set FLIPPER_INGESTION_TOKEN or pass token explicitly.",
+    );
+  }
+
   const batches = loadBatches(file);
 
   let sent = 0;

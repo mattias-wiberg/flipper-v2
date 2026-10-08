@@ -1,4 +1,4 @@
-import { getSafeRedirectUrl } from "@/utils/auth";
+import { getRequestOrigin, getSafeRedirectUrl } from "@/utils/auth";
 import { createClient } from "@/utils/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,14 +8,17 @@ export async function GET(request: NextRequest) {
   // https://supabase.com/docs/guides/auth/server-side/nextjs
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
-  const origin = requestUrl.origin;
+  const origin = getRequestOrigin(request.headers);
   const redirectUrl = getSafeRedirectUrl(
     requestUrl.searchParams.get("redirect_to"),
-    origin
+    origin,
   );
 
   const errorUrl = new URL("/log-in", origin);
-  errorUrl.searchParams.set("error", "Authentication failed. Please try again.");
+  errorUrl.searchParams.set(
+    "error",
+    "Authentication failed. Please try again.",
+  );
 
   if (!code) {
     return NextResponse.redirect(errorUrl);

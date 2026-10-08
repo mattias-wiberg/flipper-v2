@@ -3,6 +3,13 @@ import path from "path";
 
 // Local-dev recorder for live scans (see mocker/README.md).
 //
+// Development-only: returns 404 outside `next dev`, before any filesystem
+// access. `mocker/data` is excluded from the production image (.dockerignore)
+// and its tracked fixtures (`marketorders.*`) are Git LFS pointer files in
+// deployment clones (GIT_LFS_SKIP_SMUDGE=1), so the production build and
+// runtime must not depend on real contents there. This recorder's own output
+// (`golden.raw.jsonl`) is untracked and written only by local development.
+//
 // Appends every posted body as one JSON line:
 //   {"receivedAt": "<iso>", "body": <exact posted JSON>}
 // so a scan can later be replayed byte-for-byte through the real ingest
@@ -14,6 +21,10 @@ import path from "path";
 const RAW_FILE = path.join(process.cwd(), "mocker", "data", "golden.raw.jsonl");
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV !== "development") {
+    return new Response("Not Found", { status: 404 });
+  }
+
   try {
     const text = await request.text();
     let body: unknown;

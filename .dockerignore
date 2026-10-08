@@ -1,0 +1,15 @@
+.git
+.github
+.agents
+.husky
+node_modules
+.next
+coverage
+.env
+.env.*
+!.env.example
+# mocker/data holds Git LFS fixtures used only by dev/test golden replay.
+# Deployment clones run with GIT_LFS_SKIP_SMUDGE=1, so those files may be LFS
+# pointer files; the production image build and runtime must never read them.
+mocker/data
+*.log

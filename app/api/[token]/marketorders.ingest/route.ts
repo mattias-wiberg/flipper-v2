@@ -19,8 +19,7 @@ export async function POST(
       .single();
 
     if (tokenError || !data) {
-      console.error("Token validation error:", tokenError);
-      console.error("Token not found:", token);
+      console.error("Token validation failed");
       return new Response("Invalid token", { status: 401 });
     }
 

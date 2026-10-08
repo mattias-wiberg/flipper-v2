@@ -1,0 +1,114 @@
+import { getServerSupabaseConfig } from "./config";
+import {
+  CANONICAL_SITE_URL,
+  LOCAL_SITE_URL,
+  getSiteUrl,
+  normalizeOrigin,
+  normalizeSiteUrl,
+} from "./site-url";
+
+describe("deployment configuration", () => {
+  const validEnvironment = {
+    NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+    NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-key",
+    SUPABASE_SERVICE_ROLE_KEY: "server-only-service-role-key",
+  };
+
+  it("uses the migration-phase beta origin as the configured public origin", () => {
+    expect(CANONICAL_SITE_URL).toBe("https://beta.flipper.mattiaswiberg.com");
+  });
+
+  it("uses a local origin without production configuration", () => {
+    expect(getSiteUrl({}, "development")).toBe(LOCAL_SITE_URL);
+    expect(
+      getSiteUrl({ VERCEL_URL: "vercel-deployment.example" }, "development"),
+    ).toBe(LOCAL_SITE_URL);
+  });
+
+  it("requires the canonical public origin in production", () => {
+    expect(() => getSiteUrl({}, "production")).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    expect(() =>
+      getSiteUrl({ VERCEL_URL: "vercel-deployment.example" }, "production"),
+    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    expect(() =>
+      getSiteUrl(
+        {
+          ...validEnvironment,
+          NEXT_PUBLIC_SITE_URL: "http://localhost:3000",
+        },
+        "production",
+      ),
+    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
+    expect(getSiteUrl(validEnvironment, "production")).toBe(CANONICAL_SITE_URL);
+  });
+
+  it("rejects a valid origin that is not the configured origin by name only", () => {
+    const wrongOrigin = "https://flipper.mattiaswiberg.com";
+    let thrown: unknown;
+
+    try {
+      getSiteUrl(
+        { ...validEnvironment, NEXT_PUBLIC_SITE_URL: wrongOrigin },
+        "production",
+      );
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(Error);
+    if (thrown instanceof Error) {
+      expect(thrown.message).toContain("NEXT_PUBLIC_SITE_URL");
+      expect(thrown.message).not.toContain(wrongOrigin);
+    }
+  });
+
+  it("rejects credential-bearing site and Supabase URLs", () => {
+    const siteUrl = "https://site-user:site-secret@flipper.mattiaswiberg.com/";
+    const supabaseUrl =
+      "https://supabase-user:supabase-secret@project.supabase.co/";
+
+    expect(normalizeOrigin(siteUrl)).toBeNull();
+    expect(normalizeSiteUrl(siteUrl)).toBeNull();
+    expect(normalizeSiteUrl(supabaseUrl)).toBeNull();
+    expect(() =>
+      getSiteUrl(
+        { ...validEnvironment, NEXT_PUBLIC_SITE_URL: siteUrl },
+        "production",
+      ),
+    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
+  });
+
+  it("does not include configuration values in validation diagnostics", () => {
+    const secret = "server-only-service-role-key";
+    const invalidEnvironment = {
+      ...validEnvironment,
+      SUPABASE_SERVICE_ROLE_KEY: "",
+    };
+    let thrown: unknown;
+
+    try {
+      getServerSupabaseConfig(invalidEnvironment);
+    } catch (error) {
+      thrown = error;
+    }
+
+    expect(thrown).toBeInstanceOf(Error);
+    if (thrown instanceof Error) {
+      expect(thrown.message).toContain("SUPABASE_SERVICE_ROLE_KEY");
+      expect(thrown.message).not.toContain(secret);
+    }
+  });
+
+  it("returns the server configuration required by ingestion", () => {
+    expect(
+      getServerSupabaseConfig({
+        NEXT_PUBLIC_SUPABASE_URL: validEnvironment.NEXT_PUBLIC_SUPABASE_URL,
+        SUPABASE_SERVICE_ROLE_KEY: validEnvironment.SUPABASE_SERVICE_ROLE_KEY,
+      }),
+    ).toEqual({
+      url: validEnvironment.NEXT_PUBLIC_SUPABASE_URL,
+      serviceRoleKey: validEnvironment.SUPABASE_SERVICE_ROLE_KEY,
+    });
+  });
+});
