@@ -142,10 +142,6 @@ describe("password recovery redirect_to handling at the beta origin", () => {
       "/%5c%5cattacker.example",
       "/..%2f..%2fsteal",
       "/%2f%2f%2f%2fattacker.example",
-      // Single-backslash dot-segment forms normalize to ordinary on-origin
-      // paths rather than falling back.
-      "/.\\attacker.example",
-      "/..\\attacker.example",
     ]) {
       const path = getSafeRedirectPath(target, origin);
       expect(path.startsWith("/") && !path.startsWith("//")).toBe(true);
@@ -153,6 +149,23 @@ describe("password recovery redirect_to handling at the beta origin", () => {
       const url = getSafeRedirectUrl(target, origin);
       expect(url.origin).toBe(origin);
     }
+  });
+
+  it("preserves single-backslash dot-segment inputs as on-origin paths instead of falling back", () => {
+    // These normalize to `/attacker.example` (same origin), so they must NOT
+    // collapse into the fallback — pin the exact contained result.
+    expect(getSafeRedirectPath("/.\\attacker.example", origin)).toBe(
+      "/attacker.example",
+    );
+    expect(getSafeRedirectPath("/..\\attacker.example", origin)).toBe(
+      "/attacker.example",
+    );
+    expect(getSafeRedirectUrl("/.\\attacker.example", origin).toString()).toBe(
+      "https://beta.flipper.mattiaswiberg.com/attacker.example",
+    );
+    expect(getSafeRedirectPath("/.\\attacker.example", origin)).not.toBe(
+      AUTHENTICATED_REDIRECT,
+    );
   });
 
   it("preserves safe query data on allowed local targets", () => {

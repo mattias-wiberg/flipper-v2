@@ -121,8 +121,6 @@ describe("auth callback origin and redirect behavior", () => {
     ["encoded traversal", "/%2e%2e/%2e%2e/steal"],
     ["encoded backslashes", "/%5c%5cattacker.example"],
     ["mixed encoded traversal", "/..%2f..%2fsteal"],
-    ["dot segment with single backslash", "/.\\attacker.example"],
-    ["parent segment with single backslash", "/..\\attacker.example"],
   ])(
     "keeps hostile redirect_to (%s) inside the beta origin",
     async (_label, redirectTarget) => {
@@ -160,6 +158,26 @@ describe("auth callback origin and redirect behavior", () => {
       const location = parseLocation(response);
 
       expect(location.toString()).toBe(`${ORIGIN}/authenticated/deals`);
+    },
+  );
+
+  it.each([
+    ["dot segment with single backslash", "/.\\attacker.example"],
+    ["parent segment with single backslash", "/..\\attacker.example"],
+  ])(
+    "preserves redirect_to (%s) as an on-origin path instead of falling back",
+    async (_label, redirectTarget) => {
+      configureExchange();
+
+      const response = await GET(
+        makeRequest(
+          `?code=valid-code&redirect_to=${encodeURIComponent(redirectTarget)}`,
+        ),
+      );
+      const location = parseLocation(response);
+
+      expect(location.origin).toBe(ORIGIN);
+      expect(location.pathname).toBe("/attacker.example");
     },
   );
 
