@@ -6,6 +6,90 @@ const DEFAULTS = {
   appUrl: "http://localhost:3000",
 };
 
+function loadEnvFile(file) {
+  if (!fs.existsSync(file)) {
+    return {};
+  }
+
+  return Object.fromEntries(
+    fs
+      .readFileSync(file, "utf8")
+      .split(/\r?\n/)
+      .flatMap((line) => {
+        const match = line.match(
+          /^\s*(?:export\s+)?([A-Z0-9_]+)\s*=\s*(.*)\s*$/i,
+        );
+        if (!match) {
+          return [];
+        }
+
+        return [[match[1], match[2].replace(/^(['"])(.*)\1$/, "$2")]];
+      }),
+  );
+}
+
+function getEnvironment() {
+  return {
+    ...loadEnvFile(path.join(process.cwd(), ".env")),
+    ...loadEnvFile(path.join(process.cwd(), ".env.local")),
+    ...process.env,
+  };
+}
+
+function parseArgs(args) {
+  const environment = getEnvironment();
+  const options = {
+    ...DEFAULTS,
+    token: environment.FLIPPER_INGESTION_TOKEN,
+    appUrl: environment.FLIPPER_APP_URL || DEFAULTS.appUrl,
+  };
+
+  for (let index = 0; index < args.length; index++) {
+    const argument = args[index];
+    const [flag, inlineValue] = argument.split("=", 2);
+
+    if (flag === "--help") {
+      options.help = true;
+      continue;
+    }
+
+    const value = inlineValue ?? args[++index];
+    if (!value) {
+      throw new Error(`Missing value for ${flag}`);
+    }
+
+    switch (flag) {
+      case "--file":
+        options.file = path.resolve(value);
+        break;
+      case "--token":
+        options.token = value;
+        break;
+      case "--app-url":
+        options.appUrl = value;
+        break;
+      default:
+        throw new Error(`Unknown option: ${flag}`);
+    }
+  }
+
+  return options;
+}
+
+function printHelp() {
+  process.stdout.write(`Usage: node mocker/sendOrders.js [options]
+
+Options:
+  --app-url <url>             Flipper base URL (defaults to FLIPPER_APP_URL,
+                              then http://localhost:3000)
+  --token <uuid>              Ingestion token (defaults to FLIPPER_INGESTION_TOKEN)
+  --file <file>               Raw capture to replay (default: ${
+    path.relative(process.cwd(), DEFAULTS.file) || DEFAULTS.file
+  })
+  --help                      Show this help
+`);
+}
+
 function loadBatches(file) {
   const raw = fs.readFileSync(file, "utf-8");
   if (file.endsWith(".jsonl")) {
@@ -19,8 +103,8 @@ function loadBatches(file) {
 
 async function main({
   file = DEFAULTS.file,
-  token = process.env.FLIPPER_INGESTION_TOKEN,
-  appUrl = DEFAULTS.appUrl,
+  token = getEnvironment().FLIPPER_INGESTION_TOKEN,
+  appUrl = getEnvironment().FLIPPER_APP_URL || DEFAULTS.appUrl,
 } = {}) {
   if (!token) {
     throw new Error(
@@ -69,10 +153,20 @@ async function main({
 }
 
 if (require.main === module) {
-  main().catch((e) => {
-    console.error(e);
-    process.exit(1);
-  });
+  try {
+    const options = parseArgs(process.argv.slice(2));
+    if (options.help) {
+      printHelp();
+    } else {
+      main(options).catch((error) => {
+        console.error(error.message);
+        process.exitCode = 1;
+      });
+    }
+  } catch (error) {
+    console.error(error.message);
+    process.exitCode = 1;
+  }
 }
 
-module.exports = { main, DEFAULTS };
+module.exports = { main, DEFAULTS, loadBatches, parseArgs };

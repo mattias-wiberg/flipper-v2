@@ -53,6 +53,26 @@ npm run mock:order:ingest
 npm run golden:orders
 ```
 
+By default the replay targets the local app (`http://localhost:3000`) and uses
+`FLIPPER_INGESTION_TOKEN` for the ingestion token. Both are parameterized so
+the same replay can target a deployed Flipper base URL and a dedicated
+validation token without any local app:
+
+```sh
+node --experimental-fetch mocker/sendOrders.js --app-url <base-url> --token <token>
+node --experimental-fetch mocker/getOrders.js --compare --token <token>
+```
+
+`--app-url` (or `FLIPPER_APP_URL`) selects the Flipper base URL to replay
+against and `--token` (or `FLIPPER_INGESTION_TOKEN`) the ingestion token to
+use; `--file` selects a different raw capture. A replay against a deployed
+service writes that token's rows there: start from clean order state (a fresh
+token, or the app's Reset actions after a previous run) and clean up the
+ingested rows afterwards through the same app actions. The default invocation
+without these flags keeps the local behavior above. The exporter talks to
+Supabase directly and is unaffected by `--app-url`; scope it to the replayed
+token with `--token`.
+
 `golden:orders` writes its default export to the OS temporary directory,
 compares it with `marketorders.expected.json`, and fails when the hashes differ.
 The exporter also rejects the expected fixture as an output path, so the
