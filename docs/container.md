@@ -19,6 +19,21 @@ Public values are required as Docker build inputs because Next.js inlines
 - `NEXT_PUBLIC_SUPABASE_URL` is the existing Supabase project URL.
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` is the existing public Supabase key.
 
+Two optional public values enable self-hosted Umami analytics (see
+`docs/umami.md`). They are all-or-nothing:
+
+- `NEXT_PUBLIC_UMAMI_SCRIPT_URL` is the self-hosted tracker script URL, for
+  example `https://umami.mattiaswiberg.com/script.js`.
+- `NEXT_PUBLIC_UMAMI_WEBSITE_ID` is the Umami website identifier.
+
+When both are absent (the local-development and test default), no tracker is
+rendered and the browser makes no outbound analytics requests. Setting only
+one of the pair, or an invalid value, fails safely: analytics stays disabled,
+Flipper keeps serving public pages, Auth, and ingestion, and validation warns
+by variable name only (`scripts/validate-production-env.mjs`). The values are
+public browser configuration and must never carry secrets; the privacy
+contract for what analytics may record is in `analytics-policy.js`.
+
 The runtime entrypoint also requires `SUPABASE_SERVICE_ROLE_KEY`. Pass it only
 as a protected runtime secret. It is not a Docker build argument, is not
 copied into the image, and is never included in validation diagnostics.
@@ -56,6 +71,12 @@ NEXT_PUBLIC_SUPABASE_URL=https://project.supabase.co \
 NEXT_PUBLIC_SUPABASE_ANON_KEY=public-anon-key \
 npm run build
 ```
+
+The production build must pass both without the optional Umami public
+settings (analytics disabled) and with both
+`NEXT_PUBLIC_UMAMI_SCRIPT_URL`/`NEXT_PUBLIC_UMAMI_WEBSITE_ID` set (analytics
+enabled); a partial analytics configuration must also build and start while
+analytics stays disabled.
 
 Build and start the real image without passing any server secret at build
 time:
