@@ -5,7 +5,16 @@ jest.mock("next/cache", () => ({ revalidatePath: jest.fn() }));
 jest.mock("next/headers", () => ({ headers: jest.fn() }));
 jest.mock("next/navigation", () => ({ redirect: jest.fn() }));
 
-import { deleteItemOrdersAction, deleteSpecificOrderAction } from "./actions";
+import {
+  deleteItemOrdersAction,
+  deleteSpecificOrderAction,
+  forgotPasswordAction,
+  signInAction,
+  signOutAction,
+  signUpAction,
+} from "./actions";
+import { AUTHENTICATED_REDIRECT } from "@/utils/auth";
+import { CANONICAL_SITE_URL } from "@/lib/site-url";
 
 const mockCreateClient = jest.mocked(
   jest.requireMock("@/utils/supabase/server").createClient,
@@ -13,6 +22,8 @@ const mockCreateClient = jest.mocked(
 const mockRevalidatePath = jest.mocked(
   jest.requireMock("next/cache").revalidatePath,
 );
+const mockHeaders = jest.mocked(jest.requireMock("next/headers").headers);
+const mockRedirect = jest.mocked(jest.requireMock("next/navigation").redirect);
 
 function makeQuery(error: Error | null = null) {
   const result = Promise.resolve({ error });
@@ -106,5 +117,108 @@ describe("order deletion actions", () => {
 
     expect(from).not.toHaveBeenCalled();
     expect(mockRevalidatePath).not.toHaveBeenCalled();
+  });
+});
+
+describe("auth lifecycle actions at the beta origin", () => {
+  const origin = CANONICAL_SITE_URL;
+
+  function configureAuthClient(auth: Record<string, jest.Mock>) {
+    mockCreateClient.mockResolvedValue({ auth });
+    return auth;
+  }
+
+  beforeEach(() => {
+    mockCreateClient.mockReset();
+    mockHeaders.mockReset();
+    mockRedirect.mockReset();
+    mockHeaders.mockResolvedValue(new Headers({ origin }));
+  });
+
+  it("builds the password recovery callback on the beta origin with a safe redirect_to", async () => {
+    const resetPasswordForEmail = jest.fn().mockResolvedValue({ error: null });
+    configureAuthClient({ resetPasswordForEmail });
+
+    await forgotPasswordAction({ email: "user@example.com" });
+
+    expect(resetPasswordForEmail).toHaveBeenCalledWith("user@example.com", {
+      redirectTo:
+        "https://beta.flipper.mattiaswiberg.com/auth/callback?redirect_to=%2Fauthenticated%2Freset-password",
+    });
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/forgot-password?success="),
+    );
+  });
+
+  it("rejects an invalid recovery email without calling Supabase", async () => {
+    const resetPasswordForEmail = jest.fn();
+    configureAuthClient({ resetPasswordForEmail });
+
+    await forgotPasswordAction({ email: "not-an-email" });
+
+    expect(resetPasswordForEmail).not.toHaveBeenCalled();
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/forgot-password?error="),
+    );
+  });
+
+  it("builds the verification callback on the beta origin", async () => {
+    const signUp = jest.fn().mockResolvedValue({ error: null });
+    configureAuthClient({ signUp });
+
+    await signUpAction({
+      nickname: "Tester",
+      email: "user@example.com",
+      password: "secret1",
+      confirmPassword: "secret1",
+    });
+
+    expect(signUp).toHaveBeenCalledWith({
+      email: "user@example.com",
+      password: "secret1",
+      options: {
+        emailRedirectTo: "https://beta.flipper.mattiaswiberg.com/auth/callback",
+        data: { nickname: "Tester" },
+      },
+    });
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/sign-up?success="),
+    );
+  });
+
+  it("sends a failed sign-in back to the login surface", async () => {
+    const signInWithPassword = jest
+      .fn()
+      .mockResolvedValue({ error: { message: "Invalid login credentials" } });
+    configureAuthClient({ signInWithPassword });
+
+    await signInAction({ email: "user@example.com", password: "wrong" });
+
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/log-in?error="),
+    );
+  });
+
+  it("redirects a successful sign-in to deal discovery", async () => {
+    const signInWithPassword = jest.fn().mockResolvedValue({ error: null });
+    configureAuthClient({ signInWithPassword });
+
+    await signInAction({ email: "user@example.com", password: "secret1" });
+
+    expect(signInWithPassword).toHaveBeenCalledWith({
+      email: "user@example.com",
+      password: "secret1",
+    });
+    expect(mockRedirect).toHaveBeenCalledWith(AUTHENTICATED_REDIRECT);
+  });
+
+  it("returns sign-out to the login page", async () => {
+    const signOut = jest.fn().mockResolvedValue({ error: null });
+    configureAuthClient({ signOut });
+
+    await signOutAction();
+
+    expect(signOut).toHaveBeenCalledTimes(1);
+    expect(mockRedirect).toHaveBeenCalledWith("/log-in");
   });
 });
