@@ -158,7 +158,9 @@ Follow-ups section below lists deferred cleanups and background constraints.
 - Supabase Auth for beta sign-in: the Supabase Auth Site URL and redirect
   allowlist still need an entry for the beta callback origin
   (`https://beta.flipper.mattiaswiberg.com`). This is an operator step owned by
-  #58; sign-in on the beta deployment requires it.
+  #58; sign-in on the beta deployment requires it. The expected provider
+  state and the operator-gated Auth verification checklist are documented in
+  `docs/auth.md`.
 
 ## Follow-ups
 
