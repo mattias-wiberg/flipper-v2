@@ -63,7 +63,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
 
     setUser(null);
-    router.replace("/");
+    // Return to the login surface after sign-out (issue #58 acceptance
+    // criterion), matching the target of the server-side signOutAction.
+    router.replace("/log-in");
     router.refresh();
   };
 
