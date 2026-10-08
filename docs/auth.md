@@ -31,17 +31,18 @@ All Auth origin behavior uses the configured origin:
   local paths on the configured origin: `/authenticated/deals` by default and
   `/authenticated/reset-password` for recovery. Every hostile `redirect_to`
   is confined to the configured origin (`utils/auth.ts` `getSafeRedirectPath`,
-  `getSafeRedirectUrl`): missing, non-path, and literal-escape inputs (absolute
-  URLs, scheme downgrade, protocol-relative and backslash forms, untrusted or
-  look-alike hosts) as well as normalization escapes (dot-segment and
-  empty-segment forms such as `/.//host`, `/%2e//host`, `/x/..//host`) fall
-  back to `/authenticated/deals`, while percent-encoded forms that normalize
-  to same-origin results (encoded slashes, encoded traversal segments, encoded
-  backslashes) are preserved as on-origin paths. Both helpers re-validate the
-  normalized path and the resolved URL origin, so no input produces an
-  off-origin redirect. The fallback target itself is pinned by the Jest
-  suites; the live hostile `redirect_to` HTTP checks exercised the
-  no-valid-code error path.
+  `getSafeRedirectUrl`): inputs that URL normalization collapses into
+  protocol-relative `//host` paths (literal escapes such as absolute URLs,
+  scheme downgrade, protocol-relative and double-backslash forms, untrusted or
+  look-alike hosts, and dot-segment/empty-segment normalization escapes such
+  as `/.//host`, `/%2e//host`, `/x/..//host`) fall back to
+  `/authenticated/deals`, while all forms that normalize to same-origin
+  results (encoded slashes, encoded traversal segments, encoded backslashes,
+  literal single-backslash dot-segment forms) are preserved as on-origin
+  paths. Both helpers re-validate the normalized path and the resolved URL
+  origin, so no input produces an off-origin redirect. The fallback target
+  itself is pinned by the Jest suites; the live hostile `redirect_to` HTTP
+  checks exercised the no-valid-code error path.
 - The session proxy (`utils/supabase/middleware.ts`) redirects unauthenticated
   `/authenticated/*` access to `/log-in` on the configured origin, redirects
   authenticated users away from `/`, `/log-in`, and `/sign-up` to
@@ -73,7 +74,7 @@ These checks passed unattended against the production deployment and are
 reproducible without provider access. They are not a substitute for the
 operator-gated checklist below.
 
-- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 110 tests), the focused
+- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 111 tests), the focused
   Prettier check on changed files, and the production `npm run build` with the
   canonical build input all pass.
 - Focused Jest coverage: `utils/auth.test.ts` (password-recovery `redirect_to`
@@ -97,15 +98,7 @@ operator-gated checklist below.
   server request; a wrong-password sign-in round-trips to
   `/log-in?error=Invalid%20login%20credentials` and renders the `role=alert`
   message; unauthenticated `/authenticated/deals` lands on `/log-in`; zero
-  browser console errors. The password-recovery probe submitted
-  `flipper-issue58-probe@example.invalid` (non-routable domain, no delivery
-  possible) and received the success state with the beta `redirect_to` —
-  the request was accepted and no redirect-URL error surfaced. This alone
-  does not prove allowlist acceptance: Supabase can silently fall back to
-  the Site URL for a non-allowlisted `redirectTo` while still succeeding, so
-  allowlist acceptance is established only by the provider read-back
-  (operator check 1) or a delivered link returning through the beta
-  callback (operator check 2).
+  browser console errors.
 - Live HTTP checks: `/auth/callback` with missing code, invalid code, and
   hostile `redirect_to` inputs (absolute URL, protocol-relative, encoded
   traversal, encoded backslashes) always redirects to
@@ -115,10 +108,54 @@ operator-gated checklist below.
   canonical target; served `/log-in`, `/sign-up`, and `/forgot-password` pages
   declare canonical links on the beta origin.
 
-## Operator-Gated Verification (NOT verified here)
+## Live Auth Lifecycle Evidence (2026-10-08, controlled test identity)
 
-The following require the production Supabase project, a real mailbox, and an
-operator-created test identity. None of these are claimed as passed.
+Run against the production deployment with operator authorization to create
+exactly one throwaway account (`flipper-smoke-…@ilkovbi.resend.app`) through
+the live sign-up form, with its mailbox in the controlled Resend test inbox.
+Credentials are held out of band and are never committed or documented.
+
+- Sign-up and verification: the sign-up form rendered its success state and
+  the verification email ("Confirm Your New Account") was delivered via SMTP
+  to the controlled inbox at `2026-10-08T11:21:33Z`. Its link shape is
+  `https://tetsknwxsintaitiufgx.supabase.co/auth/v1/verify?token=…&type=signup&redirect_to=https://beta.flipper.mattiaswiberg.com/auth/callback`
+  — the callback target is the beta origin's bare `/auth/callback`, not the
+  apex, not localhost. Following the link returned through
+  `/auth/callback` to `https://beta.flipper.mattiaswiberg.com/authenticated/deals`
+  (signed-in deals surface). No untrusted origin appeared anywhere in the
+  chain. This is also the end-to-end proof that the Supabase redirect
+  allowlist accepts the beta callback URL: the delivered link's `redirect_to`
+  was honored rather than falling back to the Site URL.
+- Sign-in: signing in at `/log-in` reached `/authenticated/deals`, and the
+  cookie session round-trips through the proxy across full reloads of
+  protected routes (the `getClaims`/cookie-copy session seam runs on every
+  request and is covered by the middleware tests). A refresh past the
+  access-token TTL is time-gated and remains an operator check below.
+- Password recovery: the recovery request rendered its success state and the
+  "Reset Your Password" email arrived at `2026-10-08T11:26:53Z` with link
+  shape
+  `https://tetsknwxsintaitiufgx.supabase.co/auth/v1/verify?token=…&type=recovery&redirect_to=`(URL-encoded)`https://beta.flipper.mattiaswiberg.com/auth/callback?redirect_to=%2Fauthenticated%2Freset-password`.
+  Following the link landed on
+  `https://beta.flipper.mattiaswiberg.com/authenticated/reset-password`,
+  submitting the new password rendered `Password updated`, and signing in
+  with the updated credential reached `/authenticated/deals`. This
+  end-to-end proves the recovery `redirect_to` is accepted by the allowlist
+  and the callback returns only to the safe local reset surface.
+- Sign-out: the account menu's Log out cleared the session and left the
+  authenticated surface. On the deployed release (which predates this
+  change) the landing page after sign-out is the public home page `/`; this
+  change routes client sign-out to `/log-in` (`context/AuthContext.tsx`),
+  matching the server-side `signOutAction` and the acceptance criterion.
+  Re-checking the landing page on `/log-in` after the next deployment is a
+  remaining operator check.
+- Observation (cosmetic, operator-owned): the Supabase-hosted email
+  templates still reference apex asset URLs
+  (`https://flipper.mattiaswiberg.com/favicon.ico`, the `…//documentation`
+  footer link) while the repository `emails/*.html` pin the beta origin. The
+  Auth callback link itself is correct; syncing the hosted templates is an
+  operator action (see `docs/dokploy.md` cutover step 4).
+
+## Remaining Operator-Gated Checks (NOT verified here)
 
 1. Supabase provider configuration read-back: open Auth URL Configuration and
    confirm Site URL is `https://beta.flipper.mattiaswiberg.com` and the
@@ -126,36 +163,17 @@ operator-created test identity. None of these are claimed as passed.
    `https://flipper.mattiaswiberg.com/`, `https://flipper.mattiaswiberg.com/**`,
    `https://beta.flipper.mattiaswiberg.com/`, and
    `https://beta.flipper.mattiaswiberg.com/**` (no localhost or Vercel
-   entries). Confirm the SMTP provider delivers test messages.
-2. Real sign-up and verification email: with operator approval to create one
-   controlled account, sign up at
-   `https://beta.flipper.mattiaswiberg.com/sign-up`, receive the verification
-   email via SMTP, and follow its link. Expected: the link targets
-   `https://beta.flipper.mattiaswiberg.com/auth/callback` and the callback
-   lands on `https://beta.flipper.mattiaswiberg.com/authenticated/deals` —
-   never localhost, Vercel, or any untrusted origin.
-3. Controlled sign-in and session refresh: sign in at
-   `https://beta.flipper.mattiaswiberg.com/log-in` with the verified test
-   account, reach `/authenticated/deals`, leave the tab idle past the Supabase
-   access-token TTL (default one hour), then reload a protected route.
-   Expected: the session refreshes behind the proxy without a new login and
-   protected routes stay protected.
-4. Real password recovery: request recovery at
-   `https://beta.flipper.mattiaswiberg.com/forgot-password` for the test
-   account, follow the delivered link (expected: return through
-   `https://beta.flipper.mattiaswiberg.com/auth/callback?redirect_to=%2Fauthenticated%2Freset-password`,
-   land on `/authenticated/reset-password`), set a new password, and sign in
-   with it at `/log-in`.
-5. Sign-out: with the authenticated session, sign out from the user menu.
-   Expected: return to `https://beta.flipper.mattiaswiberg.com/log-in`, session
-   cookies cleared, and `/authenticated/deals` redirects to `/log-in`
-   afterwards. (Repository tests pin the `/log-in` redirect target of
-   `signOutAction`; the live path needs a session.)
-
-Artifacts that would unblock automating these checks, provided out-of-band
-from the production Supabase project: one operator-created verified test
-account (email and password) and read access to its mailbox (IMAP/POP3
-credentials or a mailbox API). With those, checks 3-5 become scriptable; check
-2 additionally needs operator approval for one account creation per run, and
-check 1 needs a read-only Supabase Management API key or a dashboard
-read-back.
+   entries), and that the SMTP provider is the one that delivered the two
+   lifecycle emails above. The functional behavior is proven by the lifecycle
+   evidence; only the settings read-back remains.
+2. Session refresh past the access-token TTL: leave the verified account
+   signed in and idle past the Supabase access-token TTL (default one hour),
+   then reload a protected route. Expected: the session refreshes behind the
+   proxy without a new login and protected routes stay protected.
+3. Sign-out landing after deployment: after this change is deployed, sign out
+   from the user menu and confirm the landing is
+   `https://beta.flipper.mattiaswiberg.com/log-in` (the deployed release
+   predates the fix and lands on `/`).
+4. Email template asset sync (cosmetic): sync the repository `emails/*.html`
+   (beta-origin asset URLs) into the Supabase Auth email settings so template
+   branding links stop referencing the apex.
