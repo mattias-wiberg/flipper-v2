@@ -135,21 +135,27 @@ describe("password recovery redirect_to handling at the beta origin", () => {
     }
   });
 
-  it("keeps encoded and mixed traversal inputs inside the beta origin", () => {
-    for (const target of [
-      "/%2f%2fattacker.example/steal",
-      "/%2e%2e/%2e%2e/steal",
-      "/%5c%5cattacker.example",
-      "/..%2f..%2fsteal",
-      "/%2f%2f%2f%2fattacker.example",
-    ]) {
-      const path = getSafeRedirectPath(target, origin);
-      expect(path.startsWith("/") && !path.startsWith("//")).toBe(true);
+  it.each([
+    ["/%2f%2fattacker.example/steal", "/%2f%2fattacker.example/steal"],
+    ["/%2e%2e/%2e%2e/steal", "/steal"],
+    ["/%5c%5cattacker.example", "/%5c%5cattacker.example"],
+    ["/..%2f..%2fsteal", "/..%2f..%2fsteal"],
+    ["/%2f%2f%2f%2fattacker.example", "/%2f%2f%2f%2fattacker.example"],
+  ])(
+    "preserves %s as the on-origin path %s instead of falling back",
+    (target, expectedPath) => {
+      // Pin the exact contained result so an over-rejection regression to the
+      // fallback cannot pass silently.
+      expect(getSafeRedirectPath(target, origin)).toBe(expectedPath);
+      expect(getSafeRedirectPath(target, origin)).not.toBe(
+        AUTHENTICATED_REDIRECT,
+      );
 
       const url = getSafeRedirectUrl(target, origin);
       expect(url.origin).toBe(origin);
-    }
-  });
+      expect(url.pathname).toBe(expectedPath);
+    },
+  );
 
   it("preserves single-backslash dot-segment inputs as on-origin paths instead of falling back", () => {
     // These normalize to `/attacker.example` (same origin), so they must NOT

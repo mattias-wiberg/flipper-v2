@@ -117,12 +117,8 @@ describe("auth callback origin and redirect behavior", () => {
     ["scheme downgraded url", "http://beta.flipper.mattiaswiberg.com/steal"],
     ["protocol relative", "//attacker.example/steal"],
     ["backslash protocol relative", "/\\attacker.example/steal"],
-    ["encoded protocol relative", "/%2f%2fattacker.example/steal"],
-    ["encoded traversal", "/%2e%2e/%2e%2e/steal"],
-    ["encoded backslashes", "/%5c%5cattacker.example"],
-    ["mixed encoded traversal", "/..%2f..%2fsteal"],
   ])(
-    "keeps hostile redirect_to (%s) inside the beta origin",
+    "falls back to deal discovery when redirect_to (%s) is a literal escape",
     async (_label, redirectTarget) => {
       configureExchange();
 
@@ -133,7 +129,39 @@ describe("auth callback origin and redirect behavior", () => {
       );
       const location = parseLocation(response);
 
+      expect(location.toString()).toBe(`${ORIGIN}/authenticated/deals`);
+    },
+  );
+
+  it.each([
+    [
+      "encoded protocol relative",
+      "/%2f%2fattacker.example/steal",
+      "/%2f%2fattacker.example/steal",
+    ],
+    ["encoded traversal", "/%2e%2e/%2e%2e/steal", "/steal"],
+    [
+      "encoded backslashes",
+      "/%5c%5cattacker.example",
+      "/%5c%5cattacker.example",
+    ],
+    ["mixed encoded traversal", "/..%2f..%2fsteal", "/..%2f..%2fsteal"],
+  ] as const)(
+    "keeps redirect_to (%s) as the on-origin path %s instead of falling back",
+    async (_label, redirectTarget, expectedPath) => {
+      configureExchange();
+
+      const response = await GET(
+        makeRequest(
+          `?code=valid-code&redirect_to=${encodeURIComponent(redirectTarget)}`,
+        ),
+      );
+      const location = parseLocation(response);
+
+      // Pin the exact contained result so an over-rejection regression to the
+      // fallback cannot pass silently.
       expect(location.origin).toBe(ORIGIN);
+      expect(location.pathname).toBe(expectedPath);
     },
   );
 

@@ -31,17 +31,17 @@ All Auth origin behavior uses the configured origin:
   local paths on the configured origin: `/authenticated/deals` by default and
   `/authenticated/reset-password` for recovery. Every hostile `redirect_to`
   is confined to the configured origin (`utils/auth.ts` `getSafeRedirectPath`,
-  `getSafeRedirectUrl`): inputs that URL normalization collapses into
-  protocol-relative `//host` paths (literal escapes such as absolute URLs,
-  scheme downgrade, protocol-relative and double-backslash forms, untrusted or
-  look-alike hosts, and dot-segment/empty-segment normalization escapes such
-  as `/.//host`, `/%2e//host`, `/x/..//host`) fall back to
-  `/authenticated/deals`, while all forms that normalize to same-origin
-  results (encoded slashes, encoded traversal segments, encoded backslashes,
-  literal single-backslash dot-segment forms) are preserved as on-origin
-  paths. Both helpers re-validate the normalized path and the resolved URL
-  origin, so no input produces an off-origin redirect. The fallback target
-  itself is pinned by the Jest suites; the live hostile `redirect_to` HTTP
+  `getSafeRedirectUrl`): literal escapes (absolute URLs, scheme downgrade,
+  protocol-relative and double-backslash forms, untrusted or look-alike hosts)
+  and forms that URL normalization collapses into protocol-relative `//host`
+  paths (dot-segment/empty-segment escapes such as `/.//host`, `/%2e//host`,
+  `/x/..//host`) fall back to `/authenticated/deals`, while all forms that
+  normalize to same-origin results (encoded slashes, encoded traversal
+  segments, encoded backslashes, literal single-backslash dot-segment forms)
+  are preserved as on-origin paths. Both helpers re-validate the normalized
+  path and the resolved URL origin, so no input produces an off-origin
+  redirect. Both the fallback target and the preserved on-origin results are
+  pinned exactly by the Jest suites; the live hostile `redirect_to` HTTP
   checks exercised the no-valid-code error path.
 - The session proxy (`utils/supabase/middleware.ts`) redirects unauthenticated
   `/authenticated/*` access to `/log-in` on the configured origin, redirects
@@ -74,7 +74,7 @@ These checks passed unattended against the production deployment and are
 reproducible without provider access. They are not a substitute for the
 operator-gated checklist below.
 
-- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 111 tests), the focused
+- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 115 tests), the focused
   Prettier check on changed files, and the production `npm run build` with the
   canonical build input all pass.
 - Focused Jest coverage: `utils/auth.test.ts` (password-recovery `redirect_to`
