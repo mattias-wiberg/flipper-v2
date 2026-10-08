@@ -9,6 +9,7 @@ import {
   deleteItemOrdersAction,
   deleteSpecificOrderAction,
   forgotPasswordAction,
+  resetPasswordAction,
   signInAction,
   signOutAction,
   signUpAction,
@@ -220,5 +221,54 @@ describe("auth lifecycle actions at the beta origin", () => {
 
     expect(signOut).toHaveBeenCalledTimes(1);
     expect(mockRedirect).toHaveBeenCalledWith("/log-in");
+  });
+
+  it("updates the password and returns to the reset surface", async () => {
+    const updateUser = jest.fn().mockResolvedValue({ error: null });
+    configureAuthClient({ updateUser });
+
+    const formData = new FormData();
+    formData.set("password", "secret-one");
+    formData.set("confirmPassword", "secret-one");
+
+    await resetPasswordAction(formData);
+
+    expect(updateUser).toHaveBeenCalledWith({ password: "secret-one" });
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/authenticated/reset-password?success="),
+    );
+  });
+
+  it("rejects mismatched passwords without updating the user", async () => {
+    const updateUser = jest.fn();
+    configureAuthClient({ updateUser });
+
+    const formData = new FormData();
+    formData.set("password", "secret-one");
+    formData.set("confirmPassword", "secret-two");
+
+    await resetPasswordAction(formData);
+
+    expect(updateUser).not.toHaveBeenCalled();
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/authenticated/reset-password?error="),
+    );
+  });
+
+  it("reports a failed password update on the reset surface", async () => {
+    const updateUser = jest
+      .fn()
+      .mockResolvedValue({ error: new Error("weak password") });
+    configureAuthClient({ updateUser });
+
+    const formData = new FormData();
+    formData.set("password", "secret-one");
+    formData.set("confirmPassword", "secret-one");
+
+    await resetPasswordAction(formData);
+
+    expect(mockRedirect).toHaveBeenCalledWith(
+      expect.stringContaining("/authenticated/reset-password?error="),
+    );
   });
 });

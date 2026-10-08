@@ -64,7 +64,7 @@ These checks passed unattended against the production deployment and are
 reproducible without provider access. They are not a substitute for the
 operator-gated checklist below.
 
-- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 94 tests), the focused
+- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 99 tests), the focused
   Prettier check on changed files, and the production `npm run build` with the
   canonical build input all pass.
 - Focused Jest coverage: `utils/auth.test.ts` (password-recovery `redirect_to`
@@ -75,9 +75,10 @@ operator-gated checklist below.
   proxy headers in production), `utils/supabase/middleware.test.ts`
   (unauthenticated protected-route redirect to the configured origin, cookie
   session refresh on the proxy response, authenticated redirect to deal
-  discovery, public pass-through), and `app/actions.test.ts` (recovery and
-  verification callback URL construction on the beta origin, failed sign-in,
-  sign-out to the login page).
+  discovery, public pass-through, and the exception fallback to the login
+  redirect), and `app/actions.test.ts` (recovery and verification callback URL
+  construction on the beta origin, password update on the reset surface, failed
+  sign-in, sign-out to the login page).
 - Live browser checks (Playwright) on `https://beta.flipper.mattiaswiberg.com`
   at desktop (1280x800) and mobile (375x812) viewports: `/log-in`, `/sign-up`,
   and `/forgot-password` render and fit the mobile layout; keyboard-only Tab
@@ -88,9 +89,13 @@ operator-gated checklist below.
   message; unauthenticated `/authenticated/deals` lands on `/log-in`; zero
   browser console errors. The password-recovery probe submitted
   `flipper-issue58-probe@example.invalid` (non-routable domain, no delivery
-  possible) and received the success state, which proves the Supabase redirect
-  allowlist accepts
-  `https://beta.flipper.mattiaswiberg.com/auth/callback?redirect_to=...`.
+  possible) and received the success state with the beta `redirect_to` —
+  the request was accepted and no redirect-URL error surfaced. This alone
+  does not prove allowlist acceptance: Supabase can silently fall back to
+  the Site URL for a non-allowlisted `redirectTo` while still succeeding, so
+  allowlist acceptance is established only by the provider read-back
+  (operator check 1) or a delivered link returning through the beta
+  callback (operator check 2).
 - Live HTTP checks: `/auth/callback` with missing code, invalid code, and
   hostile `redirect_to` inputs (absolute URL, protocol-relative, encoded
   traversal, encoded backslashes) always redirects to

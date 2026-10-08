@@ -205,4 +205,28 @@ describe("session handling behind the proxy at the beta origin", () => {
     expect(response.status).toBe(200);
     expect(response.headers.get("location")).toBeNull();
   });
+
+  function configureThrowingSession() {
+    mockCreateServerClient.mockImplementation(() => ({
+      auth: { getClaims: jest.fn().mockRejectedValue(new Error("boom")) },
+    }));
+  }
+
+  it("falls back to the beta login redirect when session handling throws", async () => {
+    configureThrowingSession();
+
+    const response = await updateSession(makeRequest("/authenticated/deals"));
+
+    expect(response.status).toBe(307);
+    expect(response.headers.get("location")).toBe(`${ORIGIN}/log-in`);
+  });
+
+  it("passes public requests through when session handling throws", async () => {
+    configureThrowingSession();
+
+    const response = await updateSession(makeRequest("/documentation"));
+
+    expect(response.status).toBe(200);
+    expect(response.headers.get("location")).toBeNull();
+  });
 });
