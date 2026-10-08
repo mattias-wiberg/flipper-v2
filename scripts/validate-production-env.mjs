@@ -1,5 +1,7 @@
+import analyticsPolicy from "../analytics-policy.js";
 import siteUrlPolicy from "../site-url-policy.js";
 
+const { getUmamiConfig, umamiConfigDiagnostic } = analyticsPolicy;
 const { CANONICAL_SITE_URL, normalizeSiteUrl } = siteUrlPolicy;
 const publicVariables = [
   "NEXT_PUBLIC_SITE_URL",
@@ -55,4 +57,13 @@ if (invalid.length > 0) {
 if (diagnostics.length > 0) {
   console.error(diagnostics.join("\n"));
   process.exit(1);
+}
+
+// Optional analytics configuration never fails the gate: absent settings
+// disable analytics, and a partial or invalid Umami configuration disables
+// analytics while Flipper keeps serving public pages, Auth, and ingestion.
+// The warning names environment variables only; it is safe to log and retain.
+const analyticsDiagnostic = umamiConfigDiagnostic(getUmamiConfig(process.env));
+if (analyticsDiagnostic) {
+  console.warn(analyticsDiagnostic);
 }
