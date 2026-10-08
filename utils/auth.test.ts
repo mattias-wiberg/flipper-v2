@@ -118,6 +118,15 @@ describe("password recovery redirect_to handling at the beta origin", () => {
       "/\\attacker.example/steal",
       "\\\\attacker.example/steal",
       "authenticated/reset-password",
+      // Dot-segment and backslash inputs that URL normalization collapses
+      // into protocol-relative `//host` paths.
+      "/.//attacker.example",
+      "/..//attacker.example",
+      "/%2e//attacker.example",
+      "/%2e%2e//attacker.example",
+      "/.\\\\attacker.example",
+      "/..\\\\attacker.example",
+      "/x/..//attacker.example",
     ]) {
       expect(getSafeRedirectPath(target, origin)).toBe(AUTHENTICATED_REDIRECT);
       expect(getSafeRedirectUrl(target, origin).toString()).toBe(
@@ -133,6 +142,10 @@ describe("password recovery redirect_to handling at the beta origin", () => {
       "/%5c%5cattacker.example",
       "/..%2f..%2fsteal",
       "/%2f%2f%2f%2fattacker.example",
+      // Single-backslash dot-segment forms normalize to ordinary on-origin
+      // paths rather than falling back.
+      "/.\\attacker.example",
+      "/..\\attacker.example",
     ]) {
       const path = getSafeRedirectPath(target, origin);
       expect(path.startsWith("/") && !path.startsWith("//")).toBe(true);

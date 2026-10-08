@@ -165,27 +165,30 @@ describe("session handling behind the proxy at the beta origin", () => {
     ).toBe(true);
   });
 
-  it("redirects authenticated users from the login surface to deal discovery", async () => {
-    configureSession(AUTHENTICATED_CLAIMS, [
-      { name: "sb-access-token", value: "refreshed-token" },
-    ]);
+  it.each(["/", "/log-in", "/sign-up"])(
+    "redirects authenticated users from %s to deal discovery",
+    async (path) => {
+      configureSession(AUTHENTICATED_CLAIMS, [
+        { name: "sb-access-token", value: "refreshed-token" },
+      ]);
 
-    const response = await updateSession(makeRequest("/log-in"));
+      const response = await updateSession(makeRequest(path));
 
-    expect(response.status).toBe(307);
-    expect(response.headers.get("location")).toBe(
-      `${ORIGIN}/authenticated/deals`,
-    );
-    expect(
-      response.cookies
-        .getAll()
-        .some(
-          (cookie: { name: string; value: string }) =>
-            cookie.name === "sb-access-token" &&
-            cookie.value === "refreshed-token",
-        ),
-    ).toBe(true);
-  });
+      expect(response.status).toBe(307);
+      expect(response.headers.get("location")).toBe(
+        `${ORIGIN}/authenticated/deals`,
+      );
+      expect(
+        response.cookies
+          .getAll()
+          .some(
+            (cookie: { name: string; value: string }) =>
+              cookie.name === "sb-access-token" &&
+              cookie.value === "refreshed-token",
+          ),
+      ).toBe(true);
+    },
+  );
 
   it("leaves unauthenticated public requests untouched", async () => {
     configureSession(NO_CLAIMS);

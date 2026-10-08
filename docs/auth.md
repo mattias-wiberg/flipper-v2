@@ -31,13 +31,17 @@ All Auth origin behavior uses the configured origin:
   local paths on the configured origin: `/authenticated/deals` by default and
   `/authenticated/reset-password` for recovery. Every hostile `redirect_to`
   is confined to the configured origin (`utils/auth.ts` `getSafeRedirectPath`,
-  `getSafeRedirectUrl`): literal escape attempts (absolute URLs, scheme
-  downgrade, protocol-relative and backslash forms, untrusted or look-alike
-  hosts) fall back to `/authenticated/deals`, while percent-encoded forms
-  (encoded slashes, encoded traversal, encoded backslashes) resolve to
-  ordinary on-origin paths and never produce an off-origin redirect. The
-  fallback target itself is pinned by the Jest suites; the live hostile
-  `redirect_to` HTTP checks exercised the no-valid-code error path.
+  `getSafeRedirectUrl`): missing, non-path, and literal-escape inputs (absolute
+  URLs, scheme downgrade, protocol-relative and backslash forms, untrusted or
+  look-alike hosts) as well as normalization escapes (dot-segment and
+  empty-segment forms such as `/.//host`, `/%2e//host`, `/x/..//host`) fall
+  back to `/authenticated/deals`, while percent-encoded forms that normalize
+  to same-origin results (encoded slashes, encoded traversal segments, encoded
+  backslashes) are preserved as on-origin paths. Both helpers re-validate the
+  normalized path and the resolved URL origin, so no input produces an
+  off-origin redirect. The fallback target itself is pinned by the Jest
+  suites; the live hostile `redirect_to` HTTP checks exercised the
+  no-valid-code error path.
 - The session proxy (`utils/supabase/middleware.ts`) redirects unauthenticated
   `/authenticated/*` access to `/log-in` on the configured origin, redirects
   authenticated users away from `/`, `/log-in`, and `/sign-up` to
@@ -69,21 +73,22 @@ These checks passed unattended against the production deployment and are
 reproducible without provider access. They are not a substitute for the
 operator-gated checklist below.
 
-- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 99 tests), the focused
+- `npx tsc --noEmit`, `npx jest --runInBand` (22 suites, 110 tests), the focused
   Prettier check on changed files, and the production `npm run build` with the
   canonical build input all pass.
 - Focused Jest coverage: `utils/auth.test.ts` (password-recovery `redirect_to`
-  handling and hostile inputs at the configured beta origin, forwarded-header
-  origin selection in production, local-origin derivation in development),
+  handling and hostile inputs at the configured beta origin, including
+  normalization escapes, forwarded-header origin selection in production,
+  local-origin derivation in development),
   `app/auth/callback/route.test.ts` (callback redirect targets for safe and
   hostile `redirect_to` values, failed and missing code exchanges, forwarded
   proxy headers in production), `utils/supabase/middleware.test.ts`
   (unauthenticated protected-route redirect to the configured origin, cookie
   session refresh on the proxy response, authenticated redirect to deal
-  discovery, public pass-through, and the exception fallback to the login
-  redirect), and `app/actions.test.ts` (recovery and verification callback URL
-  construction on the beta origin, password update on the reset surface, failed
-  sign-in, sign-out to the login page).
+  discovery from the auth surfaces, public pass-through, and the exception
+  fallback to the login redirect), and `app/actions.test.ts` (recovery and
+  verification callback URL construction on the beta origin, password update
+  on the reset surface, failed sign-in, sign-out to the login page).
 - Live browser checks (Playwright) on `https://beta.flipper.mattiaswiberg.com`
   at desktop (1280x800) and mobile (375x812) viewports: `/log-in`, `/sign-up`,
   and `/forgot-password` render and fit the mobile layout; keyboard-only Tab

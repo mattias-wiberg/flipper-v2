@@ -121,6 +121,8 @@ describe("auth callback origin and redirect behavior", () => {
     ["encoded traversal", "/%2e%2e/%2e%2e/steal"],
     ["encoded backslashes", "/%5c%5cattacker.example"],
     ["mixed encoded traversal", "/..%2f..%2fsteal"],
+    ["dot segment with single backslash", "/.\\attacker.example"],
+    ["parent segment with single backslash", "/..\\attacker.example"],
   ])(
     "keeps hostile redirect_to (%s) inside the beta origin",
     async (_label, redirectTarget) => {
@@ -134,6 +136,30 @@ describe("auth callback origin and redirect behavior", () => {
       const location = parseLocation(response);
 
       expect(location.origin).toBe(ORIGIN);
+    },
+  );
+
+  it.each([
+    ["dot segment with empty segment", "/.//attacker.example"],
+    ["parent segment with empty segment", "/..//attacker.example"],
+    ["encoded dot segment with empty segment", "/%2e//attacker.example"],
+    ["encoded parent segment with empty segment", "/%2e%2e//attacker.example"],
+    ["dot segment with backslash", "/.\\\\attacker.example"],
+    ["parent segment with backslash", "/..\\\\attacker.example"],
+    ["nested normalization escape", "/x/..//attacker.example"],
+  ])(
+    "falls back to deal discovery when redirect_to (%s) normalizes to a protocol-relative path",
+    async (_label, redirectTarget) => {
+      configureExchange();
+
+      const response = await GET(
+        makeRequest(
+          `?code=valid-code&redirect_to=${encodeURIComponent(redirectTarget)}`,
+        ),
+      );
+      const location = parseLocation(response);
+
+      expect(location.toString()).toBe(`${ORIGIN}/authenticated/deals`);
     },
   );
 
