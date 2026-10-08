@@ -29,10 +29,15 @@ All Auth origin behavior uses the configured origin:
   (`app/actions.ts` `forgotPasswordAction`).
 - `/auth/callback` exchanges the authorization code and returns only to safe
   local paths on the configured origin: `/authenticated/deals` by default and
-  `/authenticated/reset-password` for recovery. Absolute URLs,
-  protocol-relative URLs, backslash tricks, encoded traversal, and untrusted
-  or look-alike hosts all fall back to `/authenticated/deals`
-  (`utils/auth.ts` `getSafeRedirectPath`, `getSafeRedirectUrl`).
+  `/authenticated/reset-password` for recovery. Every hostile `redirect_to`
+  is confined to the configured origin (`utils/auth.ts` `getSafeRedirectPath`,
+  `getSafeRedirectUrl`): literal escape attempts (absolute URLs, scheme
+  downgrade, protocol-relative and backslash forms, untrusted or look-alike
+  hosts) fall back to `/authenticated/deals`, while percent-encoded forms
+  (encoded slashes, encoded traversal, encoded backslashes) resolve to
+  ordinary on-origin paths and never produce an off-origin redirect. The
+  fallback target itself is pinned by the Jest suites; the live hostile
+  `redirect_to` HTTP checks exercised the no-valid-code error path.
 - The session proxy (`utils/supabase/middleware.ts`) redirects unauthenticated
   `/authenticated/*` access to `/log-in` on the configured origin, redirects
   authenticated users away from `/`, `/log-in`, and `/sign-up` to
