@@ -10,7 +10,7 @@ const { STATUS } = require("../report.js");
 const session = require("../session.js");
 const { isSkip, skip } = require("../skip.js");
 
-const ACCOUNT_MENU = '[aria-label="Open account menu"]';
+const SIGNED_IN = '[aria-label="Open account menu"]';
 
 function authCookies(cookies) {
   return cookies.filter(({ name }) =>
@@ -18,8 +18,8 @@ function authCookies(cookies) {
   );
 }
 
-// The account-menu trigger is only rendered at some viewport widths, so the
-// protected page's heading plus the session cookie prove the signed-in state.
+// The account-menu trigger is not present in the redirect's first render, so
+// the protected page's heading plus the session cookie prove the signed-in state.
 async function assertSignedIn(context, page) {
   await page.getByRole("heading", { name: /Welcome back/ }).waitFor();
   if (authCookies(await context.cookies()).length === 0) {
@@ -38,6 +38,10 @@ async function signIn(context, page, credentials) {
     timeout: 60_000,
   });
   await assertSignedIn(context, page);
+  // The redirect's first render omits the account menu until a fresh render,
+  // so reload before the later steps use it.
+  await page.reload({ waitUntil: "networkidle" });
+  await page.locator(SIGNED_IN).waitFor({ state: "visible" });
 }
 
 async function waitForNoAuthCookie(context, timeoutMs = 10_000) {
@@ -109,7 +113,7 @@ async function refreshExpiredSession(context, page) {
 }
 
 async function signOut(page, context) {
-  await page.locator(ACCOUNT_MENU).click();
+  await page.locator(SIGNED_IN).click();
   await page.getByRole("menuitem", { name: "Log out" }).click();
   await page.waitForURL((url) => url.pathname === "/log-in", {
     timeout: 30_000,
