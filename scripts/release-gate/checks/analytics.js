@@ -112,6 +112,22 @@ function umamiWindow() {
   return { startAt: endAt - UMAMI_WINDOW_MS, endAt };
 }
 
+// Umami 3.4 groups URL metrics by `path`; `url` is not one of its type values
+// and the endpoint answers 400 for it.
+function metricsPath(websiteId, { startAt, endAt }) {
+  return `/api/websites/${encodeURIComponent(
+    websiteId,
+  )}/metrics?startAt=${startAt}&endAt=${endAt}&type=path`;
+}
+
+function metricPathname(metricUrl, siteUrl) {
+  try {
+    return new URL(metricUrl, siteUrl).pathname;
+  } catch {
+    return null;
+  }
+}
+
 async function umamiGet(config, token, path) {
   return httpFetch(new URL(path, config.umami.url), {
     headers: { Authorization: `Bearer ${token}`, accept: "application/json" },
@@ -119,13 +135,10 @@ async function umamiGet(config, token, path) {
 }
 
 async function urlMetrics(config, token) {
-  const { startAt, endAt } = umamiWindow();
   const response = await umamiGet(
     config,
     token,
-    `/api/websites/${encodeURIComponent(
-      config.umami.websiteId,
-    )}/metrics?startAt=${startAt}&endAt=${endAt}&type=url`,
+    metricsPath(config.umami.websiteId, umamiWindow()),
   );
   assertStatus(response, 200, "Umami URL metrics");
   const data = await response.json();
@@ -134,13 +147,9 @@ async function urlMetrics(config, token) {
 
 async function urlCount(config, token, pathname) {
   const metrics = await urlMetrics(config, token);
-  const entry = metrics.find((metric) => {
-    try {
-      return new URL(metric.x, config.expectedSiteUrl).pathname === pathname;
-    } catch {
-      return false;
-    }
-  });
+  const entry = metrics.find(
+    (metric) => metricPathname(metric.x, config.expectedSiteUrl) === pathname,
+  );
   return Number(entry?.y ?? 0);
 }
 
@@ -484,4 +493,6 @@ const umamiSurface = {
 
 module.exports = {
   checks: [tracker, umamiSurface, analytics, recordedPrivacy, telemetryOutage],
+  metricPathname,
+  metricsPath,
 };

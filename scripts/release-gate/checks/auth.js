@@ -10,9 +10,26 @@ const { STATUS } = require("../report.js");
 const session = require("../session.js");
 const { isSkip, skip } = require("../skip.js");
 
-const SIGNED_IN = '[aria-label="Open account menu"]';
+const ACCOUNT_MENU = '[aria-label="Open account menu"]';
 
-async function signIn(page, credentials) {
+function authCookies(cookies) {
+  return cookies.filter(({ name }) =>
+    /^sb-[A-Za-z0-9_-]+-auth-token(?:\.\d+)?$/.test(name),
+  );
+}
+
+// The account-menu trigger is only rendered at some viewport widths, so the
+// protected page's heading plus the session cookie prove the signed-in state.
+async function assertSignedIn(context, page) {
+  await page.getByRole("heading", { name: /Welcome back/ }).waitFor();
+  if (authCookies(await context.cookies()).length === 0) {
+    throw new Error(
+      "the protected page rendered without a Supabase auth cookie, so the browser is not signed in",
+    );
+  }
+}
+
+async function signIn(context, page, credentials) {
   await page.goto("/log-in", { waitUntil: "domcontentloaded" });
   await page.locator('input[type="email"]').fill(credentials.email);
   await page.locator('input[type="password"]').fill(credentials.password);
@@ -20,13 +37,7 @@ async function signIn(page, credentials) {
   await page.waitForURL((url) => url.pathname === "/authenticated/deals", {
     timeout: 60_000,
   });
-  await page.locator(SIGNED_IN).waitFor({ state: "visible" });
-}
-
-function authCookies(cookies) {
-  return cookies.filter(({ name }) =>
-    /^sb-[A-Za-z0-9_-]+-auth-token(?:\.\d+)?$/.test(name),
-  );
+  await assertSignedIn(context, page);
 }
 
 async function waitForNoAuthCookie(context, timeoutMs = 10_000) {
@@ -82,7 +93,7 @@ async function refreshExpiredSession(context, page) {
       `the protected page returned HTTP ${response?.status() ?? "none"} after an expired access token`,
     );
   }
-  await page.locator(SIGNED_IN).waitFor({ state: "visible" });
+  await assertSignedIn(context, page);
 
   const refreshed = session.readSessionCookie(await context.cookies());
   const refreshedAt = refreshed
@@ -98,7 +109,7 @@ async function refreshExpiredSession(context, page) {
 }
 
 async function signOut(page, context) {
-  await page.locator(SIGNED_IN).click();
+  await page.locator(ACCOUNT_MENU).click();
   await page.getByRole("menuitem", { name: "Log out" }).click();
   await page.waitForURL((url) => url.pathname === "/log-in", {
     timeout: 30_000,
@@ -146,8 +157,8 @@ const auth = {
         {
           id: "deployed.auth-signin",
           async run() {
-            await signIn(page, config.auth);
-            return "the controlled account signed in through the deployed form and reached /authenticated/deals";
+            await signIn(context, page, config.auth);
+            return "the controlled account signed in through the deployed form and reached /authenticated/deals with a Supabase session cookie";
           },
         },
         {
