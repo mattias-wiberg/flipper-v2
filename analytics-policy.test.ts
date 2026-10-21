@@ -6,9 +6,11 @@ import {
   sanitizeAnalyticsValue,
   umamiConfigDiagnostic,
 } from "./analytics-policy.js";
+import { CANONICAL_SITE_URL } from "./site-url-policy.js";
 
 const SCRIPT_URL = "https://umami.mattiaswiberg.com/script.js";
 const WEBSITE_ID = "94db1cb1-74f4-4a40-ad6c-962362670409";
+const TRACKING_HOSTNAME = new URL(CANONICAL_SITE_URL).hostname;
 
 describe("Umami analytics configuration", () => {
   it("disables analytics when both optional settings are absent", () => {
@@ -68,6 +70,23 @@ describe("Umami analytics configuration", () => {
       },
       {
         environment: {
+          NEXT_PUBLIC_UMAMI_SCRIPT_URL:
+            "http://umami.mattiaswiberg.com/script.js",
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: WEBSITE_ID,
+        },
+        names: ["NEXT_PUBLIC_UMAMI_SCRIPT_URL"],
+        secrets: ["http://umami.mattiaswiberg.com/script.js"],
+      },
+      {
+        environment: {
+          NEXT_PUBLIC_UMAMI_SCRIPT_URL: `${SCRIPT_URL}?v=1`,
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: WEBSITE_ID,
+        },
+        names: ["NEXT_PUBLIC_UMAMI_SCRIPT_URL"],
+        secrets: ["?v=1"],
+      },
+      {
+        environment: {
           NEXT_PUBLIC_UMAMI_SCRIPT_URL: SCRIPT_URL,
           NEXT_PUBLIC_UMAMI_WEBSITE_ID: "not a website id!",
         },
@@ -105,7 +124,7 @@ describe("Umami analytics configuration", () => {
       status: "enabled",
       scriptUrl: SCRIPT_URL,
       websiteId: WEBSITE_ID,
-      domains: "beta.flipper.mattiaswiberg.com",
+      hostname: TRACKING_HOSTNAME,
     });
     expect(umamiConfigDiagnostic(config)).toBeNull();
   });
@@ -120,7 +139,7 @@ describe("Umami analytics configuration", () => {
     expect(attributes).toEqual({
       src: SCRIPT_URL,
       "data-website-id": WEBSITE_ID,
-      "data-domains": "beta.flipper.mattiaswiberg.com",
+      "data-domains": TRACKING_HOSTNAME,
       // Query strings (Auth codes) and hashes (reset tokens) never leave the
       // browser in tracked URLs.
       "data-exclude-search": "true",
@@ -147,10 +166,33 @@ describe("Umami analytics event contract", () => {
       expect(buildAnalyticsEvent(name, {})).toBeNull();
     }
 
+    // Inherited object names must not be mistaken for allowlisted events.
+    for (const name of [
+      "constructor",
+      "toString",
+      "__proto__",
+      "hasOwnProperty",
+    ]) {
+      expect(() => buildAnalyticsEvent(name, { theme: "dark" })).not.toThrow();
+      expect(buildAnalyticsEvent(name, { theme: "dark" })).toBeNull();
+    }
+
     expect(buildAnalyticsEvent("theme_change", { theme: "dark" })).toEqual({
       name: "theme_change",
       data: { theme: "dark" },
     });
+  });
+
+  it("never treats inherited object properties as allowlisted events", () => {
+    for (const name of [
+      "constructor",
+      "toString",
+      "hasOwnProperty",
+      "__proto__",
+    ]) {
+      expect(() => buildAnalyticsEvent(name, {})).not.toThrow();
+      expect(buildAnalyticsEvent(name, {})).toBeNull();
+    }
   });
 
   it("redacts values that could carry identity, credentials, or payloads", () => {

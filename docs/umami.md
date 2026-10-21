@@ -33,24 +33,33 @@ then redeploy (see Lifecycle).
 - **Hostname**: the Umami operator surface lives on its own HTTPS route at
   `https://umami.mattiaswiberg.com` (DNS and Traefik are wired by the
   orchestrator, outside this repository).
-- **Access-control expectation**: the Umami dashboard is an operator surface.
+- **Access-control requirement**: the Umami dashboard is an operator surface.
   It must be protected from ordinary public users at the reverse proxy (for
   example a Traefik basic-auth or forwarded-auth middleware, or an IP
-  allowlist) in addition to the Umami login, and it must not be indexed. Only
-  two paths stay anonymously reachable, because browsers on the Flipper site
-  must fetch and beacon to them: `/script.js` (tracker script) and
-  `/api/send` (page-view/event collection). Everything else on the host
-  requires operator access.
+  allowlist) in addition to the Umami login, and it must not be indexed (send
+  `X-Robots-Tag: noindex`). Only two paths stay anonymously reachable, because
+  browsers on the Flipper site must fetch and beacon to them: `/script.js`
+  (tracker script) and `/api/send` (page-view/event collection). Everything
+  else on the host requires operator access.
+- **Concrete setup step**: in the Dokploy service, attach the chosen
+  middleware to the `umami` router, then verify from outside:
+  `curl -sI https://umami.mattiaswiberg.com/` returns `401` or `403` (not
+  `200`), while `curl -sI https://umami.mattiaswiberg.com/script.js` returns
+  `200` with a JavaScript content type and `POST /api/send` stays reachable.
+  The release gate in #62 must repeat this check, including the unauthenticated
+  tracker paths.
 - **No public database ports**: the compose stack publishes no ports at all.
   PostgreSQL is reachable only on the internal stack network, and the Umami
-  web service (port `3000`) is reached only through the reverse proxy.
+  web service (port `3000`) is `expose`d for reverse-proxy routing only and is
+  never published on the host.
 
 ## Initial Provisioning
 
-1. Generate three secrets (`openssl rand -hex 32` for the two keys, a strong
-   random password for the database) and provide them to the deploy
-   environment (placeholders in `deploy/umami/.env.example`). No secret is
-   ever committed to this repository.
+1. Generate three secrets with `openssl rand -hex 32` and provide them to the
+   deploy environment (placeholders in `deploy/umami/.env.example`). The
+   database password must be URL-safe hex because it is embedded in
+   `DATABASE_URL` without escaping, and `TWO_FACTOR_ENCRYPTION_KEY` must be
+   exactly 64 hex characters. No secret is ever committed to this repository.
 2. Deploy `deploy/umami/docker-compose.yml` as a Dokploy **Compose** service.
    Database migrations run automatically on first start.
 3. Log in at `https://umami.mattiaswiberg.com` with the default Umami account
@@ -59,8 +68,9 @@ then redeploy (see Lifecycle).
    two-factor authentication if desired; the stack already provides
    `TWO_FACTOR_ENCRYPTION_KEY`.
 4. Add a website for Flipper and note its website ID (Settings → Websites).
-5. Configure Flipper's two optional public variables in Dokploy and redeploy
-   (both or neither; see the matrix in `docs/dokploy.md`):
+5. Configure Flipper's two optional public build variables in Dokploy and
+   redeploy (both or neither; see the matrix in `docs/dokploy.md`). They are
+   inlined at build time, so changing them requires a rebuild:
    - `NEXT_PUBLIC_UMAMI_SCRIPT_URL=https://umami.mattiaswiberg.com/script.js`
    - `NEXT_PUBLIC_UMAMI_WEBSITE_ID=<website ID from step 4>`
 6. Verify: the home page HTML contains the tracker script with the privacy
@@ -104,8 +114,11 @@ attached (`umami.identify` and `data-distinct-id` are never used). Enforced by
 
 - Tracker attributes exclude query strings and hashes from tracked URLs (so
   Supabase Auth authorization codes and password-reset tokens cannot leak),
-  honor the browser Do Not Track header, and restrict tracking to the
-  configured public host (development and test origins never send anything).
+  honor the browser Do Not Track header, and restrict beacons to the
+  configured public host. When the optional settings are present, the script
+  itself can load; outside the configured host it sends no page-view or event
+  beacons. With both settings absent (the local-development and test default),
+  no tracker script is rendered at all.
 - Flipper page routes carry secrets only in query strings or hashes; API
   routes such as the tokened ingestion endpoint render no HTML and load no
   tracker.
@@ -116,7 +129,9 @@ attached (`umami.identify` and `data-distinct-id` are never used). Enforced by
   default), no tracker script is rendered and the browser makes no outbound
   analytics requests at all.
 
-Settings and diagnostics never echo configured values: validation and startup
-warnings (`scripts/validate-production-env.mjs`) name environment variables
-only, and a partial or invalid configuration disables analytics while Flipper
-keeps serving public pages, Auth, and ingestion.
+Settings and diagnostics never echo configured values: build validation
+(`scripts/validate-production-env.mjs --build`) names environment variables
+only, and a partial or invalid configuration is ignored (the build renders no
+tracker) while Flipper keeps serving public pages, Auth, and ingestion. The
+analytics settings are build-time inputs: build and runtime values must match,
+and the release gate in #62 verifies the built surface.

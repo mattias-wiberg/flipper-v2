@@ -144,6 +144,24 @@ describe("production environment validation", () => {
     expect(stderr).not.toContain(scriptUrl);
   });
 
+  it("does not re-diagnose optional analytics at runtime", () => {
+    const scriptUrl = "https://umami.mattiaswiberg.com/script.js";
+    const result = runValidation(
+      {
+        NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+        NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-key",
+        NEXT_PUBLIC_UMAMI_SCRIPT_URL: scriptUrl,
+        SUPABASE_SERVICE_ROLE_KEY: "server-only-service-role-key",
+      },
+      { buildOnly: false },
+    );
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    expect(String(result.stderr)).toBe("");
+  });
+
   it("keeps the gate green and warns by name only on invalid analytics values", () => {
     const websiteId = "not a website id!";
     const result = runValidation({

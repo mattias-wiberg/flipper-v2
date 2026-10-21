@@ -278,29 +278,31 @@ Enter these through Dokploy's protected application environment and build
 variable controls. The `.env.example` file contains placeholders for local
 development only and is not a production source of values.
 
-| Variable                        | Placement                                   | Contract                                                                                                                                                    |
-| ------------------------------- | ------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`          | Build input and runtime variable            | Exactly `https://beta.flipper.mattiaswiberg.com` (migration-phase configured origin)                                                                        |
-| `NEXT_PUBLIC_SUPABASE_URL`      | Build input and runtime variable            | URL of the existing authoritative Supabase project                                                                                                          |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Build input and runtime variable            | Existing public Supabase key                                                                                                                                |
-| `SUPABASE_SERVICE_ROLE_KEY`     | Protected runtime secret only               | Existing server-only Supabase service-role key                                                                                                              |
-| `NEXT_PUBLIC_UMAMI_SCRIPT_URL`  | Build input and runtime variable (optional) | Self-hosted Umami tracker script URL, `https://umami.mattiaswiberg.com/script.js`; all-or-nothing with `NEXT_PUBLIC_UMAMI_WEBSITE_ID` (see `docs/umami.md`) |
-| `NEXT_PUBLIC_UMAMI_WEBSITE_ID`  | Build input and runtime variable (optional) | Umami website identifier; all-or-nothing with `NEXT_PUBLIC_UMAMI_SCRIPT_URL`                                                                                |
+| Variable                        | Placement                                | Contract                                                                                                                                                    |
+| ------------------------------- | ---------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`          | Build input and runtime variable         | Exactly `https://beta.flipper.mattiaswiberg.com` (migration-phase configured origin)                                                                        |
+| `NEXT_PUBLIC_SUPABASE_URL`      | Build input and runtime variable         | URL of the existing authoritative Supabase project                                                                                                          |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Build input and runtime variable         | Existing public Supabase key                                                                                                                                |
+| `SUPABASE_SERVICE_ROLE_KEY`     | Protected runtime secret only            | Existing server-only Supabase service-role key                                                                                                              |
+| `NEXT_PUBLIC_UMAMI_SCRIPT_URL`  | Build input (optional, baked into image) | Self-hosted Umami tracker script URL, `https://umami.mattiaswiberg.com/script.js`; all-or-nothing with `NEXT_PUBLIC_UMAMI_WEBSITE_ID` (see `docs/umami.md`) |
+| `NEXT_PUBLIC_UMAMI_WEBSITE_ID`  | Build input (optional, baked into image) | Umami website identifier; all-or-nothing with `NEXT_PUBLIC_UMAMI_SCRIPT_URL`                                                                                |
 
 The `NEXT_PUBLIC_*` values are intentionally available to the image
 build because Next.js inlines browser configuration. They must still be
 managed by Dokploy, not committed to Git. `SUPABASE_SERVICE_ROLE_KEY` must not
 be a build argument, build secret, `NEXT_PUBLIC_*` variable, Dockerfile value,
 or logged value. The two optional Umami values (added by the analytics work in
-#60) are the only analytics variables allowed on the Flipper application:
-they are public browser configuration and must never carry secrets. Setting
-only one of the pair, or an invalid value, fails safely — analytics stays
-disabled and Flipper keeps serving public pages, Auth, and ingestion — and
-validation warns by variable name only. Server-side monitoring credentials
-belong to the SigNoz work (#61) and must never use the `NEXT_PUBLIC_` prefix,
-and no second database is ever attached to the Flipper application: Umami's
-dedicated PostgreSQL runs in its own Compose stack (`deploy/umami/`, see
-`docs/umami.md`).
+#60) are the only analytics variables allowed on the Flipper application: they
+are public browser configuration, are inlined at build time (so a change needs
+a rebuild), and must never carry secrets. Build and runtime values must match:
+a tracker inlined into statically prerendered pages cannot be removed by
+changing runtime variables. Setting only one of the pair, or an invalid value,
+fails safely - the build renders no tracker and Flipper keeps serving public
+pages, Auth, and ingestion - and build validation warns by variable name only.
+Server-side monitoring credentials belong to the SigNoz work (#61) and must
+never use the `NEXT_PUBLIC_` prefix, and no second database is ever attached to
+the Flipper application: Umami's dedicated PostgreSQL runs in its own Compose
+stack (`deploy/umami/`, see `docs/umami.md`).
 
 The image validation names missing or invalid variable names only. A failed
 validation message is safe to retain; it must never contain a variable value.

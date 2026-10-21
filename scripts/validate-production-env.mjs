@@ -59,11 +59,21 @@ if (diagnostics.length > 0) {
   process.exit(1);
 }
 
-// Optional analytics configuration never fails the gate: absent settings
-// disable analytics, and a partial or invalid Umami configuration disables
-// analytics while Flipper keeps serving public pages, Auth, and ingestion.
-// The warning names environment variables only; it is safe to log and retain.
-const analyticsDiagnostic = umamiConfigDiagnostic(getUmamiConfig(process.env));
-if (analyticsDiagnostic) {
-  console.warn(analyticsDiagnostic);
+// Optional analytics configuration is a build-time input: Next.js inlines the
+// public values into statically prerendered pages, so the build decides
+// whether those pages carry the tracker. Validate it here, at build time.
+// Absent settings disable analytics; partial or invalid settings are ignored
+// while Flipper keeps serving public pages, Auth, and ingestion. The warning
+// names environment variables only and is safe to log and retain.
+//
+// The runtime entrypoint does not re-diagnose analytics: it cannot change a
+// tracker already baked into static pages, and the image carries the build
+// values in its own environment.
+if (buildOnly) {
+  const analyticsDiagnostic = umamiConfigDiagnostic(
+    getUmamiConfig(process.env),
+  );
+  if (analyticsDiagnostic) {
+    console.warn(analyticsDiagnostic);
+  }
 }

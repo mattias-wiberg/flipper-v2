@@ -16,16 +16,25 @@
 // tracker attributes returned below: query strings (for example Supabase Auth
 // authorization codes) and hashes (for example password-reset tokens) are
 // excluded before anything leaves the browser, and tracking is limited to the
-// configured public host so development and test origins never send anything.
+// configured public host so development and test origins never send page-view
+// or event beacons. (The tracker script itself is only rendered when both
+// settings are present, so the default development and test setup loads no
+// analytics script at all.)
+//
+// The two settings are build-time inputs: Next.js inlines public values into
+// statically prerendered pages, so the build inputs decide whether those pages
+// carry the tracker. Runtime values must match the build inputs; changing only
+// the runtime environment cannot remove a tracker that was baked in at build.
 const siteUrlPolicy = require("./site-url-policy.js");
 
 const UMAMI_SCRIPT_URL_VARIABLE = "NEXT_PUBLIC_UMAMI_SCRIPT_URL";
 const UMAMI_WEBSITE_ID_VARIABLE = "NEXT_PUBLIC_UMAMI_WEBSITE_ID";
 const UMAMI_VARIABLES = [UMAMI_SCRIPT_URL_VARIABLE, UMAMI_WEBSITE_ID_VARIABLE];
 
-// The tracker only runs on the configured public host (never localhost or a
+// Beacons are only sent from the configured public host (never localhost or a
 // deployment preview), matching the single source of truth for the origin.
-const UMAMI_TRACKING_HOST = new URL(siteUrlPolicy.CANONICAL_SITE_URL).hostname;
+const UMAMI_TRACKING_HOSTNAME = new URL(siteUrlPolicy.CANONICAL_SITE_URL)
+  .hostname;
 
 // Explicitly defined non-sensitive analytics events. Each event lists the
 // only data keys it may carry; values pass sanitizeAnalyticsValue first. An
@@ -40,9 +49,15 @@ const ANALYTIC_EVENTS = {
 const SAFE_EVENT_VALUE_PATTERN = /^[A-Za-z0-9 _.-]{1,32}$/;
 const WEBSITE_ID_PATTERN = /^[A-Za-z0-9-]{8,64}$/;
 
+// The tracker script must be served over HTTPS from a bare script URL: an
+// http:// script would be blocked as mixed content on the HTTPS product
+// surface, and query strings or hashes in the script URL are never needed.
 function normalizeScriptUrl(value) {
   const parsed = siteUrlPolicy.parseHttpUrl(value);
-  return parsed ? parsed.toString() : null;
+  if (!parsed || parsed.protocol !== "https:" || parsed.search || parsed.hash) {
+    return null;
+  }
+  return parsed.toString();
 }
 
 function normalizeWebsiteId(value) {
@@ -53,7 +68,7 @@ function normalizeWebsiteId(value) {
 /**
  * @typedef {{ status: "disabled" } |
  *   { status: "invalid", invalidNames: string[] } |
- *   { status: "enabled", scriptUrl: string, websiteId: string, domains: string }} UmamiConfigValue
+ *   { status: "enabled", scriptUrl: string, websiteId: string, hostname: string }} UmamiConfigValue
  */
 
 /**
@@ -93,7 +108,7 @@ function getUmamiConfig(environment = process.env) {
     status: "enabled",
     scriptUrl: normalizedScriptUrl,
     websiteId: normalizedWebsiteId,
-    domains: UMAMI_TRACKING_HOST,
+    hostname: UMAMI_TRACKING_HOSTNAME,
   };
 }
 
@@ -110,19 +125,19 @@ function umamiConfigDiagnostic(config) {
 
   return (
     `Invalid optional analytics variables: ${config.invalidNames.join(", ")}. ` +
-    "Analytics is disabled and Flipper continues serving normally."
+    "The optional analytics settings are not applied and Flipper continues serving normally."
   );
 }
 
 // Tracker script attributes for the Umami embed. Returns null unless the
-// configuration is complete and valid, in which case no script is rendered
-// and no outbound request is ever made.
+// configuration is complete and valid; with null, no script is rendered and
+// no analytics beacon is sent.
 //
 // The returned attributes enforce the privacy contract on the wire:
 // - data-exclude-search / data-exclude-hash keep query strings and hashes
 //   (Auth codes, reset tokens) out of tracked URLs.
 // - data-do-not-track honors the browser DNT header.
-// - data-domains limits tracking to the configured public host.
+// - data-domains limits beacons to the configured public host.
 // No identity attribute (data-distinct-id) is ever present.
 /**
  * @param {UmamiConfigValue} config
@@ -138,7 +153,7 @@ function getUmamiScriptAttributes(config) {
   return {
     src: config.scriptUrl,
     "data-website-id": config.websiteId,
-    "data-domains": config.domains,
+    "data-domains": config.hostname,
     "data-exclude-search": "true",
     "data-exclude-hash": "true",
     "data-do-not-track": "true",
@@ -179,10 +194,12 @@ function sanitizeAnalyticsValue(value) {
  * @returns {{ name: string, data: Record<string, string | number | boolean> } | null}
  */
 function buildAnalyticsEvent(name, data = {}) {
-  const allowedKeys = ANALYTIC_EVENTS[name];
-  if (!allowedKeys) {
+  // Object.hasOwn-style check: an inherited name such as "constructor" or
+  // "toString" must never be treated as an allowlisted event.
+  if (!Object.prototype.hasOwnProperty.call(ANALYTIC_EVENTS, name)) {
     return null;
   }
+  const allowedKeys = ANALYTIC_EVENTS[name];
 
   const sanitized = {};
   for (const key of allowedKeys) {

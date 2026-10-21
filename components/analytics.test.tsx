@@ -1,9 +1,12 @@
 import { renderToStaticMarkup } from "react-dom/server";
 
+import { CANONICAL_SITE_URL } from "../site-url-policy.js";
+
 import { Analytics } from "./analytics";
 
 const SCRIPT_URL = "https://umami.mattiaswiberg.com/script.js";
 const WEBSITE_ID = "94db1cb1-74f4-4a40-ad6c-962362670409";
+const TRACKING_HOSTNAME = new URL(CANONICAL_SITE_URL).hostname;
 
 describe("Analytics", () => {
   beforeEach(() => {
@@ -14,7 +17,6 @@ describe("Analytics", () => {
   afterEach(() => {
     delete process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
     delete process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
-    jest.restoreAllMocks();
   });
 
   it("renders no tracker when analytics is disabled", () => {
@@ -22,7 +24,6 @@ describe("Analytics", () => {
   });
 
   it("renders no tracker and leaks no values on partial configuration", () => {
-    const warn = jest.spyOn(console, "warn").mockImplementation(() => {});
     process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL = SCRIPT_URL;
 
     const markup = renderToStaticMarkup(<Analytics />);
@@ -30,11 +31,17 @@ describe("Analytics", () => {
     expect(markup).toBe("");
     expect(markup).not.toContain("umami");
     expect(markup).not.toContain(SCRIPT_URL);
+  });
 
-    const diagnostic = String(warn.mock.calls[0]?.[0] ?? "");
-    expect(diagnostic).toContain("NEXT_PUBLIC_UMAMI_SCRIPT_URL");
-    expect(diagnostic).toContain("NEXT_PUBLIC_UMAMI_WEBSITE_ID");
-    expect(diagnostic).not.toContain(SCRIPT_URL);
+  it("renders no tracker and leaks no values on invalid configuration", () => {
+    process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL = SCRIPT_URL;
+    process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID = "not a website id!";
+
+    const markup = renderToStaticMarkup(<Analytics />);
+
+    expect(markup).toBe("");
+    expect(markup).not.toContain(SCRIPT_URL);
+    expect(markup).not.toContain("not a website id!");
   });
 
   it("renders the privacy-preserving tracker for a valid configuration", () => {
@@ -45,7 +52,7 @@ describe("Analytics", () => {
 
     expect(markup).toContain(`src="${SCRIPT_URL}"`);
     expect(markup).toContain(`data-website-id="${WEBSITE_ID}"`);
-    expect(markup).toContain(`data-domains="beta.flipper.mattiaswiberg.com"`);
+    expect(markup).toContain(`data-domains="${TRACKING_HOSTNAME}"`);
     expect(markup).toContain('data-exclude-search="true"');
     expect(markup).toContain('data-exclude-hash="true"');
     expect(markup).toContain('data-do-not-track="true"');

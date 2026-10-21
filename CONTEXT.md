@@ -37,6 +37,17 @@ _Avoid_: import, sync, when referring to the market-order endpoint
 **Development recorder**:
 A local-only facility that captures raw market-order requests for development and replay. It is not part of production ingestion.
 
+**Product analytics**:
+Page views and explicitly defined non-sensitive events collected for the
+production product surface. It excludes identity, credentials, and request
+payloads; the contract lives in `analytics-policy.js`.
+_Avoid_: telemetry, when referring to product analytics
+
+**Umami**:
+The self-hosted product-analytics service and its dedicated PostgreSQL
+database. It is part of the web-and-observability plane and is separate from
+the Flipper web service and the existing Supabase project.
+
 **Observability**:
 The product analytics, traces, and error information used to understand how Flipper behaves in production.
 

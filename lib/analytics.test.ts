@@ -27,6 +27,28 @@ describe("analytics event dispatch", () => {
     expect(track).not.toHaveBeenCalled();
   });
 
+  it("never treats inherited object properties as events", () => {
+    const track = jest.fn();
+    globalWithUmami.umami = { track };
+
+    for (const name of ["constructor", "toString", "__proto__"]) {
+      expect(() => trackAnalyticsEvent(name, { theme: "dark" })).not.toThrow();
+    }
+
+    expect(track).not.toHaveBeenCalled();
+  });
+
+  it("ignores inherited object names without throwing", () => {
+    const track = jest.fn();
+    globalWithUmami.umami = { track };
+
+    for (const name of ["constructor", "toString", "__proto__"]) {
+      expect(() => trackAnalyticsEvent(name, {})).not.toThrow();
+    }
+
+    expect(track).not.toHaveBeenCalled();
+  });
+
   it("sends explicitly defined events with redacted data only", () => {
     const track = jest.fn();
     globalWithUmami.umami = { track };

@@ -2,8 +2,10 @@
 
 Flipper is built as a Next.js standalone image. The build uses the committed
 `package-lock.json`, Node `22.14.0-bookworm-slim` for both build and runtime,
-and copies only the standalone server, static assets, public assets, and the
-runtime configuration check into the final image. The server runs as `nextjs`
+and copies only the standalone server, static assets,
+public assets, the runtime configuration check, and the policy modules that
+check reads (`site-url.config.json`, `site-url-policy.js`,
+`analytics-policy.js`). The server runs as `nextjs`
 and listens on `0.0.0.0:3000`.
 
 ## Configuration
@@ -20,7 +22,9 @@ Public values are required as Docker build inputs because Next.js inlines
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` is the existing public Supabase key.
 
 Two optional public values enable self-hosted Umami analytics (see
-`docs/umami.md`). They are all-or-nothing:
+`docs/umami.md`). They are all-or-nothing and are build-time inputs: Next.js
+inlines them into statically prerendered pages, so the build decides whether
+those pages carry the tracker.
 
 - `NEXT_PUBLIC_UMAMI_SCRIPT_URL` is the self-hosted tracker script URL, for
   example `https://umami.mattiaswiberg.com/script.js`.
@@ -28,11 +32,14 @@ Two optional public values enable self-hosted Umami analytics (see
 
 When both are absent (the local-development and test default), no tracker is
 rendered and the browser makes no outbound analytics requests. Setting only
-one of the pair, or an invalid value, fails safely: analytics stays disabled,
-Flipper keeps serving public pages, Auth, and ingestion, and validation warns
-by variable name only (`scripts/validate-production-env.mjs`). The values are
-public browser configuration and must never carry secrets; the privacy
-contract for what analytics may record is in `analytics-policy.js`.
+one of the pair, or an invalid value, fails safely: that build renders no
+tracker, Flipper keeps serving public pages, Auth, and ingestion, and
+validation warns by variable name only
+(`scripts/validate-production-env.mjs`). Runtime values must match the build
+inputs; changing only the runtime environment cannot remove a tracker already
+inlined into static pages. The values are public browser configuration and
+must never carry secrets; the privacy contract for what analytics may record
+is in `analytics-policy.js`.
 
 The runtime entrypoint also requires `SUPABASE_SERVICE_ROLE_KEY`. Pass it only
 as a protected runtime secret. It is not a Docker build argument, is not
@@ -73,10 +80,12 @@ npm run build
 ```
 
 The production build must pass both without the optional Umami public
-settings (analytics disabled) and with both
-`NEXT_PUBLIC_UMAMI_SCRIPT_URL`/`NEXT_PUBLIC_UMAMI_WEBSITE_ID` set (analytics
-enabled); a partial analytics configuration must also build and start while
-analytics stays disabled.
+settings (no tracker is rendered) and with both
+`NEXT_PUBLIC_UMAMI_SCRIPT_URL`/`NEXT_PUBLIC_UMAMI_WEBSITE_ID` set (tracker
+rendered); a partial analytics configuration must also build and start, and
+that build renders no tracker. These are build-time inputs: Next.js inlines
+them into statically prerendered pages, so runtime values must match the build
+values and cannot change a tracker already inlined into those pages.
 
 Build and start the real image without passing any server secret at build
 time:
@@ -97,9 +106,10 @@ docker run --rm --name flipper-v56 \
   flipper:v56
 ```
 
-For an analytics-enabled image, also pass both optional Umami values as
-build arguments and runtime variables (`--build-arg`/`-e`); pass both together
-or neither.
+For an analytics-enabled image, also pass both optional Umami values as build
+arguments (`--build-arg`, both together or neither). The image bakes them into
+its runtime environment so dynamically rendered routes match the statically
+prerendered pages; do not override them at runtime.
 
 In a second shell, verify the container boundary:
 
