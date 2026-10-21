@@ -49,8 +49,10 @@ PathPrefix(`/api/send`))` with priority `100`; the protected router matches
   `curl -sI https://umami.mattiaswiberg.com/` returns `401` or `403`,
   `curl -sI https://umami.mattiaswiberg.com/script.js` returns `200` with a
   JavaScript content type, and `POST https://umami.mattiaswiberg.com/api/send`
-  is accepted rather than rejected with `401`/`403`. The release gate in #62
-  must repeat this check. Never protect `/script.js` or `/api/send`, because
+  is accepted rather than rejected with `401`/`403`, and one successful
+  login (`curl -u admin:<password> -sI https://umami.mattiaswiberg.com/`
+  returns `200` or `302`) proves the basic-auth hash survived `.env` quoting.
+  The release gate in #62 must repeat this check. Never protect `/script.js` or `/api/send`, because
   doing so disables product page views; never leave the dashboard router
   unprotected.
 - **No public database ports**: the compose stack publishes no ports at all.
@@ -65,8 +67,10 @@ PathPrefix(`/api/send`))` with priority `100`; the protected router matches
    database password must be URL-safe hex because it is embedded in
    `DATABASE_URL` without escaping, and `TWO_FACTOR_ENCRYPTION_KEY` must be
    exactly 64 hex characters. Also set `UMAMI_BASIC_AUTH_USERS` to the output of
-   `htpasswd -nbB admin '<password>'`; it protects the dashboard router. No
-   secret is ever committed to this repository.
+   `htpasswd -nbB admin '<password>'`; it protects the dashboard router.
+   Single-quote that value in a `.env` file (or double every `$` as `$$` when
+   writing it into compose) so Compose interpolation does not truncate the
+   hash. No secret is ever committed to this repository.
 2. Deploy `deploy/umami/docker-compose.yml` as a Dokploy **Compose** service.
    Database migrations run automatically on first start.
 3. Log in at `https://umami.mattiaswiberg.com` (the basic-auth prompt comes

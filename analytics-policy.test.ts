@@ -217,9 +217,9 @@ describe("Umami analytics event contract", () => {
       path.join(__dirname, "analytics-policy.d.ts"),
       "utf8",
     );
-    const declaredExports = [...declaration.matchAll(
-      /^export (?:function|const) (\w+)/gm,
-    )]
+    const declaredExports = [
+      ...declaration.matchAll(/^export (?:function|const) (\w+)/gm),
+    ]
       .map((match) => match[1])
       .sort();
     // `default` is the CommonJS interop wrapper, not a policy export.

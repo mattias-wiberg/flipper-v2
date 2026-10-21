@@ -44,8 +44,6 @@ const ANALYTIC_EVENTS = {
   theme_change: { theme: ["light", "dark", "system"] },
 };
 
-// Emails, URLs, keys, tokens, and passwords are absent from every declared
-// vocabulary, so they can never be sent even when they are short strings.
 const WEBSITE_ID_PATTERN =
   /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
