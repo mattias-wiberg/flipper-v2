@@ -394,9 +394,18 @@ The check does not claim DNS, TLS, Supabase Auth, ingestion, provider history,
 or rollback acceptance; those require the operator checks in this document
 and the separate release gate.
 
-4. Leave authenticated, ingestion, observability, and broader release gate
-   checks to their owning gates. This ticket's verifier intentionally does not
-   implement or claim those checks.
+4. Run the release gate against the same origin and require `ACCEPTED`:
+
+   ```sh
+   npm run gate:release
+   ```
+
+   The gate covers the authenticated lifecycle, ingestion and the deployed
+   golden replay, the Umami page view and its privacy contract, and the
+   stateless/telemetry-outage properties. Its environment matrix, exit codes,
+   and the checks that remain operator-gated are documented in
+   [`docs/release-gate.md`](release-gate.md). A release whose required evidence
+   fails or is skipped is rejected; do not mark it known-good.
 5. Mark the new release known-good only after all required evidence passes.
    Until then, leave the previous successful release available in Dokploy (or
    on its existing provider, before the first Dokploy release exists; see Open
@@ -478,3 +487,8 @@ beta deployment evidence:
   remains the only production data and Auth service. Sign-in on the beta
   deployment is pending the Supabase Auth Site URL / redirect allowlist step
   owned by #58 (see Open Items).
+- Pending: the release gate (`npm run gate:release`, see
+  [`docs/release-gate.md`](release-gate.md)) has not yet been run against a
+  Dokploy deployment. It is implemented and passes its dry run and repository
+  tests; the first live accepted/rejected verdict for a Dokploy release is
+  recorded by the operator (orchestrator) after deployment.

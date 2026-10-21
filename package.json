@@ -16,7 +16,8 @@
     "format:data": "npm run format:items && npm run format:world",
     "update:ao-data": "npm run sync:ao-dumps && npm run format:data",
     "debug:items-formatter": "node --inspect-brk utils/itemsFormatter.js",
-    "verify:deployment": "node scripts/verify-deployment.mjs"
+    "verify:deployment": "node scripts/verify-deployment.mjs",
+    "gate:release": "node scripts/release-gate/index.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",
@@ -57,6 +58,7 @@
     "@types/react-dom": "^19.3.0",
     "husky": "^9.1.7",
     "jest": "^30.5.2",
+    "playwright": "^1.64.1",
     "postcss": "^8.5.28",
     "supabase": "2.117.0",
     "tailwindcss": "^4.3.3",
