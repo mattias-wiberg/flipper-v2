@@ -2,14 +2,16 @@
 
 Flipper is built as a Next.js standalone image. The build uses the committed
 `package-lock.json`, Node `22.14.0-bookworm-slim` for both build and runtime,
-and copies only the standalone server, static assets, public assets, and the
-runtime configuration check into the final image. The server runs as `nextjs`
+and copies only the standalone server, static assets,
+public assets, the runtime configuration check, and the policy modules that
+check reads (`site-url.config.json`, `site-url-policy.js`,
+`analytics-policy.js`). The server runs as `nextjs`
 and listens on `0.0.0.0:3000`.
 
 ## Configuration
 
-Public values are required as Docker build inputs because Next.js inlines
-`NEXT_PUBLIC_*` values into browser bundles:
+Public values are required as Docker build inputs because Next.js reads
+`NEXT_PUBLIC_*` values when it builds.
 
 - `NEXT_PUBLIC_SITE_URL` must be exactly the configured public origin for a
   production image. During the Vercel-to-Dokploy migration phase the configured
@@ -18,6 +20,26 @@ Public values are required as Docker build inputs because Next.js inlines
   final canonical origin until cutover (see `docs/dokploy.md`).
 - `NEXT_PUBLIC_SUPABASE_URL` is the existing Supabase project URL.
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` is the existing public Supabase key.
+
+Two optional public values enable self-hosted Umami analytics (see
+`docs/umami.md`). They are all-or-nothing and are build-time inputs: Next.js
+reads them when it prerenders pages, so the build decides whether
+those pages carry the tracker.
+
+- `NEXT_PUBLIC_UMAMI_SCRIPT_URL` is the self-hosted tracker script URL, for
+  example `https://umami.mattiaswiberg.com/script.js`.
+- `NEXT_PUBLIC_UMAMI_WEBSITE_ID` is the Umami website identifier.
+
+When both are absent (the local-development and test default), no tracker is
+rendered and the browser makes no outbound analytics requests. Setting only
+one of the pair, or an invalid value, fails safely: that build renders no
+tracker, Flipper keeps serving public pages, Auth, and ingestion, and
+validation warns by variable name only
+(`scripts/validate-production-env.mjs`). Runtime values must match the build
+inputs; changing only the runtime environment cannot remove a tracker already
+baked into static pages. The values are public browser configuration and
+must never carry secrets; the privacy contract for what analytics may record
+is in `analytics-policy.js`.
 
 The runtime entrypoint also requires `SUPABASE_SERVICE_ROLE_KEY`. Pass it only
 as a protected runtime secret. It is not a Docker build argument, is not
@@ -57,6 +79,14 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=public-anon-key \
 npm run build
 ```
 
+The production build must pass both without the optional Umami public
+settings (no tracker is rendered) and with both
+`NEXT_PUBLIC_UMAMI_SCRIPT_URL`/`NEXT_PUBLIC_UMAMI_WEBSITE_ID` set (tracker
+rendered); a partial analytics configuration must also build and start, and
+that build renders no tracker. These are build-time inputs: Next.js reads
+them when it prerenders pages, so runtime values must match the build
+values and cannot change a tracker already baked into those pages.
+
 Build and start the real image without passing any server secret at build
 time:
 
@@ -75,6 +105,11 @@ docker run --rm --name flipper-v56 \
   -e SUPABASE_SERVICE_ROLE_KEY=replace-with-runtime-secret \
   flipper:v56
 ```
+
+For an analytics-enabled image, also pass both optional Umami values as build
+arguments (`--build-arg`, both together or neither). The image bakes them into
+its runtime environment so dynamically rendered routes match the statically
+prerendered pages; do not override them at runtime.
 
 In a second shell, verify the container boundary:
 
@@ -112,6 +147,15 @@ production build was also run with `mocker/data` replaced by Git LFS pointer
 text (simulating a `GIT_LFS_SKIP_SMUDGE=1` deployment checkout) and passed
 unchanged, confirming the build does not read the fixtures. The fixtures were
 restored afterwards; no altered fixtures are committed.
+
+Re-verified for the analytics work in #60 on 2026-10-21: `npx tsc --noEmit`
+is clean, `npx jest --runInBand` passes 25 suites / 139 tests, and three
+production builds with the beta origin exit 0: one with no Umami settings (no
+tracker in the prerendered HTML), one with both public Umami values (the
+privacy-attribute tracker in the prerendered HTML), and one with a partial
+configuration (the build succeeds and renders no tracker). Deployed Umami
+routing, restart persistence, and page-view delivery remain operator checks
+owned by #62/#63.
 
 These checks cover the local image boundary. The same boundary is accepted in
 production on the Dokploy beta deployment (see `docs/dokploy.md` for the

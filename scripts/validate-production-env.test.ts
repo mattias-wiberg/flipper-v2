@@ -7,6 +7,13 @@ function runValidation(
   environment: Record<string, string | undefined>,
   options: { buildOnly?: boolean } = {},
 ) {
+  const passthroughPublicNames = [
+    "NEXT_PUBLIC_SITE_URL",
+    "NEXT_PUBLIC_SUPABASE_URL",
+    "NEXT_PUBLIC_SUPABASE_ANON_KEY",
+    "NEXT_PUBLIC_UMAMI_SCRIPT_URL",
+    "NEXT_PUBLIC_UMAMI_WEBSITE_ID",
+  ];
   // Scrub inherited public and server-secret names so ambient NEXT_PUBLIC_*
   // exports cannot trip the script's forbidden-name scan or required checks.
   // Start from process.env (which carries the required NODE_ENV) and delete
@@ -16,6 +23,8 @@ function runValidation(
     NEXT_PUBLIC_SITE_URL: environment.NEXT_PUBLIC_SITE_URL,
     NEXT_PUBLIC_SUPABASE_URL: environment.NEXT_PUBLIC_SUPABASE_URL,
     NEXT_PUBLIC_SUPABASE_ANON_KEY: environment.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_UMAMI_SCRIPT_URL: environment.NEXT_PUBLIC_UMAMI_SCRIPT_URL,
+    NEXT_PUBLIC_UMAMI_WEBSITE_ID: environment.NEXT_PUBLIC_UMAMI_WEBSITE_ID,
     SUPABASE_SERVICE_ROLE_KEY: environment.SUPABASE_SERVICE_ROLE_KEY,
   };
   for (const name of Object.keys(env)) {
@@ -26,11 +35,7 @@ function runValidation(
       delete env[name];
     } else if (
       name.startsWith("NEXT_PUBLIC_") &&
-      ![
-        "NEXT_PUBLIC_SITE_URL",
-        "NEXT_PUBLIC_SUPABASE_URL",
-        "NEXT_PUBLIC_SUPABASE_ANON_KEY",
-      ].includes(name)
+      !passthroughPublicNames.includes(name)
     ) {
       delete env[name];
     }
@@ -120,5 +125,71 @@ describe("production environment validation", () => {
     expect(withSecret.error).toBeUndefined();
     expect(withSecret.status).toBe(0);
     expect(String(withSecret.stderr)).toBe("");
+  });
+
+  it("keeps the gate green and warns by name only on partial analytics configuration", () => {
+    const scriptUrl = "https://umami.mattiaswiberg.com/script.js";
+    const result = runValidation({
+      NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+      NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-key",
+      NEXT_PUBLIC_UMAMI_SCRIPT_URL: scriptUrl,
+    });
+    const stderr = String(result.stderr);
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    expect(stderr).toContain("NEXT_PUBLIC_UMAMI_SCRIPT_URL");
+    expect(stderr).toContain("NEXT_PUBLIC_UMAMI_WEBSITE_ID");
+    expect(stderr).not.toContain(scriptUrl);
+  });
+
+  it("does not re-diagnose optional analytics at runtime", () => {
+    const scriptUrl = "https://umami.mattiaswiberg.com/script.js";
+    const result = runValidation(
+      {
+        NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+        NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
+        NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-key",
+        NEXT_PUBLIC_UMAMI_SCRIPT_URL: scriptUrl,
+        SUPABASE_SERVICE_ROLE_KEY: "server-only-service-role-key",
+      },
+      { buildOnly: false },
+    );
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    expect(String(result.stderr)).toBe("");
+  });
+
+  it("keeps the gate green and warns by name only on invalid analytics values", () => {
+    const websiteId = "not a website id!";
+    const result = runValidation({
+      NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+      NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-key",
+      NEXT_PUBLIC_UMAMI_SCRIPT_URL: "https://umami.mattiaswiberg.com/script.js",
+      NEXT_PUBLIC_UMAMI_WEBSITE_ID: websiteId,
+    });
+    const stderr = String(result.stderr);
+
+    expect(result.error).toBeUndefined();
+    expect(result.status).toBe(0);
+    expect(stderr).toContain("NEXT_PUBLIC_UMAMI_WEBSITE_ID");
+    expect(stderr).not.toContain(websiteId);
+  });
+
+  it("stays silent on absent or valid analytics configuration", () => {
+    const valid = runValidation({
+      NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
+      NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "public-anon-key",
+      NEXT_PUBLIC_UMAMI_SCRIPT_URL: "https://umami.mattiaswiberg.com/script.js",
+      NEXT_PUBLIC_UMAMI_WEBSITE_ID: "94db1cb1-74f4-4a40-ad6c-962362670409",
+    });
+
+    expect(valid.error).toBeUndefined();
+    expect(valid.status).toBe(0);
+    expect(String(valid.stderr)).toBe("");
   });
 });

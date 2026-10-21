@@ -1,5 +1,7 @@
+import analyticsPolicy from "../analytics-policy.js";
 import siteUrlPolicy from "../site-url-policy.js";
 
+const { getUmamiConfig, umamiConfigDiagnostic } = analyticsPolicy;
 const { CANONICAL_SITE_URL, normalizeSiteUrl } = siteUrlPolicy;
 const publicVariables = [
   "NEXT_PUBLIC_SITE_URL",
@@ -55,4 +57,23 @@ if (invalid.length > 0) {
 if (diagnostics.length > 0) {
   console.error(diagnostics.join("\n"));
   process.exit(1);
+}
+
+// Optional analytics configuration is a build-time input: Next.js reads the
+// public values into statically prerendered pages, so the build decides
+// whether those pages carry the tracker. Validate it here, at build time.
+// Absent settings disable analytics; partial or invalid settings are ignored
+// while Flipper keeps serving public pages, Auth, and ingestion. The warning
+// names environment variables only and is safe to log and retain.
+//
+// The runtime entrypoint does not re-diagnose analytics: it cannot change a
+// tracker already baked into static pages, and the image carries the build
+// values in its own environment.
+if (buildOnly) {
+  const analyticsDiagnostic = umamiConfigDiagnostic(
+    getUmamiConfig(process.env),
+  );
+  if (analyticsDiagnostic) {
+    console.warn(analyticsDiagnostic);
+  }
 }

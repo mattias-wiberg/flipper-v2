@@ -70,5 +70,6 @@ module.exports = {
   isCanonicalSiteUrl,
   normalizeOrigin,
   normalizeSiteUrl,
+  parseHttpUrl,
   parseSiteUrl,
 };

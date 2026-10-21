@@ -9,6 +9,7 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { trackAnalyticsEvent } from "@/lib/analytics";
 import { Laptop, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
@@ -43,7 +44,12 @@ const ThemeSwitcher = () => {
         <DropdownMenuGroup>
           <DropdownMenuRadioGroup
             value={theme}
-            onValueChange={(value) => setTheme(value)}
+            onValueChange={(value) => {
+              setTheme(value);
+              // Explicitly defined non-sensitive event (see
+              // analytics-policy.js). No-op when analytics is disabled.
+              trackAnalyticsEvent("theme_change", { theme: value });
+            }}
           >
             <DropdownMenuRadioItem closeOnClick value="light">
               <Sun className="text-muted-foreground" />

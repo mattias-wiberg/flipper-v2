@@ -1,3 +1,4 @@
+import { Analytics } from "@/components/analytics";
 import { ThemeSwitcher } from "@/components/theme-switcher";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -132,6 +133,10 @@ export default async function RootLayout({
                 </footer>
               </div>
               <Toaster />
+              {/* Self-hosted Umami analytics (optional; rendered only when
+                  both public settings are configured). Records page views and
+                  explicitly defined non-sensitive events only. */}
+              <Analytics />
               {/* JSON-LD structured data for a web app/software application.
                   Rendered as a plain inline script so it is present in the
                   server-rendered HTML for crawlers without JavaScript. */}

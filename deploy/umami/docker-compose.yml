@@ -1,0 +1,118 @@
+# Umami product analytics for the Flipper web-and-observability plane
+# (issue #60). Operator runbook: docs/umami.md.
+#
+# Boundary: this stack is deliberately separate from the Flipper web service
+# and from the existing Supabase project. Umami and its own dedicated
+# PostgreSQL database run as separately managed services with persistent
+# named storage; no Flipper or Supabase state is shared or touched here.
+#
+# Pinning: images are pinned to reviewed versions and digest-pinned after
+# review; `latest` is never used. Sources checked 2026-10-08:
+# - Umami 3.4.0: GitHub release v3.4.0 (published 2026-09-17) and the GHCR
+#   manifest digest for tag `3.4.0`.
+# - PostgreSQL 18.6-alpine: Docker Hub `library/postgres` (18.6 is the newest
+#   published 18.x patch tag at review time). PostgreSQL 18 is a current
+#   supported major and is listed for Prisma ORM v7, which Umami v3 uses;
+#   Umami documents PostgreSQL >= 12.14 as its minimum.
+# Upgrades are deliberate edits to these pins after review (docs/umami.md).
+#
+# Networking: no ports are published. The database is reachable only between
+# the stack's own containers, and the Umami web service on port 3000 is
+# reached only through Traefik on its own HTTPS route
+# `umami.mattiaswiberg.com`. Two routers are shipped here: the public tracker
+# paths (`/script.js`, `/api/send`) and a protected dashboard router that
+# requires basic auth (`UMAMI_BASIC_AUTH_USERS`) and is marked noindex.
+#
+# Secrets: supplied from the deploy environment only (placeholders in
+# deploy/umami/.env.example). The stack refuses to start when they are
+# missing and no secret value is ever committed.
+
+services:
+  umami:
+    image: ghcr.io/umami-software/umami:3.4.0@sha256:85909afc45bdcda1917394594a087421fdbb05610fded0fa9f6fb861abb2f367
+    restart: always
+    init: true
+    environment:
+      DATABASE_URL: postgresql://umami:${UMAMI_DB_PASSWORD:?UMAMI_DB_PASSWORD is required}@db:5432/umami
+      APP_SECRET: ${UMAMI_APP_SECRET:?UMAMI_APP_SECRET is required}
+      TWO_FACTOR_ENCRYPTION_KEY: ${UMAMI_TWO_FACTOR_ENCRYPTION_KEY:?UMAMI_TWO_FACTOR_ENCRYPTION_KEY is required}
+      # Self-contained operator surface: no telemetry, update pings, or other
+      # external network calls from the analytics service.
+      DISABLE_TELEMETRY: "1"
+      DISABLE_UPDATES: "1"
+      PRIVATE_MODE: "1"
+    depends_on:
+      db:
+        condition: service_healthy
+    # The container port is reachable only through the reverse proxy; it is
+    # exposed for routing, never published on the host.
+    expose:
+      - "3000"
+    # `default` keeps the app-to-database path; `traefik` is Dokploy's shared
+    # proxy network and must already exist on the host.
+    networks:
+      - default
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      - "traefik.http.services.umami.loadbalancer.server.port=3000"
+      # Public tracker paths only: browsers on the Flipper site need these.
+      - "traefik.http.routers.umami-public.rule=Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) || PathPrefix(`/api/send`))"
+      - "traefik.http.routers.umami-public.entrypoints=websecure"
+      - "traefik.http.routers.umami-public.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.umami-public.priority=100"
+      - "traefik.http.routers.umami-public.service=umami"
+      # Operator surface: every other path requires auth and is not indexed.
+      - "traefik.http.routers.umami-admin.rule=Host(`umami.mattiaswiberg.com`)"
+      - "traefik.http.routers.umami-admin.entrypoints=websecure"
+      - "traefik.http.routers.umami-admin.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.umami-admin.priority=10"
+      - "traefik.http.routers.umami-admin.middlewares=umami-auth,umami-noindex"
+      - "traefik.http.routers.umami-admin.service=umami"
+      - "traefik.http.middlewares.umami-auth.basicauth.users=${UMAMI_BASIC_AUTH_USERS:?UMAMI_BASIC_AUTH_USERS is required}"
+      - "traefik.http.middlewares.umami-noindex.headers.customresponseheaders.X-Robots-Tag=noindex"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/heartbeat"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      # First start runs the Prisma migrations before the app answers.
+      start_period: 30s
+
+  db:
+    image: postgres:18.6-alpine@sha256:77f585114c32fbca283dc835b0596f4e52b51b4c6662d7810b2f4084f60a1873
+    restart: always
+    environment:
+      POSTGRES_DB: umami
+      POSTGRES_USER: umami
+      POSTGRES_PASSWORD: ${UMAMI_DB_PASSWORD:?UMAMI_DB_PASSWORD is required}
+      # Umami recommends a UTC database for consistent, predictable
+      # timestamps across environments.
+      PGTZ: UTC
+    volumes:
+      # Page-view history lives here. Service restarts, container recreation,
+      # and image upgrades all preserve it; only deleting this named volume
+      # deletes analytics data. Backup/restore is owned by #63.
+      #
+      # PostgreSQL 18 moved PGDATA to /var/lib/postgresql/18/docker and
+      # declares /var/lib/postgresql as the image volume, so the named volume
+      # must mount that parent path. Mounting the pre-18 path
+      # (/var/lib/postgresql/data) would leave the named volume silently
+      # unused and lose data when the container is recreated.
+      - umami-db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  umami-db-data:
+
+networks:
+  # Dokploy's shared Traefik network. The service is deployed through Dokploy;
+  # running this file standalone requires an equivalent external network.
+  traefik:
+    external: true
+    name: dokploy-network
