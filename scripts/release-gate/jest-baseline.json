@@ -1,0 +1,5 @@
+{
+  "capturedAt": "2026-10-21",
+  "note": "Pre-existing failures captured on 2026-09-20 (utils/items.test.ts: UNIQUE_HIDEOUT and NON_EXISTENT_ITEM; lib/upgradeCosts.test.ts: three assertions) were fixed before this gate landed, so the current baseline is clean. A test listed here is reported as BASELINE and does not reject the release, but it is never hidden: the gate prints it and flags entries that now pass. Add entries only with the commit that proves them pre-existing.",
+  "knownFailures": []
+}

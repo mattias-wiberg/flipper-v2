@@ -1,2 +1,6 @@
 mocker/data/marketorders.raw.jsonl filter=lfs diff=lfs merge=lfs -text
 mocker/data/marketorders.expected.json filter=lfs diff=lfs merge=lfs -text
+
+# Shell entrypoints run under `sh` inside the container; a CRLF checkout breaks
+# them with "set: Illegal option -", so pin LF regardless of core.autocrlf.
+*.sh text eol=lf

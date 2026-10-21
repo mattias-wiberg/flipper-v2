@@ -31,6 +31,21 @@ check against the canonical origin with:
 npm run verify:deployment
 ```
 
+A candidate release is only known-good after the release gate accepts it (with
+the environment from the same document):
+
+```sh
+npm run gate:release
+```
+
+The gate records a clean install, typechecking, Jest, the production build,
+container startup, and the deployed HTTPS, Auth, ingestion, golden-replay, and
+Umami workflows, then prints an accepted/rejected verdict with retained
+evidence. Local install and container evidence require `RELEASE_GATE_INSTALL=1`
+and `RELEASE_GATE_CONTAINER=1`; without them the gate records an explicit skip.
+Its environment matrix, check inventory, and operator-gated remainder are
+documented in [`docs/release-gate.md`](docs/release-gate.md).
+
 ## Dokploy
 
 The protected-branch deployment, environment variables, DNS/TLS checks,
