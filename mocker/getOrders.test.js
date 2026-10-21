@@ -56,14 +56,18 @@ describe("golden order exporter", () => {
       .forEach((entry) => fs.rmSync(entry, { force: true, recursive: true }));
   });
 
-  function temporaryPath(name) {
+  function temporaryDirectory() {
     const directory = path.join(
       os.tmpdir(),
       `flipper-v2-getorders-${process.pid}-${temporaryPaths.length}`,
     );
     fs.mkdirSync(directory, { recursive: true });
     temporaryPaths.push(directory);
-    return path.join(directory, name);
+    return directory;
+  }
+
+  function temporaryPath(name) {
+    return path.join(temporaryDirectory(), name);
   }
 
   test("does not include a checked-in ingestion token", () => {
@@ -147,17 +151,13 @@ describe("golden order exporter", () => {
     );
   });
 
-  test("rejects a symlink to the checked-in fixture", () => {
-    const link = temporaryPath("symlink.json");
-    try {
-      fs.symlinkSync(expectedOutput, link, "file");
-    } catch {
-      return;
-    }
+  test("rejects a path through a symlinked directory to the checked-in fixture", () => {
+    const link = path.join(temporaryDirectory(), "data");
+    fs.symlinkSync(path.dirname(expectedOutput), link, "junction");
 
-    expect(() => assertSafeOutput(link)).toThrow(
-      "Refusing to overwrite the checked-in expected fixture",
-    );
+    expect(() =>
+      assertSafeOutput(path.join(link, "marketorders.expected.json")),
+    ).toThrow("Refusing to overwrite the checked-in expected fixture");
   });
 
   test("allows a temporary output path", () => {

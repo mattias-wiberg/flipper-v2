@@ -38,8 +38,7 @@ migration.
 Flipper base URL with a dedicated validation token. The default invocation
 remains local (`http://localhost:3000` and the checked-in raw capture). The
 exporter `mocker/getOrders.js` already takes `--token`; it reads persisted rows
-through Supabase regardless of where the replay ran and defaults to a
-temporary output path, refusing to overwrite
+through Supabase regardless of where the replay ran. It defaults to a temporary output path, refusing to overwrite
 `mocker/data/marketorders.expected.json`. Both scripts read `.env` then
 `.env.local` from the directory they are run in, with the process environment
 taking precedence and command-line flags taking precedence over both.
