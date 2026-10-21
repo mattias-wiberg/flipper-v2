@@ -1,33 +1,18 @@
 import {
   buildAnalyticsEvent as buildPolicyAnalyticsEvent,
-  getUmamiConfig as getPolicyUmamiConfig,
-  getUmamiScriptAttributes as getPolicyUmamiScriptAttributes,
   type AnalyticsEventData,
-  type UmamiConfig,
-  type UmamiScriptAttributes,
 } from "../analytics-policy.js";
 
-export type { UmamiConfig, UmamiScriptAttributes };
-
-export type UmamiEnvironment = Readonly<Record<string, string | undefined>>;
-
-// Resolves the optional analytics configuration. Never throws: absent
-// settings disable analytics, and partial or invalid settings disable
-// analytics while Flipper keeps serving.
-export function getUmamiConfig(
-  environment: UmamiEnvironment = process.env,
-): UmamiConfig {
-  return getPolicyUmamiConfig(environment);
-}
-
-// Tracker script attributes (including the privacy attributes that keep
-// query strings, hashes, and non-production hosts out of analytics), or null
-// when no tracker may load.
-export function getUmamiScriptAttributes(
-  config: UmamiConfig,
-): UmamiScriptAttributes | null {
-  return getPolicyUmamiScriptAttributes(config);
-}
+// The policy module owns configuration resolution and attribute shapes; these
+// are re-exported directly so there is no pass-through layer to keep in sync.
+export {
+  getUmamiConfig,
+  getUmamiScriptAttributes,
+} from "../analytics-policy.js";
+export type {
+  UmamiConfig,
+  UmamiScriptAttributes,
+} from "../analytics-policy.js";
 
 // The only tracker surface the product surface may use. `identify` is
 // deliberately absent: analytics never attaches authenticated identity.
@@ -39,10 +24,10 @@ function getUmamiTracker(): UmamiTracker | undefined {
   return (globalThis as { umami?: UmamiTracker }).umami;
 }
 
-// Tracks one explicitly defined non-sensitive event (see ANALYTIC_EVENTS).
-// When analytics is disabled the tracker script is never loaded, so this
-// becomes a no-op and no outbound request is ever made. Event names outside
-// the allowlist are dropped, and sensitive values are redacted before send.
+// Tracks one explicitly defined non-sensitive event (see ANALYTIC_EVENTS in
+// analytics-policy.js). When analytics is disabled the tracker script is never
+// loaded, so this is a no-op. Event names outside the allowlist are dropped,
+// and sensitive values are redacted before send.
 export function trackAnalyticsEvent(
   name: string,
   data: Readonly<Record<string, unknown>> = {},

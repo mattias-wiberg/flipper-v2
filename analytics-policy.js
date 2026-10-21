@@ -45,9 +45,17 @@ const ANALYTIC_EVENTS = {
 
 // Event data values must be short, inert tokens (for example "dark"). Emails,
 // URLs, keys, tokens, and passwords do not match this pattern and are
-// redacted; objects and arrays (raw payloads) are never accepted.
+// redacted; objects and arrays (raw payloads) are never accepted. Events with
+// a fixed vocabulary additionally declare their allowed values in
+// ANALYTIC_EVENT_VALUES, so arbitrary short words are dropped too.
 const SAFE_EVENT_VALUE_PATTERN = /^[A-Za-z0-9 _.-]{1,32}$/;
 const WEBSITE_ID_PATTERN = /^[A-Za-z0-9-]{8,64}$/;
+
+// Per-event value vocabularies. A value outside the declared vocabulary is
+// dropped even if it is a short inert token.
+const ANALYTIC_EVENT_VALUES = {
+  theme_change: { theme: ["light", "dark", "system"] },
+};
 
 // The tracker script must be served over HTTPS from a bare script URL: an
 // http:// script would be blocked as mixed content on the HTTPS product
@@ -206,6 +214,10 @@ function buildAnalyticsEvent(name, data = {}) {
     if (!(key in data)) {
       continue;
     }
+    const allowedValues = ANALYTIC_EVENT_VALUES[name]?.[key];
+    if (allowedValues && !allowedValues.includes(data[key])) {
+      continue;
+    }
     const value = sanitizeAnalyticsValue(data[key]);
     if (value !== null) {
       sanitized[key] = value;
@@ -217,9 +229,6 @@ function buildAnalyticsEvent(name, data = {}) {
 
 module.exports = {
   ANALYTIC_EVENTS,
-  UMAMI_SCRIPT_URL_VARIABLE,
-  UMAMI_VARIABLES,
-  UMAMI_WEBSITE_ID_VARIABLE,
   buildAnalyticsEvent,
   getUmamiConfig,
   getUmamiScriptAttributes,

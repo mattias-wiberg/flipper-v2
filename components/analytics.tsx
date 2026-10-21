@@ -6,8 +6,8 @@ import { getUmamiConfig, getUmamiScriptAttributes } from "@/lib/analytics";
 // them into statically prerendered pages, so the build decides whether those
 // pages carry the tracker and runtime values must match.
 //
-// Invalid or partial configuration renders nothing here; the build gate
-// (scripts/validate-production-env.mjs) reports it by variable name only.
+// Invalid or partial configuration renders nothing here; build validation
+// (scripts/validate-production-env.mjs) warns by variable name only.
 // When analytics is disabled nothing is rendered, so the browser never makes
 // an outbound analytics request and local development and tests stay silent.
 export function Analytics() {

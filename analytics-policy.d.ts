@@ -1,7 +1,8 @@
-// Types for the single source of truth in analytics-policy.js. Keeping them
-// here means the runtime contract and its TypeScript surface cannot drift.
-
-export type UmamiEnvironment = Readonly<Record<string, string | undefined>>;
+// Types for the single source of truth in analytics-policy.js.
+//
+// A sibling declaration file shadows the JavaScript module, so the compiler
+// does not compare the two. The policy test asserts that every export declared
+// here exists at runtime; keep signatures in sync when the module changes.
 
 export type UmamiConfig =
   | { status: "disabled" }
@@ -32,9 +33,6 @@ export type AnalyticsEvent = Readonly<{
 }>;
 
 export const ANALYTIC_EVENTS: Readonly<Record<string, readonly string[]>>;
-export const UMAMI_SCRIPT_URL_VARIABLE: string;
-export const UMAMI_VARIABLES: readonly string[];
-export const UMAMI_WEBSITE_ID_VARIABLE: string;
 
 export function buildAnalyticsEvent(
   name: string,

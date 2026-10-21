@@ -1,3 +1,4 @@
+import * as analyticsPolicy from "./analytics-policy.js";
 import {
   ANALYTIC_EVENTS,
   buildAnalyticsEvent,
@@ -183,15 +184,36 @@ describe("Umami analytics event contract", () => {
     });
   });
 
-  it("never treats inherited object properties as allowlisted events", () => {
-    for (const name of [
-      "constructor",
-      "toString",
-      "hasOwnProperty",
-      "__proto__",
-    ]) {
-      expect(() => buildAnalyticsEvent(name, {})).not.toThrow();
-      expect(buildAnalyticsEvent(name, {})).toBeNull();
+  it("drops values outside an event's declared vocabulary", () => {
+    // Short but arbitrary values (for example passwords) are not theme modes.
+    expect(
+      buildAnalyticsEvent("theme_change", { theme: "password123" }),
+    ).toEqual({ name: "theme_change", data: {} });
+    expect(buildAnalyticsEvent("theme_change", { theme: "hunter2" })).toEqual({
+      name: "theme_change",
+      data: {},
+    });
+
+    for (const theme of ["light", "dark", "system"]) {
+      expect(buildAnalyticsEvent("theme_change", { theme })).toEqual({
+        name: "theme_change",
+        data: { theme },
+      });
+    }
+  });
+
+  it("declares every runtime export from the policy module", () => {
+    const declaredExports = [
+      "ANALYTIC_EVENTS",
+      "buildAnalyticsEvent",
+      "getUmamiConfig",
+      "getUmamiScriptAttributes",
+      "sanitizeAnalyticsValue",
+      "umamiConfigDiagnostic",
+    ];
+
+    for (const name of declaredExports) {
+      expect(analyticsPolicy).toHaveProperty(name);
     }
   });
 

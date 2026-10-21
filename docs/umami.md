@@ -41,13 +41,22 @@ then redeploy (see Lifecycle).
   browsers on the Flipper site must fetch and beacon to them: `/script.js`
   (tracker script) and `/api/send` (page-view/event collection). Everything
   else on the host requires operator access.
-- **Concrete setup step**: in the Dokploy service, attach the chosen
-  middleware to the `umami` router, then verify from outside:
-  `curl -sI https://umami.mattiaswiberg.com/` returns `401` or `403` (not
-  `200`), while `curl -sI https://umami.mattiaswiberg.com/script.js` returns
-  `200` with a JavaScript content type and `POST /api/send` stays reachable.
-  The release gate in #62 must repeat this check, including the unauthenticated
-  tracker paths.
+- **Concrete setup step**: use two Traefik routers for the `umami` service
+  instead of applying auth to the whole host:
+  1. A public router with rule
+     ``Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) || PathPrefix(`/api/send`))``
+     and no auth middleware, with an explicit higher priority (for example
+     `traefik.http.routers.umami-public.priority=100`).
+  2. A protected router for the same host covering everything else, with the
+     basic-auth or IP-allowlist middleware, `X-Robots-Tag: noindex`, and a
+     lower priority (for example `10`). Traefik also picks the longer matching
+     rule first, so the public paths win.
+     Verify all three from outside: `curl -sI https://umami.mattiaswiberg.com/`
+     returns `401` or `403`, `curl -sI .../script.js` returns `200` with a
+     JavaScript content type, and `POST .../api/send` is accepted rather than
+     rejected with `401`/`403`. The release gate in #62 must repeat this check.
+     Never protect `/script.js` or `/api/send`, because doing so disables product
+     page views; never leave the dashboard router unprotected.
 - **No public database ports**: the compose stack publishes no ports at all.
   PostgreSQL is reachable only on the internal stack network, and the Umami
   web service (port `3000`) is `expose`d for reverse-proxy routing only and is
@@ -87,9 +96,10 @@ then redeploy (see Lifecycle).
   that path (`/var/lib/postgresql/18/docker`), so the named volume must mount
   the parent, not the pre-18 `/var/lib/postgresql/data` path. Restarting or
   recreating containers, and image upgrades, keep that volume; only explicitly
-  deleting the named volume deletes page-view history. The verification for this contract is a restart
-  of the stack followed by confirming representative page views still load in
-  the dashboard.
+  deleting the named volume deletes page-view history. Recording a restart
+  result is an outstanding deployment check owned by the release gate (#62),
+  with restore procedures and rehearsals owned by #63; no restart result is
+  recorded in this repository yet.
 - **Upgrades**: bump the pinned Umami and PostgreSQL image tags and digests in
   `deploy/umami/docker-compose.yml` after reviewing the release notes, back up
   the database first (the backup/restore runbook is owned by #63), then pull
@@ -109,22 +119,22 @@ The integration is page views plus explicitly defined non-sensitive events
 only (`ANALYTIC_EVENTS` in `analytics-policy.js`). It never carries email
 addresses, auth cookies, Supabase keys, ingestion tokens, raw order payloads,
 passwords, or sensitive request URLs, and no authenticated identity is
-attached (`umami.identify` and `data-distinct-id` are never used). Enforced by
-`analytics-policy.js` and its tests:
+attached (`umami.identify` and `data-distinct-id` are never used). The policy
+module emits the tracker attributes and event shapes; its tests assert them,
+and the release gate in #62 verifies the deployed wire:
 
-- Tracker attributes exclude query strings and hashes from tracked URLs (so
-  Supabase Auth authorization codes and password-reset tokens cannot leak),
-  honor the browser Do Not Track header, and restrict beacons to the
-  configured public host. When the optional settings are present, the script
-  itself can load; outside the configured host it sends no page-view or event
-  beacons. With both settings absent (the local-development and test default),
-  no tracker script is rendered at all.
+- Query strings (Auth codes) and hashes (reset tokens) are stripped by the
+  Umami tracker, which reads `data-exclude-search`, `data-exclude-hash`,
+  `data-do-not-track`, and `data-domains` from the attributes this module
+  emits. Beacons are limited to the configured public host; when both
+  settings are absent, no script is rendered at all.
 - Flipper page routes carry secrets only in query strings or hashes; API
   routes such as the tokened ingestion endpoint render no HTML and load no
   tracker.
 - Event names must be explicitly allowlisted, per-event data keys are fixed,
-  and values are redacted unless they are short inert tokens (emails, URLs,
-  keys, tokens, passwords, and raw payload shapes are dropped).
+  values are redacted unless they are short inert tokens (emails, URLs, keys,
+  tokens, passwords, and raw payload shapes are dropped), and events with a
+  fixed vocabulary (for example `theme_change`) reject anything outside it.
 - With both optional settings absent (the local-development and test
   default), no tracker script is rendered and the browser makes no outbound
   analytics requests at all.
