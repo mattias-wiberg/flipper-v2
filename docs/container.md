@@ -97,6 +97,10 @@ docker run --rm --name flipper-v56 \
   flipper:v56
 ```
 
+For an analytics-enabled image, also pass both optional Umami values as
+build arguments and runtime variables (`--build-arg`/`-e`); pass both together
+or neither.
+
 In a second shell, verify the container boundary:
 
 ```sh
