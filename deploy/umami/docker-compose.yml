@@ -19,16 +19,15 @@
 # Networking: no ports are published. The database is reachable only between
 # the stack's own containers, and the Umami web service on port 3000 is
 # reached only through Traefik on its own HTTPS route
-# `umami.mattiaswiberg.com`. Three routers are shipped here, ordered by
-# priority: the public tracker paths (`/script.js`, `/api/send`, priority 100),
-# the Umami API (`/api`, priority 90, auth-free), and a protected dashboard
-# router for every other path that requires basic auth
-# (`UMAMI_BASIC_AUTH_USERS`) and is marked noindex (priority 10).
+# `umami.mattiaswiberg.com`. One router serves the whole host on websecure:
+# the tracker script, `/api/send`, the dashboard, and the API all go to Umami,
+# and Umami's own login, token, and session checks are the only access control
+# (plus `X-Robots-Tag: noindex` for the operator surface).
 #
-# The API needs its own router because Traefik basic auth and Umami both use
-# the single `Authorization` header: the browser sends `Basic ...`, so Umami
-# never sees its `Bearer ...` token and every dashboard API call fails with
-# 401. Umami's own login, token, and session checks protect the API.
+# There is deliberately no Traefik basic-auth layer: it would force a second
+# password prompt and it overwrites the single `Authorization` header Umami
+# uses for its own `Bearer ...` token, so every dashboard API call fails with
+# 401.
 #
 # Secrets: supplied from the deploy environment only (placeholders in
 # deploy/umami/.env.example). The stack refuses to start when they are
@@ -64,31 +63,15 @@ services:
       - "traefik.enable=true"
       - "traefik.docker.network=dokploy-network"
       - "traefik.http.services.umami.loadbalancer.server.port=3000"
-      # Public tracker paths only: browsers on the Flipper site need these.
-      # `/api/send` also matches the API router below; priority 100 wins and
-      # both routers are auth-free, so the overlap is harmless.
-      - "traefik.http.routers.umami-public.rule=Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) || PathPrefix(`/api/send`))"
-      - "traefik.http.routers.umami-public.entrypoints=websecure"
-      - "traefik.http.routers.umami-public.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.umami-public.priority=100"
-      - "traefik.http.routers.umami-public.service=umami"
-      # API: no basic auth, because it would overwrite the app's own
-      # `Authorization: Bearer` header. Umami authenticates these calls itself.
-      # PathPrefix matches any path starting with `/api`.
-      - "traefik.http.routers.umami-api.rule=Host(`umami.mattiaswiberg.com`) && PathPrefix(`/api`)"
-      - "traefik.http.routers.umami-api.entrypoints=websecure"
-      - "traefik.http.routers.umami-api.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.umami-api.priority=90"
-      - "traefik.http.routers.umami-api.service=umami"
-      # Operator surface: every path not starting with /api requires auth and
-      # is not indexed.
-      - "traefik.http.routers.umami-admin.rule=Host(`umami.mattiaswiberg.com`)"
-      - "traefik.http.routers.umami-admin.entrypoints=websecure"
-      - "traefik.http.routers.umami-admin.tls.certresolver=letsencrypt"
-      - "traefik.http.routers.umami-admin.priority=10"
-      - "traefik.http.routers.umami-admin.middlewares=umami-auth,umami-noindex"
-      - "traefik.http.routers.umami-admin.service=umami"
-      - "traefik.http.middlewares.umami-auth.basicauth.users=${UMAMI_BASIC_AUTH_USERS:?UMAMI_BASIC_AUTH_USERS is required}"
+      # One router for the whole host: tracker, ingestion API, dashboard, and
+      # Umami API all reach Umami directly. `/script.js` and `/api/send` are
+      # inherently public (browsers load them); everything else is protected by
+      # Umami's own login and token checks.
+      - "traefik.http.routers.umami-web.rule=Host(`umami.mattiaswiberg.com`)"
+      - "traefik.http.routers.umami-web.entrypoints=websecure"
+      - "traefik.http.routers.umami-web.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.umami-web.middlewares=umami-noindex"
+      - "traefik.http.routers.umami-web.service=umami"
       - "traefik.http.middlewares.umami-noindex.headers.customresponseheaders.X-Robots-Tag=noindex"
     healthcheck:
       test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/heartbeat"]

@@ -33,43 +33,43 @@ then redeploy (see Lifecycle).
 - **Hostname**: the Umami operator surface lives on its own HTTPS route at
   `https://umami.mattiaswiberg.com` (DNS and Traefik are wired by the
   orchestrator, outside this repository).
-- **Access control is shipped in the compose stack**: the `umami` service has
-  three Traefik routers on the external `dokploy-network`, resolved by
-  priority (highest match wins). All three use the `websecure` entrypoint, the
-  `letsencrypt` certificate resolver, and the `umami` service:
+- **Access control is Umami's own login**: the `umami` service has one Traefik
+  router, `umami-web`, on the external `dokploy-network`. It matches the whole
+  host on the `websecure` entrypoint, uses the `letsencrypt` certificate
+  resolver and the `umami` service, and applies only `umami-noindex`
+  (`X-Robots-Tag: noindex`):
 
-  | Router         | Matches                            | Priority | Middleware                    |
-  | -------------- | ---------------------------------- | -------- | ----------------------------- |
-  | `umami-public` | `/script.js`, `/api/send`          | `100`    | none                          |
-  | `umami-api`    | paths starting with `/api`         | `90`     | none                          |
-  | `umami-admin`  | all paths not starting with `/api` | `10`     | `umami-auth`, `umami-noindex` |
+  | Router      | Matches                           | Middleware      |
+  | ----------- | --------------------------------- | --------------- |
+  | `umami-web` | all paths on the host, any prefix | `umami-noindex` |
 
-  `/api/send` matches both `umami-public` and `umami-api`; priority `100` wins
-  and both routers are auth-free, so the overlap is intentional and harmless.
-  Any path that does not start with `/api` falls to `umami-admin`, which
-  requires basic auth and sends `X-Robots-Tag: noindex`. Do not add a Dokploy
-  UI domain for this service: that would create another, unprotected router for
-  the whole host.
+  Tracker script, ingestion API, dashboard, and API all reach Umami directly.
+  The dashboard and `/api` are protected by Umami's login, session, and
+  `Bearer` token checks; no analytics data is exposed anonymously
+  (`GET /api/websites` without a token is Umami's own `401`). `/script.js` and
+  `/api/send` are inherently public: browsers on the Flipper site must load
+  them without credentials. Do not add a Dokploy UI domain for this service:
+  that would create a second router for the same host.
 
-- **Why the API bypasses basic auth**: Traefik basic auth and Umami share the
-  single `Authorization` header. The SPA sends
+- **Why there is no Traefik basic-auth layer**: Traefik basic auth and Umami
+  share the single `Authorization` header. The SPA sends
   `Authorization: Bearer <token>`; a basic-auth middleware expects
   `Authorization: Basic <creds>` on that same header, so the token never
   reaches Umami and dashboard API calls fail with `401` even after a successful
-  login. `umami-api` therefore has no middleware: Umami's own login, token, and
-  session checks are the control on `/api`, and no analytics data is exposed
-  anonymously (`GET /api/websites` without a token is Umami's own `401`). The
-  dashboard shell (`/`, `/login`, static assets) stays behind basic auth, so
-  the operator still gates the UI and its login form.
-- **Required operator input**: set `UMAMI_BASIC_AUTH_USERS` (a Traefik
-  basic-auth user list generated with `htpasswd -nbB admin '<password>'`) in
-  the deploy environment. The stack refuses to start without it, so the
-  dashboard is never deployed unprotected. The tracker paths and the API never
-  pass through that middleware.
+  login. Basic auth also forced a second password prompt in front of Umami's
+  own login. Umami's login is therefore the single control, and because the
+  login page itself is now public, enable two-factor authentication on the
+  administrator account (the stack provisions `TWO_FACTOR_ENCRYPTION_KEY` for
+  exactly that).
+- **Required operator input**: the three secrets listed under Initial
+  Provisioning. There is no basic-auth user list. A stale
+  `UMAMI_BASIC_AUTH_USERS` value left in an existing deploy environment is
+  unused and can be deleted at the operator's convenience.
 - **Verify from outside** after deployment. These are the acceptance checks of
   the router model, and the release gate in #62 must repeat all three:
-  1. `curl -sI https://umami.mattiaswiberg.com/` returns `401`: the dashboard
-     shell is protected by basic auth.
+  1. `curl -s -o /dev/null -w '%{http_code}' https://umami.mattiaswiberg.com/`
+     prints `200` and a plain GET returns Umami's login page, never a
+     basic-auth prompt (`curl -sI` shows no `WWW-Authenticate: Basic`).
   2. `curl -sI https://umami.mattiaswiberg.com/script.js` returns `200` with a
      JavaScript content type: the tracker still loads on the Flipper site.
   3. The API works end to end. Log in and reuse the returned token:
@@ -77,14 +77,11 @@ then redeploy (see Lifecycle).
      then
      `curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $TOKEN" https://umami.mattiaswiberg.com/api/websites`
      must print `200`. This is the check that failed while basic auth covered
-     `/api`, because one `Authorization` header cannot carry both schemes.
+     the host, because one `Authorization` header cannot carry both schemes.
 
-  `/api/auth/login` is reachable without basic auth by design: Umami's own
-  credential check is the control on the API, and the dashboard shell that
-  contains the login form is still behind basic auth. Never protect
-  `/script.js` or `/api/send` (it disables product page views), never put the
-  basic-auth middleware back on `/api` (it breaks every dashboard API call),
-  and never leave `umami-admin` unprotected.
+  Never protect `/script.js` or `/api/send` (it disables product page views),
+  and never put a basic-auth middleware back on the router (it breaks every
+  dashboard API call).
 
 - **No public database ports**: the compose stack publishes no ports at all.
   PostgreSQL is reachable only on the internal stack network, and the Umami
@@ -97,18 +94,14 @@ then redeploy (see Lifecycle).
    deploy environment (placeholders in `deploy/umami/.env.example`). The
    database password must be URL-safe hex because it is embedded in
    `DATABASE_URL` without escaping, and `TWO_FACTOR_ENCRYPTION_KEY` must be
-   exactly 64 hex characters. Also set `UMAMI_BASIC_AUTH_USERS` to the output of
-   `htpasswd -nbB admin '<password>'`; it protects the dashboard router.
-   Single-quote that value in a `.env` file (or double every `$` as `$$` when
-   writing it into compose) so Compose interpolation does not truncate the
-   hash. No secret is ever committed to this repository.
+   exactly 64 hex characters. No secret is ever committed to this repository.
 2. Deploy `deploy/umami/docker-compose.yml` as a Dokploy **Compose** service.
    Database migrations run automatically on first start.
-3. Log in at `https://umami.mattiaswiberg.com` (the basic-auth prompt comes
-   before Umami's own login) with the default Umami account
+3. Log in at `https://umami.mattiaswiberg.com` with the default Umami account
    (`admin` / `umami`) and **change the default administrator credential
    immediately** (Umami's own install documentation mandates this). Enable
-   two-factor authentication if desired; the stack already provides
+   two-factor authentication as recommended above: the login page is reachable
+   without a reverse-proxy password, and the stack already provides
    `TWO_FACTOR_ENCRYPTION_KEY`.
 4. Add a website for Flipper and note its website ID (Settings → Websites).
 5. Configure Flipper's two optional public build variables in Dokploy and
