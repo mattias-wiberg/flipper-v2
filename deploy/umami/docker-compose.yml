@@ -16,11 +16,12 @@
 #   Umami documents PostgreSQL >= 12.14 as its minimum.
 # Upgrades are deliberate edits to these pins after review (docs/umami.md).
 #
-# Networking: no ports are published. The database is reachable only on the
-# internal stack network (its port is never exposed publicly), and the Umami
-# web service on port 3000 is reached only through the Dokploy reverse proxy
-# on its own HTTPS route `umami.mattiaswiberg.com` (docs/umami.md documents
-# the access-control expectation for that operator surface).
+# Networking: no ports are published. The database is reachable only between
+# the stack's own containers, and the Umami web service on port 3000 is
+# reached only through Traefik on its own HTTPS route
+# `umami.mattiaswiberg.com`. Two routers are shipped here: the public tracker
+# paths (`/script.js`, `/api/send`) and a protected dashboard router that
+# requires basic auth (`UMAMI_BASIC_AUTH_USERS`) and is marked noindex.
 #
 # Secrets: supplied from the deploy environment only (placeholders in
 # deploy/umami/.env.example). The stack refuses to start when they are
@@ -43,12 +44,36 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    # The container port is reachable only through the Dokploy reverse proxy;
-    # it is exposed for routing, never published on the host.
+    # The container port is reachable only through the reverse proxy; it is
+    # exposed for routing, never published on the host.
     expose:
       - "3000"
+    # `default` keeps the app-to-database path; `traefik` is Dokploy's shared
+    # proxy network and must already exist on the host.
+    networks:
+      - default
+      - traefik
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=dokploy-network"
+      - "traefik.http.services.umami.loadbalancer.server.port=3000"
+      # Public tracker paths only: browsers on the Flipper site need these.
+      - "traefik.http.routers.umami-public.rule=Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) || PathPrefix(`/api/send`))"
+      - "traefik.http.routers.umami-public.entrypoints=websecure"
+      - "traefik.http.routers.umami-public.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.umami-public.priority=100"
+      - "traefik.http.routers.umami-public.service=umami"
+      # Operator surface: every other path requires auth and is not indexed.
+      - "traefik.http.routers.umami-admin.rule=Host(`umami.mattiaswiberg.com`)"
+      - "traefik.http.routers.umami-admin.entrypoints=websecure"
+      - "traefik.http.routers.umami-admin.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.umami-admin.priority=10"
+      - "traefik.http.routers.umami-admin.middlewares=umami-auth,umami-noindex"
+      - "traefik.http.routers.umami-admin.service=umami"
+      - "traefik.http.middlewares.umami-auth.basicauth.users=${UMAMI_BASIC_AUTH_USERS:?UMAMI_BASIC_AUTH_USERS is required}"
+      - "traefik.http.middlewares.umami-noindex.headers.customresponseheaders.X-Robots-Tag=noindex"
     healthcheck:
-      test: ["CMD-SHELL", "curl http://localhost:3000/api/heartbeat"]
+      test: ["CMD-SHELL", "curl -fsS http://localhost:3000/api/heartbeat"]
       interval: 5s
       timeout: 5s
       retries: 5
@@ -84,3 +109,10 @@ services:
 
 volumes:
   umami-db-data:
+
+networks:
+  # Dokploy's shared Traefik network. The service is deployed through Dokploy;
+  # running this file standalone requires an equivalent external network.
+  traefik:
+    external: true
+    name: dokploy-network

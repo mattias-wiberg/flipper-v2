@@ -23,16 +23,16 @@ export type UmamiScriptAttributes = Readonly<{
   "data-do-not-track": string;
 }>;
 
-export type AnalyticsEventData = Readonly<
-  Record<string, string | number | boolean>
->;
+export type AnalyticsEventData = Readonly<Record<string, string>>;
 
 export type AnalyticsEvent = Readonly<{
   name: string;
   data: AnalyticsEventData;
 }>;
 
-export const ANALYTIC_EVENTS: Readonly<Record<string, readonly string[]>>;
+export const ANALYTIC_EVENTS: Readonly<
+  Record<string, Readonly<Record<string, readonly string[]>>>
+>;
 
 export function buildAnalyticsEvent(
   name: string,
@@ -44,7 +44,4 @@ export function getUmamiConfig(
 export function getUmamiScriptAttributes(
   config: UmamiConfig,
 ): UmamiScriptAttributes | null;
-export function sanitizeAnalyticsValue(
-  value: unknown,
-): string | number | boolean | null;
 export function umamiConfigDiagnostic(config: UmamiConfig): string | null;

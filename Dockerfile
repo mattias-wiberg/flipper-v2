@@ -12,8 +12,8 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# NEXT_PUBLIC_* values are intentionally build inputs because Next.js inlines
-# public configuration into browser bundles. Never add server-only secrets here.
+# NEXT_PUBLIC_* values are intentionally build inputs because Next.js reads
+# public configuration when it builds browser bundles and prerenders pages. Never add server-only secrets here.
 ARG NEXT_PUBLIC_SITE_URL
 ARG NEXT_PUBLIC_SUPABASE_URL
 ARG NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -37,7 +37,7 @@ WORKDIR /app
 # Bake the build-time analytics values into the runtime environment so
 # statically prerendered and dynamically rendered pages agree. These are not
 # runtime knobs: overriding them at runtime cannot change the tracker already
-# inlined into static pages.
+# baked into static pages.
 ARG NEXT_PUBLIC_UMAMI_SCRIPT_URL
 ARG NEXT_PUBLIC_UMAMI_WEBSITE_ID
 

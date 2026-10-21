@@ -288,14 +288,14 @@ development only and is not a production source of values.
 | `NEXT_PUBLIC_UMAMI_WEBSITE_ID`  | Build input (optional, baked into image) | Umami website identifier; all-or-nothing with `NEXT_PUBLIC_UMAMI_SCRIPT_URL`                                                                                |
 
 The `NEXT_PUBLIC_*` values are intentionally available to the image
-build because Next.js inlines browser configuration. They must still be
+build because Next.js reads browser configuration when it builds. They must still be
 managed by Dokploy, not committed to Git. `SUPABASE_SERVICE_ROLE_KEY` must not
 be a build argument, build secret, `NEXT_PUBLIC_*` variable, Dockerfile value,
 or logged value. The two optional Umami values (added by the analytics work in
 #60) are the only analytics variables allowed on the Flipper application: they
-are public browser configuration, are inlined at build time (so a change needs
+are public browser configuration, are read at build time (so a change needs
 a rebuild), and must never carry secrets. Build and runtime values must match:
-a tracker inlined into statically prerendered pages cannot be removed by
+a tracker baked into statically prerendered pages cannot be removed by
 changing runtime variables. Setting only one of the pair, or an invalid value,
 fails safely - the build renders no tracker and Flipper keeps serving public
 pages, Auth, and ingestion - and build validation warns by variable name only.

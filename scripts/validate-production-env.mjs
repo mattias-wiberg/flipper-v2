@@ -59,7 +59,7 @@ if (diagnostics.length > 0) {
   process.exit(1);
 }
 
-// Optional analytics configuration is a build-time input: Next.js inlines the
+// Optional analytics configuration is a build-time input: Next.js reads the
 // public values into statically prerendered pages, so the build decides
 // whether those pages carry the tracker. Validate it here, at build time.
 // Absent settings disable analytics; partial or invalid settings are ignored

@@ -8,16 +8,14 @@ const SCRIPT_URL = "https://umami.mattiaswiberg.com/script.js";
 const WEBSITE_ID = "94db1cb1-74f4-4a40-ad6c-962362670409";
 const TRACKING_HOSTNAME = new URL(CANONICAL_SITE_URL).hostname;
 
-describe("Analytics", () => {
-  beforeEach(() => {
-    delete process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
-    delete process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
-  });
+function clearUmamiEnvironment() {
+  delete process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
+  delete process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
+}
 
-  afterEach(() => {
-    delete process.env.NEXT_PUBLIC_UMAMI_SCRIPT_URL;
-    delete process.env.NEXT_PUBLIC_UMAMI_WEBSITE_ID;
-  });
+describe("Analytics", () => {
+  beforeEach(clearUmamiEnvironment);
+  afterEach(clearUmamiEnvironment);
 
   it("renders no tracker when analytics is disabled", () => {
     expect(renderToStaticMarkup(<Analytics />)).toBe("");

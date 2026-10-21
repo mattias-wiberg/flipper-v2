@@ -1,10 +1,12 @@
+import type { ScriptHTMLAttributes } from "react";
+
 import { getUmamiConfig, getUmamiScriptAttributes } from "@/lib/analytics";
 
 // Self-hosted Umami analytics for the production product surface. Rendered
 // only when both optional public settings are present and valid (see
-// analytics-policy.js). Those settings are build-time inputs: Next.js inlines
-// them into statically prerendered pages, so the build decides whether those
-// pages carry the tracker and runtime values must match.
+// analytics-policy.js). Those settings are build-time inputs: Next.js reads
+// them when it prerenders pages, so the build decides whether those pages
+// carry the tracker and runtime values must match.
 //
 // Invalid or partial configuration renders nothing here; build validation
 // (scripts/validate-production-env.mjs) warns by variable name only.
@@ -17,14 +19,12 @@ export function Analytics() {
   }
 
   return (
+    // Deliberately a plain server-rendered tag rather than next/script, so the
+    // privacy attributes stay in the server HTML that docs/umami.md verifies.
+    // `defer` matches the documented Umami embed.
     <script
       defer
-      src={attributes.src}
-      data-website-id={attributes["data-website-id"]}
-      data-domains={attributes["data-domains"]}
-      data-exclude-search={attributes["data-exclude-search"]}
-      data-exclude-hash={attributes["data-exclude-hash"]}
-      data-do-not-track={attributes["data-do-not-track"]}
+      {...(attributes as ScriptHTMLAttributes<HTMLScriptElement>)}
     />
   );
 }

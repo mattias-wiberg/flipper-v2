@@ -33,30 +33,26 @@ then redeploy (see Lifecycle).
 - **Hostname**: the Umami operator surface lives on its own HTTPS route at
   `https://umami.mattiaswiberg.com` (DNS and Traefik are wired by the
   orchestrator, outside this repository).
-- **Access-control requirement**: the Umami dashboard is an operator surface.
-  It must be protected from ordinary public users at the reverse proxy (for
-  example a Traefik basic-auth or forwarded-auth middleware, or an IP
-  allowlist) in addition to the Umami login, and it must not be indexed (send
-  `X-Robots-Tag: noindex`). Only two paths stay anonymously reachable, because
-  browsers on the Flipper site must fetch and beacon to them: `/script.js`
-  (tracker script) and `/api/send` (page-view/event collection). Everything
-  else on the host requires operator access.
-- **Concrete setup step**: use two Traefik routers for the `umami` service
-  instead of applying auth to the whole host:
-  1. A public router with rule
-     ``Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) || PathPrefix(`/api/send`))``
-     and no auth middleware, with an explicit higher priority (for example
-     `traefik.http.routers.umami-public.priority=100`).
-  2. A protected router for the same host covering everything else, with the
-     basic-auth or IP-allowlist middleware, `X-Robots-Tag: noindex`, and a
-     lower priority (for example `10`). Traefik also picks the longer matching
-     rule first, so the public paths win.
-     Verify all three from outside: `curl -sI https://umami.mattiaswiberg.com/`
-     returns `401` or `403`, `curl -sI .../script.js` returns `200` with a
-     JavaScript content type, and `POST .../api/send` is accepted rather than
-     rejected with `401`/`403`. The release gate in #62 must repeat this check.
-     Never protect `/script.js` or `/api/send`, because doing so disables product
-     page views; never leave the dashboard router unprotected.
+- **Access control is shipped in the compose stack**: the `umami` service has
+  two Traefik routers on the external `dokploy-network`. The public router
+  matches only `Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) ||
+PathPrefix(`/api/send`))` with priority `100`; the protected router matches
+  the same host with priority `10`, the operator's auth middleware, and
+  `X-Robots-Tag: noindex`. Do not add a Dokploy UI domain for this service:
+  that would create a second, unprotected router for the whole host.
+- **Required operator input**: set `UMAMI_BASIC_AUTH_USERS` (a Traefik
+  basic-auth user list generated with `htpasswd -nbB admin '<password>'`) in
+  the deploy environment. The stack refuses to start without it, so the
+  dashboard is never deployed unprotected. The public tracker paths never pass
+  through that middleware.
+- **Verify from outside** after deployment:
+  `curl -sI https://umami.mattiaswiberg.com/` returns `401` or `403`,
+  `curl -sI https://umami.mattiaswiberg.com/script.js` returns `200` with a
+  JavaScript content type, and `POST https://umami.mattiaswiberg.com/api/send`
+  is accepted rather than rejected with `401`/`403`. The release gate in #62
+  must repeat this check. Never protect `/script.js` or `/api/send`, because
+  doing so disables product page views; never leave the dashboard router
+  unprotected.
 - **No public database ports**: the compose stack publishes no ports at all.
   PostgreSQL is reachable only on the internal stack network, and the Umami
   web service (port `3000`) is `expose`d for reverse-proxy routing only and is
@@ -68,7 +64,9 @@ then redeploy (see Lifecycle).
    deploy environment (placeholders in `deploy/umami/.env.example`). The
    database password must be URL-safe hex because it is embedded in
    `DATABASE_URL` without escaping, and `TWO_FACTOR_ENCRYPTION_KEY` must be
-   exactly 64 hex characters. No secret is ever committed to this repository.
+   exactly 64 hex characters. Also set `UMAMI_BASIC_AUTH_USERS` to the output of
+   `htpasswd -nbB admin '<password>'`; it protects the dashboard router. No
+   secret is ever committed to this repository.
 2. Deploy `deploy/umami/docker-compose.yml` as a Dokploy **Compose** service.
    Database migrations run automatically on first start.
 3. Log in at `https://umami.mattiaswiberg.com` with the default Umami account
@@ -79,7 +77,7 @@ then redeploy (see Lifecycle).
 4. Add a website for Flipper and note its website ID (Settings → Websites).
 5. Configure Flipper's two optional public build variables in Dokploy and
    redeploy (both or neither; see the matrix in `docs/dokploy.md`). They are
-   inlined at build time, so changing them requires a rebuild:
+   read when the image is built, so changing them requires a rebuild:
    - `NEXT_PUBLIC_UMAMI_SCRIPT_URL=https://umami.mattiaswiberg.com/script.js`
    - `NEXT_PUBLIC_UMAMI_WEBSITE_ID=<website ID from step 4>`
 6. Verify: the home page HTML contains the tracker script with the privacy

@@ -21,10 +21,10 @@
 // settings are present, so the default development and test setup loads no
 // analytics script at all.)
 //
-// The two settings are build-time inputs: Next.js inlines public values into
-// statically prerendered pages, so the build inputs decide whether those pages
-// carry the tracker. Runtime values must match the build inputs; changing only
-// the runtime environment cannot remove a tracker that was baked in at build.
+// The two settings are build-time inputs: Next.js reads public values when it
+// prerenders pages, so the build inputs decide whether those pages carry the
+// tracker. Runtime values must match the build inputs; changing only the
+// runtime environment cannot remove a tracker that was baked in at build.
 const siteUrlPolicy = require("./site-url-policy.js");
 
 const UMAMI_SCRIPT_URL_VARIABLE = "NEXT_PUBLIC_UMAMI_SCRIPT_URL";
@@ -36,26 +36,17 @@ const UMAMI_VARIABLES = [UMAMI_SCRIPT_URL_VARIABLE, UMAMI_WEBSITE_ID_VARIABLE];
 const UMAMI_TRACKING_HOSTNAME = new URL(siteUrlPolicy.CANONICAL_SITE_URL)
   .hostname;
 
-// Explicitly defined non-sensitive analytics events. Each event lists the
-// only data keys it may carry; values pass sanitizeAnalyticsValue first. An
-// event that is not listed here is never tracked.
+// Explicitly defined non-sensitive analytics events. Each event maps every
+// data key it may carry to that key's fixed vocabulary; a value outside the
+// vocabulary is dropped. An event that is not listed here is never tracked,
+// and a key without a declared vocabulary cannot carry data at all.
 const ANALYTIC_EVENTS = {
-  theme_change: ["theme"],
-};
-
-// Event data values must be short, inert tokens (for example "dark"). Emails,
-// URLs, keys, tokens, and passwords do not match this pattern and are
-// redacted; objects and arrays (raw payloads) are never accepted. Events with
-// a fixed vocabulary additionally declare their allowed values in
-// ANALYTIC_EVENT_VALUES, so arbitrary short words are dropped too.
-const SAFE_EVENT_VALUE_PATTERN = /^[A-Za-z0-9 _.-]{1,32}$/;
-const WEBSITE_ID_PATTERN = /^[A-Za-z0-9-]{8,64}$/;
-
-// Per-event value vocabularies. A value outside the declared vocabulary is
-// dropped even if it is a short inert token.
-const ANALYTIC_EVENT_VALUES = {
   theme_change: { theme: ["light", "dark", "system"] },
 };
+
+// Emails, URLs, keys, tokens, and passwords are absent from every declared
+// vocabulary, so they can never be sent even when they are short strings.
+const WEBSITE_ID_PATTERN = /^[A-Za-z0-9-]{8,64}$/;
 
 // The tracker script must be served over HTTPS from a bare script URL: an
 // http:// script would be blocked as mixed content on the HTTPS product
@@ -168,38 +159,15 @@ function getUmamiScriptAttributes(config) {
   };
 }
 
-/**
- * @param {unknown} value
- * @returns {string | number | boolean | null}
- */
-function sanitizeAnalyticsValue(value) {
-  if (typeof value === "boolean") {
-    return value;
-  }
-  if (typeof value === "number") {
-    return Number.isFinite(value) ? value : null;
-  }
-  if (typeof value !== "string") {
-    // Objects, arrays, and functions could carry raw payloads; redact them.
-    return null;
-  }
-
-  const candidate = value.trim();
-  if (!candidate || !SAFE_EVENT_VALUE_PATTERN.test(candidate)) {
-    return null;
-  }
-  return candidate;
-}
-
 // Builds the only shape of analytics event the product surface may send, or
 // returns null when the event must not be tracked at all:
 // - the event name must be explicitly defined in ANALYTIC_EVENTS,
-// - only the keys listed for that event survive,
-// - values are redacted unless they are short, inert tokens.
+// - only declared keys survive,
+// - values must belong to the key's declared vocabulary.
 /**
  * @param {string} name
  * @param {Record<string, unknown>} [data]
- * @returns {{ name: string, data: Record<string, string | number | boolean> } | null}
+ * @returns {{ name: string, data: Record<string, string> } | null}
  */
 function buildAnalyticsEvent(name, data = {}) {
   // Object.hasOwn-style check: an inherited name such as "constructor" or
@@ -207,21 +175,17 @@ function buildAnalyticsEvent(name, data = {}) {
   if (!Object.prototype.hasOwnProperty.call(ANALYTIC_EVENTS, name)) {
     return null;
   }
-  const allowedKeys = ANALYTIC_EVENTS[name];
+  const eventVocabulary = ANALYTIC_EVENTS[name];
 
   const sanitized = {};
-  for (const key of allowedKeys) {
+  for (const key of Object.keys(eventVocabulary)) {
     if (!(key in data)) {
       continue;
     }
-    const allowedValues = ANALYTIC_EVENT_VALUES[name]?.[key];
-    if (allowedValues && !allowedValues.includes(data[key])) {
+    if (!eventVocabulary[key].includes(data[key])) {
       continue;
     }
-    const value = sanitizeAnalyticsValue(data[key]);
-    if (value !== null) {
-      sanitized[key] = value;
-    }
+    sanitized[key] = data[key];
   }
 
   return { name, data: sanitized };
@@ -232,6 +196,5 @@ module.exports = {
   buildAnalyticsEvent,
   getUmamiConfig,
   getUmamiScriptAttributes,
-  sanitizeAnalyticsValue,
   umamiConfigDiagnostic,
 };

@@ -4,7 +4,6 @@ import {
   buildAnalyticsEvent,
   getUmamiConfig,
   getUmamiScriptAttributes,
-  sanitizeAnalyticsValue,
   umamiConfigDiagnostic,
 } from "./analytics-policy.js";
 import { CANONICAL_SITE_URL } from "./site-url-policy.js";
@@ -208,13 +207,15 @@ describe("Umami analytics event contract", () => {
       "buildAnalyticsEvent",
       "getUmamiConfig",
       "getUmamiScriptAttributes",
-      "sanitizeAnalyticsValue",
       "umamiConfigDiagnostic",
     ];
 
-    for (const name of declaredExports) {
-      expect(analyticsPolicy).toHaveProperty(name);
-    }
+    // `default` is the CommonJS interop wrapper, not a policy export.
+    const runtimeExports = Object.keys(analyticsPolicy)
+      .filter((name) => name !== "default")
+      .sort();
+
+    expect(runtimeExports).toEqual(declaredExports.sort());
   });
 
   it("redacts values that could carry identity, credentials, or payloads", () => {
@@ -230,7 +231,10 @@ describe("Umami analytics event contract", () => {
     ];
 
     for (const value of sensitiveValues) {
-      expect(sanitizeAnalyticsValue(value)).toBeNull();
+      expect(buildAnalyticsEvent("theme_change", { theme: value })).toEqual({
+        name: "theme_change",
+        data: {},
+      });
     }
 
     expect(
@@ -247,14 +251,5 @@ describe("Umami analytics event contract", () => {
         distinctId: "some-user-id",
       }),
     ).toEqual({ name: "theme_change", data: { theme: "light" } });
-  });
-
-  it("accepts only short inert token values", () => {
-    expect(sanitizeAnalyticsValue("dark")).toBe("dark");
-    expect(sanitizeAnalyticsValue("system")).toBe("system");
-    expect(sanitizeAnalyticsValue("light mode")).toBe("light mode");
-    expect(sanitizeAnalyticsValue(true)).toBe(true);
-    expect(sanitizeAnalyticsValue(3)).toBe(3);
-    expect(sanitizeAnalyticsValue(Number.NaN)).toBeNull();
   });
 });
