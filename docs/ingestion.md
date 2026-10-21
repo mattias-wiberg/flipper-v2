@@ -8,6 +8,28 @@ semantics. The origin contract in `docs/auth.md` applies unchanged: the
 configured public origin is `https://beta.flipper.mattiaswiberg.com` during the
 migration.
 
+## Status (2026-10-08)
+
+- **Deal discovery: proven on the beta deployment.** An authenticated throwaway
+  trader loaded the deployed deals UI against golden rows at desktop and mobile
+  viewports, and every check matched the repository's own domain code computed
+  over exactly the rows the page fetches (AC4, AC6).
+- **Ingestion golden replay: proven on the apex reference, not on beta.** The
+  parameterized replay sent all 5,131 batches to
+  `https://flipper.mattiaswiberg.com` (the previous known-good release, same
+  repository lineage and Supabase project) with 0 failures, and deals were
+  verified from that data.
+- **Beta ingestion: blocked by the deployment's service-role key.** The beta
+  runtime `SUPABASE_SERVICE_ROLE_KEY` is invalid, so every ingestion request is
+  rejected at the token lookup before any order is read or written. No valid
+  market-order request succeeds on beta, so AC1, AC2 and AC3 remain unproven
+  there. The operator fix and the exact re-run commands are in Finding 1.
+- **Persisted-order export (AC5): not proven under the documented contract.**
+  A temporary export of the dedicated token's rows matched the checked-in
+  fixture SHA-256 byte for byte, but that run did not use the documented
+  service-role export path (Finding 2). AC5 stays open until the exporter
+  re-runs through the documented path after the key fix.
+
 ## Golden Replay Parameterization (this change)
 
 `mocker/sendOrders.js` now accepts `--app-url <base-url>` (or
@@ -16,10 +38,13 @@ migration.
 Flipper base URL with a dedicated validation token. The default invocation
 remains local (`http://localhost:3000` and the checked-in raw capture). The
 exporter `mocker/getOrders.js` already takes `--token`; it reads persisted rows
-through Supabase regardless of where the replay ran and always writes its
-export to a temporary path, refusing to overwrite
-`mocker/data/marketorders.expected.json`. `mocker/README.md` documents the
-deployed-target flow and its cleanup obligation.
+through Supabase regardless of where the replay ran and defaults to a
+temporary output path, refusing to overwrite
+`mocker/data/marketorders.expected.json`. Both scripts read `.env` then
+`.env.local` from the directory they are run in, with the process environment
+taking precedence and command-line flags taking precedence over both.
+`mocker/README.md` documents the deployed-target flow, both scripts' flags, and
+the cleanup obligation.
 
 ## Controlled Test Identity
 
@@ -33,8 +58,12 @@ shapes, hosts, and lengths appear here.
 
 ## Live Evidence (2026-10-08)
 
-All checks ran against the deployed service and the existing Supabase project
-with the throwaway account, which starts and ends with zero ingested rows.
+Checks ran against the deployed beta service, the apex reference release, and
+the existing Supabase project with the throwaway account, which starts and ends
+with zero ingested rows. Behaviour that needs a working service-role credential
+on the deployment (all successful ingestion paths) was proven on the apex
+reference only; beta rejects every ingestion request at its token gate
+(Finding 1), while every other check below ran on beta itself.
 
 ### Direct HTTP: successful and rejected ingestion
 
@@ -80,7 +109,8 @@ applies identically to the first rollout, and it constrains how the golden
 checks are run:
 
 - The persisted-order export and fixture comparison must run within 60
-  minutes of the replay (it did; the comparison saw all 220,124 rows).
+  minutes of the replay (the recorded observation saw all 220,124 rows; see
+  Finding 2 for the credential caveat).
 - Deal discovery necessarily reflects the rolling window; the verification
   method compares the deployed UI against the domain code computed over
   exactly the rows the page fetches (see below), so values stay comparable at
@@ -88,14 +118,16 @@ checks are run:
 - Rows left behind are not residue: the cleanup job removes every ingested
   row automatically within 70 minutes, on both deployments.
 
-### Finding 1 — deployed ingestion rejects every token (blocks acceptance)
+### Finding 1 — beta ingestion is blocked by the service-role key (operator fix pending)
 
 The beta deployment returns `401 Invalid token` for every ingestion request,
 including the dedicated token that the same deployment's token page issued
 (row present in `tokens`, verifiably owned by the test account, exact match).
-Supabase gateway logs show the beta server's token lookup being rejected with
-`401` (invalid API key) while the apex's identical lookup returns `200`. The
-route reads `SUPABASE_SERVICE_ROLE_KEY` at runtime
+No valid market-order request can succeed there, so AC1, AC2 and AC3 are not
+proven on beta. Supabase gateway logs show the beta server's token lookup being
+rejected with `401` (invalid API key) while the apex's identical lookup returns
+`200`, and the full ingestion behaviour matrix above was proven on the apex
+reference instead. The route reads `SUPABASE_SERVICE_ROLE_KEY` at runtime
 (`utils/supabase/admin.ts`, `lib/config.ts`), and the runtime
 `NEXT_PUBLIC_SUPABASE_URL`/anon key are provably correct (server-side Auth
 flows work on beta), so the invalid credential is the runtime service-role key
@@ -103,8 +135,8 @@ on the Dokploy application. Fixing it is an operator action outside this
 ticket's reach (no Dokploy access here):
 
 1. Set `SUPABASE_SERVICE_ROLE_KEY` on the Dokploy application
-   (`wrHEV_vFcZLcCXlhmAlWz`) to the production project's service-role key
-   (a fresh, rotated value — see Finding 2) and redeploy/restart.
+   (`wrHEV_vFcZLcCXlhmAlWz`) to the production project's service-role key and
+   redeploy/restart.
 2. Re-run the two commands below with the dedicated token; the replay should
    report 5,131 sent / 0 failed against the beta base URL and the export
    comparison should print the fixture hash.
@@ -114,34 +146,56 @@ node --experimental-fetch mocker/sendOrders.js --app-url https://beta.flipper.ma
 node --experimental-fetch mocker/getOrders.js --compare --token <dedicated-token>
 ```
 
-### Finding 2 — stale local development key; leaked historical token
+### Finding 2 — stale local development key; the AC5 export never ran under the documented service-role contract
 
 The repository's local `.env` carries the `supabase-demo` development
 service-role key (`iss: supabase-demo`), which the production project rejects
 (`Invalid API key`) — a plausible copy source for Finding 1. The documented
-golden export contract (service-role credential in `.env`) could therefore not
-run with the local credential; the export ran the checked-in `mocker/getOrders.js`
-export-and-compare code path unmodified, authenticated with the dedicated
-account's own session (password grant), with only the `apikey` header rewritten
-to the project anon key so that Supabase RLS confines the export to the
-account's own rows. Separately, an ingestion token hardcoded earlier in the
-repository's history is still readable in the public git history; revoking or
-rotating it in the existing Supabase project remains an operator action
-(`docs/dokploy.md` Follow-ups) and should be combined with a service-key
-rotation.
+golden export contract (`SUPABASE_SERVICE_ROLE_KEY` from `.env` or the process
+environment) therefore could not run as written from this worktree.
+
+The checked-in exporter `mocker/getOrders.js` sends the credential it is given
+in both the `apikey` and `Authorization: Bearer` headers and has no
+password-grant, session-token, or header-rewrite option. An earlier draft of
+this document described the successful export as authenticated with the
+throwaway account's own session and a rewritten `apikey` header; that is not a
+code path in this repository, so the claim is withdrawn.
+
+Consequently, **the AC5 fixture comparison did not run under the documented
+service-role contract.** The recorded observation — a temporary export of the
+dedicated token's rows matching the checked-in fixture SHA-256
+`6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`
+byte for byte — came from an out-of-band invocation whose credential path is
+not reproducible from the checked-in tooling, so it does not satisfy AC5. AC5
+is proven only by re-running the documented command after the service-role key
+is fixed:
+
+```sh
+node --experimental-fetch mocker/getOrders.js --compare --token <dedicated-token>
+```
+
+The exporter reads Supabase directly, so the check is independent of
+`--app-url`; it must run within the 60-minute cleanup window after a replay.
+
+The ingestion token that was hardcoded earlier in the repository's history was
+assessed by the operator on 2026-10-08 as the local test token used by this
+mocker tooling, not a production credential, and closed as N/A on #59. No
+rotation is required, and it is not an open operator item.
 
 ### Golden replay and persisted-order export
 
-The replay of the checked-in raw capture (5,131 batches) ran through the
-parameterized CLI with the dedicated token. Targeting the deployed beta base
-URL is demonstrated (every batch reaches the beta route and is rejected at its
-token gate — Finding 1); the persisted data was then produced through the same
-CLI against the apex ingestion path (`--app-url https://flipper.mattiaswiberg.com`):
-5,131 sent, 0 failed. The temporary export of the dedicated token's rows —
-column set, ordering, and `created_at` exclusion exactly as the tooling
-contract specifies — matches the checked-in expected fixture SHA-256
+The golden replay is proven on the apex reference, not on beta. The replay of
+the checked-in raw capture (5,131 batches) ran through the parameterized CLI
+with the dedicated token: every batch reached the beta route and was rejected
+at its token gate (Finding 1), and the persisted data was then produced through
+the same CLI against the apex ingestion path
+(`--app-url https://flipper.mattiaswiberg.com`): 5,131 sent, 0 failed. The
+temporary export of the dedicated token's rows — column set, ordering, and
+`created_at` exclusion exactly as the tooling contract specifies — matched the
+checked-in expected fixture SHA-256
 `6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`
-byte for byte. The expected fixture was not regenerated or modified.
+byte for byte, as an observation outside the documented credential path
+(Finding 2). The expected fixture was not regenerated or modified.
 
 Because the scheduled cleanup window (above) rolls the data away after 60
 minutes, the later deal-discovery checks ran against a second targeted replay
@@ -174,8 +228,6 @@ first rollout, since the max-rows setting is a property of the unchanged
 Supabase project). The expected values were therefore computed over exactly
 the rows the page fetches (same selects and filters, same session scope),
 which the UI matched exactly.
-
-<!-- DEALS_EVIDENCE -->
 
 Method: for every check block, the expected values (counts, rows, upgrade
 decisions and costs, profits, margins, facet counts, page counts) were
@@ -249,10 +301,12 @@ All HTTP checks above use only the throwaway account's own token and rows.
 
 ## Remaining Operator-Gated Checks (NOT verified here)
 
-1. Finding 1 fix, then the two re-run commands above against the beta base
-   URL, including the fixture-hash comparison.
-2. Rotate the historically leaked ingestion token and the service-role key
-   (Finding 2); refresh the local `.env` with the rotated credential so the
-   documented service-role export path runs again.
+1. Finding 1 fix (the beta runtime `SUPABASE_SERVICE_ROLE_KEY`), then the two
+   re-run commands above against the beta base URL: the successful/rejected
+   ingestion matrix (AC1, AC2) and the fixture-hash comparison (AC5).
+2. Refresh the local `.env` with a valid production service-role key and re-run
+   `node --experimental-fetch mocker/getOrders.js --compare --token <dedicated-token>`
+   so the documented service-role export path produces the fixture comparison
+   (Finding 2).
 3. Final cutover items stay as recorded in `docs/dokploy.md` and
    `docs/auth.md`.

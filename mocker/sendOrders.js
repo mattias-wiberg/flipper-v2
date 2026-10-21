@@ -1,76 +1,39 @@
 const fs = require("fs");
 const path = require("path");
 
+const { parseFlags } = require("./cli");
+const {
+  DEFAULT_APP_URL,
+  getEnvironment,
+  resolveIngestionSettings,
+} = require("./env");
+
 const DEFAULTS = {
   file: path.join(__dirname, "data", "marketorders.raw.jsonl"),
-  appUrl: "http://localhost:3000",
+  appUrl: DEFAULT_APP_URL,
 };
 
-function loadEnvFile(file) {
-  if (!fs.existsSync(file)) {
-    return {};
+const VALUE_FLAGS = ["--file", "--token", "--app-url"];
+const BOOLEAN_FLAGS = ["--help"];
+
+function parseArgs(args, environment = getEnvironment()) {
+  const options = { ...DEFAULTS, ...resolveIngestionSettings(environment) };
+  const { values, flags } = parseFlags(args, {
+    valueFlags: VALUE_FLAGS,
+    booleanFlags: BOOLEAN_FLAGS,
+  });
+
+  if (flags.has("--help")) {
+    return { ...options, help: true };
   }
-
-  return Object.fromEntries(
-    fs
-      .readFileSync(file, "utf8")
-      .split(/\r?\n/)
-      .flatMap((line) => {
-        const match = line.match(
-          /^\s*(?:export\s+)?([A-Z0-9_]+)\s*=\s*(.*)\s*$/i,
-        );
-        if (!match) {
-          return [];
-        }
-
-        return [[match[1], match[2].replace(/^(['"])(.*)\1$/, "$2")]];
-      }),
-  );
-}
-
-function getEnvironment() {
-  return {
-    ...loadEnvFile(path.join(process.cwd(), ".env")),
-    ...loadEnvFile(path.join(process.cwd(), ".env.local")),
-    ...process.env,
-  };
-}
-
-function parseArgs(args) {
-  const environment = getEnvironment();
-  const options = {
-    ...DEFAULTS,
-    token: environment.FLIPPER_INGESTION_TOKEN,
-    appUrl: environment.FLIPPER_APP_URL || DEFAULTS.appUrl,
-  };
-
-  for (let index = 0; index < args.length; index++) {
-    const argument = args[index];
-    const [flag, inlineValue] = argument.split("=", 2);
-
-    if (flag === "--help") {
-      options.help = true;
-      continue;
-    }
-
-    const value = inlineValue ?? args[++index];
-    if (!value) {
-      throw new Error(`Missing value for ${flag}`);
-    }
-
-    switch (flag) {
-      case "--file":
-        options.file = path.resolve(value);
-        break;
-      case "--token":
-        options.token = value;
-        break;
-      case "--app-url":
-        options.appUrl = value;
-        break;
-      default:
-        throw new Error(`Unknown option: ${flag}`);
-    }
+  if (values.has("--file")) {
+    options.file = path.resolve(values.get("--file"));
+  }
+  if (values.has("--token")) {
+    options.token = values.get("--token");
+  }
+  if (values.has("--app-url")) {
+    options.appUrl = values.get("--app-url");
   }
 
   return options;
@@ -87,6 +50,8 @@ Options:
     path.relative(process.cwd(), DEFAULTS.file) || DEFAULTS.file
   })
   --help                      Show this help
+
+Exits with a non-zero status when any batch fails.
 `);
 }
 
@@ -101,11 +66,14 @@ function loadBatches(file) {
   return JSON.parse(raw);
 }
 
-async function main({
-  file = DEFAULTS.file,
-  token = getEnvironment().FLIPPER_INGESTION_TOKEN,
-  appUrl = getEnvironment().FLIPPER_APP_URL || DEFAULTS.appUrl,
-} = {}) {
+async function main(overrides = {}) {
+  const options = {
+    file: DEFAULTS.file,
+    ...resolveIngestionSettings(),
+    ...overrides,
+  };
+  const { file, token, appUrl } = options;
+
   if (!token) {
     throw new Error(
       "Missing ingestion token. Set FLIPPER_INGESTION_TOKEN or pass token explicitly.",
@@ -153,20 +121,22 @@ async function main({
 }
 
 if (require.main === module) {
-  try {
-    const options = parseArgs(process.argv.slice(2));
-    if (options.help) {
-      printHelp();
-    } else {
-      main(options).catch((error) => {
-        console.error(error.message);
+  (async () => {
+    try {
+      const options = parseArgs(process.argv.slice(2));
+      if (options.help) {
+        printHelp();
+        return;
+      }
+      const { failed } = await main(options);
+      if (failed > 0) {
         process.exitCode = 1;
-      });
+      }
+    } catch (error) {
+      console.error(error.message);
+      process.exitCode = 1;
     }
-  } catch (error) {
-    console.error(error.message);
-    process.exitCode = 1;
-  }
+  })();
 }
 
-module.exports = { main, DEFAULTS, loadBatches, parseArgs };
+module.exports = { DEFAULTS, main, parseArgs };

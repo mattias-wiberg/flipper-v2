@@ -3,6 +3,9 @@ const crypto = require("crypto");
 const os = require("os");
 const path = require("path");
 
+const { parseFlags } = require("./cli");
+const { getEnvironment, resolveIngestionSettings } = require("./env");
+
 const EXPECTED_OUTPUT = path.resolve(
   path.join(__dirname, "data", "marketorders.expected.json"),
 );
@@ -31,86 +34,39 @@ const ORDER_COLUMNS = [
   "expires",
 ];
 
-function loadEnvFile(file) {
-  if (!fs.existsSync(file)) {
-    return {};
-  }
+const VALUE_FLAGS = ["--url", "--key", "--token", "--output", "--page-size"];
+const BOOLEAN_FLAGS = ["--include-created-at", "--compare", "--help"];
 
-  return Object.fromEntries(
-    fs
-      .readFileSync(file, "utf8")
-      .split(/\r?\n/)
-      .flatMap((line) => {
-        const match = line.match(
-          /^\s*(?:export\s+)?([A-Z0-9_]+)\s*=\s*(.*)\s*$/i,
-        );
-        if (!match) {
-          return [];
-        }
-
-        return [[match[1], match[2].replace(/^(['"])(.*)\1$/, "$2")]];
-      }),
-  );
-}
-
-function getEnvironment() {
-  return {
-    ...loadEnvFile(path.join(process.cwd(), ".env")),
-    ...loadEnvFile(path.join(process.cwd(), ".env.local")),
-    ...process.env,
-  };
-}
-
-function parseArgs(args) {
-  const environment = getEnvironment();
+function parseArgs(args, environment = getEnvironment()) {
   const options = {
     ...DEFAULTS,
-    token: environment.FLIPPER_INGESTION_TOKEN,
+    token: resolveIngestionSettings(environment).token,
     url: environment.NEXT_PUBLIC_SUPABASE_URL,
     key: environment.SUPABASE_SERVICE_ROLE_KEY,
   };
 
-  for (let index = 0; index < args.length; index++) {
-    const argument = args[index];
-    const [flag, inlineValue] = argument.split("=", 2);
+  const { values, flags } = parseFlags(args, {
+    valueFlags: VALUE_FLAGS,
+    booleanFlags: BOOLEAN_FLAGS,
+  });
 
-    if (flag === "--include-created-at") {
-      options.includeCreatedAt = true;
-      continue;
-    }
-    if (flag === "--compare") {
-      options.compare = true;
-      continue;
-    }
-    if (flag === "--help") {
-      options.help = true;
-      continue;
-    }
-
-    const value = inlineValue ?? args[++index];
-    if (!value) {
-      throw new Error(`Missing value for ${flag}`);
-    }
-
-    switch (flag) {
-      case "--url":
-        options.url = value;
-        break;
-      case "--key":
-        options.key = value;
-        break;
-      case "--token":
-        options.token = value;
-        break;
-      case "--output":
-        options.output = path.resolve(value);
-        break;
-      case "--page-size":
-        options.pageSize = Number(value);
-        break;
-      default:
-        throw new Error(`Unknown option: ${flag}`);
-    }
+  options.includeCreatedAt = flags.has("--include-created-at");
+  options.compare = flags.has("--compare");
+  options.help = flags.has("--help");
+  if (values.has("--url")) {
+    options.url = values.get("--url");
+  }
+  if (values.has("--key")) {
+    options.key = values.get("--key");
+  }
+  if (values.has("--token")) {
+    options.token = values.get("--token");
+  }
+  if (values.has("--output")) {
+    options.output = path.resolve(values.get("--output"));
+  }
+  if (values.has("--page-size")) {
+    options.pageSize = Number(values.get("--page-size"));
   }
 
   return options;
@@ -131,8 +87,48 @@ Options:
 `);
 }
 
+function realPath(file) {
+  const resolved = path.resolve(file);
+  try {
+    return fs.realpathSync.native(resolved);
+  } catch {
+    // The target does not exist yet: resolve its parent so symlinked
+    // directories and case-variant names compare equal.
+    const parent = path.dirname(resolved);
+    if (parent === resolved) {
+      return resolved;
+    }
+    return path.join(realPath(parent), path.basename(resolved));
+  }
+}
+
+const CASE_INSENSITIVE_FILESYSTEM =
+  process.platform === "win32" || process.platform === "darwin";
+
+function comparablePath(file) {
+  const resolved = realPath(file);
+  return CASE_INSENSITIVE_FILESYSTEM ? resolved.toLowerCase() : resolved;
+}
+
+function isSameFile(file, otherFile) {
+  try {
+    const fileStat = fs.statSync(file, { bigint: true });
+    const otherStat = fs.statSync(otherFile, { bigint: true });
+    return (
+      fileStat.ino !== 0n &&
+      fileStat.dev === otherStat.dev &&
+      fileStat.ino === otherStat.ino
+    );
+  } catch {
+    return false;
+  }
+}
+
 function assertSafeOutput(output) {
-  if (path.resolve(output) === EXPECTED_OUTPUT) {
+  if (
+    comparablePath(output) === comparablePath(EXPECTED_OUTPUT) ||
+    isSameFile(output, EXPECTED_OUTPUT)
+  ) {
     throw new Error(
       "Refusing to overwrite the checked-in expected fixture. Use a temporary output path.",
     );
@@ -150,8 +146,8 @@ function compareWithExpected(output) {
   const expectedHash = hashFile(EXPECTED_OUTPUT);
   const actualHash = hashFile(output);
 
-  process.stdout.write(`expected: ${expectedHash}\n`);
-  process.stdout.write(`actual:   ${actualHash}\n`);
+  process.stdout.write(`expected sha256: ${expectedHash}\n`);
+  process.stdout.write(`actual sha256:   ${actualHash}\n`);
   if (expectedHash !== actualHash) {
     throw new Error("Golden test failed");
   }
@@ -230,6 +226,7 @@ async function main(overrides = {}) {
     ...DEFAULTS,
     url: environment.NEXT_PUBLIC_SUPABASE_URL,
     key: environment.SUPABASE_SERVICE_ROLE_KEY,
+    token: resolveIngestionSettings(environment).token,
     ...overrides,
   };
   const output = path.resolve(options.output);
@@ -264,4 +261,4 @@ if (require.main === module) {
   }
 }
 
-module.exports = { DEFAULTS, getOrders, main, parseArgs };
+module.exports = { DEFAULTS, assertSafeOutput, getOrders, main, parseArgs };

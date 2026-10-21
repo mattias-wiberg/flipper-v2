@@ -180,10 +180,10 @@ Follow-ups section below lists deferred cleanups and background constraints.
   fails, treat it as a retryable transport failure and redeploy; it is not an
   application defect. Changing the fixture storage is tracked outside this
   deployment change.
-- An ingestion token that was hardcoded earlier in the repository's history
-  remains readable in the public git history even though HEAD is clean.
-  Revoke or rotate it in the existing Supabase project (operator action,
-  coordinated with #59), and keep ingestion credentials in environment
+- The ingestion token that was hardcoded earlier in the repository's history was
+  assessed by the operator on 2026-10-08 and closed as N/A: it is the local test
+  token used by the `mocker/sendOrders.js` tooling, not a production credential,
+  so no rotation is required (#59). Keep ingestion credentials in environment
   variables only. A git history rewrite is not required for this deployment
   work.
 
@@ -450,13 +450,10 @@ beta deployment evidence:
   check passing through `https://flipper.mattiaswiberg.com`.
 - Configured and verified: public and runtime variables are protected Dokploy
   variables; the service role key is runtime-only and absent from image build
-  inputs and logs. One historical exception requires operator action: an
-  ingestion token that was hardcoded in `mocker/getOrders.js` and
-  `mocker/sendOrders.js` earlier in the repository's history is still readable
-  in the public git history even though HEAD is clean. Revoking or rotating
-  that token in the existing Supabase project is an operator action (see
-  Follow-ups) and must be coordinated with the ingestion-validation work in
-  #59.
+  inputs and logs. The ingestion token hardcoded in `mocker/getOrders.js` and
+  `mocker/sendOrders.js` earlier in the repository's history is the mocker
+  tooling's local test token, not a production credential; the operator closed
+  that follow-up as N/A on 2026-10-08 (#59), so no rotation is outstanding.
 - Partially verified: the previous known-good release is the Vercel deployment
   at the apex and remains available and serving until final cutover; the
   recorded-DNS fallback restores it (Rollback section, step 4). Because the
