@@ -19,9 +19,16 @@
 # Networking: no ports are published. The database is reachable only between
 # the stack's own containers, and the Umami web service on port 3000 is
 # reached only through Traefik on its own HTTPS route
-# `umami.mattiaswiberg.com`. Two routers are shipped here: the public tracker
-# paths (`/script.js`, `/api/send`) and a protected dashboard router that
-# requires basic auth (`UMAMI_BASIC_AUTH_USERS`) and is marked noindex.
+# `umami.mattiaswiberg.com`. Three routers are shipped here, ordered by
+# priority: the public tracker paths (`/script.js`, `/api/send`, priority 100),
+# the Umami API (`/api`, priority 90, auth-free), and a protected dashboard
+# router for every other path that requires basic auth
+# (`UMAMI_BASIC_AUTH_USERS`) and is marked noindex (priority 10).
+#
+# The API needs its own router because Traefik basic auth and Umami both use
+# the single `Authorization` header: the browser sends `Basic ...`, so Umami
+# never sees its `Bearer ...` token and every dashboard API call fails with
+# 401. Umami's own login, token, and session checks protect the API.
 #
 # Secrets: supplied from the deploy environment only (placeholders in
 # deploy/umami/.env.example). The stack refuses to start when they are
@@ -58,12 +65,23 @@ services:
       - "traefik.docker.network=dokploy-network"
       - "traefik.http.services.umami.loadbalancer.server.port=3000"
       # Public tracker paths only: browsers on the Flipper site need these.
+      # `/api/send` also matches the API router below; priority 100 wins and
+      # both routers are auth-free, so the overlap is harmless.
       - "traefik.http.routers.umami-public.rule=Host(`umami.mattiaswiberg.com`) && (Path(`/script.js`) || PathPrefix(`/api/send`))"
       - "traefik.http.routers.umami-public.entrypoints=websecure"
       - "traefik.http.routers.umami-public.tls.certresolver=letsencrypt"
       - "traefik.http.routers.umami-public.priority=100"
       - "traefik.http.routers.umami-public.service=umami"
-      # Operator surface: every other path requires auth and is not indexed.
+      # API: no basic auth, because it would overwrite the app's own
+      # `Authorization: Bearer` header. Umami authenticates these calls itself.
+      # PathPrefix matches any path starting with `/api`.
+      - "traefik.http.routers.umami-api.rule=Host(`umami.mattiaswiberg.com`) && PathPrefix(`/api`)"
+      - "traefik.http.routers.umami-api.entrypoints=websecure"
+      - "traefik.http.routers.umami-api.tls.certresolver=letsencrypt"
+      - "traefik.http.routers.umami-api.priority=90"
+      - "traefik.http.routers.umami-api.service=umami"
+      # Operator surface: every path not starting with /api requires auth and
+      # is not indexed.
       - "traefik.http.routers.umami-admin.rule=Host(`umami.mattiaswiberg.com`)"
       - "traefik.http.routers.umami-admin.entrypoints=websecure"
       - "traefik.http.routers.umami-admin.tls.certresolver=letsencrypt"
