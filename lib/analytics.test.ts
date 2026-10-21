@@ -38,7 +38,7 @@ describe("analytics event dispatch", () => {
     expect(track).not.toHaveBeenCalled();
   });
 
-  it("sends explicitly defined events with redacted data only", () => {
+  it("sends only declared data for explicitly defined events", () => {
     const track = jest.fn();
     globalWithUmami.umami = { track };
 
@@ -52,7 +52,7 @@ describe("analytics event dispatch", () => {
     expect(JSON.stringify(track.mock.calls)).not.toContain("@");
   });
 
-  it("sends the event name alone when every value is redacted", () => {
+  it("sends the event name alone when no value is allowed", () => {
     const track = jest.fn();
     globalWithUmami.umami = { track };
 

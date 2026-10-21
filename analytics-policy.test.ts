@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
 import * as analyticsPolicy from "./analytics-policy.js";
 import {
   ANALYTIC_EVENTS,
@@ -84,6 +87,14 @@ describe("Umami analytics configuration", () => {
         },
         names: ["NEXT_PUBLIC_UMAMI_SCRIPT_URL"],
         secrets: ["?v=1"],
+      },
+      {
+        environment: {
+          NEXT_PUBLIC_UMAMI_SCRIPT_URL: SCRIPT_URL,
+          NEXT_PUBLIC_UMAMI_WEBSITE_ID: "your-umami-website-id",
+        },
+        names: ["NEXT_PUBLIC_UMAMI_WEBSITE_ID"],
+        secrets: ["your-umami-website-id"],
       },
       {
         environment: {
@@ -201,24 +212,25 @@ describe("Umami analytics event contract", () => {
     }
   });
 
-  it("declares every runtime export from the policy module", () => {
-    const declaredExports = [
-      "ANALYTIC_EVENTS",
-      "buildAnalyticsEvent",
-      "getUmamiConfig",
-      "getUmamiScriptAttributes",
-      "umamiConfigDiagnostic",
-    ];
-
+  it("declares exactly the runtime exports in analytics-policy.d.ts", () => {
+    const declaration = readFileSync(
+      path.join(__dirname, "analytics-policy.d.ts"),
+      "utf8",
+    );
+    const declaredExports = [...declaration.matchAll(
+      /^export (?:function|const) (\w+)/gm,
+    )]
+      .map((match) => match[1])
+      .sort();
     // `default` is the CommonJS interop wrapper, not a policy export.
     const runtimeExports = Object.keys(analyticsPolicy)
       .filter((name) => name !== "default")
       .sort();
 
-    expect(runtimeExports).toEqual(declaredExports.sort());
+    expect(runtimeExports).toEqual(declaredExports);
   });
 
-  it("redacts values that could carry identity, credentials, or payloads", () => {
+  it("drops values that could carry identity, credentials, or payloads", () => {
     const sensitiveValues = [
       "user@example.com",
       "https://flipper.mattiaswiberg.com/api/secret-token/orders",

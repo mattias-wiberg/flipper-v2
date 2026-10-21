@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
 import { renderToStaticMarkup } from "react-dom/server";
 
 import { CANONICAL_SITE_URL } from "../site-url-policy.js";
@@ -59,5 +62,15 @@ describe("Analytics", () => {
     // Nothing outside the tracker embed is rendered.
     expect(markup).not.toContain("identify");
     expect(markup).not.toContain("email");
+  });
+
+  it("is mounted by the root layout", () => {
+    const layout = readFileSync(
+      path.join(__dirname, "..", "app", "layout.tsx"),
+      "utf8",
+    );
+
+    expect(layout).toContain("<Analytics />");
+    expect(layout).toContain('from "@/components/analytics"');
   });
 });

@@ -46,7 +46,8 @@ const ANALYTIC_EVENTS = {
 
 // Emails, URLs, keys, tokens, and passwords are absent from every declared
 // vocabulary, so they can never be sent even when they are short strings.
-const WEBSITE_ID_PATTERN = /^[A-Za-z0-9-]{8,64}$/;
+const WEBSITE_ID_PATTERN =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // The tracker script must be served over HTTPS from a bare script URL: an
 // http:// script would be blocked as mixed content on the HTTPS product
@@ -111,8 +112,8 @@ function getUmamiConfig(environment = process.env) {
   };
 }
 
-// Name-only diagnostic for invalid analytics configuration. The message is
-// safe to log and retain; it never contains a configured value.
+// Name-only diagnostic for incomplete or invalid analytics configuration. The
+// message is safe to log and retain; it never contains a configured value.
 /**
  * @param {UmamiConfigValue} config
  * @returns {string | null}
@@ -123,7 +124,7 @@ function umamiConfigDiagnostic(config) {
   }
 
   return (
-    `Invalid optional analytics variables: ${config.invalidNames.join(", ")}. ` +
+    `Incomplete or invalid optional analytics variables: ${config.invalidNames.join(", ")}. ` +
     "The optional analytics settings are not applied and Flipper continues serving normally."
   );
 }

@@ -69,7 +69,8 @@ PathPrefix(`/api/send`))` with priority `100`; the protected router matches
    secret is ever committed to this repository.
 2. Deploy `deploy/umami/docker-compose.yml` as a Dokploy **Compose** service.
    Database migrations run automatically on first start.
-3. Log in at `https://umami.mattiaswiberg.com` with the default Umami account
+3. Log in at `https://umami.mattiaswiberg.com` (the basic-auth prompt comes
+   before Umami's own login) with the default Umami account
    (`admin` / `umami`) and **change the default administrator credential
    immediately** (Umami's own install documentation mandates this). Enable
    two-factor authentication if desired; the stack already provides
@@ -129,10 +130,10 @@ and the release gate in #62 verifies the deployed wire:
 - Flipper page routes carry secrets only in query strings or hashes; API
   routes such as the tokened ingestion endpoint render no HTML and load no
   tracker.
-- Event names must be explicitly allowlisted, per-event data keys are fixed,
-  values are redacted unless they are short inert tokens (emails, URLs, keys,
-  tokens, passwords, and raw payload shapes are dropped), and events with a
-  fixed vocabulary (for example `theme_change`) reject anything outside it.
+- Event names must be explicitly allowlisted and per-event data keys are
+  fixed; only values in each key's declared vocabulary are sent, and every
+  other value (emails, URLs, keys, tokens, passwords, raw payload shapes) is
+  dropped.
 - With both optional settings absent (the local-development and test
   default), no tracker script is rendered and the browser makes no outbound
   analytics requests at all.

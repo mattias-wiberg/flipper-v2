@@ -27,7 +27,7 @@ function getUmamiTracker(): UmamiTracker | undefined {
 // Tracks one explicitly defined non-sensitive event (see ANALYTIC_EVENTS in
 // analytics-policy.js). When analytics is disabled the tracker script is never
 // loaded, so this is a no-op. Event names outside the allowlist are dropped,
-// and sensitive values are redacted before send.
+// and values outside the event's declared vocabulary are dropped before send.
 export function trackAnalyticsEvent(
   name: string,
   data: Readonly<Record<string, unknown>> = {},
