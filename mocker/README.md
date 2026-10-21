@@ -53,9 +53,58 @@ npm run mock:order:ingest
 npm run golden:orders
 ```
 
+By default the replay targets the local app (`http://localhost:3000`) and uses
+`FLIPPER_INGESTION_TOKEN` for the ingestion token. Both are parameterized so
+the same replay can target a deployed Flipper base URL and a dedicated
+validation token without any local app:
+
+```sh
+node --experimental-fetch mocker/sendOrders.js --app-url <base-url> --token <token>
+node --experimental-fetch mocker/getOrders.js --compare --token <token>
+```
+
+Both scripts read `.env` and then `.env.local` from the directory they are run
+in, and the process environment overrides those files; command-line flags
+override everything. `--flag=value` is accepted as well as `--flag value`.
+
+`mocker/sendOrders.js` replays a raw capture and exits non-zero when any batch
+fails:
+
+| Flag              | Meaning                                                | Default                              |
+| ----------------- | ------------------------------------------------------ | ------------------------------------ |
+| `--app-url <url>` | Flipper base URL to replay against (`FLIPPER_APP_URL`) | `http://localhost:3000`              |
+| `--token <uuid>`  | Ingestion token (`FLIPPER_INGESTION_TOKEN`)            | none; required                       |
+| `--file <file>`   | Raw capture to replay                                  | `mocker/data/marketorders.raw.jsonl` |
+| `--help`          | Print usage and exit 0                                 |                                      |
+
+A `.jsonl` capture is read as one `{ body }` object per line; any other
+extension is parsed as a JSON array of batches. A replay against a deployed
+service writes that token's rows there: start from clean order state (a fresh
+token, or the app's Reset actions after a previous run) and clean up the
+ingested rows afterwards through the same app actions.
+
+`mocker/getOrders.js` exports the replayed token's persisted orders from
+Supabase directly and coordinates the comparison:
+
+| Flag                   | Meaning                                                 | Default                |
+| ---------------------- | ------------------------------------------------------- | ---------------------- |
+| `--url <url>`          | Supabase URL (`NEXT_PUBLIC_SUPABASE_URL`)               | none; required         |
+| `--key <key>`          | Service-role key (`SUPABASE_SERVICE_ROLE_KEY`)          | none; required         |
+| `--token <uuid>`       | Token to export (`FLIPPER_INGESTION_TOKEN`)             | none; required         |
+| `--output <file>`      | Output JSON path                                        | OS temporary directory |
+| `--page-size <number>` | Rows per request                                        | `1000`                 |
+| `--include-created-at` | Include database-generated `created_at` values          | excluded               |
+| `--compare`            | Compare the output with the checked-in expected fixture | off                    |
+| `--help`               | Print usage and exit 0                                  |                        |
+
+The exporter talks to Supabase directly and is unaffected by `--app-url`; scope
+it to the replayed token with `--token`.
+
 `golden:orders` writes its default export to the OS temporary directory,
-compares it with `marketorders.expected.json`, and fails when the hashes differ.
-The exporter also rejects the expected fixture as an output path, so the
+compares its SHA-256 (the digest of the raw export file bytes, exactly as
+written, including the trailing newline) with `marketorders.expected.json`, and
+fails when the digests differ. The exporter also rejects the expected fixture as
+an output path — including case variants, symlinks, and hardlinks to it — so the
 checked-in fixture cannot be replaced by the replay tool.
 
 `golden:orders` uses `NEXT_PUBLIC_SUPABASE_URL`,
