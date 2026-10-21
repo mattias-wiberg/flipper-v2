@@ -63,7 +63,13 @@ services:
       # Page-view history lives here. Service restarts, container recreation,
       # and image upgrades all preserve it; only deleting this named volume
       # deletes analytics data. Backup/restore is owned by #63.
-      - umami-db-data:/var/lib/postgresql/data
+      #
+      # PostgreSQL 18 moved PGDATA to /var/lib/postgresql/18/docker and
+      # declares /var/lib/postgresql as the image volume, so the named volume
+      # must mount that parent path. Mounting the pre-18 path
+      # (/var/lib/postgresql/data) would leave the named volume silently
+      # unused and lose data when the container is recreated.
+      - umami-db-data:/var/lib/postgresql
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
       interval: 5s

@@ -72,10 +72,12 @@ then redeploy (see Lifecycle).
 ## Lifecycle: Restarts, Upgrades, Data
 
 - **Restarts preserve page-view data.** All analytics state is the
-  `umami-db-data` named volume mounted at `/var/lib/postgresql/data` in the
-  dedicated PostgreSQL service. Restarting or recreating containers, and image
-  upgrades, keep that volume; only explicitly deleting the named volume
-  deletes page-view history. The verification for this contract is a restart
+  `umami-db-data` named volume mounted at `/var/lib/postgresql` in the
+  dedicated PostgreSQL service. PostgreSQL 18 keeps its data directory under
+  that path (`/var/lib/postgresql/18/docker`), so the named volume must mount
+  the parent, not the pre-18 `/var/lib/postgresql/data` path. Restarting or
+  recreating containers, and image upgrades, keep that volume; only explicitly
+  deleting the named volume deletes page-view history. The verification for this contract is a restart
   of the stack followed by confirming representative page views still load in
   the dashboard.
 - **Upgrades**: bump the pinned Umami and PostgreSQL image tags and digests in
