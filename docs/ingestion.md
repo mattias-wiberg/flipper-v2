@@ -8,27 +8,27 @@ semantics. The origin contract in `docs/auth.md` applies unchanged: the
 configured public origin is `https://beta.flipper.mattiaswiberg.com` during the
 migration.
 
-## Status (2026-10-08)
+## Status (2026-10-22)
 
 - **Deal discovery: proven on the beta deployment.** An authenticated throwaway
   trader loaded the deployed deals UI against golden rows at desktop and mobile
   viewports, and every check matched the repository's own domain code computed
   over exactly the rows the page fetches (AC4, AC6).
-- **Ingestion golden replay: proven on the apex reference, not on beta.** The
-  parameterized replay sent all 5,131 batches to
-  `https://flipper.mattiaswiberg.com` (the previous known-good release, same
-  repository lineage and Supabase project) with 0 failures, and deals were
-  verified from that data.
-- **Beta ingestion: blocked by the deployment's service-role key.** The beta
-  runtime `SUPABASE_SERVICE_ROLE_KEY` is invalid, so every ingestion request is
-  rejected at the token lookup before any order is read or written. No valid
-  market-order request succeeds on beta, so AC1, AC2 and AC3 remain unproven
-  there. The operator fix and the exact re-run commands are in Finding 1.
-- **Persisted-order export (AC5): not proven under the documented contract.**
-  A temporary export of the dedicated token's rows matched the checked-in
-  fixture SHA-256 byte for byte, but that run did not use the documented
-  service-role export path (Finding 2). AC5 stays open until the exporter
-  re-runs through the documented path after the key fix.
+- **Ingestion golden replay: proven on the beta deployment.** After the operator
+  corrected the beta runtime `SUPABASE_SERVICE_ROLE_KEY` and redeployed, the
+  deployed replay on 2026-10-21 sent all 5,131 batches to
+  `https://beta.flipper.mattiaswiberg.com` with 0 failures; 220,124 rows
+  persisted for the dedicated token, exactly one token owned orders, and deals
+  rendered. On 2026-10-22 the accepted release gate (candidate `main@108de6c`)
+  repeated the ingestion checks on beta: invalid token `401`, malformed JSON
+  `400`, malformed body `400`, unusable item persists 2 of 3 with a warning, and
+  the golden replay ran 5,131 batches with 0 failures.
+- **Persisted-order export (AC5): proven under the documented contract.** The
+  2026-10-22 gate exported through `mocker/getOrders.js --compare` (the
+  documented service-role path) and the rows matched the unchanged fixture
+  SHA-256
+  `6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`.
+  Findings 1 and 2 are resolved; their 2026-10-08 history is retained below.
 
 ## Golden Replay Parameterization (this change)
 
@@ -59,35 +59,37 @@ shapes, hosts, and lengths appear here.
 
 Checks ran against the deployed beta service, the apex reference release, and
 the existing Supabase project with the throwaway account, which starts and ends
-with zero ingested rows. Behaviour that needs a working service-role credential
-on the deployment (all successful ingestion paths) was proven on the apex
-reference only; beta rejects every ingestion request at its token gate
-(Finding 1), while every other check below ran on beta itself.
+with zero ingested rows. The 2026-10-08 observation below recorded beta rejecting
+every successful ingestion path at its token gate (Finding 1); after the
+2026-10-21 credential fix and redeploy, beta executes the full route and the
+2026-10-22 release gate repeated the matrix. The table shows the current
+behaviour; Finding 1 retains the pre-fix history.
 
 ### Direct HTTP: successful and rejected ingestion
 
 The deployed beta route `POST /api/<token>/marketorders.ingest` maps any
 server-side token-lookup failure to `401 Invalid token`, so a broken service
 credential is indistinguishable from an unknown token at the response level.
-The Supabase gateway logs separate the two: the beta server's own lookup
-`GET /rest/v1/tokens?select=token&token=eq.<token>` is answered `401` (invalid
+Supabase gateway logs separate the two: at the 2026-10-08 observation the beta
+server's own lookup
+`GET /rest/v1/tokens?select=token&token=eq.<token>` was answered `401` (invalid
 API key), while the previous known-good release at the apex
 `https://flipper.mattiaswiberg.com` — same repository lineage, same current
 `Expires` normalization contract (commit `c5cdaf9`), same Supabase project —
-answers the same lookup `200` and executes the route's full body. The
-behaviour checks therefore ran against the apex as the existing-behavior
-reference, with the beta deployment probed alongside at every step:
+answered the same lookup `200`. After the operator fixed the runtime key and
+redeployed, beta executes the route's full body (the deployed replay below
+passes); the 2026-10-22 gate ran the same checks against beta:
 
-| Behaviour (existing contract)                                                                                                           | Apex reference                                                           | Beta deployment                |
-| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------ |
-| Invalid token                                                                                                                           | `401 Invalid token`                                                      | `401 Invalid token`            |
-| Rejected token persists nothing                                                                                                         | 0 rows                                                                   | 0 rows                         |
-| Malformed JSON body                                                                                                                     | `400 Invalid JSON`                                                       | rejected at token gate (`401`) |
-| Malformed order bodies (non-array `Orders`, wrong field types, empty order)                                                             | `400` JSON `{"error":"Invalid body format","details":[…]}`               | rejected at token gate (`401`) |
-| Malformed bodies persist nothing                                                                                                        | 0 rows                                                                   | 0 rows                         |
-| Valid batch with unusable item identifier                                                                                               | `200 Ingestion successful`, bad order warned + skipped, 2 of 3 persisted | rejected at token gate (`401`) |
-| Normalization: `UnitPriceSilver / 10000`, `tier` from `T<n>`, `location_id` int, `Expires` trim + interior-space strip into `timestamp` | verified on every persisted column                                       | not reachable (Finding 1)      |
-| Upsert conflict `onConflict: "token,id"`                                                                                                | duplicate id updates the existing row in place (no second row)           | not reachable (Finding 1)      |
+| Behaviour (existing contract)                                                                                                           | Apex reference                                                           | Beta deployment (2026-10-21/22)                                          |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | ------------------------------------------------------------------------ |
+| Invalid token                                                                                                                           | `401 Invalid token`                                                      | `401 Invalid token`                                                      |
+| Rejected token persists nothing                                                                                                         | 0 rows                                                                   | 0 rows                                                                   |
+| Malformed JSON body                                                                                                                     | `400 Invalid JSON`                                                       | `400 Invalid JSON`                                                       |
+| Malformed order bodies (non-array `Orders`, wrong field types, empty order)                                                             | `400` JSON `{"error":"Invalid body format","details":[…]}`               | `400` JSON `{"error":"Invalid body format","details":[…]}`               |
+| Malformed bodies persist nothing                                                                                                        | 0 rows                                                                   | 0 rows                                                                   |
+| Valid batch with unusable item identifier                                                                                               | `200 Ingestion successful`, bad order warned + skipped, 2 of 3 persisted | `200 Ingestion successful`, bad order warned + skipped, 2 of 3 persisted |
+| Normalization: `UnitPriceSilver / 10000`, `tier` from `T<n>`, `location_id` int, `Expires` trim + interior-space strip into `timestamp` | verified on every persisted column                                       | covered by the fixture comparison below                                  |
+| Upsert conflict `onConflict: "token,id"`                                                                                                | duplicate id updates the existing row in place (no second row)           | not separately asserted by the gate                                      |
 
 Realistic client traffic matters for these checks: the raw capture's `Expires`
 values are ISO `T` timestamps and all 220,124 fixture prices are integral
@@ -117,35 +119,41 @@ checks are run:
 - Rows left behind are not residue: the cleanup job removes every ingested
   row automatically within 70 minutes, on both deployments.
 
-### Finding 1 — beta ingestion is blocked by the service-role key (operator fix pending)
+### Finding 1 — beta ingestion was blocked by the service-role key (resolved 2026-10-21)
 
-The beta deployment returns `401 Invalid token` for every ingestion request,
+At the 2026-10-08 observation the beta deployment returned `401 Invalid token`
+for every ingestion request,
 including the dedicated token that the same deployment's token page issued
 (row present in `tokens`, verifiably owned by the test account, exact match).
-No valid market-order request can succeed there, so AC1, AC2 and AC3 are not
-proven on beta. Supabase gateway logs show the beta server's token lookup being
-rejected with `401` (invalid API key) while the apex's identical lookup returns
-`200`, and the full ingestion behaviour matrix above was proven on the apex
-reference instead. The route reads `SUPABASE_SERVICE_ROLE_KEY` at runtime
+No valid market-order request could succeed there at that time, so AC1, AC2 and
+AC3 were unproven on beta; they are proven by the 2026-10-21 replay and the
+2026-10-22 gate (Status above). Supabase gateway logs showed the beta server's
+token lookup being rejected with `401` (invalid API key) while the apex's
+identical lookup returned
+`200`, and the full ingestion behaviour matrix was proven on the apex reference
+instead; the 2026-10-22 gate proved the same matrix on beta. The route reads
+`SUPABASE_SERVICE_ROLE_KEY` at runtime
 (`utils/supabase/admin.ts`, `lib/config.ts`), and the runtime
 `NEXT_PUBLIC_SUPABASE_URL`/anon key are provably correct (server-side Auth
-flows work on beta), so the invalid credential is the runtime service-role key
-on the Dokploy application. Fixing it is an operator action outside this
-ticket's reach (no Dokploy access here):
+flows work on beta), so the invalid credential at that time was the runtime
+service-role key on the Dokploy application. The operator corrected the runtime
+`SUPABASE_SERVICE_ROLE_KEY` and redeployed on 2026-10-21; the golden replay then
+passed on beta: 5,131 batches, 0 failures, 220,124 rows persisted for the
+dedicated token, exactly one token owned orders, and deals rendered. The
+commands below remain the re-run recipe:
 
-1. Set `SUPABASE_SERVICE_ROLE_KEY` on the Dokploy application
+1. The operator set `SUPABASE_SERVICE_ROLE_KEY` on the Dokploy application
    (`wrHEV_vFcZLcCXlhmAlWz`) to the production project's service-role key and
-   redeploy/restart.
-2. Re-run the two commands below with the dedicated token; the replay should
-   report 5,131 sent / 0 failed against the beta base URL and the export
-   comparison should print the fixture hash.
+   redeployed/restarted (done 2026-10-21).
+2. Re-running the two commands below with the dedicated token reports 5,131
+   sent / 0 failed against the beta base URL and prints the fixture hash.
 
 ```sh
 node --experimental-fetch mocker/sendOrders.js --app-url https://beta.flipper.mattiaswiberg.com --token <dedicated-token>
 node --experimental-fetch mocker/getOrders.js --compare --token <dedicated-token>
 ```
 
-### Finding 2 — stale local development key; the AC5 export never ran under the documented service-role contract
+### Finding 2 — stale local development key; the AC5 export did not run under the documented service-role contract (resolved 2026-10-22)
 
 The repository's local `.env` carries the `supabase-demo` development
 service-role key (`iss: supabase-demo`), which the production project rejects
@@ -160,14 +168,18 @@ this document described the successful export as authenticated with the
 throwaway account's own session and a rewritten `apikey` header; that is not a
 code path in this repository, so the claim is withdrawn.
 
-Consequently, **the AC5 fixture comparison did not run under the documented
-service-role contract.** The recorded observation — a temporary export of the
-dedicated token's rows matching the checked-in fixture SHA-256
+Consequently, at the 2026-10-08 observation **the AC5 fixture comparison did not
+run under the documented service-role contract.** The recorded observation — a
+temporary export of the dedicated token's rows matching the checked-in fixture
+SHA-256
 `6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`
 byte for byte — came from an out-of-band invocation whose credential path is
-not reproducible from the checked-in tooling, so it does not satisfy AC5. AC5
-is proven only by re-running the documented command after the service-role key
-is fixed:
+not reproducible from the checked-in tooling, so it did not satisfy AC5 then.
+AC5 is proven now: on 2026-10-22 the accepted release gate (candidate
+`main@108de6c`) ran the documented exporter against the dedicated token and the
+exported rows matched the same, unchanged fixture SHA-256 byte for byte.
+
+The reproducible command:
 
 ```sh
 node --experimental-fetch mocker/getOrders.js --compare --token <dedicated-token>
@@ -183,18 +195,23 @@ rotation is required, and it is not an open operator item.
 
 ### Golden replay and persisted-order export
 
-The golden replay is proven on the apex reference, not on beta. The replay of
-the checked-in raw capture (5,131 batches) ran through the parameterized CLI
-with the dedicated token: every batch reached the beta route and was rejected
-at its token gate (Finding 1), and the persisted data was then produced through
-the same CLI against the apex ingestion path
-(`--app-url https://flipper.mattiaswiberg.com`): 5,131 sent, 0 failed. The
-temporary export of the dedicated token's rows — column set, ordering, and
-`created_at` exclusion exactly as the tooling contract specifies — matched the
-checked-in expected fixture SHA-256
+The golden replay is proven on beta. On 2026-10-21 the replay of the checked-in
+raw capture (5,131 batches) ran through the parameterized CLI with the dedicated
+token against `--app-url https://beta.flipper.mattiaswiberg.com`: 5,131 sent, 0
+failed. 220,124 rows persisted for that token, exactly one token owned orders,
+and deals rendered from that data. The 2026-10-22 accepted release gate
+(candidate `main@108de6c`) replayed the same capture with 0 failures and exported
+the dedicated token's rows — column set, ordering, and `created_at` exclusion
+exactly as the tooling contract specifies — matching the checked-in expected
+fixture SHA-256
 `6775375bd98d636d5fd89b2d40540193f3e1391ce32d64f213c4e86b186b326e`
-byte for byte, as an observation outside the documented credential path
-(Finding 2). The expected fixture was not regenerated or modified.
+byte for byte through the documented exporter. The expected fixture was not
+regenerated or modified.
+
+The 2026-10-08 observation was the earlier phase of this evidence: beta rejected
+every batch at its token gate (Finding 1), so the replay and export ran against
+the apex ingestion path with the same capture and token. That history is kept in
+Findings 1 and 2.
 
 Because the scheduled cleanup window (above) rolls the data away after 60
 minutes, the later deal-discovery checks ran against a second targeted replay
@@ -300,12 +317,8 @@ All HTTP checks above use only the throwaway account's own token and rows.
 
 ## Remaining Operator-Gated Checks (NOT verified here)
 
-1. Finding 1 fix (the beta runtime `SUPABASE_SERVICE_ROLE_KEY`), then the two
-   re-run commands above against the beta base URL: the successful/rejected
-   ingestion matrix (AC1, AC2) and the fixture-hash comparison (AC5).
-2. Refresh the local `.env` with a valid production service-role key and re-run
-   `node --experimental-fetch mocker/getOrders.js --compare --token <dedicated-token>`
-   so the documented service-role export path produces the fixture comparison
-   (Finding 2).
-3. Final cutover items stay as recorded in `docs/dokploy.md` and
-   `docs/auth.md`.
+No ingestion re-run is outstanding on beta: Finding 1 is resolved by the
+2026-10-21 replay and Finding 2 (AC5) by the 2026-10-22 release gate. Re-run
+`npm run gate:release` after any release that changes ingestion; its deployed
+checks repeat the matrix above against the deployed service. Final cutover items
+stay as recorded in `docs/dokploy.md` and `docs/auth.md`.

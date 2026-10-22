@@ -14,10 +14,12 @@ Public values are required as Docker build inputs because Next.js reads
 `NEXT_PUBLIC_*` values when it builds.
 
 - `NEXT_PUBLIC_SITE_URL` must be exactly the configured public origin for a
-  production image. During the Vercel-to-Dokploy migration phase the configured
-  origin is `https://beta.flipper.mattiaswiberg.com`; the apex
-  `https://flipper.mattiaswiberg.com` stays on Vercel and remains the documented
-  final canonical origin until cutover (see `docs/dokploy.md`).
+  production image (`canonicalSiteUrl` in `site-url.config.json`). During the
+  Vercel-to-Dokploy migration phase the configured public origin is
+  `https://beta.flipper.mattiaswiberg.com`; the apex
+  `https://flipper.mattiaswiberg.com` is the final canonical origin, stays on
+  Vercel until cutover, and becomes the configured public origin at cutover (see
+  `docs/dokploy.md`).
 - `NEXT_PUBLIC_SUPABASE_URL` is the existing Supabase project URL.
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` is the existing public Supabase key.
 

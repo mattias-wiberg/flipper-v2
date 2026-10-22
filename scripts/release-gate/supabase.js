@@ -35,25 +35,6 @@ async function countOrders(config) {
   return count;
 }
 
-async function countOrdersForToken(config, token) {
-  const url = ordersUrl(
-    config,
-    `select=id&token=eq.${encodeURIComponent(token)}&limit=1`,
-  );
-  const response = await httpFetch(url, {
-    headers: adminHeaders(config, { Prefer: "count=exact" }),
-  });
-  // PostgREST answers 206 Partial Content for limit=1 with count=exact.
-  assertStatus(response, [200, 206], "Supabase orders count");
-
-  const contentRange = response.headers.get("content-range") ?? "";
-  const count = Number(contentRange.split("/").pop());
-  if (!Number.isFinite(count)) {
-    throw new Error("Supabase orders count did not return a row count");
-  }
-  return count;
-}
-
 async function listOrderIdsForToken(config, token) {
   const url = ordersUrl(
     config,
@@ -79,7 +60,6 @@ async function deleteOrdersForToken(config, token) {
 
 module.exports = {
   countOrders,
-  countOrdersForToken,
   deleteOrdersForToken,
   listOrderIdsForToken,
 };

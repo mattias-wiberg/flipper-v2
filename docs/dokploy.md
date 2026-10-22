@@ -12,9 +12,18 @@ application detail.
 
 ## Public Origin Contract (Migration Phase)
 
-During the migration from Vercel to the home-lab Dokploy deployment the
-application runs at `https://beta.flipper.mattiaswiberg.com`. That is the
-configured public origin for this phase:
+Two names are used throughout the documentation:
+
+- The **configured public origin** is the value of `canonicalSiteUrl` in
+  `site-url.config.json`, the single source of truth. It is the origin the
+  application serves and the origin every canonical/origin assertion expects.
+  During the migration it is `https://beta.flipper.mattiaswiberg.com`.
+- The **final canonical origin** is the apex
+  `https://flipper.mattiaswiberg.com`. It becomes the configured public origin
+  at cutover; until then the apex keeps serving the existing Vercel release.
+
+During the migration the application runs at the configured public origin,
+`https://beta.flipper.mattiaswiberg.com`:
 
 - `NEXT_PUBLIC_SITE_URL` must be exactly
   `https://beta.flipper.mattiaswiberg.com` at build time and runtime. Startup
@@ -22,20 +31,20 @@ configured public origin for this phase:
   and names the variable only; production never falls back to `VERCEL_URL` or
   `localhost`.
 - The apex `https://flipper.mattiaswiberg.com` stays on Vercel until final
-  cutover and remains the documented final canonical origin. During the
-  migration the apex keeps serving the existing Vercel release.
+  cutover and remains the final canonical origin. During the migration the apex
+  keeps serving the existing Vercel release.
 - All origin-aware behavior (canonical and metadata links, `robots.txt`,
   `sitemap.xml`, the web manifest, the Auth callback and safe-redirect
   validation, and middleware host handling) uses the configured origin from
   `site-url.config.json`, the single source of truth.
 
-Final cutover flips the configured origin back to the apex in one operator
-session:
+Final cutover flips the configured public origin to the final canonical origin
+in one operator session:
 
-1. Set `canonicalSiteUrl` in `site-url.config.json` back to
-   `https://flipper.mattiaswiberg.com` and update the migration-phase tests,
-   documentation, and Supabase email templates (`emails/*.html` absolute asset
-   URLs) that pin the beta origin.
+1. Set `canonicalSiteUrl` in `site-url.config.json` to
+   `https://flipper.mattiaswiberg.com` (the final canonical origin) and update
+   the migration-phase tests, documentation, and Supabase email templates
+   (`emails/*.html` absolute asset URLs) that pin the beta origin.
 2. Update the Dokploy `NEXT_PUBLIC_SITE_URL` build input and runtime variable to
    `https://flipper.mattiaswiberg.com`.
 3. Repoint the `flipper.mattiaswiberg.com` DNS record at the Dokploy reverse
@@ -63,6 +72,10 @@ committed. Retained provider evidence (identifiers only):
   `2026-10-07T19:52:27Z` to `2026-10-07T19:53:29Z` (62s), built from source
   branch `agent/issue-57-dokploy` at `c5e0146`. This is the first successful
   Dokploy release for this application.
+- Accepted release-gate candidate: `main@108de6c` (deployed gate run
+  2026-10-22, #62), asserted to be the serving beta release. The gate records
+  the local checkout commit, not the deployed image; see Open Items for the
+  known limit.
 - Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git`, build
   type `dockerfile` with `Dockerfile` at the repository root, no generated env
   file (`createEnvFile: false`). The steady-state source branch is the protected
@@ -154,12 +167,17 @@ Follow-ups section below lists deferred cleanups and background constraints.
   it in Dokploy before accepting a release; the 2026-10-07 beta evidence below
   was built from the migration branch.
 - Previous known-good release and rollback: the release gate accepted a deployed
-  run from `main@108de6c` on 2026-10-22 (#62). Record the matching deployment ID
-  in the operator register; the previous known-good release is the newest
-  deployment with that accepted evidence. No Dokploy rollback record exists
-  because no rollback registry is configured, so the operator paths are the
-  retained Swarm service spec and the recorded DNS fallback to the Vercel apex
-  (Rollback section, step 4).
+  run from `main@108de6c` on 2026-10-22 (#62), and that candidate is asserted to
+  be the serving release. **Known limit:** the gate records the local checkout commit
+  (`git rev-parse HEAD`), not the image or commit the deployment serves, so
+  "candidate = serving release" is an operator assertion rather than something
+  proven from the deployment record; a deployed-version assertion is future
+  work. Record the matching deployment ID in the operator register if the
+  deployment record provides one; no ID is invented here. The previous
+  known-good release is the newest deployment with that accepted evidence. No
+  Dokploy rollback record exists because no rollback registry is configured, so
+  the operator paths are the retained Swarm service spec and the recorded DNS
+  fallback to the Vercel apex (Rollback section, step 4).
 - Supabase Auth for beta sign-in: the functional lifecycle (sign-up
   verification, sign-in, recovery, sign-out) is proven on the beta deployment
   (`docs/auth.md`); the provider settings read-back for the Site URL and redirect
@@ -299,10 +317,12 @@ a tracker baked into statically prerendered pages cannot be removed by
 changing runtime variables. Setting only one of the pair, or an invalid value,
 fails safely - the build renders no tracker and Flipper keeps serving public
 pages, Auth, and ingestion - and build validation warns by variable name only.
-Server-side monitoring credentials belong to the SigNoz work (#61) and must
-never use the `NEXT_PUBLIC_` prefix, and no second database is ever attached to
-the Flipper application: Umami's dedicated PostgreSQL runs in its own Compose
-stack (`deploy/umami/`, see `docs/umami.md`).
+Server-side monitoring (SigNoz/OpenTelemetry, #61) is deferred out of this
+rollout (operator decision 2026-10-21, recorded on #23); the shipped
+observability plane is Umami-only, and no server-monitoring credential belongs on
+the Flipper application. No second database is ever attached to the Flipper
+application: Umami's dedicated PostgreSQL runs in its own Compose stack
+(`deploy/umami/`, see `docs/umami.md`).
 
 The image validation names missing or invalid variable names only. A failed
 validation message is safe to retain; it must never contain a variable value.

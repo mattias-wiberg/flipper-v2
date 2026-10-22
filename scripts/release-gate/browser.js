@@ -59,29 +59,9 @@ async function withBrowser(run) {
   }
 }
 
-/**
- * Load a path and follow redirects. Returns the response; callers assert the
- * final URL. Non-2xx responses are returned, not thrown, so a check can report
- * the deployed behaviour it observed.
- */
-async function navigate(page, path) {
-  const response = await page.goto(path, { waitUntil: "domcontentloaded" });
-  return { response, status: response?.status() ?? null };
-}
-
-function pathOf(url) {
-  try {
-    return new URL(url).pathname;
-  } catch {
-    return "";
-  }
-}
-
 module.exports = {
   ANALYTICS_ROUTES,
   launchBrowser,
-  navigate,
   newContext,
-  pathOf,
   withBrowser,
 };

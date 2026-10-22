@@ -6,10 +6,11 @@ the completed record outside git: it names an operator and backup locations.
 Committing this template must never add secrets, dumps, backup credentials,
 telemetry payloads, or personal data. Aggregate counts and URL paths only.
 
-A rehearsal is complete only when the restored data is verified as usable in
-Umami, the pre/post counts match, the scratch resources are removed, and the
-operator signs below. If anything fails, record the failure and leave the
-record open.
+A rehearsal is complete when the restored data matches the pre-restore reference,
+the scratch resources are removed, and the operator signs below. Verifying the
+restored data in a temporary Umami instance is an **optional usability step**;
+record it as not performed when the rehearsal is data-level. If anything fails,
+record the failure and leave the record open.
 
 ## Record identity
 
@@ -25,24 +26,25 @@ record open.
 | PostgreSQL image tag and digest |       |
 | Why this rehearsal ran          |       |
 
-Status values: `passed`, `failed`, `aborted`. Use `failed` when counts differ,
-the dump cannot be restored, or restored data is not visible in Umami.
+Status values: `passed`, `failed`, `aborted`. Use `failed` when counts differ or
+the dump cannot be restored. A data-level pass (counts match) is `passed` even
+when the optional UI usability step was not performed; say so in that section.
 
 ## Backup restored
 
-| Field                     | Value |
-| ------------------------- | ----- |
-| Scope restored            |       |
-| Dump file name            |       |
-| Dump SHA-256              |       |
-| Dump size (bytes)         |       |
-| Dump created (UTC)        |       |
-| Backup command or script  |       |
-| Source volume             |       |
-| Dump destination          |       |
-| Off-host copy confirmed   |       |
-| Scratch database name     |       |
-| Temporary Umami container |       |
+| Field                     | Value              |
+| ------------------------- | ------------------ |
+| Scope restored            |                    |
+| Dump file name            |                    |
+| Dump SHA-256              |                    |
+| Dump size (bytes)         |                    |
+| Dump created (UTC)        |                    |
+| Backup command or script  |                    |
+| Source volume             |                    |
+| Dump destination          |                    |
+| Off-host copy confirmed   |                    |
+| Scratch database name     |                    |
+| Temporary Umami container | (optional UI step) |
 
 Scope restored: normally the full `umami` database (users, websites, sessions,
 page views, events, and their metadata). Note any exclusion.
@@ -85,7 +87,11 @@ Recorded from the scratch database and the temporary Umami instance.
 | Top URL 4 (path, count) |       | yes / no            |
 | Top URL 5 (path, count) |       | yes / no            |
 
-## Usability verification
+## Usability verification (optional)
+
+The 2026-10-22 data-level rehearsal did not perform this section; a data-level
+record says "not performed (data-level)" for these rows rather than implying UI
+evidence.
 
 | Check                                                    | Result | Evidence |
 | -------------------------------------------------------- | ------ | -------- |

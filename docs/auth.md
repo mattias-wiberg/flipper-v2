@@ -57,14 +57,17 @@ Configure in the existing Supabase project's Auth settings (Dashboard
 `https://supabase.com/dashboard/project/tetsknwxsintaitiufgx/auth/configuration`,
 or the equivalent Management API call). The expected state:
 
-| Setting            | Required value                                                                                                        |
-| ------------------ | --------------------------------------------------------------------------------------------------------------------- |
-| Site URL           | `https://beta.flipper.mattiaswiberg.com`                                                                              |
-| Redirect allowlist | `https://beta.flipper.mattiaswiberg.com/` and `https://beta.flipper.mattiaswiberg.com/**` (parity with the apex pair) |
-| Email SMTP         | A working SMTP provider so verification and recovery messages are delivered                                           |
-| Email templates    | `emails/*.html` absolute asset URLs pinned to the migration-phase beta origin                                         |
+| Setting            | Required value                                                                                                                                                       |
+| ------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Site URL           | `https://beta.flipper.mattiaswiberg.com`                                                                                                                             |
+| Redirect allowlist | `https://flipper.mattiaswiberg.com/`, `https://flipper.mattiaswiberg.com/**`, `https://beta.flipper.mattiaswiberg.com/`, `https://beta.flipper.mattiaswiberg.com/**` |
+| Email SMTP         | A working SMTP provider so verification and recovery messages are delivered                                                                                          |
+| Email templates    | `emails/*.html` absolute asset URLs pinned to the migration-phase beta origin                                                                                        |
 
-The allowlist breadth matters: recovery links return through
+The redirect-allowlist row in this table is the canonical definition;
+`docs/operations.md` links to it instead of restating a different set. The
+apex pair is included for final cutover; the beta pair is required during the
+migration. The allowlist breadth matters: recovery links return through
 `/auth/callback?redirect_to=...` while verification links return through the
 bare `/auth/callback`. Both must be accepted. An exact-only entry such as
 `https://beta.flipper.mattiaswiberg.com/auth/callback` is too narrow and will
@@ -144,12 +147,13 @@ Credentials are held out of band and are never committed or documented.
   end-to-end proves the recovery `redirect_to` is accepted by the allowlist
   and the callback returns only to the safe local reset surface.
 - Sign-out: the account menu's Log out cleared the session and left the
-  authenticated surface. On the deployed release (which predates this
-  change) the landing page after sign-out is the public home page `/`; this
+  authenticated surface. On the deployed release at the time (which predated
+  this change) the landing page after sign-out was the public home page `/`; this
   change routes client sign-out to `/log-in` (`context/AuthContext.tsx`),
-  matching the server-side `signOutAction` and the acceptance criterion.
-  Re-checking the landing page on `/log-in` after the next deployment is a
-  remaining operator check.
+  matching the server-side `signOutAction` and the acceptance criterion. The
+  2026-10-22 release gate (`deployed.auth-signout`, candidate `main@108de6c`)
+  re-checked this against beta and passed: the session was cleared and the
+  landing page was `/log-in`. This check is done.
 - Observation (cosmetic, operator-owned): the Supabase-hosted email
   templates still reference apex asset URLs
   (`https://flipper.mattiaswiberg.com/favicon.ico`, the `…//documentation`
@@ -161,10 +165,7 @@ Credentials are held out of band and are never committed or documented.
 
 1. Supabase provider configuration read-back: open Auth URL Configuration and
    confirm Site URL is `https://beta.flipper.mattiaswiberg.com` and the
-   redirect allowlist contains exactly
-   `https://flipper.mattiaswiberg.com/`, `https://flipper.mattiaswiberg.com/**`,
-   `https://beta.flipper.mattiaswiberg.com/`, and
-   `https://beta.flipper.mattiaswiberg.com/**` (no localhost or Vercel
+   redirect allowlist matches the canonical table above (no localhost or Vercel
    entries), and that the SMTP provider is the one that delivered the two
    lifecycle emails above. The functional behavior is proven by the lifecycle
    evidence; only the settings read-back remains.
@@ -172,10 +173,9 @@ Credentials are held out of band and are never committed or documented.
    signed in and idle past the Supabase access-token TTL (default one hour),
    then reload a protected route. Expected: the session refreshes behind the
    proxy without a new login and protected routes stay protected.
-3. Sign-out landing after deployment: after this change is deployed, sign out
-   from the user menu and confirm the landing is
-   `https://beta.flipper.mattiaswiberg.com/log-in` (the deployed release
-   predates the fix and lands on `/`).
+3. Email delivery: request a verification or recovery message and confirm it
+   arrives in a controlled mailbox. The gate's `deployed.password-reset-email`
+   stays optional because it needs a mailbox adapter.
 4. Email template asset sync (cosmetic): sync the repository `emails/*.html`
    (beta-origin asset URLs) into the Supabase Auth email settings so template
    branding links stop referencing the apex.
