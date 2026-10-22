@@ -8,6 +8,11 @@ const { skip } = require("./skip.js");
 
 const ANALYTICS_ROUTES = [/\/script\.js(?:\?.*)?$/, /\/api\/send(?:\?.*)?$/];
 
+// Umami drops views from bot-like user agents, and headless Chrome's default UA
+// carries a `HeadlessChrome` token, so every gate context presents as desktop Chrome.
+const DESKTOP_CHROME_UA =
+  "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36";
+
 async function launchBrowser() {
   let playwright;
   try {
@@ -31,6 +36,7 @@ async function newContext(browser, baseUrl, { blockAnalytics = false } = {}) {
   const context = await browser.newContext({
     baseURL: baseUrl,
     ignoreHTTPSErrors: false,
+    userAgent: DESKTOP_CHROME_UA,
   });
   context.setDefaultTimeout(30_000);
   context.setDefaultNavigationTimeout(60_000);

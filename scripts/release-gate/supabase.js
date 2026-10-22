@@ -24,7 +24,8 @@ async function countOrders(config) {
   const response = await httpFetch(url, {
     headers: adminHeaders(config, { Prefer: "count=exact" }),
   });
-  assertStatus(response, 200, "Supabase orders count");
+  // PostgREST answers 206 Partial Content for limit=1 with count=exact.
+  assertStatus(response, [200, 206], "Supabase orders count");
 
   const contentRange = response.headers.get("content-range") ?? "";
   const count = Number(contentRange.split("/").pop());
@@ -42,7 +43,8 @@ async function countOrdersForToken(config, token) {
   const response = await httpFetch(url, {
     headers: adminHeaders(config, { Prefer: "count=exact" }),
   });
-  assertStatus(response, 200, "Supabase orders count");
+  // PostgREST answers 206 Partial Content for limit=1 with count=exact.
+  assertStatus(response, [200, 206], "Supabase orders count");
 
   const contentRange = response.headers.get("content-range") ?? "";
   const count = Number(contentRange.split("/").pop());
