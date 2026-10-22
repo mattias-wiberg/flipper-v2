@@ -2,6 +2,7 @@ import {
   ageSession,
   decodeSessionValue,
   encodeSessionCookies,
+  findSessionCookie,
   readSessionCookie,
 } from "./session.js";
 
@@ -47,6 +48,23 @@ describe("session cookie helpers", () => {
 
     const read = readSessionCookie(cookies);
     expect(read?.session.access_token).toHaveLength(6000);
+  });
+
+  it("resolves the source cookie when @supabase/ssr chunked the session", () => {
+    const cookies = encodeSessionCookies(
+      COOKIE,
+      session({ access_token: "x".repeat(6000) }),
+    );
+    const read = readSessionCookie(cookies);
+
+    expect(cookies.length).toBeGreaterThan(1);
+    expect(read?.name).toBe(COOKIE);
+    expect(findSessionCookie(cookies, read?.name ?? "")?.name).toBe(
+      `${COOKIE}.0`,
+    );
+    expect(
+      findSessionCookie(cookies, "sb-other-project-auth-token"),
+    ).toBeUndefined();
   });
 
   it("ages the access token while keeping the real refresh token", () => {

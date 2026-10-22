@@ -9,6 +9,10 @@ const BASE64_PREFIX = "base64-";
 const MAX_CHUNK_SIZE = 3180;
 const AUTH_COOKIE_NAME = /^sb-[A-Za-z0-9_-]+-auth-token$/;
 
+function baseCookieName(name) {
+  return name.replace(/\.[0-9]+$/, "");
+}
+
 function decodeSessionValue(value) {
   if (typeof value !== "string" || value.length === 0) {
     return null;
@@ -40,9 +44,7 @@ function readSessionCookie(cookies) {
   const isBaseName = (name) => AUTH_COOKIE_NAME.test(name);
   const baseNames = [
     ...new Set(
-      cookies
-        .map(({ name }) => name.replace(/\.[0-9]+$/, ""))
-        .filter(isBaseName),
+      cookies.map(({ name }) => baseCookieName(name)).filter(isBaseName),
     ),
   ];
   if (baseNames.length !== 1) {
@@ -69,6 +71,14 @@ function readSessionCookie(cookies) {
 
   const session = decodeSessionValue(value);
   return session ? { name, value, session } : null;
+}
+
+/**
+ * The browser cookie that carries the session's attributes. Any chunk works:
+ * @supabase/ssr writes the same attributes on every chunk.
+ */
+function findSessionCookie(cookies, name) {
+  return cookies.find((cookie) => baseCookieName(cookie.name) === name);
 }
 
 /**
@@ -131,5 +141,6 @@ module.exports = {
   ageSession,
   decodeSessionValue,
   encodeSessionCookies,
+  findSessionCookie,
   readSessionCookie,
 };
