@@ -65,7 +65,12 @@ async function refreshExpiredSession(context, page) {
     );
   }
 
-  const source = cookies.find(({ name }) => name === stored.name);
+  const source = session.findSessionCookie(cookies, stored.name);
+  if (!source) {
+    throw new Error(
+      "the deployed session cookie disappeared before the refresh check",
+    );
+  }
   const aged = session.ageSession(stored.session);
   const chunks = session.encodeSessionCookies(stored.name, aged);
   const attributes = {
