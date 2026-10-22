@@ -120,14 +120,6 @@ function metricsPath(websiteId, { startAt, endAt }) {
   )}/metrics?startAt=${startAt}&endAt=${endAt}&type=path`;
 }
 
-function metricPathname(metricUrl, siteUrl) {
-  try {
-    return new URL(metricUrl, siteUrl).pathname;
-  } catch {
-    return null;
-  }
-}
-
 async function umamiGet(config, token, path) {
   return httpFetch(new URL(path, config.umami.url), {
     headers: { Authorization: `Bearer ${token}`, accept: "application/json" },
@@ -145,19 +137,31 @@ async function urlMetrics(config, token) {
   return Array.isArray(data) ? data : [];
 }
 
-async function urlCount(config, token, pathname) {
-  const metrics = await urlMetrics(config, token);
-  const entry = metrics.find(
-    (metric) => metricPathname(metric.x, config.expectedSiteUrl) === pathname,
+// Path metrics count unique visitors, so the pageview check reads the website
+// summary instead: its `pageviews` field counts every recorded page view.
+async function pageviewCount(config, token) {
+  const { startAt, endAt } = umamiWindow();
+  const response = await umamiGet(
+    config,
+    token,
+    `/api/websites/${encodeURIComponent(
+      config.umami.websiteId,
+    )}/stats?startAt=${startAt}&endAt=${endAt}`,
   );
-  return Number(entry?.y ?? 0);
+  assertStatus(response, 200, "Umami website stats");
+  const stats = await response.json();
+  const pageviews = Number(stats?.pageviews);
+  if (!Number.isFinite(pageviews)) {
+    throw new Error("Umami website stats did not return a pageview count");
+  }
+  return pageviews;
 }
 
-async function waitForNewPageView(config, token, pathname, baseline) {
+async function waitForNewPageView(config, token, baseline) {
   const deadline = Date.now() + PAGEVIEW_WAIT_MS;
   let count = baseline;
   while (Date.now() < deadline) {
-    count = await urlCount(config, token, pathname);
+    count = await pageviewCount(config, token);
     if (count > baseline) {
       return count;
     }
@@ -227,7 +231,7 @@ const analytics = {
       if (config.umami) {
         try {
           umamiToken = await umamiLogin(config);
-          baseline = await urlCount(config, umamiToken, "/");
+          baseline = await pageviewCount(config, umamiToken);
         } catch (error) {
           umamiError =
             error instanceof Error ? error.message : "Umami API access failed";
@@ -326,21 +330,16 @@ const analytics = {
         if (umamiError) {
           throw new Error(`Umami API access failed: ${umamiError}`);
         }
-        const count = await waitForNewPageView(
-          config,
-          umamiToken,
-          "/",
-          baseline,
-        );
+        const count = await waitForNewPageView(config, umamiToken, baseline);
         if (count <= baseline) {
           throw new Error(
-            `Umami recorded no new page view for / (still ${count} in the last 15 minutes)`,
+            `Umami recorded no new page view (still ${count} pageviews in the last 15 minutes)`,
           );
         }
         results.push({
           id: "deployed.analytics-pageview",
           status: STATUS.PASS,
-          detail: `Umami recorded the gate's production page view for / (${baseline} -> ${count} views in the last 15 minutes)`,
+          detail: `Umami recorded the gate's production page views (${baseline} -> ${count} pageviews in the last 15 minutes)`,
         });
       } catch (error) {
         results.push({
@@ -493,6 +492,6 @@ const umamiSurface = {
 
 module.exports = {
   checks: [tracker, umamiSurface, analytics, recordedPrivacy, telemetryOutage],
-  metricPathname,
   metricsPath,
+  pageviewCount,
 };
