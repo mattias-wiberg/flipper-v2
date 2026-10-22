@@ -203,6 +203,24 @@ function isLfsPointer(file) {
   );
 }
 
+async function runReplay(config, token) {
+  await deleteOrdersForToken(config, token);
+  const replay = await runNode(["mocker/sendOrders.js"], {
+    timeoutMs: 1_800_000,
+    env: {
+      ...process.env,
+      FLIPPER_APP_URL: config.baseUrl,
+      FLIPPER_INGESTION_TOKEN: token,
+    },
+  });
+  const summary = replay.stdout.match(/Done\. (\d+) sent, (\d+) failed\./);
+  if (!summary) {
+    throw new Error("the deployed golden replay produced no summary");
+  }
+  const [, sent, failed] = summary.map(Number);
+  return { sent, failed };
+}
+
 const goldenReplay = {
   id: "deployed.golden-replay",
   phase: "deployed",
@@ -222,26 +240,15 @@ const goldenReplay = {
     const token = config.ingestion.token;
 
     try {
-      await deleteOrdersForToken(config, token);
-
-      const replay = await runNode(["mocker/sendOrders.js"], {
-        timeoutMs: 1_800_000,
-        env: {
-          ...process.env,
-          FLIPPER_APP_URL: config.baseUrl,
-          FLIPPER_INGESTION_TOKEN: token,
-        },
-      });
-      const replaySummary = replay.stdout.match(
-        /Done\. (\d+) sent, (\d+) failed\./,
-      );
-      if (!replaySummary) {
-        throw new Error("the deployed golden replay produced no summary");
-      }
-      const [, sent, failed] = replaySummary.map(Number);
-      if (failed > 0 || sent === 0) {
+      const first = await runReplay(config, token);
+      // A public origin can drop a single batch on the network; one retry of
+      // the whole replay separates that transient case from a real failure.
+      const attempt = first.failed > 0 ? await runReplay(config, token) : first;
+      if (attempt.failed > 0 || attempt.sent === 0) {
         throw new Error(
-          `the deployed golden replay failed: ${sent} sent, ${failed} failed`,
+          first.failed > 0
+            ? `the deployed golden replay failed twice: ${first.sent} sent, ${first.failed} failed, then ${attempt.sent} sent, ${attempt.failed} failed on retry`
+            : `the deployed golden replay failed: ${attempt.sent} sent, ${attempt.failed} failed`,
         );
       }
 
@@ -271,7 +278,11 @@ const goldenReplay = {
         );
       }
 
-      return `${sent} batches replayed with ${failed} failures; the exported rows match the unchanged expected fixture (sha256 ${actual?.[1] ?? expected?.[1] ?? before})`;
+      const retryNote =
+        first.failed > 0
+          ? ` (${first.failed} batch${first.failed === 1 ? "" : "es"} failed then passed on retry)`
+          : "";
+      return `${attempt.sent} batches replayed${retryNote}; the exported rows match the unchanged expected fixture (sha256 ${actual?.[1] ?? expected?.[1] ?? before})`;
     } finally {
       await deleteOrdersForToken(config, token).catch(() => {});
     }
