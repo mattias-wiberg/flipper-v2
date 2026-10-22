@@ -5,7 +5,10 @@ project remains the authoritative production service for Auth, tokens, orders,
 row-level access, and cleanup. Do not create or select another production
 Supabase project as part of this deployment. The Umami analytics service is
 deployed separately through Dokploy's Compose capability and is documented in
-[`docs/umami.md`](umami.md).
+[`docs/umami.md`](umami.md). The plane-level operator entry point, including
+the combined release and recovery flow, is
+[`docs/operations.md`](operations.md); this document owns the Flipper
+application detail.
 
 ## Public Origin Contract (Migration Phase)
 
@@ -62,10 +65,9 @@ committed. Retained provider evidence (identifiers only):
   Dokploy release for this application.
 - Source: custom git `https://github.com/mattias-wiberg/flipper-v2.git`, build
   type `dockerfile` with `Dockerfile` at the repository root, no generated env
-  file (`createEnvFile: false`). The steady-state source branch is
-  `agent/issue-57-dokploy` until the implementation stack merges to `main`;
-  after the merge, switch the Dokploy source branch to the protected `main`
-  branch and redeploy (see Open Items).
+  file (`createEnvFile: false`). The steady-state source branch is the protected
+  `main` branch after the implementation stack merge (see Open Items); this
+  accepted deployment was built from the migration branch.
 - Deployment variables (names only): build inputs `NEXT_PUBLIC_SITE_URL`,
   `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_ANON_KEY`; runtime adds
   `SUPABASE_SERVICE_ROLE_KEY` only. The accepted deployment ran with
@@ -147,23 +149,21 @@ Public baseline on 2026-10-07:
 Open items are pending obligations that gate acceptance or final cutover; the
 Follow-ups section below lists deferred cleanups and background constraints.
 
-- Steady-state source branch: the Dokploy application builds from
-  `agent/issue-57-dokploy` until the implementation stack merges to `main`.
-  After the merge, switch the Dokploy source branch to the protected `main`
-  branch and redeploy so releases build from production.
-- First successful release and rollback: the accepted beta deployment is the
-  first successful Dokploy release for this application, so no previous Dokploy
-  release or rollback record exists to restore. The previous known-good release
-  is the Vercel deployment at the apex `https://flipper.mattiaswiberg.com`, and
-  the applicable rollback path is the documented DNS fallback (Rollback
-  section, step 4).
-- Supabase Auth for beta sign-in: the Supabase Auth Site URL and the
-  redirect allowlist entries for the beta callback origin
-  (`https://beta.flipper.mattiaswiberg.com/` and
-  `https://beta.flipper.mattiaswiberg.com/**`) were being set by the
-  operator on 2026-10-08 (owned by #58); the provider read-back that proves
-  them is still pending (`docs/auth.md`, operator check 1), and sign-in on
-  the beta deployment requires them.
+- Steady-state source branch: the implementation stack has merged to `main`,
+  and the Dokploy source branch is expected to be the protected `main`. Confirm
+  it in Dokploy before accepting a release; the 2026-10-07 beta evidence below
+  was built from the migration branch.
+- Previous known-good release and rollback: the release gate accepted a deployed
+  run from `main@108de6c` on 2026-10-22 (#62). Record the matching deployment ID
+  in the operator register; the previous known-good release is the newest
+  deployment with that accepted evidence. No Dokploy rollback record exists
+  because no rollback registry is configured, so the operator paths are the
+  retained Swarm service spec and the recorded DNS fallback to the Vercel apex
+  (Rollback section, step 4).
+- Supabase Auth for beta sign-in: the functional lifecycle (sign-up
+  verification, sign-in, recovery, sign-out) is proven on the beta deployment
+  (`docs/auth.md`); the provider settings read-back for the Site URL and redirect
+  allowlist remains the operator check in `docs/auth.md`.
 
 ## Follow-ups
 
@@ -255,8 +255,8 @@ npx --no-install dokploy application read-traefik-config --applicationId <applic
 Treat application and deployment JSON as sensitive. Inspect the values locally
 but do not publish environment values, credentials, cookies, or raw logs.
 The deployment must be stopped if the selected application is not the Flipper
-application or if its source branch is not the expected release branch (`main`,
-or `agent/issue-57-dokploy` during the migration phase; see Open Items).
+application or if its source branch is not the expected release branch
+(the protected `main`; see Open Items).
 
 Known CLI limitation (`@dokploy/cli` 0.30.7): read-by-id commands such as
 `application one` and `project one` return HTTP 400 because the CLI sends the
@@ -353,8 +353,7 @@ forwarded headers are still required for correct proxy and request behavior.
 Before any deployment, record the current successful deployment and rollback
 record from Dokploy. Do not remove it. A deployment is an operator action and
 must target the identified Flipper application and the expected release commit
-(the merged commit on `main`, or `agent/issue-57-dokploy` at the recorded
-accepted SHA during the migration phase; see Open Items).
+(the merged commit on the protected `main` branch; see Open Items).
 
 After the image starts:
 
@@ -406,15 +405,25 @@ and the separate release gate.
    and the checks that remain operator-gated are documented in
    [`docs/release-gate.md`](release-gate.md). A release whose required evidence
    fails or is skipped is rejected; do not mark it known-good.
+
 5. Mark the new release known-good only after all required evidence passes.
    Until then, leave the previous successful release available in Dokploy (or
    on its existing provider, before the first Dokploy release exists; see Open
-   Items).
+   Items). Record the deployment ID, commit, gate verdict, and current Umami
+   pins in the operator register (`docs/operations.md`, Release and Recovery
+   Flow).
 
 ## Rollback
 
 Rollback is an explicit operator action. It is not performed by this change or
-automatically inferred from a failed build.
+automatically inferred from a failed build. The previous known-good release is
+the newest deployment with accepted release-gate evidence and no later failed
+acceptance attempt — not simply the newest deployment. Identify it from the
+Dokploy deployment history and the retained gate report, and record its
+deployment ID, commit, and DNS target before changing anything. The plane-level
+flow, including the gate rerun that completes a rollback, is in
+[`docs/operations.md`](operations.md); Umami has its own rollback in
+[`docs/umami.md`](umami.md).
 
 1. If the new release fails health or public origin checks, or an owning
    deployment smoke test/release gate reports an Auth, ingestion, or
@@ -448,7 +457,16 @@ recorded known-good release on its existing provider.
    delete the Dokploy application or its deployment history.
 5. Recheck deployment status, `/api/health`, the public pages, and canonical
    metadata against whichever release is serving traffic.
-6. Keep the failed release and its history for diagnosis. Do not use deletion,
+6. Rerun the deployed phase of `npm run gate:release` against the configured
+   origin and require `ACCEPTED`; record that verdict with the restored release
+   commit. A rollback is not complete until the gate accepts the restored
+   release. The gate does not deploy or roll back anything. During the
+   migration phase, when the recorded DNS fallback returns traffic to the
+   Vercel apex release, the gate's canonical-origin assertions do not apply to
+   that release (it was built for the apex, not the configured beta origin);
+   record that exception and the retained known-good evidence instead, and
+   rerun the gate when a Dokploy release serves the configured origin again.
+7. Keep the failed release and its history for diagnosis. Do not use deletion,
    cleanup, or `rollback delete` as a substitute for rollback evidence.
 
 ## Acceptance Evidence
@@ -461,8 +479,8 @@ beta deployment evidence:
   production Dockerfile on port `3000`, and deployment
   `yTsSGWbMOPxYqULDNGwzp` (2026-10-07, status `done`, 62s) completed end to
   end from source branch `agent/issue-57-dokploy` at `c5e0146` and started
-  healthy. The steady-state source branch switches to the protected `main`
-  branch after the implementation stack merges (see Open Items).
+  healthy. The steady-state source branch is now the protected `main` branch
+  after the implementation stack merge (see Open Items).
 - Verified at the migration-phase configured origin on 2026-10-07: DNS
   (`beta.flipper` CNAME read-back), the managed HTTPS certificate on the
   Dokploy domain, and the forwarded host/protocol route reach Flipper at
@@ -477,18 +495,19 @@ beta deployment evidence:
   `mocker/sendOrders.js` earlier in the repository's history is the mocker
   tooling's local test token, not a production credential; the operator closed
   that follow-up as N/A on 2026-10-08 (#59), so no rotation is outstanding.
-- Partially verified: the previous known-good release is the Vercel deployment
-  at the apex and remains available and serving until final cutover; the
-  recorded-DNS fallback restores it (Rollback section, step 4). Because the
-  beta deployment is the first successful Dokploy release, no Dokploy rollback
-  record exists, and operator execution of the DNS fallback remains required
-  for full rollback acceptance.
+- Partially verified: the previous known-good release is the newest deployment
+  with an accepted release-gate verdict (the 2026-10-22 run from `main@108de6c`,
+  #62); the Vercel deployment at the apex remains available and serving until
+  final cutover, and the recorded-DNS fallback restores it (Rollback section,
+  step 4). No Dokploy rollback record exists while no rollback registry is
+  configured, so the retained Swarm service spec and operator execution of the
+  DNS fallback remain the rollback paths.
 - Verified: the existing Supabase project (`tetsknwxsintaitiufgx`, Flipper v2)
-  remains the only production data and Auth service. Sign-in on the beta
-  deployment is pending the Supabase Auth Site URL / redirect allowlist step
-  owned by #58 (see Open Items).
-- Pending: the release gate (`npm run gate:release`, see
-  [`docs/release-gate.md`](release-gate.md)) has not yet been run against a
-  Dokploy deployment. It is implemented and passes its dry run and repository
-  tests; the first live accepted/rejected verdict for a Dokploy release is
-  recorded by the operator (orchestrator) after deployment.
+  remains the only production data and Auth service. The beta Auth lifecycle is
+  proven; only the provider settings read-back remains (see Open Items and
+  `docs/auth.md`).
+- Verified: the release gate (`npm run gate:release`, see
+  [`docs/release-gate.md`](release-gate.md)) is live and accepted the deployed
+  run from `main@108de6c` on 2026-10-22 (#62), with its evidence retained by the
+  operator. A new release still requires its own accepted verdict before it is
+  known-good.

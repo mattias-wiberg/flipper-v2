@@ -154,8 +154,9 @@ production builds with the beta origin exit 0: one with no Umami settings (no
 tracker in the prerendered HTML), one with both public Umami values (the
 privacy-attribute tracker in the prerendered HTML), and one with a partial
 configuration (the build succeeds and renders no tracker). Deployed Umami
-routing, restart persistence, and page-view delivery remain operator checks
-owned by #62/#63.
+routing, restart persistence, and page-view delivery are operator checks
+documented in [`docs/umami.md`](umami.md) and
+[`docs/operations.md`](operations.md).
 
 These checks cover the local image boundary. The same boundary is accepted in
 production on the Dokploy beta deployment (see `docs/dokploy.md` for the
