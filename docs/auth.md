@@ -5,7 +5,9 @@ configured public origin during the Vercel-to-Dokploy migration phase, what the
 repository and unattended live checks prove, and which checks remain
 operator-gated. The existing Supabase project (`tetsknwxsintaitiufgx`, Flipper
 v2) remains the authoritative production service for Auth; nothing here
-modifies its schema, policies, token model, or deal semantics.
+modifies its schema, policies, token model, or deal semantics. The plane-level
+operator entry point is [`docs/operations.md`](operations.md), which places
+this provider configuration in the first-deployment and incident flows.
 
 ## Origin Contract (Migration Phase)
 
