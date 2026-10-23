@@ -10,9 +10,12 @@ defined non-sensitive events through Umami (optional configuration, disabled by
 default); Vercel Analytics and Vercel Speed Insights are not part of the
 product.
 
-Vercel is not the supported production operation. The apex Vercel deployment
-remains the migration-phase service at the apex until the final cutover to
-Dokploy, and is the recorded DNS fallback target (`docs/dokploy.md`).
+Vercel is not the supported production operation. The apex
+`https://flipper.mattiaswiberg.com` (the final canonical origin) remains the
+migration-phase production service until the final cutover to Dokploy, and is
+the recorded DNS fallback target (`docs/dokploy.md`). During the migration the
+configured public origin — the `canonicalSiteUrl` value in
+`site-url.config.json` — is `https://beta.flipper.mattiaswiberg.com`.
 
 ## Operations
 
@@ -46,7 +49,9 @@ secrets are not required for ordinary local development.
 
 The production container contract is documented in
 [`docs/container.md`](docs/container.md). Run the public deployment boundary
-check against the canonical origin with:
+check against the configured public origin (currently
+`https://beta.flipper.mattiaswiberg.com`; the apex is the final canonical origin
+after cutover):
 
 ```sh
 npm run verify:deployment

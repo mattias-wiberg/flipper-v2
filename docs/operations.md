@@ -16,13 +16,13 @@ is Umami only.
 
 ## Plane Map
 
-| Component            | Runs on                                                      | State                                                                                   | Detail                                                     |
-| -------------------- | ------------------------------------------------------------ | --------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
-| Flipper web service  | Dokploy application, Dockerfile at repository root           | Stateless; marker `Cache-Control: no-store` on health, no volume                        | [`dokploy.md`](dokploy.md), [`container.md`](container.md) |
-| Umami                | Dokploy Compose stack, `deploy/umami/docker-compose.yml`     | PostgreSQL in named volume `umami-analytics-9zaxkp_umami-db-data`; three deploy secrets | [`umami.md`](umami.md)                                     |
-| Supabase project     | External, authoritative (`tetsknwxsintaitiufgx`, Flipper v2) | Auth, tokens, orders, row-level access, scheduled cleanup                               | [`auth.md`](auth.md), [`ingestion.md`](ingestion.md)       |
-| DNS and TLS          | Spaceship zone `mattiaswiberg.com` + Dokploy Traefik         | Certificates managed by the `letsencrypt` resolver                                      | [`dokploy.md`](dokploy.md), [`umami.md`](umami.md)         |
-| Release verification | Operator machine or disposable checkout                      | `release-gate-report.json` is git-ignored evidence; no production state                 | [`release-gate.md`](release-gate.md)                       |
+| Component            | Runs on                                                      | State                                                                                                                                    | Detail                                                     |
+| -------------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------- |
+| Flipper web service  | Dokploy application, Dockerfile at repository root           | Stateless; marker `Cache-Control: no-store` on health, no volume                                                                         | [`dokploy.md`](dokploy.md), [`container.md`](container.md) |
+| Umami                | Dokploy Compose stack, `deploy/umami/docker-compose.yml`     | PostgreSQL in named volume `umami-analytics-9zaxkp_umami-db-data`; three deploy secrets                                                  | [`umami.md`](umami.md)                                     |
+| Supabase project     | External, authoritative (`tetsknwxsintaitiufgx`, Flipper v2) | Auth, tokens, orders, row-level access, scheduled cleanup                                                                                | [`auth.md`](auth.md), [`ingestion.md`](ingestion.md)       |
+| DNS and TLS          | Spaceship zone `mattiaswiberg.com` + Dokploy Traefik         | Certificates managed by the `letsencrypt` resolver                                                                                       | [`dokploy.md`](dokploy.md), [`umami.md`](umami.md)         |
+| Release verification | Operator machine or disposable checkout                      | `release-gate-report.json` is git-ignored evidence; the deployed phase makes transient token-scoped Supabase writes and Umami page views | [`release-gate.md`](release-gate.md)                       |
 
 Public routes:
 
@@ -59,8 +59,8 @@ Operator workstation tooling: Node.js 22 and npm 11 (`npm ci`), Docker (for the
 container check and local rehearsal), `git lfs` (golden-replay fixtures only),
 `curl`, `jq`, `openssl`, and Playwright Chromium
 (`npx playwright install chromium`, once per machine). PowerShell and POSIX
-shells are both supported; the examples here use POSIX shell syntax unless a
-step is host-specific.
+shells are both supported; the examples use POSIX shell syntax unless a step is
+marked bash/zsh (the password prompt).
 
 Secrets are entered only in the Dokploy panel, the Supabase dashboard, the
 Umami dashboard, or a protected local file the operator sources. This
@@ -147,17 +147,18 @@ the expected state is:
 | Setting            | Required value                                                                               |
 | ------------------ | -------------------------------------------------------------------------------------------- |
 | Site URL           | The configured public origin (`https://beta.flipper.mattiaswiberg.com` during the migration) |
-| Redirect allowlist | `https://beta.flipper.mattiaswiberg.com/` and `https://beta.flipper.mattiaswiberg.com/**`    |
+| Redirect allowlist | The canonical allowlist table in [`auth.md`](auth.md) (apex pair plus beta pair)             |
 | Email SMTP         | A working provider used by the verification and recovery flows                               |
 | Email templates    | The repository `emails/*.html`, with absolute asset URLs on the same public origin           |
 
-Both allowlist entries are required: verification returns through the bare
-`/auth/callback`, recovery through `/auth/callback?redirect_to=...`. An
-exact-only callback entry fails recovery. After any change, read the settings
-back and record identifiers only, then prove delivery by requesting a
-verification or recovery email and following the link through the callback
-(`auth.md`, "Remaining Operator-Gated Checks"). Apex cutover steps, including
-the allowlist pair for the apex, are in `dokploy.md`.
+`auth.md` owns the allowlist values; this table only points at them so the two
+documents cannot drift. Both the bare and `?redirect_to=...` callback forms must
+be accepted: verification returns through the bare `/auth/callback`, recovery
+through `/auth/callback?redirect_to=...`. An exact-only callback entry fails
+recovery. After any change, read the settings back and record identifiers only,
+then prove delivery by requesting a verification or recovery email and following
+the link through the callback (`auth.md`, "Remaining Operator-Gated Checks").
+Apex cutover steps, including switching the allowlist pair, are in `dokploy.md`.
 
 ## First Deployment
 
@@ -231,6 +232,7 @@ Verify from outside after any change to the router, proxy, or stack:
 ```sh
 curl -s -o /dev/null -w '%{http_code}\n' https://umami.mattiaswiberg.com/          # 200, login page
 curl -sI https://umami.mattiaswiberg.com/ | grep -i '^www-authenticate'             # no output
+curl -s -o /dev/null -w '%{http_code}\n' https://umami.mattiaswiberg.com/api/websites  # 401 without a token
 curl -sI https://umami.mattiaswiberg.com/script.js | grep -i '^content-type'        # JavaScript
 curl -s -o /dev/null -w '%{http_code}\n' -H "Authorization: Bearer $TOKEN" \
   https://umami.mattiaswiberg.com/api/websites                                      # 200 (operator token; see Telemetry Verification)
@@ -255,14 +257,22 @@ sufficient.
    metrics show the loaded paths. Umami 3.4 groups URL metrics by `path`;
    the `url` type returns `400` (`release-gate.md`).
 
-Operator API check (token from the login response, never written down):
+Operator API check (token from the login response, never written down; the
+password is prompted, not typed into the command line):
 
 ```sh
+# bash/zsh: `read -s` keeps the password out of the terminal and shell history
+read -r -s -p "Umami administrator password: " UMAMI_PASSWORD
+printf '\n'
 TOKEN=$(curl -s -H 'content-type: application/json' \
-  -d '{"username":"<user>","password":"<password>"}' \
+  -d "{\"username\":\"$UMAMI_USER\",\"password\":\"$UMAMI_PASSWORD\"}" \
   https://umami.mattiaswiberg.com/api/auth/login | jq -r .token)
+unset UMAMI_PASSWORD
 curl -s -H "Authorization: Bearer $TOKEN" https://umami.mattiaswiberg.com/api/websites
 ```
+
+Set `UMAMI_USER` to the administrator name first; do not put either credential in
+a committed command.
 
 A healthy tracker with no recorded page views points at the website ID, the
 build/runtime mismatch, or an excluded operator IP — not at Flipper health.
@@ -363,8 +373,10 @@ detailed steps in [`dokploy.md`](dokploy.md) (Rollback) and
 A rollback or a restore is not complete until the deployed phase of
 `npm run gate:release` returns `ACCEPTED` against the configured origin, and the
 register records that verdict with the restored release commit. The gate proves
-the public boundary, Auth, ingestion, and analytics again; it does not change
-provider state, deploy, or roll back.
+the public boundary, Auth, ingestion, and analytics again; it does not deploy,
+roll back, or change provider configuration. Its deployed checks do make
+transient token-scoped writes to the production Supabase project and record
+Umami page views (`release-gate.md`, "What the gate writes").
 
 One exception is explicit: during the migration phase the recorded DNS fallback
 returns traffic to the pre-Dokploy Vercel release, which was built for the apex
@@ -433,9 +445,10 @@ Items requiring provider access cannot be proven by repository tests.
   data.
 - **Restore rehearsal**: copy
   [`umami-restore-rehearsal-record.md`](umami-restore-rehearsal-record.md) and
-  complete it in the operator record store. No rehearsal is recorded in this
-  repository as of 2026-10-22; the template stays empty until an operator runs
-  it.
+  complete it in the operator record store. A data-level rehearsal was
+  completed on 2026-10-22 and its signed record is held in that store, not in
+  git; `umami.md` records the aggregate result. Re-run the rehearsal on the
+  documented cadence.
 - **Operator register**: the known-good release table above, kept outside git
   because it names deployment IDs and backup locations.
 

@@ -55,7 +55,9 @@ The product analytics, traces, and error information used to understand how Flip
 A dashboard or endpoint intended for operators and protected from ordinary public users.
 
 **Restore rehearsal**:
-A deliberate recovery exercise that restores representative observability data and verifies that it is usable.
+A deliberate recovery exercise that restores representative observability data
+and verifies the restored counts against the backup reference. Verifying
+usability in a temporary Umami instance is an optional step.
 
 **Deployment smoke test**:
 An environment-gated black-box check of a deployed Flipper release, including its public, Auth, and ingestion behavior.
@@ -67,7 +69,7 @@ A required check whose evidence must pass before a release can become a known-go
 The infrastructure and provider checks that require access to the production environment and cannot be proven by repository tests alone.
 
 **Public origin**:
-The canonical HTTPS address through which users reach Flipper and to which user-facing links and Auth callback destinations return.
+The canonical HTTPS address through which users reach Flipper and to which user-facing links and Auth callback destinations return. The **configured public origin** is the `canonicalSiteUrl` value in `site-url.config.json` (beta during the migration); the **final canonical origin** is the apex after cutover.
 
 **Auth callback**:
 The route that exchanges a Supabase authorization code for a session and returns the user to a safe local destination within Flipper.

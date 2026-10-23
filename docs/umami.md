@@ -69,14 +69,19 @@ then redeploy (see Lifecycle).
   `UMAMI_BASIC_AUTH_USERS` value left in an existing deploy environment is
   unused and can be deleted at the operator's convenience.
 - **Verify from outside** after deployment. These are the acceptance checks of
-  the router model, and the release gate in #62 must repeat all three:
+  the router model, and the release gate in #62 must repeat all four:
   1. `curl -s -o /dev/null -w '%{http_code}' https://umami.mattiaswiberg.com/`
      prints `200` and a plain GET returns Umami's login page, never a
      basic-auth prompt (`curl -sI` shows no `WWW-Authenticate: Basic`).
   2. `curl -sI https://umami.mattiaswiberg.com/script.js` returns `200` with a
      JavaScript content type: the tracker still loads on the Flipper site.
-  3. The API works end to end. Log in and reuse the returned token:
-     `TOKEN=$(curl -s -H 'content-type: application/json' -d '{"username":"<user>","password":"<password>"}' https://umami.mattiaswiberg.com/api/auth/login | jq -r .token)`
+  3. `curl -s -o /dev/null -w '%{http_code}' https://umami.mattiaswiberg.com/api/websites`
+     prints `401` without a token: the API is not exposed. The release gate
+     asserts this too.
+  4. The API works end to end. Prompt for the password so it never lands in
+     shell history (`read -r -s -p 'Umami administrator password: ' UMAMI_PASSWORD`),
+     set `UMAMI_USER`, then log in and reuse the returned token:
+     `TOKEN=$(curl -s -H 'content-type: application/json' -d "{\"username\":\"$UMAMI_USER\",\"password\":\"$UMAMI_PASSWORD\"}" https://umami.mattiaswiberg.com/api/auth/login | jq -r .token)`
      then
      `curl -s -o /dev/null -w '%{http_code}' -H "Authorization: Bearer $TOKEN" https://umami.mattiaswiberg.com/api/websites`
      must print `200`. This is the check that failed while basic auth covered
@@ -154,10 +159,21 @@ production restore. The **restore rehearsal** is the deliberate exercise of
 that procedure; its sign-off record is
 [`umami-restore-rehearsal-record.md`](umami-restore-rehearsal-record.md).
 
-Rehearsal status: **not performed or recorded in this repository as of
-2026-10-22.** The procedure, scripts, and record template are maintained here;
-the operator runs the rehearsal on the host and keeps the completed record.
-Never present this procedure as completed evidence.
+Rehearsal status: **completed on 2026-10-22 at the data level.** A backup
+(`umami-20261022T230816Z.dump`, 66,921 bytes, SHA-256
+`c497687a105387300d6b16df7c49dd5dd311596131a5e82549e2056d55a55d1e`) was
+restored into `umami_rehearsal` with the committed scripts. Restored counts
+matched the backup reference exactly: 22 page views, 5 distinct URLs, 1 website,
+equal first and last page-view timestamps, and equal top-5 URLs. Both guards
+were exercised (restore onto the live database refused, backup into the
+repository refused), the scratch database was dropped, and the live database was
+untouched. The signed record is held in the operator record store outside git
+and is not committed here. The full UI usability step (temporary Umami container
+and sign-in) was **not** performed: this is a data-level rehearsal, and that step
+is optional. The procedure, scripts, and record template are maintained here;
+run the rehearsal on the documented cadence. The UI step is optional, but the
+restored-count comparison is not: after any upgrade that changes the analytics
+data path, rerun the data-level rehearsal at minimum.
 
 ### What is state and what is configuration
 
@@ -271,12 +287,13 @@ event, and top URLs must match the backup-time reference exactly. A missing
 `website` row means the dump is incomplete or from a different schema
 generation; do not proceed to the production restore.
 
-### Full rehearsal: verify the restored data in Umami
+### Full rehearsal: verify the restored data in Umami (optional usability step)
 
 SQL counts prove the data is present; a temporary Umami instance proves it is
-usable. The scratch database holds the restored website, users, sessions, and
-page views, so a temporary container can serve exactly that data without
-touching the live stack.
+usable. This UI usability step is optional: the 2026-10-22 rehearsal was
+data-level and did not perform it. The scratch database holds the restored
+website, users, sessions, and page views, so a temporary container can serve
+exactly that data without touching the live stack.
 
 1. Restore into the scratch database (previous section) and note the first and
    last page-view timestamps and the top URLs it prints. Use a dump with

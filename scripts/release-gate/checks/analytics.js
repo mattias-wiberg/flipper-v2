@@ -462,6 +462,14 @@ const umamiSurface = {
       throw new Error("the Umami host did not return its login page");
     }
 
+    // The API must never be reachable without a token. A reverse-proxy change
+    // that exposes it, or an Umami version that drops the check, fails here.
+    const anonymousApi = await httpFetch(
+      new URL("/api/websites", config.umami.url),
+      { headers: { accept: "application/json" } },
+    );
+    assertStatus(anonymousApi, 401, "Umami websites API without a token");
+
     const script = await httpFetch(new URL("/script.js", config.umami.url));
     assertStatus(script, 200, "Umami tracker script");
     if (
@@ -486,7 +494,7 @@ const umamiSurface = {
       );
     }
 
-    return "the Umami host serves its login page and public tracker script, and the operator API reaches the configured website";
+    return "the Umami host serves its login page and public tracker script, rejects an unauthenticated API request with 401, and the operator API reaches the configured website";
   },
 };
 
