@@ -1,13 +1,10 @@
 // Single source of truth for the public origin contract: site-url.config.json.
 //
-// Migration phase (Vercel -> home-lab Dokploy): the application runs at
-// https://beta.flipper.mattiaswiberg.com, so that is the configured public
-// origin. The apex https://flipper.mattiaswiberg.com stays on Vercel until
-// final cutover and remains the documented final canonical origin. The final
-// cutover flips `canonicalSiteUrl` back to https://flipper.mattiaswiberg.com
-// together with the DNS repoint and the Supabase Auth Site URL / redirect
-// allowlist update. Production never falls back to VERCEL_URL or localhost;
-// only local development derives http://localhost:3000.
+// The configured public origin is the canonicalSiteUrl value in
+// site-url.config.json. Production resolves only to that canonical origin and
+// fails closed when NEXT_PUBLIC_SITE_URL is missing or does not match it; it
+// never falls back to a deployment platform's hostname or to localhost. Only
+// local development derives http://localhost:3000.
 const siteUrlConfig = require("./site-url.config.json");
 
 const CANONICAL_SITE_URL = siteUrlConfig.canonicalSiteUrl;

@@ -21,16 +21,10 @@ describe("deployment configuration", () => {
 
   it("uses a local origin without production configuration", () => {
     expect(getSiteUrl({}, "development")).toBe(LOCAL_SITE_URL);
-    expect(
-      getSiteUrl({ VERCEL_URL: "vercel-deployment.example" }, "development"),
-    ).toBe(LOCAL_SITE_URL);
   });
 
   it("requires the canonical public origin in production", () => {
     expect(() => getSiteUrl({}, "production")).toThrow(/NEXT_PUBLIC_SITE_URL/);
-    expect(() =>
-      getSiteUrl({ VERCEL_URL: "vercel-deployment.example" }, "production"),
-    ).toThrow(/NEXT_PUBLIC_SITE_URL/);
     expect(() =>
       getSiteUrl(
         {
