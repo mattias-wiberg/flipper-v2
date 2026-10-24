@@ -16,9 +16,8 @@ import React from "react";
 import { getSiteUrl } from "@/lib/site-url";
 
 // Ingestion commands must target the configured public origin
-// (site-url.config.json), not a hardcoded host: during the Vercel-to-Dokploy
-// migration that is https://beta.flipper.mattiaswiberg.com. NEXT_PUBLIC_* is
-// inlined at build, so the policy resolves correctly in this client component.
+// (site-url.config.json), not a hardcoded host. NEXT_PUBLIC_* is inlined at
+// build, so the policy resolves correctly in this client component.
 const website_url = getSiteUrl(
   { NEXT_PUBLIC_SITE_URL: process.env.NEXT_PUBLIC_SITE_URL },
   process.env.NODE_ENV,
