@@ -126,6 +126,24 @@ async function umamiGet(config, token, path) {
   });
 }
 
+// Umami lists only websites the operator owns at /api/websites. A website that
+// belongs to a team is readable by its members through the website endpoint
+// alone, so visibility is proven by reading the configured website by id.
+async function assertWebsiteVisible(response, websiteId) {
+  if (response.status === 403 || response.status === 404) {
+    throw new Error(
+      "the configured Umami website identifier is not visible to the operator account",
+    );
+  }
+  assertStatus(response, 200, "Umami website API");
+  const payload = await response.json();
+  if (payload?.id !== websiteId) {
+    throw new Error(
+      "the configured Umami website identifier is not visible to the operator account",
+    );
+  }
+}
+
 async function urlMetrics(config, token) {
   const response = await umamiGet(
     config,
@@ -481,18 +499,12 @@ const umamiSurface = {
     }
 
     const token = await umamiLogin(config);
-    const websites = await umamiGet(config, token, "/api/websites");
-    assertStatus(websites, 200, "Umami websites API");
-    const payload = await websites.json();
-    const websitesList = Array.isArray(payload) ? payload : payload?.data;
-    const ids = Array.isArray(websitesList)
-      ? websitesList.map((website) => website?.id)
-      : [];
-    if (!ids.includes(config.umami.websiteId)) {
-      throw new Error(
-        "the configured Umami website identifier is not visible to the operator account",
-      );
-    }
+    const website = await umamiGet(
+      config,
+      token,
+      `/api/websites/${encodeURIComponent(config.umami.websiteId)}`,
+    );
+    await assertWebsiteVisible(website, config.umami.websiteId);
 
     return "the Umami host serves its login page and public tracker script, rejects an unauthenticated API request with 401, and the operator API reaches the configured website";
   },
@@ -500,6 +512,7 @@ const umamiSurface = {
 
 module.exports = {
   checks: [tracker, umamiSurface, analytics, recordedPrivacy, telemetryOutage],
+  assertWebsiteVisible,
   metricsPath,
   pageviewCount,
 };

@@ -1,4 +1,8 @@
-import { metricsPath, pageviewCount } from "./analytics.js";
+import {
+  assertWebsiteVisible,
+  metricsPath,
+  pageviewCount,
+} from "./analytics.js";
 
 const WINDOW = { startAt: 1_700_000_000_000, endAt: 1_700_000_900_000 };
 const CONFIG = {
@@ -20,6 +24,40 @@ describe("Umami URL metrics request", () => {
 
   it("keeps a website id inside a single path segment", () => {
     expect(metricsPath("a/b", WINDOW)).toContain("/api/websites/a%2Fb/metrics");
+  });
+});
+
+describe("Umami website visibility", () => {
+  const NOT_VISIBLE =
+    "the configured Umami website identifier is not visible to the operator account";
+
+  it("accepts a team-owned website read by id", async () => {
+    const response = new Response(JSON.stringify({ id: "website-id" }), {
+      status: 200,
+    });
+
+    await expect(
+      assertWebsiteVisible(response, "website-id"),
+    ).resolves.toBeUndefined();
+  });
+
+  it("rejects a website the operator cannot read", async () => {
+    await expect(
+      assertWebsiteVisible(new Response("{}", { status: 404 }), "website-id"),
+    ).rejects.toThrow(NOT_VISIBLE);
+    await expect(
+      assertWebsiteVisible(new Response("{}", { status: 403 }), "website-id"),
+    ).rejects.toThrow(NOT_VISIBLE);
+  });
+
+  it("rejects a response that names a different website", async () => {
+    const response = new Response(JSON.stringify({ id: "other-id" }), {
+      status: 200,
+    });
+
+    await expect(assertWebsiteVisible(response, "website-id")).rejects.toThrow(
+      NOT_VISIBLE,
+    );
   });
 });
 
