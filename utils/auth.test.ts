@@ -93,15 +93,15 @@ describe("auth boundaries", () => {
   });
 });
 
-describe("password recovery redirect_to handling at the beta origin", () => {
+describe("password recovery redirect_to handling at the configured public origin", () => {
   const origin = CANONICAL_SITE_URL;
 
-  it("keeps the recovery redirect_to on the configured beta origin", () => {
+  it("keeps the recovery redirect_to on the configured public origin", () => {
     expect(getSafeRedirectPath(PASSWORD_RESET_REDIRECT, origin)).toBe(
       "/authenticated/reset-password",
     );
     expect(getSafeRedirectUrl(PASSWORD_RESET_REDIRECT, origin).toString()).toBe(
-      "https://beta.flipper.mattiaswiberg.com/authenticated/reset-password",
+      "https://flipper.mattiaswiberg.com/authenticated/reset-password",
     );
   });
 
@@ -111,9 +111,9 @@ describe("password recovery redirect_to handling at the beta origin", () => {
       null,
       "",
       "https://attacker.example/steal",
-      "https://beta.flipper.mattiaswiberg.com.evil.example/steal",
-      "https://attacker.example/steal?next=https://beta.flipper.mattiaswiberg.com",
-      "http://beta.flipper.mattiaswiberg.com/steal",
+      "https://flipper.mattiaswiberg.com.evil.example/steal",
+      "https://attacker.example/steal?next=https://flipper.mattiaswiberg.com",
+      "http://flipper.mattiaswiberg.com/steal",
       "//attacker.example/steal",
       "/\\attacker.example/steal",
       "\\\\attacker.example/steal",
@@ -130,7 +130,7 @@ describe("password recovery redirect_to handling at the beta origin", () => {
     ]) {
       expect(getSafeRedirectPath(target, origin)).toBe(AUTHENTICATED_REDIRECT);
       expect(getSafeRedirectUrl(target, origin).toString()).toBe(
-        "https://beta.flipper.mattiaswiberg.com/authenticated/deals",
+        "https://flipper.mattiaswiberg.com/authenticated/deals",
       );
     }
   });
@@ -167,7 +167,7 @@ describe("password recovery redirect_to handling at the beta origin", () => {
       "/attacker.example",
     );
     expect(getSafeRedirectUrl("/.\\attacker.example", origin).toString()).toBe(
-      "https://beta.flipper.mattiaswiberg.com/attacker.example",
+      "https://flipper.mattiaswiberg.com/attacker.example",
     );
     expect(getSafeRedirectPath("/.\\attacker.example", origin)).not.toBe(
       AUTHENTICATED_REDIRECT,
@@ -181,13 +181,13 @@ describe("password recovery redirect_to handling at the beta origin", () => {
         origin,
       ).toString(),
     ).toBe(
-      "https://beta.flipper.mattiaswiberg.com/authenticated/reset-password?source=recovery#password",
+      "https://flipper.mattiaswiberg.com/authenticated/reset-password?source=recovery#password",
     );
   });
 });
 
 describe("origin selection behind the proxy", () => {
-  it("returns the configured beta origin in production regardless of forwarded headers", () => {
+  it("returns the configured public origin in production regardless of forwarded headers", () => {
     expect(
       getRequestOrigin(
         new Headers({
@@ -201,7 +201,7 @@ describe("origin selection behind the proxy", () => {
           NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
         },
       ),
-    ).toBe("https://beta.flipper.mattiaswiberg.com");
+    ).toBe("https://flipper.mattiaswiberg.com");
   });
 
   it("rejects a non-canonical configured origin in production", () => {
@@ -238,6 +238,6 @@ describe("origin selection behind the proxy", () => {
         NODE_ENV: "development",
         NEXT_PUBLIC_SITE_URL: CANONICAL_SITE_URL,
       }),
-    ).toBe("https://beta.flipper.mattiaswiberg.com");
+    ).toBe("https://flipper.mattiaswiberg.com");
   });
 });

@@ -10,7 +10,7 @@ const mockCreateServerClient = jest.mocked(
   jest.requireMock("@supabase/ssr").createServerClient,
 );
 
-const ORIGIN = "https://beta.flipper.mattiaswiberg.com";
+const ORIGIN = "https://flipper.mattiaswiberg.com";
 
 const mutableEnv = process.env as Record<string, string | undefined>;
 function restoreNodeEnv(value: string | undefined) {
@@ -83,7 +83,7 @@ function capturedOptions() {
   return lastOptions;
 }
 
-describe("session handling behind the proxy at the beta origin", () => {
+describe("session handling behind the proxy at the configured public origin", () => {
   const previousSiteUrl = process.env.NEXT_PUBLIC_SITE_URL;
   const previousSupabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const previousAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -113,7 +113,7 @@ describe("session handling behind the proxy at the beta origin", () => {
     }
   });
 
-  it("redirects unauthenticated protected access to the configured beta login origin", async () => {
+  it("redirects unauthenticated protected access to the configured login origin", async () => {
     configureSession(NO_CLAIMS);
 
     const response = await updateSession(
@@ -215,7 +215,7 @@ describe("session handling behind the proxy at the beta origin", () => {
     }));
   }
 
-  it("falls back to the beta login redirect when session handling throws", async () => {
+  it("falls back to the configured login redirect when session handling throws", async () => {
     configureThrowingSession();
 
     const response = await updateSession(makeRequest("/authenticated/deals"));

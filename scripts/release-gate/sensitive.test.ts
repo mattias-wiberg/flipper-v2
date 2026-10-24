@@ -12,7 +12,7 @@ function pageView(overrides: Record<string, unknown> = {}) {
     type: "pageview",
     payload: {
       website: WEBSITE_ID,
-      hostname: "beta.flipper.mattiaswiberg.com",
+      hostname: "flipper.mattiaswiberg.com",
       url: "/documentation",
       referrer: "/",
       title: "Documentation | Flipper",
@@ -37,7 +37,7 @@ describe("sensitive-value detection", () => {
           screen: "1280x800",
           language: "en-GB",
           title: "Flipper",
-          hostname: "beta.flipper.mattiaswiberg.com",
+          hostname: "flipper.mattiaswiberg.com",
           url: "/",
           referrer: "",
           tag: "gate",
@@ -52,7 +52,7 @@ describe("sensitive-value detection", () => {
         type: "performance",
         payload: {
           website: WEBSITE_ID,
-          hostname: "beta.flipper.mattiaswiberg.com",
+          hostname: "flipper.mattiaswiberg.com",
           url: "/",
           title: "Flipper",
           language: "en-GB",
@@ -81,7 +81,7 @@ describe("sensitive-value detection", () => {
       type: "event",
       payload: {
         website: WEBSITE_ID,
-        hostname: "beta.flipper.mattiaswiberg.com",
+        hostname: "flipper.mattiaswiberg.com",
         url: "/",
         event: "theme_change",
         distinctId: "user-1",

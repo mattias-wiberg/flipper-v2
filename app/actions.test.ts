@@ -121,7 +121,7 @@ describe("order deletion actions", () => {
   });
 });
 
-describe("auth lifecycle actions at the beta origin", () => {
+describe("auth lifecycle actions at the configured public origin", () => {
   const origin = CANONICAL_SITE_URL;
 
   function configureAuthClient(auth: Record<string, jest.Mock>) {
@@ -136,7 +136,7 @@ describe("auth lifecycle actions at the beta origin", () => {
     mockHeaders.mockResolvedValue(new Headers({ origin }));
   });
 
-  it("builds the password recovery callback on the beta origin with a safe redirect_to", async () => {
+  it("builds the password recovery callback on the configured public origin with a safe redirect_to", async () => {
     const resetPasswordForEmail = jest.fn().mockResolvedValue({ error: null });
     configureAuthClient({ resetPasswordForEmail });
 
@@ -144,7 +144,7 @@ describe("auth lifecycle actions at the beta origin", () => {
 
     expect(resetPasswordForEmail).toHaveBeenCalledWith("user@example.com", {
       redirectTo:
-        "https://beta.flipper.mattiaswiberg.com/auth/callback?redirect_to=%2Fauthenticated%2Freset-password",
+        "https://flipper.mattiaswiberg.com/auth/callback?redirect_to=%2Fauthenticated%2Freset-password",
     });
     expect(mockRedirect).toHaveBeenCalledWith(
       expect.stringContaining("/forgot-password?success="),
@@ -163,7 +163,7 @@ describe("auth lifecycle actions at the beta origin", () => {
     );
   });
 
-  it("builds the verification callback on the beta origin", async () => {
+  it("builds the verification callback on the configured public origin", async () => {
     const signUp = jest.fn().mockResolvedValue({ error: null });
     configureAuthClient({ signUp });
 
@@ -178,7 +178,7 @@ describe("auth lifecycle actions at the beta origin", () => {
       email: "user@example.com",
       password: "secret1",
       options: {
-        emailRedirectTo: "https://beta.flipper.mattiaswiberg.com/auth/callback",
+        emailRedirectTo: "https://flipper.mattiaswiberg.com/auth/callback",
         data: { nickname: "Tester" },
       },
     });

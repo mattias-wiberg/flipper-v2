@@ -68,7 +68,7 @@ describe("production environment validation", () => {
   });
 
   it("rejects a site URL that is not the configured origin by name only", () => {
-    const wrongValue = "https://flipper.mattiaswiberg.com";
+    const wrongValue = "https://other-origin.example.test";
     const result = runValidation({
       NEXT_PUBLIC_SITE_URL: wrongValue,
       NEXT_PUBLIC_SUPABASE_URL: "https://project.supabase.co",
