@@ -10,7 +10,7 @@ const mockCreateClient = jest.mocked(
   jest.requireMock("@/utils/supabase/server").createClient,
 );
 
-const ORIGIN = "https://beta.flipper.mattiaswiberg.com";
+const ORIGIN = "https://flipper.mattiaswiberg.com";
 const ERROR_MESSAGE = "Authentication failed. Please try again.";
 
 const mutableEnv = process.env as Record<string, string | undefined>;
@@ -58,7 +58,7 @@ describe("auth callback origin and redirect behavior", () => {
     }
   });
 
-  it("sends failures to the login surface on the configured beta origin", async () => {
+  it("sends failures to the login surface on the configured public origin", async () => {
     const exchangeCodeForSession = configureExchange();
 
     const response = await GET(makeRequest(""));
@@ -70,7 +70,7 @@ describe("auth callback origin and redirect behavior", () => {
     expect(exchangeCodeForSession).not.toHaveBeenCalled();
   });
 
-  it("sends a failed code exchange to the beta login surface", async () => {
+  it("sends a failed code exchange to the configured login surface", async () => {
     const exchangeCodeForSession = configureExchange(new Error("bad code"));
 
     const response = await GET(makeRequest("?code=expired"));
@@ -108,13 +108,13 @@ describe("auth callback origin and redirect behavior", () => {
     ["absolute url", "https://attacker.example/steal"],
     [
       "lookalike host",
-      "https://beta.flipper.mattiaswiberg.com.evil.example/steal",
+      "https://flipper.mattiaswiberg.com.evil.example/steal",
     ],
     [
       "absolute url with trusted-looking query",
-      "https://attacker.example/steal?next=https://beta.flipper.mattiaswiberg.com",
+      "https://attacker.example/steal?next=https://flipper.mattiaswiberg.com",
     ],
-    ["scheme downgraded url", "http://beta.flipper.mattiaswiberg.com/steal"],
+    ["scheme downgraded url", "http://flipper.mattiaswiberg.com/steal"],
     ["protocol relative", "//attacker.example/steal"],
     ["backslash protocol relative", "/\\attacker.example/steal"],
   ])(

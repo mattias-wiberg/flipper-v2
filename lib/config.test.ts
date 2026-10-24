@@ -15,8 +15,8 @@ describe("deployment configuration", () => {
     SUPABASE_SERVICE_ROLE_KEY: "server-only-service-role-key",
   };
 
-  it("uses the migration-phase beta origin as the configured public origin", () => {
-    expect(CANONICAL_SITE_URL).toBe("https://beta.flipper.mattiaswiberg.com");
+  it("uses the apex as the configured public origin", () => {
+    expect(CANONICAL_SITE_URL).toBe("https://flipper.mattiaswiberg.com");
   });
 
   it("uses a local origin without production configuration", () => {
@@ -38,7 +38,7 @@ describe("deployment configuration", () => {
   });
 
   it("rejects a valid origin that is not the configured origin by name only", () => {
-    const wrongOrigin = "https://flipper.mattiaswiberg.com";
+    const wrongOrigin = "https://other-origin.example.test";
     let thrown: unknown;
 
     try {

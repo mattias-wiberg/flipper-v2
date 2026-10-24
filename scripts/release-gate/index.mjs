@@ -84,7 +84,7 @@ Phases (a bare word, or --phase <name> when the script is run directly):
   all        Both phases
 
 Environment:
-  RELEASE_BASE_URL          Origin under test, for example https://beta.flipper.mattiaswiberg.com
+  RELEASE_BASE_URL          Origin under test, for example https://flipper.mattiaswiberg.com
   SMOKE_EMAIL               Controlled account for the Auth lifecycle
   SMOKE_PASSWORD            Controlled account password
   SMOKE_INGESTION_TOKEN     Dedicated ingestion token (v4 UUID) for the golden replay

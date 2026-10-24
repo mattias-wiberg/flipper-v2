@@ -1,7 +1,7 @@
 import { CANONICAL_SITE_URL, parseGateConfig } from "./config.js";
 
 const FULL_ENV = {
-  RELEASE_BASE_URL: "https://beta.flipper.mattiaswiberg.com",
+  RELEASE_BASE_URL: "https://flipper.mattiaswiberg.com",
   SMOKE_EMAIL: "smoke@example.test",
   SMOKE_PASSWORD: "not-a-real-password",
   SMOKE_INGESTION_TOKEN: "11111111-2222-4333-8444-555555555555",

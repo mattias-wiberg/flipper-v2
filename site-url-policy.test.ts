@@ -50,7 +50,7 @@ describe("site URL policy configuration", () => {
 
   it("loads a valid configured origin", () => {
     const result = loadPolicyWithConfiguredOrigin(
-      "https://beta.flipper.mattiaswiberg.com",
+      "https://flipper.mattiaswiberg.com",
     );
 
     expect(result.error).toBeUndefined();

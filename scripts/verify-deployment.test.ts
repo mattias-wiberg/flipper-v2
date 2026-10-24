@@ -186,7 +186,7 @@ describe("deployment verifier", () => {
   it("asserts the configured site URL when EXPECTED_SITE_URL is not set", async () => {
     const server = compliantOrigin({
       jsonLdInScriptTag: true,
-      siteUrl: APEX_SITE_URL,
+      siteUrl: "https://other-origin.example.test",
     });
     const baseUrl = await listen(server);
 
